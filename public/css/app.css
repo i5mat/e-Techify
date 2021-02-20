@@ -10737,6 +10737,10 @@ body {
   color: #3A3C42;
 }
 
+h1, .h1 {
+  margin-bottom: 30px;
+}
+
 .navbar {
   background-color: #1E2632;
   box-shadow: 0 5px 10px 0 rgba(204, 204, 204, 0.3);
@@ -10744,4 +10748,9 @@ body {
 }
 .navbar a {
   color: #FFF;
+}
+
+.card {
+  box-shadow: 0 2px 4px rgba(204, 204, 204, 0.8);
+  padding: 20px 40px;
 }
