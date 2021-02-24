@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserRequest;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -16,6 +18,10 @@ class UserController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('logged-in')) {
+            dd('no access allowed');
+        }
+
         return view('admin.users.index', ['users' => User::paginate(10)]);
     }
 
@@ -35,11 +41,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $user = User::create($request->except(['_token', 'roles']));
+        $validatedData = $request->validated();
+
+        //$user = User::create($request->except(['_token', 'roles']));
+
+        $user = User::create($validatedData);
 
         $user->roles()->sync($request->roles);
+
+        $request->session()->flash('success', 'User Inserted');
 
         return redirect(route('admin.users.index'));
     }
@@ -79,11 +91,20 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrFail($id);
+        //$user = User::findOrFail($id);
+
+        $user = User::find($id);
+
+        if (!$user){
+            $request->session()->flash('error', 'You can not edit this user.');
+            return redirect(route('admin.users.index'));
+        }
 
         $user->update($request->except(['_token', 'roles']));
 
         $user->roles()->sync($request->roles);
+
+        $request->session()->flash('success', 'User Updated');
 
         return redirect(route('admin.users.index'));
     }
@@ -94,9 +115,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
         User::destroy($id);
+
+        $request->session()->flash('success', 'User Deleted');
 
         return redirect(route('admin.users.index'));
     }
