@@ -19,6 +19,6 @@ Route::get('/', function () {
 });
 
 // Admin Routes
-Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'auth.isReseller'])->name('admin.')->group(function () {
     Route::resource('/users', UserController::class);
 });

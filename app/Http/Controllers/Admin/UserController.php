@@ -22,7 +22,11 @@ class UserController extends Controller
             dd('no access allowed');
         }
 
-        return view('admin.users.index', ['users' => User::paginate(10)]);
+        if (Gate::allows('is-reseller')) {
+            return view('admin.users.index', ['users' => User::paginate(10)]);
+        }
+
+        dd('u need to be reseller.');
     }
 
     /**
