@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Fortify\CreateNewUser;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\Role;
@@ -47,11 +48,13 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $validatedData = $request->validated();
-
         //$user = User::create($request->except(['_token', 'roles']));
 
-        $user = User::create($validatedData);
+        //$validatedData = $request->validated();
+        //$user = User::create($validatedData);
+
+        $newUser = new CreateNewUser();
+        $user = $newUser->create($request->all());
 
         $user->roles()->sync($request->roles);
 
