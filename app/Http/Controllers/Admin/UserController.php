@@ -9,6 +9,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class UserController extends Controller
 {
@@ -57,6 +58,8 @@ class UserController extends Controller
         $user = $newUser->create($request->all());
 
         $user->roles()->sync($request->roles);
+
+        Password::sendResetLink($request->only(['email']));
 
         $request->session()->flash('success', 'User Inserted');
 

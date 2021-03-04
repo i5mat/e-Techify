@@ -1,13 +1,14 @@
 @extends('templates.main')
 
 @section('content')
-    <h1>Login</h1>
+    <h1>Password Reset</h1>
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ url('reset-password') }}">
         @csrf
+        <input type="hidden" name="token" value="{{ $request->token }}">
         <div class="mb-3">
             <label for="email" class="form-label">Email address</label>
-            <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" id="email" aria-describedby="email" value="{{ old('email') }}">
+            <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" id="email" aria-describedby="email" value="{{ $request->email }}">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             @error('email')
             <span class="invalid-feedback" role="alert">
@@ -24,8 +25,10 @@
                 </span>
             @enderror
         </div>
-        <button type="submit" class="btn btn-primary">Login</button>
+        <div class="mb-3">
+            <label for="password_confirmation" class="form-label">Confirm Password</label>
+            <input name="password_confirmation" type="password" class="form-control" id="password_confirmation">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    <br>
-    <a href="{{ route('password.request') }}">Forgotten your password? Reset it here.</a>
 @endsection
