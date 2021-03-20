@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Admin\UserController;
 use User\Profile;
+use Product\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,14 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
 // Admin Routes
 Route::prefix('admin')->middleware(['auth', 'auth.isReseller', 'verified'])->name('admin.')->group(function () {
     Route::resource('/users', UserController::class);
+});
+
+// Product non-resource related pages
+Route::prefix('product')->middleware(['auth', 'verified'])->name('product.')->group(function () {
+    Route::get('insertProduct', ProductController::class)->name('insertProd');
+});
+
+// Product related pages
+Route::prefix('product')->middleware(['auth', 'verified'])->name('product.')->group(function () {
+    Route::resource('/items', ProductController::class);
 });
