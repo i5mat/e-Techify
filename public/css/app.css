@@ -10738,6 +10738,7 @@ body {
 }
 
 h1, .h1 {
+  margin-top: 20px;
   margin-bottom: 30px;
 }
 
@@ -10754,10 +10755,17 @@ h1, .h1 {
   margin-bottom: 40px;
 }
 .sub-nav a {
-  color: #0d6efd;
+  color: #1E2632;
 }
 
 .card {
   box-shadow: 0 2px 4px rgba(204, 204, 204, 0.8);
-  padding: 20px 40px;
+}
+
+.footer {
+  position: absolute;
+  width: 100%;
+  background-color: #1E2632;
+  color: white;
+  text-align: center;
 }

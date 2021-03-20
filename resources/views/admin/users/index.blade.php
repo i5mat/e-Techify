@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card" style="padding: 20px 40px;">
         <table class="table">
             <thead>
             <tr>
