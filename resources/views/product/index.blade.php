@@ -33,7 +33,7 @@
         <br>
         <div class="card-group">
             <div class="card">
-                <img class="card-img-top" src="/image/ray.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
+                <img class="card-img-top" src="/storage/product/mU86AJCAMKVUUGCql938aUQvoOWzkd6VCYGAZ3il.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
