@@ -3,6 +3,7 @@
 @section('content')
     <h1>Insert Product</h1>
 
+    <div class="card" style="padding: 20px 40px;">
     <form method="POST" action="{{ route('product.items.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="row mb-3">
@@ -15,6 +16,18 @@
             <label for="prod_sn" class="col-sm-2 col-form-label">Product No.</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" id="prod_sn" name="prod_sn">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="prod_price" class="col-sm-2 col-form-label">Product Price</label>
+            <div class="col-sm-10">
+                <input type="number" class="form-control" id="prod_price" name="prod_price">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="prod_sn" class="col-sm-2 col-form-label">Product Link</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="prod_link" name="prod_link">
             </div>
         </div>
         <div class="row mb-3">
@@ -65,8 +78,27 @@
                         2 year
                     </label>
                 </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="warrantyRadio" id="exampleRadios3" value="3">
+                    <label class="form-check-label" for="exampleRadios3">
+                        3 year
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="warrantyRadio" id="exampleRadios5" value="5">
+                    <label class="form-check-label" for="exampleRadios5">
+                        5 year
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="warrantyRadio" id="exampleRadios10" value="10">
+                    <label class="form-check-label" for="exampleRadios10">
+                        10 year
+                    </label>
+                </div>
             </div>
         </fieldset>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary float-end">Submit</button>
     </form>
+    </div>
 @endsection

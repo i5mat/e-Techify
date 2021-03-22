@@ -31,104 +31,32 @@
             </button>
         </div>
         <br>
-        <div class="card-group">
-            <div class="card">
-                <img class="card-img-top" src="/storage/product/mU86AJCAMKVUUGCql938aUQvoOWzkd6VCYGAZ3il.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="/image/ray.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="/image/ray.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
+
+        <div class="row">
+        @foreach($products as $p)
+            <div class="card-group col-md-4" style="padding-bottom: 10px">
+                <div class="card">
+                    <img class="card-img-top" src="/storage/product/{{ $p->product_image_path }}" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
+                    <div class="card-body">
+                        <h6>{{ $p->product_category }}</h6>
+                        <h5 class="card-title">{{ $p->product_name }}</h5>
+                        <p class="card-text">{{ $p->product_sn }}</p>
+                        <h2>RM {{ $p->product_price }} <button type="button" class="btn btn-primary float-end">Add to cart</button></h2>
+                    </div>
+                    <div class="card-footer">
+                        <p>
+                            <span><img src="/image/security.png">&nbsp; {{ $p->product_warranty_duration }} Years Warranty </span>
+                            <span><a href="{{ $p->product_link }}" target="_blank"><img src="/image/link.png" class="float-end"></a></span>
+                        </p>
+                        <small class="text-muted">Last updated {{ date('d/m/Y H:i A', strtotime($p->created_at ))}}
+
+                        </small>
+                    </div>
                 </div>
             </div>
+        @endforeach
         </div>
         <br>
-        <div class="card-group">
-            <div class="card">
-                <img class="card-img-top" src="/image/ray.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="/image/ray.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="/image/ray.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="card-group">
-            <div class="card">
-                <img class="card-img-top" src="/image/ray.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="/image/ray.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-            <div class="card">
-                <img class="card-img-top" src="/image/ray.png" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Card title</h5>
-                    <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Last updated 3 mins ago</small>
-                </div>
-            </div>
-        </div>
     @endcan
 
     @guest

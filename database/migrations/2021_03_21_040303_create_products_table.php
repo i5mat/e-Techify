@@ -23,6 +23,8 @@ class CreateProductsTable extends Migration
             $table->string('product_brand');
             $table->integer('product_warranty_duration');
             $table->timestamps();
+            $table->decimal('product_price', 6,2);
+            $table->string('product_link');
         });
     }
 

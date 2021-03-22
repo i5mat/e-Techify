@@ -19,5 +19,7 @@ class Product extends Model
         'product_warranty_duration',
         'created_at',
         'updated_at',
+        'product_price',
+        'product_link',
     ];
 }

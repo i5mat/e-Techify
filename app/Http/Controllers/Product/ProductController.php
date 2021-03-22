@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        return view('product.index');
+        $products = Product::all();
+        return view('product.index', compact('products'));
     }
 
     // Must have if did not do the Route::resource. This is compulsory for Route::get.
@@ -26,6 +28,8 @@ class ProductController extends Controller
             'prod_name' => 'required',
             'prod_sn' => 'required',
             'prod_category' => 'required',
+            'prod_price' => 'required',
+            'prod_link' => 'required'
         ]);
 
         // ensure the request has a file before we attempt anything else.
@@ -46,11 +50,13 @@ class ProductController extends Controller
                 "product_image_path" => $request->file('prod_image')->hashName(),
                 "product_category" => $request->get('prod_category'),
                 "product_brand" => $request->get('brandRadio'),
-                "product_warranty_duration" => $request->get('warrantyRadio')
+                "product_warranty_duration" => $request->get('warrantyRadio'),
+                "product_price" => $request->get('prod_price'),
+                "product_link" => $request->get('prod_link')
             ]);
             $product->save(); // Finally, save the record.
         }
 
-        return dd();
+        return back();
     }
 }

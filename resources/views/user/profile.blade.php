@@ -20,7 +20,7 @@
             <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" id="email" aria-describedby="email" value="{{ auth()->user()->email }}">
             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             @error('email')
-            <span class="invalid-feedback" role="alert">
+                <span class="invalid-feedback" role="alert">
                     {{ $message }}
                 </span>
             @enderror
