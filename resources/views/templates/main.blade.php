@@ -51,7 +51,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="{{ route('user.userdash') }}">Home</a>
                         </li>
                         @can('is-reseller')
                             <li class="nav-item">
@@ -62,6 +62,13 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('product.insertProd') }}">Insert Product</a>
+                            </li>
+                            <li class="nav-item" style="margin-left: 740px">
+                                <div class="input-group">
+                                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+                                           aria-describedby="search-addon" />
+                                    <button type="button" class="btn btn-outline-primary">Search</button>
+                                </div>
                             </li>
                         @endcan
                     </ul>

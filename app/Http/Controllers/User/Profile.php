@@ -11,4 +11,9 @@ class Profile extends Controller
     {
         return view('user.profile');
     }
+
+    public function userDash()
+    {
+        return view('index');
+    }
 }

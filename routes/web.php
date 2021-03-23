@@ -23,6 +23,8 @@ Route::get('/', function () {
 // User related pages
 Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(function () {
     Route::get('profile', Profile::class)->name('profile');
+    Route::get('userdash', [App\Http\Controllers\User\Profile::class, 'userDash'])->name('userdash');
+
 });
 
 // Admin Routes
