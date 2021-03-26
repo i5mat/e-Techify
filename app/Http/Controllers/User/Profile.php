@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class Profile extends Controller
@@ -14,6 +15,8 @@ class Profile extends Controller
 
     public function userDash()
     {
-        return view('index');
+        $products = Product::all()->where('user_id', '=', \Auth::id());
+
+        return view('index', compact('products'));
     }
 }
