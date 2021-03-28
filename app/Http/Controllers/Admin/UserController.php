@@ -129,7 +129,7 @@ class UserController extends Controller
     {
         User::destroy($id);
 
-        $request->session()->flash('success', 'User Deleted');
+        //$request->session()->flash('success', 'User Deleted');
 
         return redirect(route('admin.users.index'));
     }

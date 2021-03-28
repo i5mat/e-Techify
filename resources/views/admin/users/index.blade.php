@@ -30,7 +30,7 @@
 
                         <button type="button" class="btn btn-sm btn-danger"
                                 onclick="event.preventDefault();
-                                document.getElementById('delete-user-form-{{ $user->id }}').submit()">
+                                document.getElementById('delete-user-form-{{ $user->id }}').submit();">
                             Delete
                         </button>
 

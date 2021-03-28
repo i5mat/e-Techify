@@ -57,6 +57,15 @@ class ProductController extends Controller
             $product->save(); // Finally, save the record.
         }
 
-        return back();
+        return redirect(route('product.items.index'));
+    }
+
+    public function destroy($id, Request $request)
+    {
+        Product::destroy($id);
+
+        $request->session()->flash('success', 'Product Deleted');
+
+        return redirect(route('user.userdash'));
     }
 }

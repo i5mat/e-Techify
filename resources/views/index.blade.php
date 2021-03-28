@@ -23,10 +23,44 @@
             </div>
         </div><br>
 
-        <div class="card">
-            <div class="card-header">
-                Manage Product
+        <!-- [START] Modal to edit product [START] -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="POST" action="">
+                            <input type="hidden" name="prod_id" id="prod_id" value="">
+                            @csrf
+                            {{ method_field('PUT') }}
+
+                            <label for="prod-name-label" class="col-md-4 col-form-label text-md-right">Product Name</label>
+
+                            <div class="col-md-12">
+                                <input id="prod_name" type="text" class="form-control" name="prod_name" value="" required autocomplete="prod_name" autofocus>
+                            </div>
+
+                            <label for="prod-sn-label" class="col-md-4 col-form-label text-md-right">Product SN</label>
+
+                            <div class="col-md-12">
+                                <input id="prod_sn" type="text" class="form-control" name="prod_sn" value="" required autocomplete="prod_sn" autofocus>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
             </div>
+        </div>
+        <!-- [END] Modal to edit product [END] -->
+
+        <div class="card text-center">
             <div class="card-body">
                 <table class="table">
                     <thead>
@@ -50,10 +84,33 @@
                             {{ date('d/m/Y H:i A', strtotime($prod->created_at ))}}
                         </td>
                         <td>
-                            <button type="button" class="btn btn-danger">Delete</button>
-                            <button type="button" class="btn btn-success">Edit</button>
+                            <button type="button" class="btn btn-danger" style="background-color: transparent; border: none"
+                                    onclick="event.preventDefault();
+                                    document.getElementById('delete-product-{{ $prod->id }}').submit()">
+                                <img src="/image/delete.png">
+                            </button>
+
+                            <form id="delete-product-{{ $prod->id }}" action="{{ route('product.items.destroy', $prod->id) }}" method="POST" style="display: none">
+                                @csrf
+                                @method("DELETE")
+                            </form>
+
+                            <button
+                                type="button"
+                                class="btn btn-success"
+                                style="background-color: transparent; border: none"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"
+                                data-myprodid="{{ $prod->id }}"
+                                data-myprodname="{{ $prod->product_name }}"
+                                data-myprodsn="{{ $prod->product_sn }}">
+                                <img src="/image/edit.png">
+                            </button>
+
                             <a href="{{ $prod->product_link }}" target="_blank">
-                                <button type="button" class="btn btn-info">Product Link</button>
+                                <button type="button" class="btn btn-info" style="background-color: transparent; border: none">
+                                    <img src="/image/link.png">
+                                </button>
                             </a>
                         </td>
                     </tr>
@@ -181,7 +238,7 @@
                 },
 
                 title: {
-                    text: 'Profit',
+                    text: 'Revenue',
                     style: {
                         fontSize: '24px'
                     }
@@ -291,7 +348,7 @@
                 },
 
                 title: {
-                    text: 'Activity',
+                    text: 'Loss',
                     style: {
                         fontSize: '24px'
                     }
@@ -405,7 +462,7 @@
                 },
 
                 title: {
-                    text: 'Activity',
+                    text: 'Orders',
                     style: {
                         fontSize: '24px'
                     }

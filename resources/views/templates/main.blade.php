@@ -19,6 +19,8 @@
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
         <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
+        {{-- JQuery CDN --}}
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="{{ asset('js/app.js') }}" defer></script>
 
         <style>
@@ -116,7 +118,9 @@
                                 <div class="input-group">
                                     <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
                                            aria-describedby="search-addon" />
-                                    <button type="button" class="btn btn-outline-primary">Search</button>
+                                    <button type="button" class="btn btn-outline-dark">
+                                        <img src="/image/search.png">
+                                    </button>
                                 </div>
                             </li>
                         @endcan
@@ -135,6 +139,34 @@
         <div class="footer">
             <p style="padding-top: 30px; padding-bottom: 30px;"><img src="/image/online-sale.png"></p>
         </div>
+
+        <script>
+            $('#exampleModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var prod_name = button.data('myprodname') // Extract info from data-* attributes
+                var prod_sn = button.data('myprodsn') // Extract info from data-* attributes
+                var prod_id = button.data('myprodid') // Extract info from data-* attributes
+                //var venue = button.data('venue') // Extract info from data-* attributes
+                //var cap = button.data('cap') // Extract info from data-* attributes
+                //var start = button.data('mystart') // Extract info from data-* attributes
+                //var end = button.data('myend') // Extract info from data-* attributes
+                //var event_type = button.data('myeventtype') // Extract info from data-* attributes
+                //var event_level = button.data('myeventlevel') // Extract info from data-* attributes
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+                modal.find('.modal-body #prod_name').val(prod_name);
+                modal.find('.modal-body #prod_sn').val(prod_sn);
+                modal.find('.modal-body #prod_id').val(prod_id);
+                //modal.find('.modal-body #venue').val(venue);
+                //modal.find('.modal-body #capacity').val(cap);
+                //modal.find('.modal-body #startdate').val(start);
+                //modal.find('.modal-body #enddate').val(end);
+                //modal.find('.modal-body #event_types').val(event_type);
+                //modal.find('.modal-body #event_levels').val(event_level);
+                //document.cookie = 'name='.concat(event_type);
+            })
+        </script>
 
     </body>
 </html>
