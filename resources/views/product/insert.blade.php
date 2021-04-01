@@ -6,98 +6,85 @@
     <div class="card" style="padding: 20px 40px;">
     <form method="POST" action="{{ route('product.items.store') }}" enctype="multipart/form-data">
         @csrf
-        <div class="row mb-3">
-            <label for="prod_name" class="col-sm-2 col-form-label">Name</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="prod_name" name="prod_name">
-            </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="prod_name" name="prod_name" placeholder="test">
+            <label for="prod_name">Product Name</label>
         </div>
-        <div class="row mb-3">
-            <label for="prod_sn" class="col-sm-2 col-form-label">Product No.</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="prod_sn" name="prod_sn">
-            </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="prod_sn" name="prod_sn" placeholder="test">
+            <label for="prod_sn">Product No.</label>
         </div>
-        <div class="row mb-3">
-            <label for="prod_price" class="col-sm-2 col-form-label">Product Price</label>
-            <div class="col-sm-10">
-                <input type="number" class="form-control" id="prod_price" name="prod_price">
-            </div>
+        <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="prod_price" name="prod_price" placeholder="test">
+            <label for="prod_price">Product Price</label>
         </div>
-        <div class="row mb-3">
-            <label for="prod_sn" class="col-sm-2 col-form-label">Product Link</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="prod_link" name="prod_link">
-            </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="prod_link" name="prod_link" placeholder="test">
+            <label for="prod_link">Product Link</label>
         </div>
-        <div class="row mb-3">
-            <label for="prod_image" class="col-sm-2 col-form-label">Image</label>
-            <div class="col-sm-10">
+        <div class="form-floating mb-3">
+            <div class="col-sm-auto">
                 <input type="file" name="prod_image" id="prod_image" class="form-control">
             </div>
         </div>
-        <div class="row mb-3">
-            <label for="prod_category" class="col-sm-2 col-form-label">Category</label>
-            <div class="col-sm-10">
-                <select name="prod_category" id="prod_category" class="form-select">
-                    <option value="#">Please select...</option>
-                    <option value="CASES">CASES</option>
-                    <option value="PSU">PSU</option>
-                </select>
+
+        <div class="row g-2 mb-3">
+            <div class="col-md">
+                <div class="form-floating">
+                    <select class="form-select" id="prod_warranty" name="prod_warranty">
+                        <option selected>Please select...</option>
+                        <option value="1">1 year</option>
+                        <option value="2">2 year</option>
+                        <option value="3">3 year</option>
+                        <option value="4">4 year</option>
+                        <option value="5">5 year</option>
+                        <option value="6">6 year</option>
+                        <option value="7">7 year</option>
+                        <option value="8">8 year</option>
+                        <option value="9">9 year</option>
+                        <option value="10">10 year</option>
+                    </select>
+                    <label for="prod_warranty">Warranty Duration</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <select class="form-select" name="prod_category" id="prod_category">
+                        <option selected>Please select...</option>
+                        <option value="ACCESSORIES">ACCESSORIES</option>
+                        <option value="AIR COOLER">AIR COOLER</option>
+                        <option value="CASES">CASES</option>
+                        <option value="FANS">FANS</option>
+                        <option value="GAMING CHAIR">GAMING CHAIR</option>
+                        <option value="GAMING DESK">GAMING DESK</option>
+                        <option value="GPU">GPU</option>
+                        <option value="HEADSETS">HEADSETS</option>
+                        <option value="KEYBOARDS">KEYBOARDS</option>
+                        <option value="LIQUID COOLER">LIQUID COOLER</option>
+                        <option value="MONITOR">MONITOR</option>
+                        <option value="MOTHERBOARD">MOTHERBOARD</option>
+                        <option value="MOUSE">MOUSE</option>
+                        <option value="PSU">PSU</option>
+                        <option value="RAM">RAM</option>
+                        <option value="SSD">SSD</option>
+                        <option value="THERMAL PASTE">THERMAL PASTE</option>
+                        <option value="VIRTUAL REALITY">VIRTUAL REALITY</option>
+                    </select>
+                    <label for="prod_category">Product Category</label>
+                </div>
             </div>
         </div>
-        <fieldset class="row mb-3">
-            <legend class="col-form-label col-sm-2 pt-0">Brand</legend>
-            <div class="col-sm-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="brandRadio" id="exampleRadios1" value="NZXT" checked>
-                    <label class="form-check-label" for="exampleRadios1">
-                        <img src="/image/nzxt.png" style="width: 300px; height: 76px; padding-left: 20px;">
-                    </label>
-                </div><br>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="brandRadio" id="exampleRadios2" value="FRACTAL DESIGN">
-                    <label class="form-check-label" for="exampleRadios2">
-                        <img src="/image/nzxt.png" style="width: 300px; height: 76px; padding-left: 20px;">
-                    </label>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset class="row mb-3">
-            <legend class="col-form-label col-sm-2 pt-0">Warranty Duration</legend>
-            <div class="col-sm-10">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="warrantyRadio" id="exampleRadios1" value="1" checked>
-                    <label class="form-check-label" for="exampleRadios1">
-                        1 year
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="warrantyRadio" id="exampleRadios2" value="2">
-                    <label class="form-check-label" for="exampleRadios2">
-                        2 year
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="warrantyRadio" id="exampleRadios3" value="3">
-                    <label class="form-check-label" for="exampleRadios3">
-                        3 year
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="warrantyRadio" id="exampleRadios5" value="5">
-                    <label class="form-check-label" for="exampleRadios5">
-                        5 year
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="warrantyRadio" id="exampleRadios10" value="10">
-                    <label class="form-check-label" for="exampleRadios10">
-                        10 year
-                    </label>
-                </div>
-            </div>
-        </fieldset>
+
+        <div class="form-floating mb-3">
+            <select class="form-select" name="prod_brand" id="prod_brand">
+                <option selected>Please select...</option>
+                <option value="NZXT">NZXT</option>
+                <option value="FRACTAL DESIGN">FRACTAL DESIGN</option>
+            </select>
+            <label for="prod_brand">Product Brand</label>
+        </div>
+
         <button type="submit" class="btn btn-primary float-end">Submit</button>
     </form>
     </div>

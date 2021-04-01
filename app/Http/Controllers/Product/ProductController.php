@@ -49,8 +49,8 @@ class ProductController extends Controller
                 "product_sn" => $request->get('prod_sn'),
                 "product_image_path" => $request->file('prod_image')->hashName(),
                 "product_category" => $request->get('prod_category'),
-                "product_brand" => $request->get('brandRadio'),
-                "product_warranty_duration" => $request->get('warrantyRadio'),
+                "product_brand" => $request->get('prod_brand'),
+                "product_warranty_duration" => $request->get('prod_warranty'),
                 "product_price" => $request->get('prod_price'),
                 "product_link" => $request->get('prod_link')
             ]);
@@ -63,9 +63,26 @@ class ProductController extends Controller
     public function destroy($id, Request $request)
     {
         Product::destroy($id);
-
         $request->session()->flash('success', 'Product Deleted');
 
+        return redirect(route('user.userdash'));
+    }
+
+    public function update($id, Request $request)
+    {
+        $product = Product::find($id);
+        $product->update($request->all());
+
+        $product->product_name = $request->prod_name;
+
+        if($product->save()) {
+            $request->session()->flash('success',  $product->product_name.' updated successfully');
+        }
+        else {
+            $request->session()->flash('error', 'Product not updated. There was an error.');
+        }
+
+        //return dd($request->all());
         return redirect(route('user.userdash'));
     }
 }

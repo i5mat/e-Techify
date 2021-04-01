@@ -146,8 +146,8 @@
                 var prod_name = button.data('myprodname') // Extract info from data-* attributes
                 var prod_sn = button.data('myprodsn') // Extract info from data-* attributes
                 var prod_id = button.data('myprodid') // Extract info from data-* attributes
-                //var venue = button.data('venue') // Extract info from data-* attributes
-                //var cap = button.data('cap') // Extract info from data-* attributes
+                var prod_pic = button.data('myprodpic') // Extract info from data-* attributes
+                var prod_price = button.data('myprodprice') // Extract info from data-* attributes
                 //var start = button.data('mystart') // Extract info from data-* attributes
                 //var end = button.data('myend') // Extract info from data-* attributes
                 //var event_type = button.data('myeventtype') // Extract info from data-* attributes
@@ -158,14 +158,17 @@
                 modal.find('.modal-body #prod_name').val(prod_name);
                 modal.find('.modal-body #prod_sn').val(prod_sn);
                 modal.find('.modal-body #prod_id').val(prod_id);
-                //modal.find('.modal-body #venue').val(venue);
-                //modal.find('.modal-body #capacity').val(cap);
+                //modal.find('.modal-body #prod_pic').val(prod_pic);
+                modal.find('.modal-body #prod_price').val(prod_price);
                 //modal.find('.modal-body #startdate').val(start);
                 //modal.find('.modal-body #enddate').val(end);
                 //modal.find('.modal-body #event_types').val(event_type);
                 //modal.find('.modal-body #event_levels').val(event_level);
                 //document.cookie = 'name='.concat(event_type);
-            })
+
+                document.getElementById("myForm").action = "http://127.0.0.1:8000/product/items/" + prod_id;
+                document.getElementById("myImg").src = "/storage/product/" + prod_pic;
+            });
         </script>
 
     </body>
