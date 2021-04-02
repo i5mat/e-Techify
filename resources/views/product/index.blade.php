@@ -73,11 +73,14 @@
                         <h6>{{ $p->product_category }}</h6>
                         <h5 class="card-title">{{ $p->product_name }}</h5>
                         <p class="card-text">{{ $p->product_sn }}</p>
+                        <p><span><img src="/image/security.png">&nbsp; {{ $p->product_warranty_duration }} Years Warranty </span></p>
                         <h2>RM {{ $p->product_price }} <button type="button" class="btn btn-primary float-end">Add to cart</button></h2>
                     </div>
                     <div class="card-footer">
                         <p>
-                            <span><img src="/image/security.png">&nbsp; {{ $p->product_warranty_duration }} Years Warranty </span>
+                            <span>
+                                <img src="/image/boxes.png">&nbsp; {{ $p->product_warranty_duration }} @if($p->product_warranty_duration < 3) stock left @else piece available @endif
+                            </span>
                             <span><a href="{{ $p->product_link }}" target="_blank"><img src="/image/link.png" class="float-end"></a></span>
                         </p>
                         <small class="text-muted">Last updated {{ date('d/m/Y H:i A', strtotime($p->created_at ))}}</small>
@@ -86,6 +89,7 @@
             </div>
         @endforeach
         </div>
+        {{ $products->links() }}
     @endcan
 
     @guest

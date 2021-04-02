@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('content')
-    <h1>Insert Product</h1>
+    <h1>Insert Product <img src="/image/box.png"/></h1>
 
     <div class="card" style="padding: 20px 40px;">
     <form method="POST" action="{{ route('product.items.store') }}" enctype="multipart/form-data">
