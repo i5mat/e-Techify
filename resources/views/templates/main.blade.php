@@ -76,6 +76,7 @@
                         @if (Route::has('login'))
                             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                                 @auth
+                                    <a href="{{ url('/user/profile') }}" style="padding-right: 10px;"><span class="badge">10</span><img src="/image/shopping-cart.png"></a>
                                     <a href="{{ url('/user/profile') }}" style="padding-right: 10px;"><img src="/image/profile-user.png"></a>
                                     <a href="{{ url('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"><img src="/image/logout.png"></a>
@@ -112,16 +113,17 @@
                                 <a class="nav-link" href="{{ route('product.items.index') }}">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('product.insertProd') }}">Insert Product</a>
-                            </li>
-                            <li class="nav-item" style="margin-left: 740px">
-                                <div class="input-group">
-                                    <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-                                           aria-describedby="search-addon" />
-                                    <button type="button" class="btn btn-outline-dark">
-                                        <img src="/image/search.png">
-                                    </button>
+                                <div class="nav-link dropdown">
+                                    <button class="dropbtn" style="background-color: #FFF">Manage Product</button>
+                                    <div class="dropdown-content">
+                                        <a href="{{ route('product.insertProd') }}">Insert Product</a>
+                                        <a href="#">Link 2</a>
+                                        <a href="#">Link 3</a>
+                                    </div>
                                 </div>
+                            </li>
+                            <li class="nav-item">
+
                             </li>
                         @endcan
                     </ul>

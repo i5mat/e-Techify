@@ -1,7 +1,16 @@
 @extends('templates.main')
 
 @section('content')
-    <h1>Insert Product <img src="/image/box.png"/></h1>
+    <h1 class="display-2 text-center">Insert Product <img src="/image/box.png"/></h1>
+
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <p>A well-known quote, contained in a blockquote element.</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            Someone famous in <cite title="Source Title">Source Title</cite>
+        </figcaption>
+    </figure>
 
     <div class="card" style="padding: 20px 40px;">
     <form method="POST" action="{{ route('product.items.store') }}" enctype="multipart/form-data">

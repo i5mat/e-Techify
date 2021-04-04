@@ -32,34 +32,28 @@
         </div><br>
 
         <div class="card-group col-md-auto">
-            <div class="card" style="background-color: #1E2632; width: 10rem">
+            <div style="background-color: #1E2632; width: 10rem">
                 <img src="/image/fractal.png" class="card-img-top" alt="..."/>
             </div>
-            <div class="card" style="background-color: #1E2632;">
+            <div style="background-color: #1E2632; width: 10rem">
                 <img src="/image/ducky.png" class="card-img-top" alt="..."/>
             </div>
-            <div class="card" style="background-color: #1E2632;">
+            <div  style="background-color: #1E2632; width: 10rem">
                 <img src="/image/Glorious.png" class="card-img-top" alt="..."/>
             </div>
-            <div class="card" style="background-color: #1E2632;">
+            <div  style="background-color: #1E2632; width: 10rem">
                 <img src="/image/nzxt-logo.png" class="card-img-top" alt="..."/>
             </div>
-            <div class="card" style="background-color: #1E2632;">
+            <div  style="background-color: #1E2632; width: 10rem">
                 <img src="/image/Vive.png" class="card-img-top" alt="..."/>
             </div>
-            <div class="card" style="background-color: #1E2632;">
+            <div  style="background-color: #1E2632; width: 10rem">
                 <img src="/image/nitro-concepts.png" class="card-img-top" alt="..."/>
             </div>
-            <div class="card" style="background-color: #1E2632;">
-                <img src="/image/xfx.png" class="card-img-top" alt="..."/>
-            </div>
-            <div class="card" style="background-color: #1E2632;">
-                <img src="/image/der8auer.png" class="card-img-top" alt="..."/>
-            </div>
-            <div class="card" style="background-color: #1E2632;">
+            <div  style="background-color: #1E2632; width: 10rem">
                 <img src="/image/thermal-grizzly.png" class="card-img-top" alt="..."/>
             </div>
-            <div class="card" style="background-color: #1E2632;">
+            <div  style="background-color: #1E2632; width: 11rem">
                 <img src="/image/zowie.png" class="card-img-top" alt="..."/>
             </div>
         </div><br>
