@@ -35,6 +35,7 @@ Route::prefix('admin')->middleware(['auth', 'auth.isReseller', 'verified'])->nam
 // Product non-resource related pages
 Route::prefix('product')->middleware(['auth', 'verified'])->name('product.')->group(function () {
     Route::get('insertProduct', ProductController::class)->name('insertProd');
+    Route::get('manageProduct', [App\Http\Controllers\Product\ProductController::class, 'manageProductIndex'])->name('manageProd');
 });
 
 // Product related pages

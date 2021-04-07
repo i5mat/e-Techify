@@ -22,6 +22,12 @@ class ProductController extends Controller
         return view('product.insert');
     }
 
+    public function manageProductIndex()
+    {
+        $products = Product::where('user_id', '=', \Auth::id())->paginate(6);
+        return view('product.manage', compact('products'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([

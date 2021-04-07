@@ -15,8 +15,6 @@ class Profile extends Controller
 
     public function userDash()
     {
-        $products = Product::all()->where('user_id', '=', \Auth::id());
-
-        return view('index', compact('products'));
+        return view('index');
     }
 }
