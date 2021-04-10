@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,35 @@ class ProductController extends Controller
     {
         $products = Product::where('user_id', '=', \Auth::id())->paginate(6);
         return view('product.manage', compact('products'));
+    }
+
+    public function manageCartIndex()
+    {
+        $items = DB::table('orders')
+            ->join('products', 'products.id', '=', 'orders.product_id')
+            ->where('orders.user_id', Auth::id())
+            ->get();
+        return view('product.cart', compact('items'));
+    }
+
+    public function addToCart($id, Request $request)
+    {
+        $prodCart = Product::find($id);
+
+        $orders = new Order([
+            "product_id" => $prodCart->id,
+            "user_id" => Auth::id()
+        ]);
+
+        DB::table('products')
+            ->where('id', '=', $prodCart->id)
+            ->decrement('product_stock_count', 1);
+
+        $orders->save();
+        $request->session()->flash('success', 'You have order -> Product '.$prodCart->product_name);
+
+        return redirect(route('product.items.index'));
+        //return dd('You have selected this -> Product ID '.$prodCart->id. ' ' .$prodCart->product_name);
     }
 
     public function store(Request $request)

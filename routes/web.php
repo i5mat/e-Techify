@@ -36,6 +36,8 @@ Route::prefix('admin')->middleware(['auth', 'auth.isReseller', 'verified'])->nam
 Route::prefix('product')->middleware(['auth', 'verified'])->name('product.')->group(function () {
     Route::get('insertProduct', ProductController::class)->name('insertProd');
     Route::get('manageProduct', [App\Http\Controllers\Product\ProductController::class, 'manageProductIndex'])->name('manageProd');
+    Route::get('cart', [App\Http\Controllers\Product\ProductController::class, 'manageCartIndex'])->name('manageCart');
+    Route::post('addProductCart/{id}', [App\Http\Controllers\Product\ProductController::class, 'addToCart'])->name('addProdCart');
 });
 
 // Product related pages

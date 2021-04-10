@@ -76,7 +76,7 @@
                         @if (Route::has('login'))
                             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                                 @auth
-                                    <a href="{{ url('/user/profile') }}" style="padding-right: 10px;"><span class="badge">LOL</span><img src="/image/shopping-cart.png"></a>
+                                    <a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><span class="badge">0</span><img src="/image/shopping-cart.png"></a>
                                     <a href="{{ url('/user/profile') }}" style="padding-right: 10px;"><img src="/image/profile-user.png"></a>
                                     <a href="{{ url('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"><img src="/image/logout.png"></a>
@@ -113,6 +113,9 @@
                                 <a class="nav-link" href="{{ route('product.items.index') }}">Shop</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link" href="#">Manage Orders</a>
+                            </li>
+                            <li class="nav-item">
                                 <div class="nav-link dropdown">
                                     <button class="dropbtn" style="background-color: #FFF">Manage Product</button>
                                     <div class="dropdown-content">
@@ -120,9 +123,6 @@
                                         <a href="{{ route('product.manageProd') }}">Update.Delete</a>
                                     </div>
                                 </div>
-                            </li>
-                            <li class="nav-item">
-
                             </li>
                         @endcan
                     </ul>

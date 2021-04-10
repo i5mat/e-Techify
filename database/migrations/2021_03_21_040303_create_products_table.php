@@ -25,6 +25,7 @@ class CreateProductsTable extends Migration
             $table->timestamps();
             $table->decimal('product_price', 6,2);
             $table->string('product_link');
+            $table->integer('product_stock_count');
         });
     }
 
