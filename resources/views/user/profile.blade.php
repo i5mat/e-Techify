@@ -26,5 +26,6 @@
             @enderror
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="{{ route('user.useraddress') }}"><button type="button" class="btn btn-primary">Add New Address + </button></a>
     </form>
 @endsection

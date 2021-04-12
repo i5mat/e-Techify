@@ -24,6 +24,9 @@ Route::get('/', function () {
 Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(function () {
     Route::get('profile', Profile::class)->name('profile');
     Route::get('userdash', [App\Http\Controllers\User\Profile::class, 'userDash'])->name('userdash');
+    Route::get('address', [App\Http\Controllers\User\Profile::class, 'userAddressIndex'])->name('useraddress');
+    Route::post('addUserAddress', [App\Http\Controllers\User\Profile::class, 'addAddress'])->name('userinsertaddress');
+    Route::delete('delAddress/{id}', [App\Http\Controllers\User\Profile::class, 'destroyAddress'])->name('userdel_address');
 
 });
 

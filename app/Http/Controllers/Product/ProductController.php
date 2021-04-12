@@ -35,7 +35,11 @@ class ProductController extends Controller
             ->join('products', 'products.id', '=', 'orders.product_id')
             ->where('orders.user_id', Auth::id())
             ->get();
-        return view('product.cart', compact('items'));
+
+        $userinfo = DB::table('addresses')
+            ->where('user_id', Auth::id())
+            ->get();
+        return view('product.cart', compact('items', 'userinfo'));
     }
 
     public function addToCart($id, Request $request)
@@ -55,7 +59,6 @@ class ProductController extends Controller
         $request->session()->flash('success', 'You have order -> Product '.$prodCart->product_name);
 
         return redirect(route('product.items.index'));
-        //return dd('You have selected this -> Product ID '.$prodCart->id. ' ' .$prodCart->product_name);
     }
 
     public function store(Request $request)
