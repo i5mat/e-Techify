@@ -26,10 +26,10 @@
                 <dd class="col-sm-9">
                     <p id="address">Select address</p>
                     <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example" style="height: 60px">
+                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example" style="height: 60px" onchange="myFunction()">
                             <option selected>-</option>
                             @foreach($userinfo as $ui)
-                                <option value="{{ $ui->address }}, {{ $ui->name }}">{{ $ui->address }}</option>
+                                <option value="{{ $ui->address }}" >{{ $ui->address }}</option>
                             @endforeach
                         </select>
                         <label for="floatingSelect">Select Address</label>
@@ -38,15 +38,16 @@
                         <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" style="height: 60px; margin-top: 10px">
                             <option selected>-</option>
                             @foreach($userinfo as $ui)
-                                <option value="{{ $ui->name }} (+60) {{ $ui->phone_no }}">{{ $ui->name }}</option>
+                                <option value="{{ $ui->name }} (+60) {{ $ui->phone_no }}" >{{ $ui->name }}</option>
                             @endforeach
                         </select>
-                        <label for="floatingSelect2">Select Name</label>
                     </div>
             </dl>
-            <div class="text-center">
-                <button id="submit_btn" type="submit" class="btn btn-warning">Change</button>
-            </div>
+
+{{--            <div class="text-center">--}}
+{{--                <button id="submit_btn" type="submit" class="btn btn-warning">Change</button>--}}
+{{--            </div>--}}
+
         </div>
     </div>
 
@@ -110,15 +111,22 @@
 
     <script>
         CalculateItemsValue();
+        myFunction();
 
-        $(document).ready(function() {
-            $("#submit_btn").click(function() {
+        function myFunction() {
+
+            $('#floatingSelect2').attr('hidden', true);
+            $('#floatingSelect').change(function(){
+                $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected',true);
                 var value = $("#floatingSelect option:selected");
                 var value2 = $("#floatingSelect2 option:selected");
+
                 document.getElementById('address').innerHTML = value.text();
                 document.getElementById('user_name').innerHTML = value2.val().bold();
+
+                $('#floatingSelect2').attr('disabled', true);
             });
-        });
+        }
 
         function CalculateItemsValue() {
             var total = 0;

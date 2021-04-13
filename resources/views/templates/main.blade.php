@@ -113,7 +113,7 @@
                                 <a class="nav-link" href="{{ route('product.items.index') }}">Shop</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Manage Orders</a>
+                                <a class="nav-link" href="{{ route('order.orders.index') }}">Manage Orders</a>
                             </li>
                             <li class="nav-item">
                                 <div class="nav-link dropdown">

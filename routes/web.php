@@ -1,5 +1,6 @@
 <?php
 
+use Order\OrderController;
 use Illuminate\Support\Facades\Route;
 use Admin\UserController;
 use User\Profile;
@@ -46,4 +47,9 @@ Route::prefix('product')->middleware(['auth', 'verified'])->name('product.')->gr
 // Product related pages
 Route::prefix('product')->middleware(['auth', 'verified'])->name('product.')->group(function () {
     Route::resource('/items', ProductController::class);
+});
+
+// Order related pages
+Route::prefix('order')->middleware(['auth', 'verified'])->name('order.')->group(function () {
+    Route::resource('/orders', OrderController::class);
 });

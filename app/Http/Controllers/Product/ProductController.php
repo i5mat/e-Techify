@@ -48,7 +48,8 @@ class ProductController extends Controller
 
         $orders = new Order([
             "product_id" => $prodCart->id,
-            "user_id" => Auth::id()
+            "user_id" => Auth::id(),
+            "order_status" => 'To Ship',
         ]);
 
         DB::table('products')
