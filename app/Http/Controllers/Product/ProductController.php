@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,9 +32,13 @@ class ProductController extends Controller
 
     public function manageCartIndex()
     {
-        $items = DB::table('orders')
-            ->join('products', 'products.id', '=', 'orders.product_id')
-            ->where('orders.user_id', Auth::id())
+        $items = DB::table('order_details')
+            ->join('orders', 'orders.id', '=', 'order_details.order_id')
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->where([
+                'orders.user_id' => Auth::id(),
+                'orders.order_status' => 'To Pay'
+            ])
             ->get();
 
         $userinfo = DB::table('addresses')
@@ -46,17 +51,60 @@ class ProductController extends Controller
     {
         $prodCart = Product::find($id);
 
-        $orders = new Order([
-            "product_id" => $prodCart->id,
-            "user_id" => Auth::id(),
-            "order_status" => 'To Ship',
-        ]);
+        if (Order::where('user_id', '=', Auth::id())->where('order_status', '=', 'To Pay')->exists())
+        {
+            $find_order_id = DB::table('orders')
+                ->where('user_id', Auth::id())
+                ->where('order_status', '=', 'To Pay')
+                ->first();
 
-        DB::table('products')
-            ->where('id', '=', $prodCart->id)
-            ->decrement('product_stock_count', 1);
+            $order_details = new OrderDetail([
+                "order_id" => $find_order_id->id,
+                "product_id" => $prodCart->id,
+                "product_order_quantity" => 1
+            ]);
 
-        $orders->save();
+            if (OrderDetail::where('order_id', '=', $find_order_id->id)->where('product_id', '=', $prodCart->id)->exists())
+            {
+                $test = OrderDetail::where('order_id', '=', $find_order_id->id)->where('product_id', '=', $prodCart->id)->first();
+                DB::table('order_details')
+                    ->where('order_id', '=', $find_order_id->id)
+                    ->where('product_id', '=', $prodCart->id)
+                    ->increment('product_order_quantity', 1);
+
+                dd($test->order_id, $test->product_id, 'DUPLICATE ENTRY');
+            }
+            else
+                $order_details->save();
+        }
+        else
+        {
+            $orders = new Order([
+                "product_id" => $prodCart->id,
+                "user_id" => Auth::id(),
+                "order_status" => 'To Pay',
+            ]);
+
+            DB::table('products')
+                ->where('id', '=', $prodCart->id)
+                ->decrement('product_stock_count', 1);
+
+            $orders->save();
+
+            $find_order_id = DB::table('orders')
+                ->where('user_id', Auth::id())
+                ->where('order_status', '=', 'To Pay')
+                ->first();
+
+            $order_details = new OrderDetail([
+                "order_id" => $find_order_id->id,
+                "product_id" => $orders->product_id,
+                "product_order_quantity" => 1
+            ]);
+
+            $order_details->save();
+        }
+
         $request->session()->flash('success', 'You have order -> Product '.$prodCart->product_name);
 
         return redirect(route('product.items.index'));

@@ -36,6 +36,7 @@
                     <table class="table text-center" style="margin-top: 20px">
                         <thead>
                         <tr>
+                            <th scope="col">Order ID</th>
                             <th scope="col">Product</th>
                             <th scope="col"></th>
                             <th scope="col">Unit Price</th>
@@ -44,11 +45,12 @@
                         <tbody>
                         @foreach($items_to_pay as $i)
                             <tr>
+                                <td>{{ $i->ord_id }}</td>
                                 <td>
-                                    <img src="/storage/product/{{ $i->product_image_path }}" style="width:120px; height:120px;">
+                                    <img src="/storage/product/{{ $i->img_path }}" style="width:120px; height:120px;">
                                 </td>
-                                <td>{{ $i->product_name }}</td>
-                                <td><img src="/image/malaysia.png"> <span>{{ $i->product_price }}</span></td>
+                                <td>{{ $i->prod_name }}</td>
+                                <td><img src="/image/malaysia.png"> <span>{{ $i->prod_price }}</span></td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -67,6 +69,7 @@
                     <table class="table text-center" style="margin-top: 20px">
                         <thead>
                         <tr>
+                            <th scope="col">Order ID</th>
                             <th scope="col">Product</th>
                             <th scope="col"></th>
                             <th scope="col">Unit Price</th>
@@ -75,6 +78,7 @@
                         <tbody>
                         @foreach($items_to_ship as $i)
                             <tr>
+                                <td>{{ $i->order_id }}</td>
                                 <td>
                                     <img src="/storage/product/{{ $i->product_image_path }}" style="width:120px; height:120px;">
                                 </td>
