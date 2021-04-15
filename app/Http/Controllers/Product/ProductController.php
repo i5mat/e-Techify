@@ -61,7 +61,6 @@ class ProductController extends Controller
             $order_details = new OrderDetail([
                 "order_id" => $find_order_id->id,
                 "product_id" => $prodCart->id,
-                "product_order_quantity" => 1
             ]);
 
             if (OrderDetail::where('order_id', '=', $find_order_id->id)->where('product_id', '=', $prodCart->id)->exists())
@@ -99,7 +98,6 @@ class ProductController extends Controller
             $order_details = new OrderDetail([
                 "order_id" => $find_order_id->id,
                 "product_id" => $orders->product_id,
-                "product_order_quantity" => 1
             ]);
 
             $order_details->save();
