@@ -32,18 +32,41 @@
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModall" tabindex="-1" aria-labelledby="exampleModalLabell" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabell">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabell">Order Detail</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            ...
-                        </div>
+                            <div class="modal-body">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Product</th>
+                                        <th scope="col"></th>
+                                        <th scope="col">Unit Price</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="table">
+                                    @foreach($test as $i)
+                                        <tr>
+                                            <th scope="row">{{ $loop->iteration }}</th>
+                                            <td>
+                                                <img src="/storage/product/{{ $i->product_image_path }}" style="width:120px; height:120px;">
+                                            </td>
+                                            <td>{{ $i->product_name }} <p class="lead">[x{{ $i->product_order_quantity }}]</p></td>
+                                            <td><img src="/image/malaysia.png"> <span>{{ $i->product_price }}</span></td>
+                                        </tr>
+                                    @endforeach
+                                    <p class="display-6">
+                                        Tracking Number : 624723149046
+                                    </p>
+                                    </tbody>
+                                </table>
+                            </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
@@ -53,10 +76,10 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    @foreach($items_to_ship as $i)
+                    @foreach($test2 as $i)
                     <div class="card" style="margin-top: 10px">
                         <div class="card-body">
-                            <h5 class="card-title display-6">ORDER #{{ $i->order_id }}</h5>
+                            <h5 class="card-title display-6">ORDER #{{ $i->id }}</h5>
                             <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p>
                             <button
                                 type="button"

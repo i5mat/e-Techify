@@ -64,8 +64,27 @@ class OrderController extends Controller
             ->groupBy('order_details.order_id')
             ->sum(DB::raw('products.product_price * order_details.product_order_quantity'));
 
-        //dd($total_items);
+        $test2 = Order::where([
+            'user_id' => Auth::id(),
+            'order_status' => 'To Ship'
+        ])
+        ->get();
 
-        return view('order.index', compact('items_to_pay', 'items_to_ship', 'total_items', 'total_items_pay'));
+        $test = DB::table('order_details')
+            ->select('order_details.order_id', 'products.product_image_path',
+                'products.product_name', 'products.product_price', 'order_details.product_order_quantity',
+                'orders.created_at', 'orders.id')
+            ->join('orders', 'orders.id', '=', 'order_details.order_id')
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->where([
+                'orders.user_id' => Auth::id(),
+                'orders.order_status' => 'To Ship',
+                'order_details.order_id' => $find_order_id->id
+            ])
+            ->get();
+
+        //dd($test);
+
+        return view('order.index', compact('items_to_pay', 'items_to_ship', 'total_items', 'total_items_pay', 'test', 'test2'));
     }
 }
