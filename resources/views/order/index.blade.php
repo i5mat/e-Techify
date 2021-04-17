@@ -30,49 +30,6 @@
                 </li>
             </ul>
 
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModall" tabindex="-1" aria-labelledby="exampleModalLabell" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabell">Order Detail</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                            <div class="modal-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Product</th>
-                                        <th scope="col"></th>
-                                        <th scope="col">Unit Price</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody class="table">
-                                    @foreach($test as $i)
-                                        <tr>
-                                            <th scope="row">{{ $loop->iteration }}</th>
-                                            <td>
-                                                <img src="/storage/product/{{ $i->product_image_path }}" style="width:120px; height:120px;">
-                                            </td>
-                                            <td>{{ $i->product_name }} <p class="lead">[x{{ $i->product_order_quantity }}]</p></td>
-                                            <td><img src="/image/malaysia.png"> <span>{{ $i->product_price }}</span></td>
-                                        </tr>
-                                    @endforeach
-                                    <p class="display-6">
-                                        Tracking Number : 624723149046
-                                    </p>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Modal -->
-
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -80,81 +37,19 @@
                     <div class="card" style="margin-top: 10px">
                         <div class="card-body">
                             <h5 class="card-title display-6">ORDER #{{ $i->id }}</h5>
-                            <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p>
-                            <button
-                                type="button"
-                                class="btn btn-primary float-end"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModall">
-                                View
-                            </button>
+                            <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge rounded-pill bg-success" style="color: white">To Ship</span>
+                            <a href="{{ route('order.index.orderdetails', $i->id) }}">
+                                <button type="button" class="btn btn-primary float-end">View</button>
+                            </a>
                         </div>
                     </div>
                     @endforeach
                 </div>
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <table class="table text-center" style="margin-top: 20px">
-                        <thead>
-                        <tr>
-                            <th scope="col">Order ID</th>
-                            <th scope="col">Product</th>
-                            <th scope="col"></th>
-                            <th scope="col">Unit Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($items_to_ship as $i)
-                            <tr>
-                                <td>{{ $i->order_id }}</td>
-                                <td>
-                                    <img src="/storage/product/{{ $i->product_image_path }}" style="width:120px; height:120px;">
-                                </td>
-                                <td>{{ $i->product_name }} <p class="lead">x{{ $i->product_order_quantity }}</p></td>
-                                <td><img src="/image/malaysia.png"> <span>{{ $i->product_price }}</span></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                    <div class="text-center">
-                        <p class="lead">
-                            Order total
-                        </p>
-                        <h1 class="display-5">
-                            RM {{ $total_items }}
-                        </h1>
-                    </div>
+                    haha
                 </div>
                 <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
-                    <table class="table text-center" style="margin-top: 20px">
-                        <thead>
-                        <tr>
-                            <th scope="col">Order ID</th>
-                            <th scope="col">Product</th>
-                            <th scope="col"></th>
-                            <th scope="col">Unit Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($items_to_pay as $i)
-                            <tr>
-                                <td>{{ $i->ord_id }}</td>
-                                <td>
-                                    <img src="/storage/product/{{ $i->img_path }}" style="width:120px; height:120px;">
-                                </td>
-                                <td>{{ $i->prod_name }} <p class="lead">x{{ $i->product_order_quantity }}</p></td>
-                                <td><img src="/image/malaysia.png"> <span>{{ $i->prod_price }}</span></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                    <div class="text-center">
-                        <p class="lead">
-                            Order total
-                        </p>
-                        <h1 class="display-5">
-                            RM {{ $total_items_pay }}
-                        </h1>
-                    </div>
+                    LOL
                 </div>
                 <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">SIT AMET</div>
             </div>
@@ -165,7 +60,7 @@
         $('#myTab a').on('click', function (e) {
             e.preventDefault()
             $(this).tab('show')
-        })
+        });
     </script>
 
 @endsection

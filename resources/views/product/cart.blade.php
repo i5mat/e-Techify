@@ -42,14 +42,18 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-floating">
+                        <select class="form-select" id="floatingSelect3" aria-label="Floating label select example" style="height: 60px; margin-top: 10px">
+                            <option selected>-</option>
+                            @foreach($userinfo as $ui)
+                                <option value="{{ $ui->id }}" >{{ $ui->id }}</option>
+                            @endforeach
+                        </select>
+                    </div>
             </dl>
-
-{{--            <div class="text-center">--}}
-{{--                <button id="submit_btn" type="submit" class="btn btn-warning">Change</button>--}}
-{{--            </div>--}}
-
         </div>
     </div>
+
 
     <div class="card text-center">
         <div class="card-body">
@@ -66,6 +70,8 @@
                 </thead>
                 <tbody>
                 @foreach($items as $i)
+                    <form method="POST" action="{{ route('order.purchase.orderdetails', $i->order_id) }}" enctype="multipart/form-data">
+                        @csrf
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>
@@ -95,6 +101,8 @@
                 Merchandise Subtotal ({{ $items->count() }} items):
             </p>
             <h1 class="display-5" id="ItemsTotal"></h1>
+            <input type="number" id="tot" name="tot" hidden>
+            <input type="number" id="get_add_id" name="get_add_id" hidden>
             <div>
                 <img class="mr-2" width="60px"
                      src="https://bit.ly/326S7z6"
@@ -106,9 +114,10 @@
                      src="https://bit.ly/3uJVxo3"
                      alt="Mastercard">
             </div>
-            <button type="button" class="btn btn-primary btn-lg" style="margin-top: 20px">Check Out</button>
+            <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 20px" @if($items->count() == 0) disabled @endif id="submit_btn">Check Out</button>
         </div>
     </div>
+    </form>
 
     <script>
         CalculateItemsValue();
@@ -117,15 +126,20 @@
         function myFunction() {
 
             $('#floatingSelect2').attr('hidden', true);
+            $('#floatingSelect3').attr('hidden', true);
             $('#floatingSelect').change(function(){
                 $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected',true);
+                $("#floatingSelect3 option").eq($(this).find(':selected').index()).prop('selected',true);
                 var value = $("#floatingSelect option:selected");
                 var value2 = $("#floatingSelect2 option:selected");
+                var value3 = $("#floatingSelect3 option:selected");
 
                 document.getElementById('address').innerHTML = value.text();
                 document.getElementById('user_name').innerHTML = value2.val().bold();
+                document.getElementById('get_add_id').value = value3.val();
 
                 $('#floatingSelect2').attr('disabled', true);
+                //$('#submit_btn').attr('disabled', false);
             });
         }
 
@@ -154,6 +168,7 @@
             });
 
             document.getElementById('ItemsTotal').innerHTML = formatter.format(total);
+            document.getElementById('tot').value = total;
         }
     </script>
 @endsection

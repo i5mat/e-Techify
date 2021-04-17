@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
+use App\Models\ConfirmOrder;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
@@ -13,38 +15,29 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $find_order_id = DB::table('orders')
-            ->where('user_id', Auth::id())
-            ->where('order_status', '=', 'To Ship')
-            ->first();
+        $test2 = Order::where([
+            'user_id' => Auth::id(),
+            'order_status' => 'To Ship'
+        ])
+        ->get();
 
-        $find_order_id_pay = DB::table('orders')
-            ->where('user_id', Auth::id())
-            ->where('order_status', '=', 'To Pay')
-            ->first();
+        return view('order.index', compact('test2'));
+    }
 
-        $items_to_pay = DB::table('order_details')
-            ->select('order_details.order_id AS ord_id', 'products.product_image_path AS img_path',
-                'products.product_name AS prod_name', 'products.product_price AS prod_price',
-                'order_details.product_order_quantity')
-            ->join('orders', 'orders.id', '=', 'order_details.order_id')
-            ->join('products', 'products.id', '=', 'order_details.product_id')
-            ->where([
-                'orders.user_id' => Auth::id(),
-                'orders.order_status' => 'To Pay'
-            ])
-            ->get();
+    public function orderDetailsIndex($id)
+    {
+        $findID = Order::find($id);
 
-        $items_to_ship = DB::table('order_details')
+        $orderInfo = DB::table('order_details')
             ->select('order_details.order_id', 'products.product_image_path',
                 'products.product_name', 'products.product_price', 'order_details.product_order_quantity',
-                'orders.created_at')
+                'orders.created_at', 'orders.id AS orders')
             ->join('orders', 'orders.id', '=', 'order_details.order_id')
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->where([
                 'orders.user_id' => Auth::id(),
                 'orders.order_status' => 'To Ship',
-                'order_details.order_id' => $find_order_id->id
+                'order_details.order_id' => $findID->id
             ])
             ->get();
 
@@ -52,39 +45,46 @@ class OrderController extends Controller
             ->select('order_details.order_id')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
             ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->where('order_details.order_id', '=', $find_order_id->id)
-            ->groupBy('order_details.order_id')
-            ->sum('products.product_price');
-
-        $total_items_pay = DB::table('order_details')
-            ->select('order_details.order_id')
-            ->join('orders', 'order_details.order_id', '=', 'orders.id')
-            ->join('products', 'order_details.product_id', '=', 'products.id')
-            ->where('order_details.order_id', '=', $find_order_id_pay->id)
+            ->where('order_details.order_id', '=', $findID->id)
             ->groupBy('order_details.order_id')
             ->sum(DB::raw('products.product_price * order_details.product_order_quantity'));
 
-        $test2 = Order::where([
-            'user_id' => Auth::id(),
-            'order_status' => 'To Ship'
-        ])
-        ->get();
-
-        $test = DB::table('order_details')
-            ->select('order_details.order_id', 'products.product_image_path',
-                'products.product_name', 'products.product_price', 'order_details.product_order_quantity',
-                'orders.created_at', 'orders.id')
-            ->join('orders', 'orders.id', '=', 'order_details.order_id')
-            ->join('products', 'products.id', '=', 'order_details.product_id')
+        $recipientInfo = DB::table('confirm_orders')
+            ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
+            ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
                 'orders.user_id' => Auth::id(),
                 'orders.order_status' => 'To Ship',
-                'order_details.order_id' => $find_order_id->id
+                'orders.id' => $findID->id
             ])
-            ->get();
+            ->first();
 
-        //dd($test);
+        //dd($recipientInfo);
 
-        return view('order.index', compact('items_to_pay', 'items_to_ship', 'total_items', 'total_items_pay', 'test', 'test2'));
+        return view('order.orderdetails', compact('orderInfo', 'total_items', 'recipientInfo'));
+    }
+
+    public function thankYouIndex()
+    {
+        return view('order.thankyou');
+    }
+
+    public function orderConfirm($id, Request $request)
+    {
+        $findOrderID = Order::find($id);
+
+        $insertData = new ConfirmOrder([
+            "order_id" => $findOrderID->id,
+            "addresses_id" => $request->get('get_add_id'),
+            "payment_total" => $request->get('tot'),
+            "payment_method" => 'TEST'
+        ]);
+
+        $findOrderID->order_status = 'To Ship';
+
+//        $insertData->save();
+//        $findOrderID->save();
+
+        dd($insertData, $findOrderID);
     }
 }

@@ -53,3 +53,10 @@ Route::prefix('product')->middleware(['auth', 'verified'])->name('product.')->gr
 Route::prefix('order')->middleware(['auth', 'verified'])->name('order.')->group(function () {
     Route::resource('/orders', OrderController::class);
 });
+
+// Product non-resource related pages
+Route::prefix('order')->middleware(['auth', 'verified'])->name('order.')->group(function () {
+    Route::get('purchase/{id}', [App\Http\Controllers\Order\OrderController::class, 'orderDetailsIndex'])->name('index.orderdetails');
+    Route::post('purchase/success/{id}', [App\Http\Controllers\Order\OrderController::class, 'orderConfirm'])->name('purchase.orderdetails');
+    Route::get('purchase/success/thank-you', [App\Http\Controllers\Order\OrderController::class, 'thankYouIndex'])->name('purchase.thanks');
+});

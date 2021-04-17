@@ -24,4 +24,9 @@ class Product extends Model
         'product_price',
         'product_link',
     ];
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

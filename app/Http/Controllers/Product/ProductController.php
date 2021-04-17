@@ -71,7 +71,9 @@ class ProductController extends Controller
                     ->where('product_id', '=', $prodCart->id)
                     ->increment('product_order_quantity', 1);
 
-                dd($test->order_id, $test->product_id, 'DUPLICATE ENTRY');
+                DB::table('products')
+                    ->where('id', '=', $prodCart->id)
+                    ->decrement('product_stock_count', 1);
             }
             else
                 $order_details->save();
@@ -79,7 +81,6 @@ class ProductController extends Controller
         else
         {
             $orders = new Order([
-                "product_id" => $prodCart->id,
                 "user_id" => Auth::id(),
                 "order_status" => 'To Pay',
             ]);
@@ -97,7 +98,7 @@ class ProductController extends Controller
 
             $order_details = new OrderDetail([
                 "order_id" => $find_order_id->id,
-                "product_id" => $orders->product_id,
+                "product_id" => $prodCart->id,
             ]);
 
             $order_details->save();
@@ -105,7 +106,7 @@ class ProductController extends Controller
 
         $request->session()->flash('success', 'You have order -> Product '.$prodCart->product_name);
 
-        return redirect(route('product.items.index'));
+        return redirect(route('product.manageCart'));
     }
 
     public function store(Request $request)
