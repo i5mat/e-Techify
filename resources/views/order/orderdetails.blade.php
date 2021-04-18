@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Your Order Details <img src="/image/box.png"/></h1>
+    <h1 class="display-2 text-center">Your Order Details <img src="/image/order-list.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
@@ -23,7 +23,13 @@
                     <p id="address">{{ $recipientInfo->address }}</p>
 
                 <dt class="col-sm-3">Tracking No.</dt>
-                <dd class="col-sm-9">{{ rand(0, 999999999999) }} <span class="badge bg-warning text-dark">J&T Express</span></dd>
+                <dd class="col-sm-9">{{ $recipientInfo->tracking_num }} <span class="badge bg-warning text-dark">XT Express</span></dd>
+
+                <dt class="col-sm-3">Barcode</dt>
+                <dd class="col-sm-9">{!! DNS1D::getBarcodeSVG($recipientInfo->tracking_num, "C39", 1, 50, '#2A3239') !!} </dd>
+
+                <dt class="col-sm-3">QR Code</dt>
+                <dd class="col-sm-9">{!! DNS2D::getBarcodeHTML($recipientInfo->tracking_num, 'QRCODE', 5, 5) !!} </dd>
             </dl>
         </div>
     </div>
@@ -54,7 +60,7 @@
             </table>
             <div class="text-center">
                 <p class="lead">
-                    Order total <p class="small">+ Free Shipping</p>
+                    Order total : Online Banking <p class="small">+ Free Shipping</p>
                 </p>
                 <h1 class="display-5">
                     RM {{ number_format($recipientInfo->payment_total / 1) }}.00

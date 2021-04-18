@@ -33,14 +33,23 @@
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    @foreach($test2 as $i)
+                    @foreach($to_ship as $i)
                     <div class="card" style="margin-top: 10px">
                         <div class="card-body">
                             <h5 class="card-title display-6">ORDER #{{ $i->id }}</h5>
-                            <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge rounded-pill bg-success" style="color: white">To Ship</span>
+                            <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge bg-success" style="color: white">To Ship</span>
                             <a href="{{ route('order.index.orderdetails', $i->id) }}">
                                 <button type="button" class="btn btn-primary float-end">View</button>
                             </a>
+
+                            <button type="button" class="btn btn-warning float-end" style="margin-right: 10px" onclick="event.preventDefault();
+                                document.getElementById('get-awb-order-{{ $i->id }}').submit()">
+                                Print WayBill
+                            </button>
+
+                            <form id="get-awb-order-{{ $i->id }}" action="{{ route('order.purchase.awb', $i->id) }}" method="POST" style="display: none">
+                                @csrf
+                            </form>
                         </div>
                     </div>
                     @endforeach

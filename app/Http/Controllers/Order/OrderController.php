@@ -10,18 +10,21 @@ use App\Models\OrderDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Intervention\Image\Facades\Image;
+use Milon\Barcode\DNS1D;
+use Milon\Barcode\DNS2D;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        $test2 = Order::where([
+        $to_ship = Order::where([
             'user_id' => Auth::id(),
             'order_status' => 'To Ship'
         ])
         ->get();
 
-        return view('order.index', compact('test2'));
+        return view('order.index', compact('to_ship'));
     }
 
     public function orderDetailsIndex($id)
@@ -77,14 +80,165 @@ class OrderController extends Controller
             "order_id" => $findOrderID->id,
             "addresses_id" => $request->get('get_add_id'),
             "payment_total" => $request->get('tot'),
-            "payment_method" => 'TEST'
+            "payment_method" => 'ONLINE BANKING - M2U',
+            "tracking_num" => rand(0, 999999999999)
         ]);
 
         $findOrderID->order_status = 'To Ship';
 
-//        $insertData->save();
-//        $findOrderID->save();
+        $insertData->save();
+        $findOrderID->save();
 
-        dd($insertData, $findOrderID);
+        //dd($insertData, $findOrderID);
+
+        return view('order.thankyou');
+    }
+
+    public function airwayBill($id)
+    {
+        $findID = Order::find($id);
+
+        $recipientInfo = DB::table('confirm_orders')
+            ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
+            ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
+            ->where([
+                'orders.user_id' => Auth::id(),
+                'orders.order_status' => 'To Ship',
+                'orders.id' => $findID->id
+            ])
+            ->first();
+
+        $name = $recipientInfo->name;
+        $companyName = 'Xmiryna Technology';
+        $companyAddress = 'No. 79 Jalan Taman Melati 1, Taman Melati, Setapak 53100 Kuala Lumpur, Setapak, 53100 Kuala Lumpur';
+        $phone = $recipientInfo->phone_no;
+        $address = $recipientInfo->address;
+        $tracking = $recipientInfo->tracking_num;
+        $postcode_recipient = '75450';
+
+//        $qr_code_tracking = new DNS1D();
+//        $qr_code_tracking->getBarcodeSVG($recipientInfo->tracking_num, "C39", 1, 50, '#2A3239');
+
+        $qr_code_tracking = (new  DNS1D)->getBarcodeSVG($recipientInfo->tracking_num, "C39", 1, 50, '#2A3239');
+
+        // Sender name.
+        $img = Image::make(public_path('awb/airwaybill.jpg'));
+        $img->text($companyName, 610, 1130, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Sender address.
+        $charactersLimit = 40;
+        $yourTextString = $companyAddress;
+        $output = wordwrap($yourTextString, $charactersLimit);
+
+        $img->text($output, 810, 1635, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Postcode sender.
+        $img->text($postcode_recipient, 435, 1985, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Postcode recipient.
+        $img->text($postcode_recipient, 435, 3000, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Recipient address.
+        $charactersLimitt = 40;
+        $yourTextStringg = $address;
+        $output = wordwrap($yourTextStringg, $charactersLimitt);
+
+        $img->text($output, 810, 2655, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Recipient name.
+        $img->text($name, 780, 2150, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Big right postcode.
+        $img->text($postcode_recipient, 2150, 2540, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(150);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Sender phone no.
+        $img->text('+(60) '.$phone, 560, 1210, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Sender phone no.
+        $img->text('+(60) '.$phone, 560, 1210, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Tracking no. on right bottom.
+        $img->text($tracking, 2130, 3395, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(90);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        $img->text(base64_encode($qr_code_tracking), 2130, 3000, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(40);
+            $font->color('#000000');
+            $font->align('center');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        return response($img)->header('Content-type','image/png');
     }
 }

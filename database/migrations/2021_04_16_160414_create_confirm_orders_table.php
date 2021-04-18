@@ -19,6 +19,7 @@ class CreateConfirmOrdersTable extends Migration
             $table->foreignId('addresses_id')->constrained()->onDelete('cascade');
             $table->integer('payment_total');
             $table->string('payment_method');
+            $table->integer('tracking_num');
             $table->timestamps();
         });
     }
