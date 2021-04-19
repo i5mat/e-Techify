@@ -111,43 +111,77 @@ class OrderController extends Controller
         $name = $recipientInfo->name;
         $companyName = 'Xmiryna Technology';
         $companyAddress = 'No. 79 Jalan Taman Melati 1, Taman Melati, Setapak 53100 Kuala Lumpur, Setapak, 53100 Kuala Lumpur';
+        $companyPostcode = '53100';
+        $companyPhoneNo = '172178319';
         $phone = $recipientInfo->phone_no;
         $address = $recipientInfo->address;
         $tracking = $recipientInfo->tracking_num;
-        $postcode_recipient = '75450';
+        $postcode_recipient = $recipientInfo->postcode;
+        $orderID = $recipientInfo->order_id;
+        $shipByDate = date('d-M-Y H:i A');
+        $weightItem = '10 KG';
 
-//        $qr_code_tracking = new DNS1D();
-//        $qr_code_tracking->getBarcodeSVG($recipientInfo->tracking_num, "C39", 1, 50, '#2A3239');
-
-        $qr_code_tracking = (new  DNS1D)->getBarcodeSVG($recipientInfo->tracking_num, "C39", 1, 50, '#2A3239');
+        $bar_code_tracking = (new DNS1D)->getBarcodePNG($tracking, "C39", 1, 50, array(1,1,1));
+        $qr_code_tracking = (new DNS2D)->getBarcodePNG('0'.$phone, "QRCODE", 5, 5, array(1,1,1));
 
         // Sender name.
         $img = Image::make(public_path('awb/airwaybill.jpg'));
-        $img->text($companyName, 610, 1130, function($font) {
+        $img->text($companyName, 350, 1130, function($font) {
             $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
             $font->size(60);
             $font->color('#000000');
-            $font->align('center');
+            $font->align('left');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Ship By Date
+        $img->text($shipByDate, 450, 760, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('left');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Weight
+        $img->text($weightItem, 450, 835, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('left');
+            $font->angle(360);
+        });
+        $img->save(public_path('awb/test-awb.jpg'));
+
+        // Order ID
+        $img->text($orderID, 450, 920, function($font) {
+            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
+            $font->size(60);
+            $font->color('#000000');
+            $font->align('left');
             $font->angle(360);
         });
         $img->save(public_path('awb/test-awb.jpg'));
 
         // Sender address.
-        $charactersLimit = 40;
+        $charactersLimit = 50;
         $yourTextString = $companyAddress;
         $output = wordwrap($yourTextString, $charactersLimit);
 
-        $img->text($output, 810, 1635, function($font) {
+        $img->text($output, 350, 1425, function($font) {
             $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
             $font->size(60);
             $font->color('#000000');
-            $font->align('center');
+            $font->align('left');
+            $font->valign('top');
             $font->angle(360);
         });
         $img->save(public_path('awb/test-awb.jpg'));
 
         // Postcode sender.
-        $img->text($postcode_recipient, 435, 1985, function($font) {
+        $img->text($companyPostcode, 435, 1985, function($font) {
             $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
             $font->size(60);
             $font->color('#000000');
@@ -167,25 +201,27 @@ class OrderController extends Controller
         $img->save(public_path('awb/test-awb.jpg'));
 
         // Recipient address.
-        $charactersLimitt = 40;
+        $charactersLimitt = 50;
         $yourTextStringg = $address;
         $output = wordwrap($yourTextStringg, $charactersLimitt);
 
-        $img->text($output, 810, 2655, function($font) {
+        $img->text($output, 350, 2445, function($font) {
             $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
             $font->size(60);
             $font->color('#000000');
-            $font->align('center');
+            $font->align('left');
+            $font->valign('top');
             $font->angle(360);
         });
         $img->save(public_path('awb/test-awb.jpg'));
 
         // Recipient name.
-        $img->text($name, 780, 2150, function($font) {
+        $img->text($name, 350, 2095, function($font) {
             $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
             $font->size(60);
             $font->color('#000000');
-            $font->align('center');
+            $font->align('left');
+            $font->valign('top');
             $font->angle(360);
         });
         $img->save(public_path('awb/test-awb.jpg'));
@@ -201,21 +237,22 @@ class OrderController extends Controller
         $img->save(public_path('awb/test-awb.jpg'));
 
         // Sender phone no.
-        $img->text('+(60) '.$phone, 560, 1210, function($font) {
+        $img->text('+(60) '.$companyPhoneNo, 350, 1160, function($font) {
             $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
             $font->size(60);
             $font->color('#000000');
-            $font->align('center');
+            $font->align('left');
+            $font->valign('top');
             $font->angle(360);
         });
         $img->save(public_path('awb/test-awb.jpg'));
 
-        // Sender phone no.
-        $img->text('+(60) '.$phone, 560, 1210, function($font) {
+        // Recipient phone no.
+        $img->text('+(60) '.$phone, 350, 2225, function($font) {
             $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
             $font->size(60);
             $font->color('#000000');
-            $font->align('center');
+            $font->align('left');
             $font->angle(360);
         });
         $img->save(public_path('awb/test-awb.jpg'));
@@ -230,13 +267,13 @@ class OrderController extends Controller
         });
         $img->save(public_path('awb/test-awb.jpg'));
 
-        $img->text(base64_encode($qr_code_tracking), 2130, 3000, function($font) {
-            $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
-            $font->size(40);
-            $font->color('#000000');
-            $font->align('center');
-            $font->angle(360);
-        });
+        \Storage::disk('public')->put('test'.$tracking.'.png', base64_decode($bar_code_tracking));
+        \Storage::disk('public')->put('lol'.$tracking.'.png', base64_decode($qr_code_tracking));
+
+        $barcode = Image::make('storage/test'.$tracking.'.png')->resize(1300, 200);
+        $qrcode = Image::make('storage/lol'.$tracking.'.png')->resize(350, 350);
+        $img->insert($barcode, 'top-left', 550, 350);
+        $img->insert($qrcode, 'top-left', 1960, 2900);
         $img->save(public_path('awb/test-awb.jpg'));
 
         return response($img)->header('Content-type','image/png');
