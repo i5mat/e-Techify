@@ -37,6 +37,7 @@ class Profile extends Controller
             "name" => $request->get('user_name'),
             "phone_no" => $request->get('user_phone'),
             "address" => $request->get('user_address'),
+            "postcode" => $request->get('user_postcode'),
         ]);
 
         $insert->save();

@@ -28,6 +28,10 @@
             <textarea class="form-control" placeholder="Leave a comment here" id="user_address" name="user_address" style="height: 120px"></textarea>
             <label for="floatingTextarea2">Address</label>
         </div>
+        <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="user_postcode" name="user_postcode" placeholder="test">
+            <label for="user_postcode">Insert Postcode</label>
+        </div>
         <button type="submit" class="btn btn-primary float-end">Submit</button>
     </form>
     </div>

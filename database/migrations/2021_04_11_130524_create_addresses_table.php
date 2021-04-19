@@ -19,7 +19,6 @@ class CreateAddressesTable extends Migration
             $table->string('name');
             $table->integer('phone_no');
             $table->string('address');
-            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

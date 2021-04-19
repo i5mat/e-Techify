@@ -16,5 +16,6 @@ class ConfirmOrder extends Model
         'payment_method',
         'created_at',
         'updated_at',
+        'tracking_num',
     ];
 }

@@ -17,5 +17,6 @@ class Address extends Model
         'status',
         'created_at',
         'updated_at',
+        'postcode',
     ];
 }

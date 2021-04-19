@@ -75,13 +75,14 @@ class OrderController extends Controller
     public function orderConfirm($id, Request $request)
     {
         $findOrderID = Order::find($id);
+        $randomNum = rand(0, 999999999999);
 
         $insertData = new ConfirmOrder([
             "order_id" => $findOrderID->id,
             "addresses_id" => $request->get('get_add_id'),
             "payment_total" => $request->get('tot'),
             "payment_method" => 'ONLINE BANKING - M2U',
-            "tracking_num" => rand(0, 999999999999)
+            "tracking_num" => $randomNum
         ]);
 
         $findOrderID->order_status = 'To Ship';
@@ -201,7 +202,7 @@ class OrderController extends Controller
         $img->save(public_path('awb/test-awb.jpg'));
 
         // Recipient address.
-        $charactersLimitt = 50;
+        $charactersLimitt = 40;
         $yourTextStringg = $address;
         $output = wordwrap($yourTextStringg, $charactersLimitt);
 

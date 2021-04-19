@@ -60,7 +60,7 @@
             </table>
             <div class="text-center">
                 <p class="lead">
-                    Order total : Online Banking <p class="small">+ Free Shipping</p>
+                    Order total : {{ $recipientInfo->payment_method }} <p class="small">+ Free Shipping</p>
                 </p>
                 <h1 class="display-5">
                     RM {{ number_format($recipientInfo->payment_total / 1) }}.00
