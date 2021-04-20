@@ -60,4 +60,5 @@ Route::prefix('order')->middleware(['auth', 'verified'])->name('order.')->group(
     Route::post('purchase/success/{id}', [App\Http\Controllers\Order\OrderController::class, 'orderConfirm'])->name('purchase.orderdetails');
     Route::get('purchase/success/thank-you', [App\Http\Controllers\Order\OrderController::class, 'thankYouIndex'])->name('purchase.thanks');
     Route::post('purchase/awb/{id}', [App\Http\Controllers\Order\OrderController::class, 'airwayBill'])->name('purchase.awb');
+    Route::get('receipt/{id}', [App\Http\Controllers\Order\OrderController::class, 'receiptIndex'])->name('purchase.receipt');
 });

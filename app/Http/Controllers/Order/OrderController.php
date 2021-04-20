@@ -67,6 +67,48 @@ class OrderController extends Controller
         return view('order.orderdetails', compact('orderInfo', 'total_items', 'recipientInfo'));
     }
 
+    public function receiptIndex($id)
+    {
+        $findID = Order::find($id);
+
+        $orderInfo = DB::table('order_details')
+            ->select('order_details.order_id', 'products.product_image_path',
+                'products.product_name', 'products.product_price', 'order_details.product_order_quantity',
+                'orders.created_at', 'orders.id AS orders')
+            ->join('orders', 'orders.id', '=', 'order_details.order_id')
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->where([
+                'orders.user_id' => Auth::id(),
+                'orders.order_status' => 'To Ship',
+                'order_details.order_id' => $findID->id
+            ])
+            ->get();
+
+        $total_items = DB::table('order_details')
+            ->select('order_details.order_id')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->where('order_details.order_id', '=', $findID->id)
+            ->groupBy('order_details.order_id')
+            ->sum(DB::raw('products.product_price * order_details.product_order_quantity'));
+
+        $recipientInfo = DB::table('confirm_orders')
+            ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
+            ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
+            ->where([
+                'orders.user_id' => Auth::id(),
+                'orders.order_status' => 'To Ship',
+                'orders.id' => $findID->id
+            ])
+            ->first();
+
+        $charactersLimitt = 40;
+        $yourTextStringg = $recipientInfo->address;
+        $output = wordwrap($yourTextStringg, $charactersLimitt);
+
+        return view('receipt.index', compact('orderInfo', 'total_items', 'recipientInfo', 'output'));
+    }
+
     public function thankYouIndex()
     {
         return view('order.thankyou');
@@ -119,7 +161,7 @@ class OrderController extends Controller
         $tracking = $recipientInfo->tracking_num;
         $postcode_recipient = $recipientInfo->postcode;
         $orderID = $recipientInfo->order_id;
-        $shipByDate = date('d-M-Y H:i A');
+        $shipByDate = date('d M Y h:i A');
         $weightItem = '10 KG';
 
         $bar_code_tracking = (new DNS1D)->getBarcodePNG($tracking, "C39", 1, 50, array(1,1,1));
