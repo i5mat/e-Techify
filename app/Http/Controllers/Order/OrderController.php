@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
 use Milon\Barcode\DNS1D;
 use Milon\Barcode\DNS2D;
+use Symfony\Component\Console\Input\Input;
 
 class OrderController extends Controller
 {
@@ -74,7 +75,8 @@ class OrderController extends Controller
         $orderInfo = DB::table('order_details')
             ->select('order_details.order_id', 'products.product_image_path',
                 'products.product_name', 'products.product_price', 'order_details.product_order_quantity',
-                'orders.created_at', 'orders.id AS orders')
+                'orders.created_at', 'orders.id AS orders', 'products.product_sn', 'products.product_price',
+                'products.product_warranty_duration', 'order_details.serial_number')
             ->join('orders', 'orders.id', '=', 'order_details.order_id')
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->where([
@@ -107,6 +109,61 @@ class OrderController extends Controller
         $output = wordwrap($yourTextStringg, $charactersLimitt);
 
         return view('receipt.index', compact('orderInfo', 'total_items', 'recipientInfo', 'output'));
+    }
+
+    public function addProductSN($id)
+    {
+        $findID = Order::find($id);
+
+        $orderInfo = DB::table('order_details')
+            ->select('order_details.order_id', 'products.product_image_path',
+                'products.product_name', 'products.product_price', 'order_details.product_order_quantity',
+                'orders.created_at', 'orders.id AS orders', 'products.product_sn', 'products.product_price',
+                'products.product_warranty_duration', 'order_details.serial_number', 'order_details.product_id')
+            ->join('orders', 'orders.id', '=', 'order_details.order_id')
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->where([
+                'orders.user_id' => Auth::id(),
+                'orders.order_status' => 'To Ship',
+                'order_details.order_id' => $findID->id
+            ])
+            ->get();
+
+        $total_items = DB::table('order_details')
+            ->select('order_details.order_id')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->join('products', 'order_details.product_id', '=', 'products.id')
+            ->where('order_details.order_id', '=', $findID->id)
+            ->groupBy('order_details.order_id')
+            ->sum(DB::raw('products.product_price * order_details.product_order_quantity'));
+
+        $recipientInfo = DB::table('confirm_orders')
+            ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
+            ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
+            ->where([
+                'orders.user_id' => Auth::id(),
+                'orders.order_status' => 'To Ship',
+                'orders.id' => $findID->id
+            ])
+            ->first();
+
+        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo'));
+    }
+
+    public function updateProductSN($id, Request $request)
+    {
+        $findID = OrderDetail::findOrFail($id);
+        //$data = $request->except(['_token']);
+        foreach ($request->except(['_token']) as $key => $data)
+        {
+            dump("key => " . $key . " data => " . $data);
+            //dump("key => " . $key);
+            $updaterec = OrderDetail::where('order_id', '=', $findID->order_id)
+                ->where('product_id', '=', $key)
+                ->update(['serial_number' => $data]);
+        }
+
+        return dd(0);
     }
 
     public function thankYouIndex()
@@ -272,7 +329,7 @@ class OrderController extends Controller
         // Big right postcode.
         $img->text($postcode_recipient, 2150, 2540, function($font) {
             $font->file(public_path('awb/MYRIADPRO-REGULAR.ttf'));
-            $font->size(150);
+            $font->size(180);
             $font->color('#000000');
             $font->align('center');
             $font->angle(360);

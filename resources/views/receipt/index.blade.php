@@ -57,7 +57,7 @@
                         No. 79 Jalan Taman Melati 1,<br>
                         Taman Melati, Setapak,<br>
                         53100, Kuala Lumpur<br>
-                        xmiryna.tech@outlook.com / +(60) 17-217 8319<br>
+                        xmiryna.tech@outlook.com / <b>+(60) 17-217 8319</b><br>
                         <strong>xmiryna.com.my</strong>
                     </div>
 
@@ -66,6 +66,7 @@
                         <!-- Dont' display Bill To on mobile -->
                         <span class="d-none d-md-block">
                             <h1>Billed To</h1>
+                            <h2>#{{ rand(0, 999999999999) }}</h2>
                         </span>
 
                         <h4 class="mb-0">{{ $recipientInfo->name }}</h4>
@@ -73,7 +74,9 @@
                         {!! wordwrap($recipientInfo->address, 40, "<br>\n") !!} <br/>
                         {{ Auth::user()->email }}<br/>
 
-                        <h5 class="mb-0 mt-3">{{ date('d M Y') }}</h5>
+                        <h5 class="mb-0 mt-3">{{ date('d M Y') }}</h5><br>
+                        XT Express
+                        <h2> #{{ $recipientInfo->tracking_num }}</h2>
                     </div>
                 </div>
             </td>
@@ -87,6 +90,8 @@
         <thead>
         <tr>
             <th>Summary</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-right">Unit Price</th>
             <th class="text-right">Price</th>
         </tr>
         </thead>
@@ -96,13 +101,16 @@
             <td>
                 <img src="/storage/product/{{ $i->product_image_path }}" style="width:120px; height:120px;">
                 <h5 class="mb-1">{{ $i->product_name }}</h5>
-                Men's Pursuit Running Shoes - [x{{ $i->product_order_quantity }}]
+                {{ $i->serial_number }} <br/>
+                {{ $i->product_warranty_duration }} years local distributor warranty.
             </td>
+            <td class="font-weight-bold align-middle text-center text-nowrap">x{{ $i->product_order_quantity }}</td>
             <td class="font-weight-bold align-middle text-right text-nowrap">RM {{ number_format($i->product_price / 1) }}.00</td>
+            <td class="font-weight-bold align-middle text-right text-nowrap">RM {{ number_format($i->product_price * $i->product_order_quantity / 1) }}.00</td>
         </tr>
         @endforeach
         <tr>
-            <td colspan="2" class="text-right border-0 pt-4"><h5>Total: RM {{ number_format($recipientInfo->payment_total / 1) }}.00</h5></td>
+            <td colspan="4" class="text-right border-0 pt-4"><h5>Total: RM {{ number_format($recipientInfo->payment_total / 1) }}.00</h5></td>
         </tr>
     </table>
 

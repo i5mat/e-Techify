@@ -50,6 +50,16 @@
                             <form id="get-awb-order-{{ $i->id }}" action="{{ route('order.purchase.awb', $i->id) }}" method="POST" style="display: none">
                                 @csrf
                             </form>
+                            <a href="{{ route('order.purchase.insertsn', $i->id) }}">
+                                <button type="button" class="btn btn-outline-warning float-end" style="margin-right: 10px">
+                                    Insert SN
+                                </button>
+                            </a>
+                            <a href="{{ route('order.purchase.receipt', $i->id) }}">
+                                <button type="button" class="btn btn-outline-primary float-end" style="margin-right: 10px">
+                                    Get Receipt
+                                </button>
+                            </a>
                         </div>
                     </div>
                     @endforeach
