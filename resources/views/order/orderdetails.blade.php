@@ -30,6 +30,9 @@
 
                 <dt class="col-sm-3">QR Code</dt>
                 <dd class="col-sm-9">{!! DNS2D::getBarcodeHTML($recipientInfo->tracking_num, 'QRCODE', 5, 5) !!} </dd>
+
+                <dt class="col-sm-3">Invoice No.</dt>
+                <dd class="col-sm-9">#{{ $recipientInfo->receipt_no }}</dd>
             </dl>
         </div>
     </div>

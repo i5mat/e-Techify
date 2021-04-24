@@ -61,7 +61,7 @@
             </table>
             <div class="text-center">
                 <p class="lead">
-                    <button type="submit" class="btn btn-warning">Submit</button>
+                    <button type="submit" class="btn btn-warning" style="width: 100%">Submit</button>
                 </p>
             </div>
             </form>

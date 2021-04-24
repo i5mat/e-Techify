@@ -17,5 +17,6 @@ class ConfirmOrder extends Model
         'created_at',
         'updated_at',
         'tracking_num',
+        'receipt_no',
     ];
 }

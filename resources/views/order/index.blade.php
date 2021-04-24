@@ -39,7 +39,7 @@
                             <h5 class="card-title display-6">ORDER #{{ $i->id }}</h5>
                             <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge bg-success" style="color: white">To Ship</span>
                             <a href="{{ route('order.index.orderdetails', $i->id) }}">
-                                <button type="button" class="btn btn-primary float-end">View</button>
+                                <button type="button" class="btn btn-dark float-end">View</button>
                             </a>
 
                             <button type="button" class="btn btn-warning float-end" style="margin-right: 10px" onclick="event.preventDefault();
@@ -51,12 +51,12 @@
                                 @csrf
                             </form>
                             <a href="{{ route('order.purchase.insertsn', $i->id) }}">
-                                <button type="button" class="btn btn-outline-warning float-end" style="margin-right: 10px">
+                                <button type="button" class="btn btn-primary float-end" style="margin-right: 10px">
                                     Insert SN
                                 </button>
                             </a>
-                            <a href="{{ route('order.purchase.receipt', $i->id) }}">
-                                <button type="button" class="btn btn-outline-primary float-end" style="margin-right: 10px">
+                            <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank">
+                                <button type="button" class="btn btn-success float-end" style="margin-right: 10px" >
                                     Get Receipt
                                 </button>
                             </a>

@@ -66,13 +66,12 @@
                         <!-- Dont' display Bill To on mobile -->
                         <span class="d-none d-md-block">
                             <h1>Billed To</h1>
-                            <h2>#{{ rand(0, 999999999999) }}</h2>
+                            <h2>#{{ $recipientInfo->receipt_no }}</h2>
                         </span>
 
                         <h4 class="mb-0">{{ $recipientInfo->name }}</h4>
 
-                        {!! wordwrap($recipientInfo->address, 40, "<br>\n") !!} <br/>
-                        {{ Auth::user()->email }}<br/>
+                        {!! wordwrap($recipientInfo->address, 40, "<br>\n") !!} <br/><br/>
 
                         <h5 class="mb-0 mt-3">{{ date('d M Y') }}</h5><br>
                         XT Express

@@ -13,15 +13,18 @@
     </figure>
 
     <div class="card" style="padding: 20px 40px;">
-    <form method="POST" action="{{ route('user.userinsertaddress') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('user.userinsertaddress') }}" enctype="multipart/form-data" id="insert-address-form">
         @csrf
 
+        <label for="user_name" class="error"></label>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="user_name" name="user_name" placeholder="test">
             <label for="user_name">Name</label>
         </div>
+
+        <label for="user_phone" class="error"></label>
         <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="user_phone" name="user_phone" placeholder="test">
+            <input type="number" class="form-control" id="user_phone" name="user_phone" placeholder="test">
             <label for="user_phone">Phone No.</label>
         </div>
         <div class="form-floating" style="margin-bottom: 10px">
@@ -83,4 +86,30 @@
             </table>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#insert-address-form").validate({
+                rules: {
+                    user_name : {
+                        required: true
+                    },
+                    user_phone: {
+                        required: true,
+                        number: true,
+                        min: 11
+                    }
+                },
+                messages : {
+                    user_name: {
+                        required: "Please enter your name"
+                    },
+                    user_phone: {
+                        required: "Please enter your phone number",
+                        number: "Please enter your phone number as a numerical value",
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

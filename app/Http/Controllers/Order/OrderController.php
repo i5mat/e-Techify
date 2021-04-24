@@ -156,14 +156,13 @@ class OrderController extends Controller
         //$data = $request->except(['_token']);
         foreach ($request->except(['_token']) as $key => $data)
         {
-            dump("key => " . $key . " data => " . $data);
-            //dump("key => " . $key);
+            //dump("key => " . $key . " data => " . $data);
             $updaterec = OrderDetail::where('order_id', '=', $findID->order_id)
                 ->where('product_id', '=', $key)
                 ->update(['serial_number' => $data]);
         }
 
-        return dd(0);
+        return redirect()->back()->with('success', 'Serial Number is input');
     }
 
     public function thankYouIndex()
@@ -175,13 +174,15 @@ class OrderController extends Controller
     {
         $findOrderID = Order::find($id);
         $randomNum = rand(0, 999999999999);
+        $randomReceiptNum = "XT-".rand(0, 999999999999);
 
         $insertData = new ConfirmOrder([
             "order_id" => $findOrderID->id,
             "addresses_id" => $request->get('get_add_id'),
             "payment_total" => $request->get('tot'),
             "payment_method" => 'ONLINE BANKING - M2U',
-            "tracking_num" => $randomNum
+            "tracking_num" => $randomNum,
+            "receipt_no" => $randomReceiptNum
         ]);
 
         $findOrderID->order_status = 'To Ship';

@@ -13,26 +13,24 @@
 
         {{-- HighCharts --}}
         <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script src="https://code.highcharts.com/highcharts-more.js"></script>
-        <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
         <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
         {{-- JQuery CDN --}}
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
         <script src="{{ asset('js/app.js') }}" defer></script>
 
         <style>
-            #applewatch, #applewatch2 {
-                max-width: 380px;
-                margin:0px auto;
+            #graph {
+                height: 400px;
             }
 
             .highcharts-figure, .highcharts-data-table table {
-                min-width: 380px;
-                max-width: 600px;
-                margin: 0 auto;
+                min-width: 310px;
+                max-width: 800px;
+                margin: 1em auto;
             }
 
             .highcharts-data-table table {
@@ -62,6 +60,7 @@
             .highcharts-data-table tr:hover {
                 background: #f1f7ff;
             }
+
         </style>
 
     </head>

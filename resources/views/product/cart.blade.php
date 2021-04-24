@@ -27,26 +27,26 @@
                     <p id="address">Select address</p>
                     <div class="form-floating">
                         <select class="form-select" id="floatingSelect" aria-label="Floating label select example" style="height: 60px" onchange="myFunction()">
-                            <option selected>-</option>
+                            <option>-</option>
                             @foreach($userinfo as $ui)
-                                <option value="{{ $ui->address }}" >{{ $ui->address }}</option>
+                                <option value="{{ $ui->address }}" selected>{{ $ui->address }}</option>
                             @endforeach
                         </select>
                         <label for="floatingSelect">Select Address</label>
                     </div>
                     <div class="form-floating">
                         <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" style="height: 60px; margin-top: 10px">
-                            <option selected>-</option>
+                            <option>-</option>
                             @foreach($userinfo as $ui)
-                                <option value="{{ $ui->name }} (+60) {{ $ui->phone_no }}" >{{ $ui->name }}</option>
+                                <option value="{{ $ui->name }} (+60) {{ $ui->phone_no }}" selected>{{ $ui->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-floating">
                         <select class="form-select" id="floatingSelect3" aria-label="Floating label select example" style="height: 60px; margin-top: 10px">
-                            <option selected>-</option>
+                            <option>-</option>
                             @foreach($userinfo as $ui)
-                                <option value="{{ $ui->id }}" >{{ $ui->id }}</option>
+                                <option value="{{ $ui->id }}" selected>{{ $ui->id }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -127,6 +127,17 @@
 
             $('#floatingSelect2').attr('hidden', true);
             $('#floatingSelect3').attr('hidden', true);
+
+            $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected',true);
+            $("#floatingSelect3 option").eq($(this).find(':selected').index()).prop('selected',true);
+            var value = $("#floatingSelect option:selected");
+            var value2 = $("#floatingSelect2 option:selected");
+            var value3 = $("#floatingSelect3 option:selected");
+
+            document.getElementById('address').innerHTML = value.text();
+            document.getElementById('user_name').innerHTML = value2.val().bold();
+            document.getElementById('get_add_id').value = value3.val();
+
             $('#floatingSelect').change(function(){
                 $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected',true);
                 $("#floatingSelect3 option").eq($(this).find(':selected').index()).prop('selected',true);
@@ -139,7 +150,6 @@
                 document.getElementById('get_add_id').value = value3.val();
 
                 $('#floatingSelect2').attr('disabled', true);
-                //$('#submit_btn').attr('disabled', false);
             });
         }
 
