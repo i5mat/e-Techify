@@ -28,6 +28,48 @@
                 <dt class="col-sm-3">Tracking Status</dt>
                 <dd class="col-sm-9">{{ $recipientInfo->order_status }}</dd>
             </dl>
+
+            <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
+                @if(\App\Models\Order::where('user_id', '=', Auth::user()->id)->where('order_status', '=', 'To')->exists())
+                    <div class="step completed">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                        </div>
+                        <h4 class="step-title">Confirmed Order</h4>
+                    </div>
+                @else
+                    <div class="step">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                        </div>
+                        <h4 class="step-title">Confirmed Order</h4>
+                    </div>
+                @endif
+                    <div class="step completed">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                        </div>
+                        <h4 class="step-title">Processing Order</h4>
+                    </div>
+                    <div class="step completed">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                        </div>
+                        <h4 class="step-title">Quality Check</h4>
+                    </div>
+                    <div class="step completed">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                        </div>
+                        <h4 class="step-title">Product Dispatched</h4>
+                    </div>
+                    <div class="step completed">
+                        <div class="step-icon-wrap">
+                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                        </div>
+                        <h4 class="step-title">Product Delivered</h4>
+                    </div>
+            </div>
         </div>
     </div>
 
@@ -40,11 +82,12 @@
                     <th scope="col">Product</th>
                     <th scope="col"></th>
                     <th scope="col">Insert SN</th>
+                    <th scope="col">Last Updated</th>
                 </tr>
                 </thead>
                 <tbody class="table">
                 @foreach($orderInfo as $i)
-                    <form method="POST" action="{{ route('order.purchase.updatesn', $i->order_id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('order.purchase.updatesn', $i->order_id) }}">
                         @csrf
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
@@ -54,6 +97,9 @@
                         <td>{{ $i->product_name }} <p class="lead">[x{{ $i->product_order_quantity }}]</p></td>
                         <td>
                             <input type="text" class="form-control" id="product_sn" name="{{ $i->product_id }}" placeholder="Insert SN Product" value="{{ $i->serial_number }}">
+                        </td>
+                        <td>
+                            {{ date('Y-m-d H:i A', strtotime($i->updated_at)) }}
                         </td>
                     </tr>
                 @endforeach

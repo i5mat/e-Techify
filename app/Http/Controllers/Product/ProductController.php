@@ -70,10 +70,6 @@ class ProductController extends Controller
                     ->where('order_id', '=', $find_order_id->id)
                     ->where('product_id', '=', $prodCart->id)
                     ->increment('product_order_quantity', 1);
-
-                DB::table('products')
-                    ->where('id', '=', $prodCart->id)
-                    ->decrement('product_stock_count', 1);
             }
             else
                 $order_details->save();
@@ -84,10 +80,6 @@ class ProductController extends Controller
                 "user_id" => Auth::id(),
                 "order_status" => 'To Pay',
             ]);
-
-            DB::table('products')
-                ->where('id', '=', $prodCart->id)
-                ->decrement('product_stock_count', 1);
 
             $orders->save();
 
@@ -139,7 +131,8 @@ class ProductController extends Controller
                 "product_brand" => $request->get('prod_brand'),
                 "product_warranty_duration" => $request->get('prod_warranty'),
                 "product_price" => $request->get('prod_price'),
-                "product_link" => $request->get('prod_link')
+                "product_link" => $request->get('prod_link'),
+                "product_stock_count" => $request->get('prod_stock')
             ]);
             $product->save(); // Finally, save the record.
         }
@@ -155,6 +148,7 @@ class ProductController extends Controller
         return redirect(route('user.userdash'));
     }
 
+    // In progress...
     public function update($id, Request $request)
     {
         $product = Product::find($id);

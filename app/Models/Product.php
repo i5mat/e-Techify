@@ -23,6 +23,7 @@ class Product extends Model
         'updated_at',
         'product_price',
         'product_link',
+        'product_stock_count'
     ];
 
     public function orderDetails()

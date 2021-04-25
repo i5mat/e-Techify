@@ -22,20 +22,32 @@
             <label for="user_name">Name</label>
         </div>
 
-        <label for="user_phone" class="error"></label>
-        <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="user_phone" name="user_phone" placeholder="test">
-            <label for="user_phone">Phone No.</label>
-        </div>
+        <label for="user_address" class="error"></label>
         <div class="form-floating" style="margin-bottom: 10px">
             <textarea class="form-control" placeholder="Leave a comment here" id="user_address" name="user_address" style="height: 120px"></textarea>
             <label for="floatingTextarea2">Address</label>
         </div>
-        <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="user_postcode" name="user_postcode" placeholder="test">
-            <label for="user_postcode">Insert Postcode</label>
+
+        <div class="row g-2 mb-3">
+            <div class="col-md">
+
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="user_phone" name="user_phone" placeholder="test">
+                    <label for="user_phone">Phone No.</label>
+                </div>
+                <label for="user_phone" class="error"></label>
+            </div>
+            <div class="col-md">
+
+                <div class="form-floating mb-3">
+                    <input type="number" class="form-control" id="user_postcode" name="user_postcode" placeholder="test">
+                    <label for="user_postcode">Insert Postcode</label>
+                </div>
+                <label for="user_postcode" class="error"></label>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary float-end">Submit</button>
+
+        <button type="submit" class="btn btn-primary float-end" style="width: 100%">Submit</button>
     </form>
     </div>
 
@@ -98,16 +110,31 @@
                         required: true,
                         number: true,
                         min: 11
+                    },
+                    user_postcode: {
+                        required: true,
+                        number: true,
+                        maxlength: 5
+                    },
+                    user_address: {
+                        required: true,
                     }
                 },
                 messages : {
                     user_name: {
-                        required: "Please enter your name"
+                        required: "Please enter name"
                     },
                     user_phone: {
-                        required: "Please enter your phone number",
-                        number: "Please enter your phone number as a numerical value",
+                        required: "Please enter phone number",
+                        number: "Please enter phone number as a numerical value",
+                    },
+                    user_postcode: {
+                        maxLength: "Enter only 5 numbers",
+                    },
+                    user_address: {
+                        required: "Enter address"
                     }
+
                 }
             });
         });

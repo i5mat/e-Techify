@@ -36,7 +36,7 @@
                     @foreach($to_ship as $i)
                     <div class="card" style="margin-top: 10px">
                         <div class="card-body">
-                            <h5 class="card-title display-6">ORDER #{{ $i->id }}</h5>
+                            <h5 class="card-title display-6">ORDER #{{ $loop->iteration }}</h5>
                             <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge bg-success" style="color: white">To Ship</span>
                             <a href="{{ route('order.index.orderdetails', $i->id) }}">
                                 <button type="button" class="btn btn-dark float-end">View</button>
@@ -60,6 +60,16 @@
                                     Get Receipt
                                 </button>
                             </a>
+
+                            <button type="button" class="btn btn-danger float-end" style="margin-right: 10px" onclick="event.preventDefault();
+                                document.getElementById('cancel-order-{{ $i->id }}').submit()">
+                                Cancel Order
+                            </button>
+
+                            <form id="cancel-order-{{ $i->id }}" action="{{ route('order.order.cancel', $i->id) }}" method="POST" style="display: none">
+                                @csrf
+                                @method('DELETE')
+                            </form>
                         </div>
                     </div>
                     @endforeach

@@ -19,7 +19,7 @@ class CreateOrderDetailsTable extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('product_order_quantity')->default('1');
             $table->timestamps();
-            $table->string('serial_number');
+            $table->string('serial_number')->nullable();
         });
     }
 

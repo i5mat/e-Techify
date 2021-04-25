@@ -44,17 +44,28 @@
                                 <input id="prod_sn" type="text" class="form-control" name="prod_sn" value="" required autocomplete="prod_sn" autofocus>
                             </div>
 
-                            <label for="prod-price-label" class="col-md-4 col-form-label text-md-right">Product Price</label>
-
-                            <div class="input-group mb-2">
-                                <span class="input-group-text" id="basic-addon1"><img src="/image/malaysia.png"></span>
-                                <input type="number" class="form-control" id="prod_price" name="prod_price">
-                            </div>
-
                             <label for="prod-sn-label" class="col-md-4 col-form-label text-md-right">Product Picture</label>
 
                             <div class="col-md-12">
                                 <input type="file" name="prod_image_update" id="prod_image_update" class="form-control">
+                            </div>
+
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <label for="prod-stock-label" class="col-md-4 col-form-label text-md-right">Stock</label>
+
+                                    <div class="col-md-12">
+                                        <input type="number" name="prod_stock" id="prod_stock" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <label for="prod-price-label" class="col-md-4 col-form-label text-md-right">Price</label>
+
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text" id="basic-addon1">RM</span>
+                                        <input type="number" class="form-control" id="prod_price" name="prod_price">
+                                    </div>
+                                </div>
                             </div>
 
                     </div>
@@ -114,7 +125,8 @@
                                 data-myprodname="{{ $prod->product_name }}"
                                 data-myprodsn="{{ $prod->product_sn }}"
                                 data-myprodpic="{{ $prod->product_image_path }}"
-                                data-myprodprice="{{ $prod->product_price }}" >
+                                data-myprodprice="{{ $prod->product_price }}"
+                                data-myprodstock="{{ $prod->product_stock_count }}">
                                 <img src="/image/edit.png">
                             </button>
 

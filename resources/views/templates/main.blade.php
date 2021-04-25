@@ -10,6 +10,7 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         {{-- HighCharts --}}
         <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -75,19 +76,19 @@
                         @if (Route::has('login'))
                             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                                 @auth
-                                    <a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><span class="badge">0</span><img src="/image/shopping-cart.png"></a>
-                                    <a href="{{ url('/user/profile') }}" style="padding-right: 10px;"><img src="/image/profile-user.png"></a>
+                                    <a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><span class="badge">0</span><i class="fa fa-shopping-cart fa-2x"></i></a>
+                                    <a href="{{ url('/user/profile') }}" style="padding-right: 10px;"><i class="fa fa-user fa-2x"></i></a>
                                     <a href="{{ url('logout') }}" onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();"><img src="/image/logout.png"></a>
+                                    document.getElementById('logout-form').submit();"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none">
                                         @csrf
                                     </form>
                                 @else
-                                    <a href="{{ route('login') }}" style="padding-right: 10px;" class="text-sm text-gray-700 underline"><img src="/image/login.png"></a>
+                                    <a href="{{ route('login') }}" style="padding-right: 10px;" class="text-sm text-gray-700 underline"><i class="fa fa-sign-in fa-2x"></i></a>
 
                                     @if (Route::has('register'))
-                                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline"><img src="/image/register.png"></a>
+                                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline"><i class="fa fa-plus-circle fa-2x"></i></a>
                                     @endif
                                 @endauth
                             </div>
@@ -105,11 +106,13 @@
                             <a class="nav-link" href="{{ route('user.userdash') }}">Home</a>
                         </li>
                         @can('is-reseller')
+{{--                            <li class="nav-item">--}}
+{{--                                <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>--}}
+{{--                            </li>--}}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('product.items.index') }}">Shop</a>
+                                <a class="nav-link" href="{{ route('product.items.index') }}">
+                                    Shop
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('order.orders.index') }}">Manage Orders</a>
@@ -148,7 +151,7 @@
                 var prod_id = button.data('myprodid') // Extract info from data-* attributes
                 var prod_pic = button.data('myprodpic') // Extract info from data-* attributes
                 var prod_price = button.data('myprodprice') // Extract info from data-* attributes
-                //var start = button.data('mystart') // Extract info from data-* attributes
+                var prod_stock = button.data('myprodstock') // Extract info from data-* attributes
                 //var end = button.data('myend') // Extract info from data-* attributes
                 //var event_type = button.data('myeventtype') // Extract info from data-* attributes
                 //var event_level = button.data('myeventlevel') // Extract info from data-* attributes
@@ -160,7 +163,7 @@
                 modal.find('.modal-body #prod_id').val(prod_id);
                 //modal.find('.modal-body #prod_pic').val(prod_pic);
                 modal.find('.modal-body #prod_price').val(prod_price);
-                //modal.find('.modal-body #startdate').val(start);
+                modal.find('.modal-body #prod_stock').val(prod_stock);
                 //modal.find('.modal-body #enddate').val(end);
                 //modal.find('.modal-body #event_types').val(event_type);
                 //modal.find('.modal-body #event_levels').val(event_level);

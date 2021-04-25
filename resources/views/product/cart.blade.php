@@ -82,6 +82,7 @@
                         <td>
                             <input type='number' name="qty_prod" min="1" value="{{ $i->product_order_quantity }}" class="text-center" data-price="{{ $i->product_price }}" id="qnt_{{ $loop->iteration }}" onkeyup="CalculateItemsValue()">
                             <input type="number" id="get_qty" name="get_qty" hidden>
+                            <input type="text" id="get_prod_id" name="get_prod_id" value="{{ $i->product_id }}" hidden>
                         </td>
                         <td>
                             <button type="button" class="btn btn-info" style="background-color: transparent; border: none">
@@ -95,26 +96,46 @@
         </div>
     </div>
 
-    <div class="card" style="margin-top: 10px">
-        <div class="card-body text-center">
-            <p class="lead">
-                Merchandise Subtotal ({{ $items->count() }} items):
-            </p>
-            <h1 class="display-5" id="ItemsTotal"></h1>
-            <input type="number" id="tot" name="tot" hidden>
-            <input type="number" id="get_add_id" name="get_add_id" hidden>
-            <div>
-                <img class="mr-2" width="60px"
-                     src="https://bit.ly/326S7z6"
-                     alt="Visa">
-                <img class="mr-2" width="60px"
-                     src="https://bit.ly/3fYjx2m"
-                     alt="American Express">
-                <img class="mr-2" width="60px"
-                     src="https://bit.ly/3uJVxo3"
-                     alt="Mastercard">
+    <div class="card align-content-center" style="margin-top: 10px">
+        <div class="card-body">
+            <h2 class="card-title display-6">Summary</h2>
+            <h6 class="card-subtitle mb-2 text-muted">Payment Information</h6>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th scope="row">Merchandise Subtotal </th>
+                    <td id="merchTotal"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Shipping - XT Express </th>(Included with insurance and extra protection)
+                    <td>RM 25.00</td>
+                </tr>
+                <tr>
+                    <th scope="row">Payment Method</th>
+                    <td>
+                        <i class="fa fa-amazon"></i>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <p class="lead">
+                    Merchandise Subtotal ({{ $items->count() }} items):
+                </p>
+
+                <h1 class="display-5" id="ItemsTotal"></h1>
+                <input type="number" id="tot" name="tot" hidden>
+                <input type="number" id="get_add_id" name="get_add_id" hidden>
+                <div>
+                    <img class="mr-2"
+                         src="/image/visa.png"
+                         alt="Visa">
+                    <img class="mr-2"
+                         src="/image/mastercard.png"
+                         alt="Mastercard">
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 20px" @if($items->count() == 0) disabled @endif id="submit_btn">Check Out</button>
             </div>
-            <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 20px" @if($items->count() == 0) disabled @endif id="submit_btn">Check Out</button>
         </div>
     </div>
     </form>
@@ -154,7 +175,7 @@
         }
 
         function CalculateItemsValue() {
-            var total = 0;
+            var total = 0, merchantTotal = 0;
             var total_items = {{ $items->count() }};
             for (i = 1; i <= total_items; i++) {
 
@@ -171,6 +192,8 @@
                 var a = document.getElementsByName("qty_prod")[0].value;
                 document.getElementById("get_qty").value = a;
             }
+            merchantTotal = total;
+            total += 25;
 
             var formatter = new Intl.NumberFormat('en-US', {
                 style: 'currency',
@@ -178,6 +201,7 @@
             });
 
             document.getElementById('ItemsTotal').innerHTML = formatter.format(total);
+            document.getElementById('merchTotal').innerHTML = formatter.format(merchantTotal);
             document.getElementById('tot').value = total;
         }
     </script>

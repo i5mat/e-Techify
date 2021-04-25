@@ -13,25 +13,30 @@
     </figure>
 
     <div class="card" style="padding: 20px 40px;">
-    <form method="POST" action="{{ route('product.items.store') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('product.items.store') }}" enctype="multipart/form-data" id="insert-product-form">
         @csrf
 
+        <label for="prod_name" class="error"></label>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="prod_name" name="prod_name" placeholder="test">
             <label for="prod_name">Product Name</label>
         </div>
+        <label for="prod_sn" class="error"></label>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="prod_sn" name="prod_sn" placeholder="test">
             <label for="prod_sn">Product No.</label>
         </div>
+        <label for="prod_price" class="error"></label>
         <div class="form-floating mb-3">
             <input type="number" class="form-control" id="prod_price" name="prod_price" placeholder="test">
             <label for="prod_price">Product Price</label>
         </div>
+        <label for="prod_link" class="error"></label>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="prod_link" name="prod_link" placeholder="test">
             <label for="prod_link">Product Link</label>
         </div>
+        <label for="prod_image" class="error"></label>
         <div class="form-floating mb-3">
             <div class="col-sm-auto">
                 <input type="file" name="prod_image" id="prod_image" class="form-control">
@@ -85,16 +90,73 @@
             </div>
         </div>
 
-        <div class="form-floating mb-3">
-            <select class="form-select" name="prod_brand" id="prod_brand">
-                <option selected>Please select...</option>
-                <option value="NZXT">NZXT</option>
-                <option value="FRACTAL DESIGN">FRACTAL DESIGN</option>
-            </select>
-            <label for="prod_brand">Product Brand</label>
+        <div class="row g-2 mb-3">
+            <div class="col-md">
+                <div class="form-floating">
+                    <select class="form-select" name="prod_brand" id="prod_brand">
+                        <option selected>Please select...</option>
+                        <option value="NZXT">NZXT</option>
+                        <option value="FRACTAL DESIGN">FRACTAL DESIGN</option>
+                    </select>
+                    <label for="prod_brand">Product Brand</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="prod_stock" name="prod_stock" placeholder="test">
+                        <label for="prod_price">Product Stock</label>
+                    </div>
+                </div>
+                <label for="prod_stock" class="error"></label>
+            </div>
         </div>
 
         <button type="submit" class="btn btn-primary float-end">Submit</button>
     </form>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#insert-product-form").validate({
+                rules: {
+                    prod_name : {
+                        required: true
+                    },
+                    prod_sn: {
+                        required: true
+                    },
+                    prod_price: {
+                        required: true
+                    },
+                    prod_link: {
+                        required: true
+                    },
+                    prod_image: {
+                        required: true
+                    },
+                    prod_duration: {
+                        required: true
+                    },
+                    prod_category: {
+                        required: true
+                    },
+                    prod_brand: {
+                        required: true
+                    },
+                    prod_stock: {
+                        required: true
+                    }
+                },
+                messages : {
+                    prod_name: {
+                        required: "Please enter product name"
+                    },
+                    prod_sn: {
+                        required: "Please enter serial number",
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

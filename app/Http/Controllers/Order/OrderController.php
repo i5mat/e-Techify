@@ -7,6 +7,7 @@ use App\Models\Address;
 use App\Models\ConfirmOrder;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -119,7 +120,7 @@ class OrderController extends Controller
             ->select('order_details.order_id', 'products.product_image_path',
                 'products.product_name', 'products.product_price', 'order_details.product_order_quantity',
                 'orders.created_at', 'orders.id AS orders', 'products.product_sn', 'products.product_price',
-                'products.product_warranty_duration', 'order_details.serial_number', 'order_details.product_id')
+                'products.product_warranty_duration', 'order_details.serial_number', 'order_details.product_id', 'order_details.updated_at')
             ->join('orders', 'orders.id', '=', 'order_details.order_id')
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->where([
@@ -152,17 +153,17 @@ class OrderController extends Controller
 
     public function updateProductSN($id, Request $request)
     {
-        $findID = OrderDetail::findOrFail($id);
+        $findID = Order::find($id);
         //$data = $request->except(['_token']);
         foreach ($request->except(['_token']) as $key => $data)
         {
             //dump("key => " . $key . " data => " . $data);
-            $updaterec = OrderDetail::where('order_id', '=', $findID->order_id)
+            $updaterec = OrderDetail::where('order_id', '=', $findID->id)
                 ->where('product_id', '=', $key)
                 ->update(['serial_number' => $data]);
         }
 
-        return redirect()->back()->with('success', 'Serial Number is input');
+        return redirect()->back()->with('success', 'Serial Number is inserted!');
     }
 
     public function thankYouIndex()
@@ -185,6 +186,12 @@ class OrderController extends Controller
             "receipt_no" => $randomReceiptNum
         ]);
 
+        Product::where('id', '=', $request->input('get_prod_id'))
+            ->decrement('product_stock_count', $request->input('qty_prod'));
+
+        OrderDetail::where('product_id', '=', $request->input('get_prod_id'))
+            ->update(['product_order_quantity' => $request->input('qty_prod')]);
+
         $findOrderID->order_status = 'To Ship';
 
         $insertData->save();
@@ -193,6 +200,13 @@ class OrderController extends Controller
         //dd($insertData, $findOrderID);
 
         return view('order.thankyou');
+    }
+
+    public function cancelOrder($id, Request $request)
+    {
+        Order::destroy($id);
+
+        return redirect()->back()->with('success', 'Order deleted...');
     }
 
     public function airwayBill($id)
