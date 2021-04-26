@@ -49,7 +49,15 @@ class TrackingController extends Controller
             "current_status" => $request->input('update_tracking')
         ]);
 
-        $insertTracking->save();
+        if ($request->input('update_tracking') == 'Product Delivered')
+        {
+            $findOrderID->order_status = 'Delivered';
+            $findOrderID->save();
+            $insertTracking->save();
+        }
+        else
+            $insertTracking->save();
+
         return redirect()->back()->with('success', 'Status is updated! See the tracking flow above :)');
 
         //dd($findTrackDetail->tracking_no);

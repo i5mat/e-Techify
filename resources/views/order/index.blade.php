@@ -37,7 +37,7 @@
                     <div class="card" style="margin-top: 10px">
                         <div class="card-body">
                             <h5 class="card-title display-6">ORDER #{{ $loop->iteration }}</h5>
-                            <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge bg-success" style="color: white">{{ $i->order_status }}</span>
+                            <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge bg-danger" style="color: white">{{ $i->order_status }}</span>
                             <a href="{{ route('order.index.orderdetails', $i->id) }}">
                                 <button type="button" class="btn btn-dark float-end">View</button>
                             </a>

@@ -176,13 +176,18 @@
 
             <div class="container">
                 <div class="row">
-
                     <div class="col-md-12 col-lg-12">
                         <div id="tracking-pre"></div>
                         <div id="tracking">
-                            <div class="text-center tracking-status-intransit">
-                                <p class="tracking-status text-tight">in transit</p>
-                            </div>
+                            @if($recipientInfo->order_status == 'Delivered')
+                                <div class="text-center tracking-status-delivered">
+                                    <p class="tracking-status text-tight">Delivered</p>
+                                </div>
+                            @elseif ($recipientInfo->order_status == 'To Ship')
+                                <div class="text-center tracking-status-intransit">
+                                    <p class="tracking-status text-tight">in transit</p>
+                                </div>
+                            @endif
                             <div class="tracking-list">
                                 @foreach($trackingStatus as $track_stats)
                                 <div class="tracking-item">
@@ -219,22 +224,58 @@
 
             <form method="POST" action="{{ route('track.insert.trackparcel', $recipientInfo->order_id) }}">
                 @csrf
-                <dl class="row">
-                    <dt class="col-sm-3">Tracking Status</dt>
-                    <dd class="col-sm-9">
-                        <input type="text" class="form-control" id="update_tracking" name="update_tracking" placeholder="Insert Current Status">
-                    </dd>
-                </dl>
-                <div class="text-center">
-                    <p class="lead">
-                        <button type="submit" class="btn btn-warning" style="width: 100%">Submit</button>
-                    </p>
-                </div>
+                @if($recipientInfo->order_status == 'Delivered')
+                    <h1 class="text-center display-6">Thank You! Enjoy your new item Bangsawan! #BangsawanForever</h1>
+                @elseif ($recipientInfo->order_status == 'To Ship')
+                    <dl class="row">
+                        <dt class="col-sm-3">Tracking Status</dt>
+                        <dd class="col-sm-9">
+                            <input readonly type="text" class="form-control" id="update_tracking" name="update_tracking" placeholder="Insert Current Status">
+                            @if($track_stats->current_status == 'Confirmed Order')
+                                <button type="button" name="processing_order_btn" id="processing_order_btn" class="btn btn-outline-warning" style="margin-top: 5px">Processing Order</button>
+                            @elseif ($track_stats->current_status == 'Processing Order')
+                                <button type="button" name="qc_btn" id="qc_btn" class="btn btn-outline-warning" style="margin-top: 5px">Quality Check</button>
+                            @elseif ($track_stats->current_status == 'Quality Check')
+                                <button type="button" name="dispatched_btn" id="dispatched_btn" class="btn btn-outline-warning" style="margin-top: 5px">Product Dispatched</button>
+                            @elseif ($track_stats->current_status == 'Product Dispatched')
+                                <button type="button" name="delivered_btn" id="delivered_btn" class="btn btn-outline-warning" style="margin-top: 5px">Product Delivered</button>
+                            @endif
+{{--                            <button type="button" name="confirm_order_btn" id="confirm_order_btn" class="btn btn-outline-warning" style="margin-top: 5px">Confirmed Order</button>--}}
+{{--                            <button type="button" name="processing_order_btn" id="processing_order_btn" class="btn btn-outline-warning" style="margin-top: 5px">Processing Order</button>--}}
+{{--                            <button type="button" name="qc_btn" id="qc_btn" class="btn btn-outline-warning" style="margin-top: 5px">Quality Check</button>--}}
+{{--                            <button type="button" name="dispatched_btn" id="dispatched_btn" class="btn btn-outline-warning" style="margin-top: 5px">Product Dispatched</button>--}}
+{{--                            <button type="button" name="delivered_btn" id="delivered_btn" class="btn btn-outline-warning" style="margin-top: 5px">Product Delivered</button>--}}
+                        </dd>
+                    </dl>
+                    <div class="text-center">
+                        <p class="lead">
+                            <button type="submit" class="btn btn-warning" style="width: 100%">Submit</button>
+                        </p>
+                    </div>
+                @endif
             </form>
         </div>
     </div>
 
     <script>
         feather.replace()
+
+        $(document).ready(function(){
+            $("#update_tracking").click(function(){
+                document.getElementById('update_tracking').value = 'Confirmed Order';
+            });
+            $("#processing_order_btn").click(function(){
+                document.getElementById('update_tracking').value = 'Processing Order';
+            });
+            $("#qc_btn").click(function(){
+                document.getElementById('update_tracking').value = 'Quality Check';
+            });
+            $("#dispatched_btn").click(function(){
+                document.getElementById('update_tracking').value = 'Product Dispatched';
+            });
+            $("#delivered_btn").click(function(){
+                document.getElementById('update_tracking').value = 'Product Delivered';
+            });
+        });
     </script>
 @endsection
