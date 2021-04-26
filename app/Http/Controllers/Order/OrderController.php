@@ -27,7 +27,13 @@ class OrderController extends Controller
         ])
         ->get();
 
-        return view('order.index', compact('to_ship'));
+        $delivered = Order::where([
+            'user_id' => Auth::id(),
+            'order_status' => 'Delivered'
+        ])
+        ->get();
+
+        return view('order.index', compact('to_ship', 'delivered'));
     }
 
     public function orderDetailsIndex($id)
@@ -42,7 +48,7 @@ class OrderController extends Controller
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->where([
                 'orders.user_id' => Auth::id(),
-                'orders.order_status' => 'To Ship',
+                'orders.order_status' => $findID->order_status,
                 'order_details.order_id' => $findID->id
             ])
             ->get();
@@ -60,7 +66,7 @@ class OrderController extends Controller
             ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
                 'orders.user_id' => Auth::id(),
-                'orders.order_status' => 'To Ship',
+                'orders.order_status' => $findID->order_status,
                 'orders.id' => $findID->id
             ])
             ->first();
@@ -83,7 +89,7 @@ class OrderController extends Controller
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->where([
                 'orders.user_id' => Auth::id(),
-                'orders.order_status' => 'To Ship',
+                'orders.order_status' => $findID->order_status,
                 'order_details.order_id' => $findID->id
             ])
             ->get();
@@ -101,7 +107,7 @@ class OrderController extends Controller
             ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
                 'orders.user_id' => Auth::id(),
-                'orders.order_status' => 'To Ship',
+                'orders.order_status' => $findID->order_status,
                 'orders.id' => $findID->id
             ])
             ->first();
@@ -126,7 +132,7 @@ class OrderController extends Controller
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->where([
                 'orders.user_id' => Auth::id(),
-                'orders.order_status' => 'To Ship',
+                'orders.order_status' => $findID->order_status,
                 'order_details.order_id' => $findID->id
             ])
             ->get();
@@ -144,7 +150,7 @@ class OrderController extends Controller
             ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
                 'orders.user_id' => Auth::id(),
-                'orders.order_status' => 'To Ship',
+                'orders.order_status' => $findID->order_status,
                 'orders.id' => $findID->id
             ])
             ->first();
@@ -227,7 +233,7 @@ class OrderController extends Controller
             ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
                 'orders.user_id' => Auth::id(),
-                'orders.order_status' => 'To Ship',
+                'orders.order_status' => $findID->order_status,
                 'orders.id' => $findID->id
             ])
             ->first();
