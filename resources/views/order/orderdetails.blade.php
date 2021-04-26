@@ -35,14 +35,14 @@
                 @if(\App\Models\Tracking::join('orders', 'orders.id', '=', 'trackings.order_id')->where('orders.id', '=', $recipientInfo->order_id)->where('current_status', '=', 'Confirmed Order')->exists())
                     <div class="step completed">
                         <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                            <div class="step-icon"><i data-feather="clipboard" class="feather-32" style="margin-bottom: 15px"></i></div>
                         </div>
                         <h4 class="step-title">Confirmed Order</h4>
                     </div>
                 @else
                     <div class="step">
                         <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                            <div class="step-icon"><i data-feather="clipboard" class="feather-32" style="margin-bottom: 15px"></i></div>
                         </div>
                         <h4 class="step-title">Confirmed Order</h4>
                     </div>
@@ -50,14 +50,14 @@
                 @if(\App\Models\Tracking::join('orders', 'orders.id', '=', 'trackings.order_id')->where('orders.id', '=', $recipientInfo->order_id)->where('current_status', '=', 'Processing Order')->exists())
                     <div class="step completed">
                         <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                            <div class="step-icon"><i data-feather="chevrons-right" class="feather-32" style="margin-bottom: 15px"></i></div>
                         </div>
                         <h4 class="step-title">Processing Order</h4>
                     </div>
                 @else
                     <div class="step">
                         <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                            <div class="step-icon"><i data-feather="chevrons-right" class="feather-32" style="margin-bottom: 15px"></i></div>
                         </div>
                         <h4 class="step-title">Processing Order</h4>
                     </div>
@@ -65,14 +65,14 @@
                 @if(\App\Models\Tracking::join('orders', 'orders.id', '=', 'trackings.order_id')->where('orders.id', '=', $recipientInfo->order_id)->where('current_status', '=', 'Quality Check')->exists())
                     <div class="step completed">
                         <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                            <div class="step-icon"><i data-feather="check-circle" class="feather-32" style="margin-bottom: 15px"></i></div>
                         </div>
                         <h4 class="step-title">Quality Check</h4>
                     </div>
                 @else
                     <div class="step">
                         <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                            <div class="step-icon"><i data-feather="check-circle" class="feather-32" style="margin-bottom: 15px"></i></div>
                         </div>
                         <h4 class="step-title">Quality Check</h4>
                     </div>
@@ -80,14 +80,14 @@
                 @if(\App\Models\Tracking::join('orders', 'orders.id', '=', 'trackings.order_id')->where('orders.id', '=', $recipientInfo->order_id)->where('current_status', '=', 'Product Dispatched')->exists())
                     <div class="step completed">
                         <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                            <div class="step-icon"><i data-feather="truck" class="feather-32" style="margin-bottom: 15px"></i></div>
                         </div>
                         <h4 class="step-title">Product Dispatched</h4>
                     </div>
                 @else
                     <div class="step">
                         <div class="step-icon-wrap">
-                            <div class="step-icon"><i data-feather="truck"></i></div>
+                            <div class="step-icon"><i data-feather="truck" class="feather-32" style="margin-bottom: 15px"></i></div>
                         </div>
                         <h4 class="step-title">Product Dispatched</h4>
                     </div>
@@ -95,14 +95,14 @@
                 @if(\App\Models\Tracking::join('orders', 'orders.id', '=', 'trackings.order_id')->where('orders.id', '=', $recipientInfo->order_id)->where('current_status', '=', 'Product Delivered')->exists())
                     <div class="step completed">
                         <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                            <div class="step-icon"><i data-feather="check" class="feather-32" style="margin-bottom: 15px"></i></div>
                         </div>
                         <h4 class="step-title">Product Delivered</h4>
                     </div>
                 @else
                     <div class="step">
                         <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
+                            <div class="step-icon"><i data-feather="check" class="feather-32" style="margin-bottom: 15px"></i></div>
                         </div>
                         <h4 class="step-title">Product Delivered</h4>
                     </div>
