@@ -27,49 +27,13 @@
 
                 <dt class="col-sm-3">Tracking Status</dt>
                 <dd class="col-sm-9">{{ $recipientInfo->order_status }}</dd>
-            </dl>
 
-            <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x">
-                @if(\App\Models\Order::where('user_id', '=', Auth::user()->id)->where('order_status', '=', 'To')->exists())
-                    <div class="step completed">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
-                        </div>
-                        <h4 class="step-title">Confirmed Order</h4>
-                    </div>
-                @else
-                    <div class="step">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
-                        </div>
-                        <h4 class="step-title">Confirmed Order</h4>
-                    </div>
-                @endif
-                    <div class="step completed">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
-                        </div>
-                        <h4 class="step-title">Processing Order</h4>
-                    </div>
-                    <div class="step completed">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
-                        </div>
-                        <h4 class="step-title">Quality Check</h4>
-                    </div>
-                    <div class="step completed">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
-                        </div>
-                        <h4 class="step-title">Product Dispatched</h4>
-                    </div>
-                    <div class="step completed">
-                        <div class="step-icon-wrap">
-                            <div class="step-icon"><i class="fa fa-chevron-circle-right"></i></div>
-                        </div>
-                        <h4 class="step-title">Product Delivered</h4>
-                    </div>
-            </div>
+                <dt class="col-sm-3">Barcode</dt>
+                <dd class="col-sm-9">{!! DNS1D::getBarcodeSVG($recipientInfo->tracking_num, "C39", 1, 50, '#2A3239') !!} </dd>
+
+                <dt class="col-sm-3">QR Code</dt>
+                <dd class="col-sm-9">{!! DNS2D::getBarcodeHTML($recipientInfo->tracking_num, 'QRCODE', 5, 5) !!} </dd>
+            </dl>
         </div>
     </div>
 

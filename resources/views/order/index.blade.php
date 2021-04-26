@@ -70,6 +70,12 @@
                                 @csrf
                                 @method('DELETE')
                             </form>
+
+                            <a href="{{ route('track.index.trackparcel', $i->id) }}">
+                                <button type="button" class="btn btn-primary float-end" style="margin-right: 10px">
+                                    Update Tracking
+                                </button>
+                            </a>
                         </div>
                     </div>
                     @endforeach

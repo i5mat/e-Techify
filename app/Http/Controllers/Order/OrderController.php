@@ -8,6 +8,7 @@ use App\Models\ConfirmOrder;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\Tracking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -197,7 +198,15 @@ class OrderController extends Controller
         $insertData->save();
         $findOrderID->save();
 
-        //dd($insertData, $findOrderID);
+        $insertTracking = new Tracking([
+            "order_id" => $findOrderID->id,
+            "tracking_no" => $insertData->tracking_num,
+            "current_status" => "Confirmed Order"
+        ]);
+
+        $insertTracking->save();
+
+        //dd($insertData, $findOrderID, $insertTracking);
 
         return view('order.thankyou');
     }
