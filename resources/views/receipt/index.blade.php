@@ -35,6 +35,13 @@
         }
     </style>
 
+    <script>
+        myFunction();
+        function myFunction(){
+            window.print();
+        }
+    </script>
+
 </head>
 <body>
 
@@ -109,7 +116,7 @@
         </tr>
         @endforeach
         <tr>
-            <td colspan="4" class="text-right border-0 pt-4"><h5>Total: RM {{ number_format($recipientInfo->payment_total / 1) }}.00</h5></td>
+            <td colspan="4" class="text-right border-0 pt-4"><h5>Total: RM {{ number_format($recipientInfo->payment_total / 1) }}.00<p class="small lead">+ Included RM 25 Shipping Fees</p></h5></td>
         </tr>
     </table>
 

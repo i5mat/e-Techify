@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Tracking;
+use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -115,6 +116,11 @@ class OrderController extends Controller
         $charactersLimitt = 40;
         $yourTextStringg = $recipientInfo->address;
         $output = wordwrap($yourTextStringg, $charactersLimitt);
+
+        //view()->share('p', $orderInfo, $recipientInfo, $total_items, $output);
+        //$pdf_doc = PDF::loadView('receipt.index', compact('orderInfo', 'total_items', 'recipientInfo', 'output'));
+        //$pdf_doc->download('pdf.pdf');
+        //return $pdf_doc->stream();
 
         return view('receipt.index', compact('orderInfo', 'total_items', 'recipientInfo', 'output'));
     }

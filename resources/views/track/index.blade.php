@@ -222,7 +222,7 @@
                 </div>
             </div>
 
-            <form method="POST" action="{{ route('track.insert.trackparcel', $recipientInfo->order_id) }}">
+            <form>
                 @csrf
                 @if($recipientInfo->order_status == 'Delivered')
                     <h1 class="text-center display-6">Thank You! Enjoy your new item Bangsawan! #BangsawanForever</h1>
@@ -240,16 +240,11 @@
                             @elseif ($track_stats->current_status == 'Product Dispatched')
                                 <button type="button" name="delivered_btn" id="delivered_btn" class="btn btn-outline-warning" style="margin-top: 5px">Product Delivered</button>
                             @endif
-{{--                            <button type="button" name="confirm_order_btn" id="confirm_order_btn" class="btn btn-outline-warning" style="margin-top: 5px">Confirmed Order</button>--}}
-{{--                            <button type="button" name="processing_order_btn" id="processing_order_btn" class="btn btn-outline-warning" style="margin-top: 5px">Processing Order</button>--}}
-{{--                            <button type="button" name="qc_btn" id="qc_btn" class="btn btn-outline-warning" style="margin-top: 5px">Quality Check</button>--}}
-{{--                            <button type="button" name="dispatched_btn" id="dispatched_btn" class="btn btn-outline-warning" style="margin-top: 5px">Product Dispatched</button>--}}
-{{--                            <button type="button" name="delivered_btn" id="delivered_btn" class="btn btn-outline-warning" style="margin-top: 5px">Product Delivered</button>--}}
                         </dd>
                     </dl>
                     <div class="text-center">
                         <p class="lead">
-                            <button type="submit" class="btn btn-warning" style="width: 100%">Submit</button>
+                            <button type="submit" class="btn btn-warning" style="width: 100%" id="btn_sbmit" name="btn_sbmit">Submit</button>
                         </p>
                     </div>
                 @endif
@@ -262,7 +257,7 @@
 
         $(document).ready(function(){
             $("#update_tracking").click(function(){
-                document.getElementById('update_tracking').value = 'Confirmed Order';
+                document.getElementById('update_tracking').value = 'Click on the button, not me! :/';
             });
             $("#processing_order_btn").click(function(){
                 document.getElementById('update_tracking').value = 'Processing Order';
@@ -275,6 +270,30 @@
             });
             $("#delivered_btn").click(function(){
                 document.getElementById('update_tracking').value = 'Product Delivered';
+            });
+        });
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $("#btn_sbmit").click(function(e){
+
+            e.preventDefault();
+
+            var tracking = $("#update_tracking").val();
+
+            $.ajax({
+                type:'POST',
+                url:"{{ route('track.insert.trackparcel', $recipientInfo->order_id) }}",
+                data:{update_tracking:tracking},
+                success:function(data){
+                    if ( data['success'] )
+                        location.reload();
+
+                }
             });
         });
     </script>

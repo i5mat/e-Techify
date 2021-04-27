@@ -58,8 +58,9 @@ class TrackingController extends Controller
         else
             $insertTracking->save();
 
-        return redirect()->back()->with('success', 'Status is updated! See the tracking flow above :)');
+        return response()->json(['success'=>'Status is updated! See the tracking flow!']);
 
+        //return redirect()->back()->with('success', 'Status is updated! See the tracking flow above :)');
         //dd($findTrackDetail->tracking_no);
     }
 }
