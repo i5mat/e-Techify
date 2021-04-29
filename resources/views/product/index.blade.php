@@ -70,6 +70,9 @@
                         <p><span><img src="/image/security.png">&nbsp; {{ $p->product_warranty_duration }} Years Warranty </span></p>
                         <h2>RM {{ $p->product_price }}
                             <button
+                                @if($p->product_stock_count == 0)
+                                    disabled
+                                @endif
                                 type="button"
                                 class="btn btn-primary float-end"
                                 onclick="event.preventDefault();

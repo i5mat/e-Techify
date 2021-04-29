@@ -70,3 +70,8 @@ Route::prefix('tracking')->middleware(['auth', 'verified'])->name('track.')->gro
     Route::get('track-parcel/{id}', [App\Http\Controllers\TrackingController::class, 'trackingIndex'])->name('index.trackparcel');
     Route::post('track-parcel/insert/{id}', [App\Http\Controllers\TrackingController::class, 'insertTracking'])->name('insert.trackparcel');
 });
+
+Route::prefix('distributor')->middleware(['auth', 'verified'])->name('distributor.')->group(function () {
+    Route::get('insert-product', [App\Http\Controllers\Product\ProductController::class, 'distriInsertProductIndex'])->name('insert.product.dist');
+    Route::post('insert-sn-product', [App\Http\Controllers\Product\ProductController::class, 'distriInsertSN'])->name('insertsn.product.dist');
+});

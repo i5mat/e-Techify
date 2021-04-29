@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\DistributorProduct;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -165,5 +166,28 @@ class ProductController extends Controller
 
         //return dd($request->all());
         return redirect(route('user.userdash'));
+    }
+
+    public function distriInsertProductIndex()
+    {
+        $fetchProduct = Product::all();
+
+        return view('distributor.insertproduct', compact('fetchProduct'));
+    }
+
+    public function distriInsertSN(Request $request)
+    {
+        $insertData = new DistributorProduct([
+            "product_id" => $request->input('products_id_dist'),
+            "user_id" => Auth::id(),
+            "batch_no" => $request->get('floatingSelectBatch'),
+            "status" => 'Not Occupied',
+            "serial_number" => $request->input('insert_product_sn')
+        ]);
+        $insertData->save();
+
+        //dd($insertData);
+        return response()->json(['success'=>'Inserted!']);
+
     }
 }

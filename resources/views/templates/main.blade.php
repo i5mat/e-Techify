@@ -127,6 +127,9 @@
                                     </div>
                                 </div>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Distributor</a>
+                            </li>
                         @endcan
                     </ul>
                 </div>
