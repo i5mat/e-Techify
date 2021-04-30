@@ -19,7 +19,7 @@ class CreateDistributorProductsTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('batch_no');
             $table->timestamps();
-            $table->string('serial_number');
+            $table->string('serial_number')->unique();
             $table->string('status');
         });
     }

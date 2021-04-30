@@ -171,8 +171,15 @@ class ProductController extends Controller
     public function distriInsertProductIndex()
     {
         $fetchProduct = Product::all();
+        $fetchProductJoin = DistributorProduct::join('products', 'products.id', '=', 'distributor_products.product_id')
+            ->select('distributor_products.created_at', 'products.product_name', 'distributor_products.batch_no',
+                'distributor_products.serial_number', 'distributor_products.status')
+            ->where([
+                'distributor_products.user_id' => Auth::id()
+            ])
+            ->get();
 
-        return view('distributor.insertproduct', compact('fetchProduct'));
+        return view('distributor.insertproduct', compact('fetchProduct', 'fetchProductJoin'));
     }
 
     public function distriInsertSN(Request $request)
@@ -188,6 +195,5 @@ class ProductController extends Controller
 
         //dd($insertData);
         return response()->json(['success'=>'Inserted!']);
-
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Order;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\ConfirmOrder;
+use App\Models\DistributorProduct;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
@@ -143,6 +144,17 @@ class OrderController extends Controller
             ])
             ->get();
 
+        $findSN = DistributorProduct::join('order_details', 'order_details.product_id', '=', 'distributor_products.product_id')
+            ->select('distributor_products.serial_number', 'products.product_name')
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->where([
+                'distributor_products.status' => 'Not Occupied',
+                'order_details.order_id' => $findID->id
+            ])
+            ->get();
+
+        //dd($findSN);
+
         $total_items = DB::table('order_details')
             ->select('order_details.order_id')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
@@ -161,7 +173,7 @@ class OrderController extends Controller
             ])
             ->first();
 
-        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo'));
+        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN'));
     }
 
     public function updateProductSN($id, Request $request)

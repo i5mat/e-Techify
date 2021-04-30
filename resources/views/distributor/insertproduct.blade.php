@@ -184,6 +184,33 @@
         </div>
     </div>
 
+    <div class="card" style="margin-top: 10px">
+        <div class="card-body">
+            <table id="distri-product-table" class="display" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Batch</th>
+                    <th>Serial Number</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($fetchProductJoin as $lol)
+                    <tr>
+                        <td>{{ $lol->product_name }}</td>
+                        <td>Batch #{{ $lol->batch_no }}</td>
+                        <td>{{ $lol->serial_number }}</td>
+                        <td>{{ $lol->status }}</td>
+                        <td>{{ date('d-M-Y H:i A', strtotime($lol->created_at)) }}</td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <script>
         feather.replace();
         myFunctions();
@@ -209,6 +236,8 @@
                 success:function(data){
                     if ( data['success'] )
                         location.reload();
+                    else
+                        alert('EXISTING.')
 
                 }
             });
@@ -254,6 +283,8 @@
                     }
                 }
             });
+
+            $('#distri-product-table').DataTable();
         });
 
         function myFunctions() {

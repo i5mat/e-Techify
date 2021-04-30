@@ -33,6 +33,15 @@
 
                 <dt class="col-sm-3">QR Code</dt>
                 <dd class="col-sm-9">{!! DNS2D::getBarcodeHTML($recipientInfo->tracking_num, 'QRCODE', 5, 5) !!} </dd>
+
+                <dt class="col-sm-3">Suggested SN</dt>
+                <dd class="col-sm-9">
+                    @foreach($findSN as $z)
+                        <button class="btn btn-outline-warning" style="margin-top: 5px; margin-bottom: 5px">
+                            {{ $z->product_name }} => {{ $z->serial_number }}
+                        </button>
+                    @endforeach
+                </dd>
             </dl>
         </div>
     </div>
@@ -61,6 +70,7 @@
                         <td>{{ $i->product_name }} <p class="lead">[x{{ $i->product_order_quantity }}]</p></td>
                         <td>
                             <input type="text" class="form-control" id="product_sn" name="{{ $i->product_id }}" placeholder="Insert SN Product" value="{{ $i->serial_number }}">
+                            <input type="text" id="getproduct_sn" name="getproduct_sn" value="{{ $i->product_id }}" hidden>
                         </td>
                         <td>
                             {{ date('Y-m-d H:i A', strtotime($i->updated_at)) }}
