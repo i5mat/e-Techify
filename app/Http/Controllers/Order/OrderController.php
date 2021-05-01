@@ -188,7 +188,7 @@ class OrderController extends Controller
 
         // use of explode
         $string = $updaterecs->serial_number;
-        $str_arr = explode (', ', $string);
+        $str_arr = array_pad(explode(', ', $string), $updaterecs->product_order_quantity, null);
 
         return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN', 'str_arr'));
     }
@@ -198,29 +198,37 @@ class OrderController extends Controller
         $findID = Order::find($id);
         //$data = $request->except(['_token']);
 
+        if ($request->input('getproduct_qty') == 1)
+        {
+            foreach ($request->except(['_token']) as $key => $data)
+            {
+                //dump("key => " . $key . " data => " . $data);
+                $updaterec = OrderDetail::where('order_id', '=', $findID->id)
+                    ->where('product_id', '=', $key)
+                    ->update(['serial_number' => $data]);
 
-//        foreach ($request->except(['_token']) as $key => $data)
-//        {
-//            dump("key => " . $key . " data => " . $data);
-//            $updaterec = OrderDetail::where('order_id', '=', $findID->id)
-//                ->where('product_id', '=', $key)
-//                ->update(['serial_number' => $data]);
-//        }
-
-        $input = $request->all();
-        $items = array(['product_sn']);
-        foreach($input as $inputs) {
-            $items[] = $inputs;
-
-            $json = json_encode($inputs);
-            $jsonobj = json_decode($json);
-
+                $updateDist = DistributorProduct::where('product_id', '=', $key)
+                    ->where('serial_number', '=', $data)
+                    ->update(['status' => 'Occupied']);
+            }
         }
-        $result = implode(', ', $jsonobj);
+        elseif ($request->input('getproduct_qty') > 1)
+        {
+            $input = $request->only(['product_sn']);
+            $items = array(['product_sn']);
+            foreach($input as $inputs) {
+                $items[] = $inputs;
 
-        $updaterec = OrderDetail::where('order_id', '=', $findID->id)
-            ->where('product_id', '=', $request->input('getproduct_sn'))
-            ->update(['serial_number' => $result]);
+                $json = json_encode($inputs);
+                $jsonobj = json_decode($json);
+
+            }
+            //dd($jsonobj);
+            $result = implode(', ', $jsonobj);
+
+            $updaterec = OrderDetail::where('order_id', '=', $findID->id)
+                ->where('product_id', '=', $request->input('getproduct_sn'))
+                ->update(['serial_number' => $result]);
 
 //        if (in_array('ismat3', $request->only(['product_sn']))) {
 //            dd('TRUE');
@@ -228,7 +236,7 @@ class OrderController extends Controller
 //        else
 //            dd($items[3]);
 
-        //dd($inputs);
+            //dd($inputs);
 
 //        foreach ($inputs as $url) {
 //            if (strpos($result, $url) !== FALSE)
@@ -244,17 +252,14 @@ class OrderController extends Controller
 //        echo "Not found!";
 //        return false;
 
-        foreach ($inputs as $key => $data)
-        {
-            //dump("key => " . $request->input('getproduct_sn') . " data => " . $data);
+            foreach ($inputs as $key => $data)
+            {
+                //dump("key => " . $request->input('getproduct_sn') . " data => " . $data);
 
-            $updateDist = DistributorProduct::where('product_id', '=', $request->input('getproduct_sn'))
+                $updateDist = DistributorProduct::where('product_id', '=', $request->input('getproduct_sn'))
                     ->where('serial_number', '=', $data)
                     ->update(['status' => 'Occupied']);
-//            $updaterec = OrderDetail::where('order_id', '=', $findID->id)
-//                ->where('product_id', '=', $key)
-//                ->update(['serial_number' => $data]);
-        }
+            }
 
 //        if (stripos(json_encode($items[3]), $result) !== false) {
 //            dd('TRUE');
@@ -267,7 +272,8 @@ class OrderController extends Controller
 //        }
 
 
-        //dd($json);
+            //dd($json);
+        }
 
         return redirect()->back()->with('success', 'SUCCESS BAH');
     }

@@ -69,12 +69,16 @@
                         </td>
                         <td>{{ $i->product_name }} <p class="lead">[x{{ $i->product_order_quantity }}]</p></td>
                         <td>
-{{--                            <input type="text" class="form-control" id="product_sn" name="{{ $i->product_id }}" placeholder="Insert SN Product" value="{{ $i->serial_number }}">--}}
+                            <input type="text" id="getproduct_qty" name="getproduct_qty" value="{{ $i->product_order_quantity }}" hidden>
+                            @if($i->product_order_quantity == 1)
+                                <input type="text" class="form-control" id="product_sn" name="{{ $i->product_id }}" placeholder="Insert SN Product" value="{{ $i->serial_number }}">
+                            @elseif ($i->product_order_quantity > 1)
+                                @for ($x = 0; $x < $i->product_order_quantity; $x++)
+                                    <input type="text" class="form-control" id="products_sn" name="product_sn[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $str_arr[$x] }}">
+                                @endfor
+                            @endif
                             <input type="text" id="getproduct_sn" name="getproduct_sn" value="{{ $i->product_id }}" hidden>
 
-                            @for ($x = 0; $x < $i->product_order_quantity; $x++)
-                                <input type="text" class="form-control" id="product_sn" name="product_sn[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $str_arr[$x] }}">
-                            @endfor
                         </td>
                         <td>
                             {{ date('Y-m-d H:i A', strtotime($i->updated_at)) }}
