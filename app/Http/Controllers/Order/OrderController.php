@@ -160,9 +160,11 @@ class OrderController extends Controller
                     'order_details.order_id' => $findID->id
                 ])
                 ->get();
-        }
 
-        //dd($findSN);
+            $updaterecs = OrderDetail::where('order_id', '=', $findID->id)
+                ->where('product_id', '=', $data->product_id)
+                ->get();
+        }
 
         $total_items = DB::table('order_details')
             ->select('order_details.order_id')
@@ -182,13 +184,9 @@ class OrderController extends Controller
             ])
             ->first();
 
-        $updaterecs = OrderDetail::where('order_id', '=', $findID->id)
-            ->where('product_id', '=', $data->product_id)
-            ->first();
-
         // use of explode
-        $string = $updaterecs->serial_number;
-        $str_arr = array_pad(explode(', ', $string), $updaterecs->product_order_quantity, null);
+        $string = $data->serial_number;
+        $str_arr = array_pad(explode(', ', $string), $data->product_order_quantity, null);
 
         return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN', 'str_arr'));
     }
@@ -198,82 +196,68 @@ class OrderController extends Controller
         $findID = Order::find($id);
         //$data = $request->except(['_token']);
 
-        if ($request->input('getproduct_qty') == 1)
-        {
-            foreach ($request->except(['_token']) as $key => $data)
-            {
-                //dump("key => " . $key . " data => " . $data);
-                $updaterec = OrderDetail::where('order_id', '=', $findID->id)
-                    ->where('product_id', '=', $key)
-                    ->update(['serial_number' => $data]);
-
-                $updateDist = DistributorProduct::where('product_id', '=', $key)
-                    ->where('serial_number', '=', $data)
-                    ->update(['status' => 'Occupied']);
-            }
-        }
-        elseif ($request->input('getproduct_qty') > 1)
-        {
-            $input = $request->only(['product_sn']);
-            $items = array(['product_sn']);
-            foreach($input as $inputs) {
-                $items[] = $inputs;
-
-                $json = json_encode($inputs);
-                $jsonobj = json_decode($json);
-
-            }
-            //dd($jsonobj);
-            $result = implode(', ', $jsonobj);
-
-            $updaterec = OrderDetail::where('order_id', '=', $findID->id)
-                ->where('product_id', '=', $request->input('getproduct_sn'))
-                ->update(['serial_number' => $result]);
-
-//        if (in_array('ismat3', $request->only(['product_sn']))) {
-//            dd('TRUE');
-//        }
-//        else
-//            dd($items[3]);
-
-            //dd($inputs);
-
-//        foreach ($inputs as $url) {
-//            if (strpos($result, $url) !== FALSE)
+//        if ($request->input('getproduct_qty') == 1)
+//        {
+//            foreach ($request->except(['_token']) as $key => $data)
 //            {
-//                $updateDist = DistributorProduct::where('product_id', '=', $request->input('getproduct_sn'))
-//                    ->where(['serial_number', '=', $url])
-//                    ->update(['status' => 'Occupied']);
+//                //dump("key => " . $key . " data => " . $data);
+//                $updaterec = OrderDetail::where('order_id', '=', $findID->id)
+//                    ->where('product_id', '=', $key)
+//                    ->update(['serial_number' => $data]);
 //
-//                echo "Match found";
-//                return true;
+//                $updateDist = DistributorProduct::where('product_id', '=', $key)
+//                    ->where('serial_number', '=', $data)
+//                    ->update(['status' => 'Occupied']);
 //            }
 //        }
-//        echo "Not found!";
-//        return false;
-
-            foreach ($inputs as $key => $data)
-            {
-                //dump("key => " . $request->input('getproduct_sn') . " data => " . $data);
-
-                $updateDist = DistributorProduct::where('product_id', '=', $request->input('getproduct_sn'))
-                    ->where('serial_number', '=', $data)
-                    ->update(['status' => 'Occupied']);
-            }
-
-//        if (stripos(json_encode($items[3]), $result) !== false) {
-//            dd('TRUE');
-//        }
-//        else
+//        elseif ($request->input('getproduct_qty') > 1)
 //        {
-//            //dd(json_encode($items[3]));
-//            //dd($items[3]);
-//            dd($request->only(['product_sn']), json_encode($items[3]), $items[3]);
+//            $input = $request->only(['product_sn']);
+//            $items = array(['product_sn']);
+//            foreach($input as $inputs) {
+//                $items[] = $inputs;
+//
+//                $json = json_encode($inputs);
+//                $jsonobj = json_decode($json);
+//
+//            }
+//            //dd($jsonobj);
+//            $result = implode(', ', $jsonobj);
+//
+//            $updaterec = OrderDetail::where('order_id', '=', $findID->id)
+//                ->where('product_id', '=', $request->input('getproduct_sn'))
+//                ->update(['serial_number' => $result]);
+//
+//            foreach ($inputs as $key => $data)
+//            {
+//                //dump("key => " . $request->input('getproduct_sn') . " data => " . $data);
+//
+//                $updateDist = DistributorProduct::where('product_id', '=', $request->input('getproduct_sn'))
+//                    ->where('serial_number', '=', $data)
+//                    ->update(['status' => 'Occupied']);
+//            }
 //        }
 
+        foreach ($request->except(['_token', 'getproduct_qty']) as $key => $data)
+        {
+            //dd($key, $data);
 
-            //dd($json);
+            $json = json_encode($data);
+            //$jsonobj = json_decode($json);
+            //$result = implode(', ', json_decode($json));
+
+            //dd(implode(', ', json_decode($json)));
+
+            $updaterec = OrderDetail::where('order_id', '=', $findID->id)
+                ->where('product_id', '=', $key)
+                ->update(['serial_number' => implode(', ', (array)json_decode($json))]);
+
+//            $updateDist = DistributorProduct::where('product_id', '=', $key)
+//                ->where('serial_number', '=', $data)
+//                ->update(['status' => 'Occupied']);
         }
+
+        //dd($request->except(['_token', 'getproduct_qty']));
 
         return redirect()->back()->with('success', 'SUCCESS BAH');
     }

@@ -17,6 +17,10 @@ class OrderDetail extends Model
         'product_order_quantity'
     ];
 
+//    protected $casts = [
+//        'serial_number' => 'array',
+//    ];
+
     public function order()
     {
         return $this->belongsTo(Order::class);
