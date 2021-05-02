@@ -14,7 +14,8 @@ class OrderDetail extends Model
         'order_id',
         'created_at',
         'updated_at',
-        'product_order_quantity'
+        'product_order_quantity',
+        'serial_number'
     ];
 
 //    protected $casts = [

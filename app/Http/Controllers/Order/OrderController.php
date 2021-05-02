@@ -194,70 +194,31 @@ class OrderController extends Controller
     public function updateProductSN($id, Request $request)
     {
         $findID = Order::find($id);
-        //$data = $request->except(['_token']);
 
-//        if ($request->input('getproduct_qty') == 1)
-//        {
-//            foreach ($request->except(['_token']) as $key => $data)
-//            {
-//                //dump("key => " . $key . " data => " . $data);
-//                $updaterec = OrderDetail::where('order_id', '=', $findID->id)
-//                    ->where('product_id', '=', $key)
-//                    ->update(['serial_number' => $data]);
-//
-//                $updateDist = DistributorProduct::where('product_id', '=', $key)
-//                    ->where('serial_number', '=', $data)
-//                    ->update(['status' => 'Occupied']);
-//            }
-//        }
-//        elseif ($request->input('getproduct_qty') > 1)
-//        {
-//            $input = $request->only(['product_sn']);
-//            $items = array(['product_sn']);
-//            foreach($input as $inputs) {
-//                $items[] = $inputs;
-//
-//                $json = json_encode($inputs);
-//                $jsonobj = json_decode($json);
-//
-//            }
-//            //dd($jsonobj);
-//            $result = implode(', ', $jsonobj);
-//
-//            $updaterec = OrderDetail::where('order_id', '=', $findID->id)
-//                ->where('product_id', '=', $request->input('getproduct_sn'))
-//                ->update(['serial_number' => $result]);
-//
-//            foreach ($inputs as $key => $data)
-//            {
-//                //dump("key => " . $request->input('getproduct_sn') . " data => " . $data);
-//
-//                $updateDist = DistributorProduct::where('product_id', '=', $request->input('getproduct_sn'))
-//                    ->where('serial_number', '=', $data)
-//                    ->update(['status' => 'Occupied']);
-//            }
-//        }
-
-        foreach ($request->except(['_token', 'getproduct_qty']) as $key => $data)
+        foreach ($request->except(['_token', 'getproduct_qty', 'getproduct_sn']) as $key => $data)
         {
-            //dd($key, $data);
-
+            //dd($key);
             $json = json_encode($data);
             //$jsonobj = json_decode($json);
-            //$result = implode(', ', json_decode($json));
-
-            //dd(implode(', ', json_decode($json)));
+            $result = implode(', ', (array)json_decode($json));
 
             $updaterec = OrderDetail::where('order_id', '=', $findID->id)
                 ->where('product_id', '=', $key)
-                ->update(['serial_number' => implode(', ', (array)json_decode($json))]);
+                ->update(['serial_number' => $result]);
 
-//            $updateDist = DistributorProduct::where('product_id', '=', $key)
-//                ->where('serial_number', '=', $data)
-//                ->update(['status' => 'Occupied']);
+            foreach ($data as $d)
+            {
+                //dd($d);
+                $res = 'Occupied';
+                //dd($data, $request->input('getproduct_sn'));
+                //dd(' =>'.$d);
+                $updateDist = DistributorProduct::where('product_id', '=', $key)
+                    ->where('serial_number', '=', $d)
+                    ->update(['status' => $res]);
+            }
         }
 
-        //dd($request->except(['_token', 'getproduct_qty']));
+        //dd($request->except(['_token', 'getproduct_qty', 'getproduct_sn']));
 
         return redirect()->back()->with('success', 'SUCCESS BAH');
     }
@@ -269,6 +230,7 @@ class OrderController extends Controller
 
     public function orderConfirm($id, Request $request)
     {
+        dd($request->all());
         $findOrderID = Order::find($id);
         $randomNum = rand(0, 999999999999);
         $randomReceiptNum = "XT-".rand(0, 999999999999);
