@@ -230,7 +230,7 @@ class OrderController extends Controller
 
     public function orderConfirm($id, Request $request)
     {
-        dd($request->all());
+        //dd($request->except(['_token']));
         $findOrderID = Order::find($id);
         $randomNum = rand(0, 999999999999);
         $randomReceiptNum = "XT-".rand(0, 999999999999);
@@ -244,11 +244,18 @@ class OrderController extends Controller
             "receipt_no" => $randomReceiptNum
         ]);
 
-        Product::where('id', '=', $request->input('get_prod_id'))
-            ->decrement('product_stock_count', $request->input('qty_prod'));
+        foreach ($request->except(['_token']) as $key => $data)
+        {
+            $json = json_encode($data);
+            $result = implode(', ', (array)json_decode($json));
 
-        OrderDetail::where('product_id', '=', $request->input('get_prod_id'))
-            ->update(['product_order_quantity' => $request->input('qty_prod')]);
+            //dd($key, $data);
+            Product::where('id', '=', $key)
+                ->decrement('product_stock_count', $result);
+
+            OrderDetail::where('product_id', '=', $key)
+                ->update(['product_order_quantity' => $result]);
+        }
 
         $findOrderID->order_status = 'To Ship';
 
@@ -264,6 +271,16 @@ class OrderController extends Controller
         $insertTracking->save();
 
         //dd($insertData, $findOrderID, $insertTracking);
+
+//        foreach ($request->except(['_token']) as $key => $data)
+//        {
+//            //dd($key, $data);
+//            Product::where('id', '=', $key)
+//                ->decrement('product_stock_count', $data);
+//
+//            OrderDetail::where('product_id', '=', $key)
+//                ->update(['product_order_quantity' => $data]);
+//        }
 
         return view('order.thankyou');
     }

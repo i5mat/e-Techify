@@ -80,9 +80,9 @@
                         <td>{{ $i->product_name }}</td>
                         <td><img src="/image/malaysia.png"> <span>{{ $i->product_price }}</span></td>
                         <td>
-                            <input type='number' name="qty_prod{{ $loop->iteration }}" min="1" value="{{ $i->product_order_quantity }}" class="text-center" data-price="{{ $i->product_price }}" id="qnt_{{ $loop->iteration }}" oninput="CalculateItemsValue()">
+                            <input type='number' name="{{ $i->product_id }}[]" min="1" value="{{ $i->product_order_quantity }}" class="text-center" data-price="{{ $i->product_price }}" id="qnt_{{ $loop->iteration }}" oninput="CalculateItemsValue()">
                             <input type="number" id="get_qty{{ $loop->iteration }}" name="get_qty{{ $loop->iteration }}" hidden>
-                            <input type="text" id="get_prod_id{{ $loop->iteration }}" name="get_prod_id{{ $loop->iteration }}" value="{{ $i->product_id }}" hidden>
+                            <input type="text" id="get_prod_id" name="get_prod_id" value="{{ $i->product_id }}" hidden>
                         </td>
                         <td>
                             <button type="button" class="btn btn-info" style="background-color: transparent; border: none">
