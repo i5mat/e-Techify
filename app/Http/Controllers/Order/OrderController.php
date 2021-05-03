@@ -146,25 +146,29 @@ class OrderController extends Controller
 
         foreach ($orderInfo as $key => $data)
         {
-            $findIDProduct = Product::where('id', $data);
+            $findIDProduct = Product::where('id', $data->product_id);
+            $key = $data->product_id;
 
-            //dd($data->product_id);
-
-            //dd($findIDProduct);
-
-            $findSN = DistributorProduct::join('order_details', 'order_details.product_id', '=', 'distributor_products.product_id')
-                ->select('distributor_products.serial_number', 'products.product_name')
-                ->join('products', 'products.id', '=', 'order_details.product_id')
-                ->where([
-                    'distributor_products.status' => 'Not Occupied',
-                    'order_details.order_id' => $findID->id
-                ])
-                ->get();
-
-            $updaterecs = OrderDetail::where('order_id', '=', $findID->id)
-                ->where('product_id', '=', $data->product_id)
-                ->get();
+            foreach ($data as $d)
+            {
+                //dd($key, $d);
+                $updaterecs = OrderDetail::where('order_id', '=', $d)
+                    ->where('product_id', '=', $key)
+                    ->get();
+            }
+            // use of explode
+            $string = $data->serial_number;
+            $str_arr = array_pad(explode(', ', $string), $data->product_order_quantity, null);
         }
+
+        $findSN = DistributorProduct::join('order_details', 'order_details.product_id', '=', 'distributor_products.product_id')
+            ->select('distributor_products.serial_number', 'products.product_name')
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->where([
+                'distributor_products.status' => 'Not Occupied',
+                'order_details.order_id' => $findID->id
+            ])
+            ->get();
 
         $total_items = DB::table('order_details')
             ->select('order_details.order_id')
@@ -183,10 +187,6 @@ class OrderController extends Controller
                 'orders.id' => $findID->id
             ])
             ->first();
-
-        // use of explode
-        $string = $data->serial_number;
-        $str_arr = array_pad(explode(', ', $string), $data->product_order_quantity, null);
 
         return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN', 'str_arr'));
     }

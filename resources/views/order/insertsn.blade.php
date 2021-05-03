@@ -74,7 +74,7 @@
                                 <input type="text" class="form-control" id="products_sn" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $i->serial_number }}">
                             @else
                                 @for ($x = 0; $x < $i->product_order_quantity; $x++)
-                                    <input type="text" class="form-control" id="products_sn" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $str_arr[$x] }}">
+                                    <input required type="text" class="form-control" id="products_sn" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $str_arr[$x] }}">
                                 @endfor
                             @endif
                             <input type="text" id="getproduct_sn" name="getproduct_sn" value="{{ $i->product_id }}" hidden>

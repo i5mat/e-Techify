@@ -75,3 +75,7 @@ Route::prefix('distributor')->middleware(['auth', 'verified'])->name('distributo
     Route::get('insert-product', [App\Http\Controllers\Product\ProductController::class, 'distriInsertProductIndex'])->name('insert.product.dist');
     Route::post('insert-sn-product', [App\Http\Controllers\Product\ProductController::class, 'distriInsertSN'])->name('insertsn.product.dist');
 });
+
+Route::prefix('rma')->middleware(['auth', 'verified'])->name('rma.')->group(function () {
+    Route::get('new-request', [App\Http\Controllers\RepairController::class, 'RMAIndex'])->name('new.request');
+});

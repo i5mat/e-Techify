@@ -135,7 +135,7 @@
                                 <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Distributor</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">e-RMA</a>
+                                <a class="nav-link" href="{{ route('rma.new.request') }}">e-RMA</a>
                             </li>
                         @endcan
                     </ul>
