@@ -137,6 +137,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('rma.new.request') }}">e-RMA</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('track.new.parcel') }}">e-Track Parcel</a>
+                            </li>
                         @endcan
                     </ul>
                 </div>

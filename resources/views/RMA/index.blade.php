@@ -57,6 +57,14 @@
                     <label for="date-purchased">Date Of Purchase</label>
                 </div>
             </dd>
+            <dt class="col-sm-3">Proof of Purchase</dt>
+            <dd class="col-sm-9">
+                <div class="form-floating mb-3">
+                    <div class="col-sm-auto">
+                        <input type="file" name="prod_image" id="prod_image" class="form-control">
+                    </div>
+                </div>
+            </dd>
         </dl>
         <div class="row g-2 mb-3">
             <div class="col-md">

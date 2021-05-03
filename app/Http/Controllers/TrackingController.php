@@ -63,4 +63,18 @@ class TrackingController extends Controller
         //return redirect()->back()->with('success', 'Status is updated! See the tracking flow above :)');
         //dd($findTrackDetail->tracking_no);
     }
+
+    public function trackOutParcelIndex()
+    {
+        return view('track.tracking-parcel');
+    }
+
+    public function trackOutParcel(Request $request)
+    {
+        $trackingStatus = Tracking::where([
+            ['tracking_no', 'LIKE', '%' . $request->get('search-track-num') . '%'],
+        ])->get();
+
+        return view('track.tracking-parcel-result', compact('trackingStatus'));
+    }
 }
