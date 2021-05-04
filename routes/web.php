@@ -82,3 +82,8 @@ Route::prefix('rma')->middleware(['auth', 'verified'])->name('rma.')->group(func
     Route::get('new-request', [App\Http\Controllers\RepairController::class, 'RMAIndex'])->name('new.request');
     Route::post('new-request-post', [App\Http\Controllers\RepairController::class, 'storeRMA'])->name('new.post.request');
 });
+
+Route::prefix('job')->middleware(['auth', 'verified'])->name('job.')->group(function () {
+    Route::get('new-job', [App\Http\Controllers\JobController::class, 'jobIndex'])->name('new');
+    Route::post('new-job-request', [App\Http\Controllers\JobController::class, 'jobInsert'])->name('request.new');
+});

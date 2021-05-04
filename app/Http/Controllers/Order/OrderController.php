@@ -272,16 +272,6 @@ class OrderController extends Controller
 
         //dd($insertData, $findOrderID, $insertTracking);
 
-//        foreach ($request->except(['_token']) as $key => $data)
-//        {
-//            //dd($key, $data);
-//            Product::where('id', '=', $key)
-//                ->decrement('product_stock_count', $data);
-//
-//            OrderDetail::where('product_id', '=', $key)
-//                ->update(['product_order_quantity' => $data]);
-//        }
-
         return view('order.thankyou');
     }
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Models\Job;
 use App\Models\Product;
+use App\Models\Repair;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +20,15 @@ class Profile extends Controller
 
     public function userDash()
     {
-        return view('index');
+        $rmaInfo = Repair::join('products', 'products.id', '=', 'repairs.product_id')
+            ->where([
+                'repairs.user_id' => Auth::id(),
+            ])
+            ->get();
+
+        $jobInfo = Job::all();
+
+        return view('index', compact('rmaInfo', 'jobInfo'));
     }
 
     public function userAddressIndex()
