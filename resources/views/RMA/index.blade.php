@@ -13,7 +13,7 @@
     </figure>
 
     <div class="card" style="padding: 20px 40px;">
-    <form method="POST" action="{{ route('product.items.store') }}" enctype="multipart/form-data" id="insert-product-form">
+    <form method="POST" action="{{ route('rma.new.post.request') }}" enctype="multipart/form-data">
         @csrf
 
         <dl class="row">
@@ -53,7 +53,7 @@
             <dd class="col-sm-9">
                 <label for="date-purchased" class="error"></label>
                 <div class="form-floating mb-3">
-                    <input type="date" class="form-control" id="date-purchased" name="date-purchased">
+                    <input type="date" class="form-control" id="date-purchased" name="date-purchased" onchange="handler(event);">
                     <label for="date-purchased">Date Of Purchase</label>
                 </div>
             </dd>
@@ -61,7 +61,7 @@
             <dd class="col-sm-9">
                 <div class="form-floating mb-3">
                     <div class="col-sm-auto">
-                        <input type="file" name="prod_image" id="prod_image" class="form-control">
+                        <input accept="application/pdf" type="file" name="proof_of_purchase_file" id="proof_of_purchase_file" class="form-control">
                     </div>
                 </div>
             </dd>
@@ -103,6 +103,11 @@
             </div>
         </div>
 
+        <div class="form-floating mb-3">
+            <textarea class="form-control" placeholder="Leave a comment here" id="reason_field" name="reason_field" style="height: 100px"></textarea>
+            <label for="reason_field">Comments</label>
+        </div>
+
         <button type="submit" class="btn btn-primary float-end" style="width: 100%" id="btn_submit_rma">Submit</button>
     </form>
     </div>
@@ -116,7 +121,7 @@
             var options =  '<option value=""><strong>Products</strong></option>';
             $(myArr).each(function(index, value){
                 if(value.product_brand == company){
-                    options += '<option value="'+value.product_name+'">'+value.product_name+'</option>';
+                    options += '<option value="'+value.id+'">'+value.product_name+'</option>';
                 }
             });
 
@@ -165,6 +170,5 @@
                 document.getElementById('get_add_id_rma').value = value3.val();
             });
         }
-
     </script>
 @endsection

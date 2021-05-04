@@ -17,10 +17,12 @@ class CreateRepairsTable extends Migration
             $table->id();
             $table->foreignId('addresses_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('sn_no');
             $table->date('date_of_purchase');
             $table->string('file_path');
             $table->string('reason');
+            $table->string('status');
             $table->timestamps();
         });
     }
