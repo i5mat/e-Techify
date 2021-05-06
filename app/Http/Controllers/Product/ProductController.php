@@ -46,7 +46,6 @@ class ProductController extends Controller
     public function stockManagementView(Request $request)
     {
         $products = Product::where('user_id', '=', $request->route('id'))->paginate(6);
-        $getName = Product::where('user_id', '=', $request->route('id'))->first();
 
         $user = User::join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
