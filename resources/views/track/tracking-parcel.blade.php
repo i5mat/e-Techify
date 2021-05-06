@@ -165,7 +165,7 @@
         }
     </style>
 
-    <h1 class="display-2 text-center">Tracking Status <img src="/image/sn.png"/></h1>
+    <h1 class="display-2 text-center">Tracking Status <img src="/image/parcel.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">

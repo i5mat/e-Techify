@@ -71,10 +71,19 @@ class TrackingController extends Controller
 
     public function trackOutParcel(Request $request)
     {
-        $trackingStatus = Tracking::where([
-            ['tracking_no', 'LIKE', '%' . $request->get('search-track-num') . '%'],
-        ])->get();
+        $tracking_no = $request->get('search-track-num');
+        if (Tracking::where('tracking_no', '=', $tracking_no)->exists()) {
+            $trackingStatus = Tracking::where([
+                ['tracking_no', 'LIKE', '%' . $request->get('search-track-num') . '%'],
+            ])->get();
+        }else
+            dd('NOT FOUND');
 
-        return view('track.tracking-parcel-result', compact('trackingStatus'));
+        $trackingStatusHeader = Tracking::where([
+            ['tracking_no', 'LIKE', '%' . $request->get('search-track-num') . '%'],
+            ['current_status', 'Product Delivered']
+        ])->exists();
+
+        return view('track.tracking-parcel-result', compact('trackingStatus', 'tracking_no', 'trackingStatusHeader'));
     }
 }

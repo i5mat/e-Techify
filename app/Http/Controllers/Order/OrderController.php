@@ -155,10 +155,12 @@ class OrderController extends Controller
                 $updaterecs = OrderDetail::where('order_id', '=', $d)
                     ->where('product_id', '=', $key)
                     ->get();
+
+                // use of explode
+                $string = $data->serial_number;
+                //dd($str_arr);
+                $str_arr = array_pad(explode(', ', $string), $data->product_order_quantity, null);
             }
-            // use of explode
-            $string = $data->serial_number;
-            $str_arr = array_pad(explode(', ', $string), $data->product_order_quantity, null);
         }
 
         $findSN = DistributorProduct::join('order_details', 'order_details.product_id', '=', 'distributor_products.product_id')
@@ -455,11 +457,11 @@ class OrderController extends Controller
         });
         $img->save(public_path('awb/test-awb.jpg'));
 
-        \Storage::disk('public')->put('test'.$tracking.'.png', base64_decode($bar_code_tracking));
-        \Storage::disk('public')->put('lol'.$tracking.'.png', base64_decode($qr_code_tracking));
+        \Storage::disk('public')->put('barcode/test'.$tracking.'.png', base64_decode($bar_code_tracking));
+        \Storage::disk('public')->put('qrcode/lol'.$tracking.'.png', base64_decode($qr_code_tracking));
 
-        $barcode = Image::make('storage/test'.$tracking.'.png')->resize(1300, 200);
-        $qrcode = Image::make('storage/lol'.$tracking.'.png')->resize(350, 350);
+        $barcode = Image::make('storage/barcode/test'.$tracking.'.png')->resize(1300, 200);
+        $qrcode = Image::make('storage/qrcode/lol'.$tracking.'.png')->resize(350, 350);
         $img->insert($barcode, 'top-left', 550, 350);
         $img->insert($qrcode, 'top-left', 1960, 2900);
         $img->save(public_path('awb/test-awb.jpg'));

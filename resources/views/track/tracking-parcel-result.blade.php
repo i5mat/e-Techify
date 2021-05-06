@@ -135,7 +135,7 @@
         }
     </style>
 
-    <h1 class="display-2 text-center">Tracking <img src="/image/sn.png"/></h1>
+    <h1 class="display-2 text-center">Tracking {{ $tracking_no }} <img src="/image/parcel.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
@@ -153,9 +153,15 @@
                     <div class="col-md-12 col-lg-12">
                         <div id="tracking-pre"></div>
                         <div id="tracking">
-                            <div class="text-center tracking-status-intransit">
-                                <p class="tracking-status text-tight">in transit</p>
-                            </div>
+                            @if($trackingStatusHeader == true)
+                                <div class="text-center tracking-status-delivered">
+                                    <p class="tracking-status text-tight">Delivered</p>
+                                </div>
+                            @else
+                                <div class="text-center tracking-status-intransit">
+                                    <p class="tracking-status text-tight">in transit</p>
+                                </div>
+                            @endif
                             <div class="tracking-list">
                                 @foreach($trackingStatus as $track_stats)
                                     <div class="tracking-item">

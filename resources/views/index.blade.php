@@ -2,6 +2,8 @@
 
 @section('content')
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.css" >
+
     <style>
         .btn-outline-dark {
             border-radius: 35px;
@@ -47,6 +49,10 @@
             </div>
         </div>
 
+        <!-- Carousell -->
+
+        <!-- END -->
+
         <h1>My RMA Requests</h1>
         <div class="card mt-3">
             <div class="card-body">
@@ -90,7 +96,7 @@
                     <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
                         <div class="p-3 text-center">
                             <div class="text-primary monospace">
-                                <a href="https://xmiryna.com.my/rma/{{ $rma->id }}/pdf" class="btn btn-sm btn-primary">Print RMA Request Form</a>
+                                <a href="https://xmiryna.com.my/rma/{{ $rma->id }}/pdf" class="btn btn-sm btn-primary">RMA Request Form</a>
                             </div>
                         </div>
                     </div>
@@ -174,5 +180,7 @@
                 }]
             });
         });
+
+
     </script>
 @endsection
