@@ -7,6 +7,7 @@ use App\Models\DistributorProduct;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -29,6 +30,33 @@ class ProductController extends Controller
     {
         $products = Product::where('user_id', '=', \Auth::id())->paginate(6);
         return view('product.manage', compact('products'));
+    }
+
+    public function stockManagementIndex()
+    {
+        $user = User::join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->select('users.name', 'users.id', 'roles.name AS role_name')
+            ->where('role_user.role_id', 1)
+            ->get();
+
+        return view('distributor.stock-index', compact('user'));
+    }
+
+    public function stockManagementView(Request $request)
+    {
+        $products = Product::where('user_id', '=', $request->route('id'))->paginate(6);
+        $getName = Product::where('user_id', '=', $request->route('id'))->first();
+
+        $user = User::join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->select('users.name', 'users.id', 'roles.name AS role_name')
+            ->where('role_user.role_id', 1)
+            ->where('users.id', $request->route('id'))
+            ->first();
+        //dd($user);
+
+        return view('distributor.view-stock', compact('products', 'user'));
     }
 
     public function manageCartIndex()

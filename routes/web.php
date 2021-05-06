@@ -76,6 +76,8 @@ Route::prefix('tracking')->middleware(['auth', 'verified'])->name('track.')->gro
 Route::prefix('distributor')->middleware(['auth', 'verified'])->name('distributor.')->group(function () {
     Route::get('insert-product', [App\Http\Controllers\Product\ProductController::class, 'distriInsertProductIndex'])->name('insert.product.dist');
     Route::post('insert-sn-product', [App\Http\Controllers\Product\ProductController::class, 'distriInsertSN'])->name('insertsn.product.dist');
+    Route::get('stock-management', [App\Http\Controllers\Product\ProductController::class, 'stockManagementIndex'])->name('stock.management.index');
+    Route::get('stock-management/{id}', [App\Http\Controllers\Product\ProductController::class, 'stockManagementView'])->name('specific.stock.view');
 });
 
 Route::prefix('rma')->middleware(['auth', 'verified'])->name('rma.')->group(function () {
