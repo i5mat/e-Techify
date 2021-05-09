@@ -37,7 +37,7 @@ class ProductController extends Controller
         $user = User::join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select('users.name', 'users.id', 'roles.name AS role_name')
-            ->where('role_user.role_id', 1)
+            ->where('role_user.role_id', 2)
             ->get();
 
         return view('distributor.stock-index', compact('user'));
@@ -50,7 +50,7 @@ class ProductController extends Controller
         $user = User::join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
             ->select('users.name', 'users.id', 'roles.name AS role_name')
-            ->where('role_user.role_id', 1)
+            ->where('role_user.role_id', 2)
             ->where('users.id', $request->route('id'))
             ->first();
         //dd($user);
@@ -174,6 +174,12 @@ class ProductController extends Controller
         $request->session()->flash('success', 'Product Deleted');
 
         return redirect(route('user.userdash'));
+    }
+
+    public function removeCart($id)
+    {
+        $findID = Order::find($id);
+        dd($findID);
     }
 
     // In progress...

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Repair;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RepairController extends Controller
 {
@@ -56,5 +57,27 @@ class RepairController extends Controller
 
 
         return redirect(route('rma.new.request'));
+    }
+
+    public function jobSheet($id)
+    {
+        $findID = Repair::find($id);
+        $recipientInfo = DB::table('repairs')
+            ->join('addresses', 'repairs.addresses_id', '=', 'addresses.id')
+            ->where([
+                'repairs.user_id' => Auth::id()
+            ])
+            ->first();
+
+        $rmaInfo = DB::table('repairs')
+            ->join('addresses', 'repairs.addresses_id', '=', 'addresses.id')
+            ->join('products', 'repairs.product_id', '=', 'products.id')
+            ->where([
+                'repairs.user_id' => Auth::id(),
+                'repairs.id' => $findID->id
+            ])
+            ->get();
+
+        return view('rma.rma-sheet', compact('recipientInfo', 'rmaInfo'));
     }
 }

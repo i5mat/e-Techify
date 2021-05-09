@@ -93,7 +93,7 @@
                     <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
                         <div class="p-3 text-center">
                             <div class="text-primary monospace">
-                                <a href="https://xmiryna.com.my/rma/{{ $rma->id }}/pdf" class="btn btn-sm btn-primary">RMA Request Form</a>
+                                <a href="{{ route('rma.job-sheet', $rma->id) }}" class="btn btn-sm btn-primary">RMA Request Form</a>
                             </div>
                         </div>
                     </div>

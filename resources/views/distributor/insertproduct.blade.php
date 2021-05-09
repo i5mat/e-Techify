@@ -105,6 +105,7 @@
                                         <option selected>Please select...</option>
                                         <option value="NZXT">NZXT</option>
                                         <option value="FRACTAL DESIGN">FRACTAL DESIGN</option>
+                                        <option value="ASUS ROG">ASUS ROG</option>
                                     </select>
                                     <label for="prod_brand">Product Brand</label>
                                 </div>

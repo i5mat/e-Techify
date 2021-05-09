@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1 class="display-2 text-center">Stock Management by {{ $user->name }} <img src="/image/box.png"/></h1>
+    <h1 class="display-2 text-center">Stock by {{ $user->name }} <img src="/image/box.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">

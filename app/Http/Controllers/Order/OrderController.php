@@ -119,8 +119,8 @@ class OrderController extends Controller
         $output = wordwrap($yourTextStringg, $charactersLimitt);
 
         //view()->share('p', $orderInfo, $recipientInfo, $total_items, $output);
-        //$pdf_doc = PDF::loadView('receipt.index', compact('orderInfo', 'total_items', 'recipientInfo', 'output'));
-        //$pdf_doc->download('pdf.pdf');
+        //$pdf_doc = PDF::loadView('receipt.index', compact('orderInfo', 'total_items', 'recipientInfo', 'output'))->setPaper('a4', 'landscape');
+        //return $pdf_doc->download('lol.pdf');
         //return $pdf_doc->stream();
 
         return view('receipt.index', compact('orderInfo', 'total_items', 'recipientInfo', 'output'));

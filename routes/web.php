@@ -83,6 +83,7 @@ Route::prefix('distributor')->middleware(['auth', 'verified'])->name('distributo
 Route::prefix('rma')->middleware(['auth', 'verified'])->name('rma.')->group(function () {
     Route::get('new-request', [App\Http\Controllers\RepairController::class, 'RMAIndex'])->name('new.request');
     Route::post('new-request-post', [App\Http\Controllers\RepairController::class, 'storeRMA'])->name('new.post.request');
+    Route::get('rma-job-sheet/{id}', [App\Http\Controllers\RepairController::class, 'jobSheet'])->name('job-sheet');
 });
 
 Route::prefix('job')->middleware(['auth', 'verified'])->name('job.')->group(function () {
