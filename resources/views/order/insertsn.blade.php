@@ -34,20 +34,21 @@
                 <dt class="col-sm-3">QR Code</dt>
                 <dd class="col-sm-9">{!! DNS2D::getBarcodeHTML($recipientInfo->tracking_num, 'QRCODE', 5, 5) !!} </dd>
 
-                <dt class="col-sm-3">Suggested SN</dt>
-                <dd class="col-sm-9">
-                    @foreach($findSN as $z)
-                        <button class="btn btn-outline-warning" style="margin-top: 5px; margin-bottom: 5px">
-                            {{ $z->product_name }} => {{ $z->serial_number }}
-                        </button>
-                    @endforeach
-                </dd>
+
             </dl>
         </div>
     </div>
 
     <div class="card">
         <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Suggested SN</dt>
+                <dd class="col-sm-9">
+                    @foreach($findSN as $z)
+                        <div class="draggable btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">{{ $z->serial_number }}</div>
+                    @endforeach
+                </dd>
+            </dl>
             <table class="table text-center">
                 <thead>
                 <tr>
@@ -74,7 +75,7 @@
                                 <input type="text" class="form-control" id="products_sn" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $i->serial_number }}">
                             @else
                                 @for ($x = 0; $x < $i->product_order_quantity; $x++)
-                                    <input required type="text" class="form-control" id="products_sn" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $str_arr[$x] }}">
+                                    <input readonly required type="text" class="form-control" id="droppable{{ $x }}" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $str_arr[$x] }}">
                                 @endfor
                             @endif
                             <input type="text" id="getproduct_sn" name="getproduct_sn" value="{{ $i->product_id }}" hidden>
@@ -89,10 +90,40 @@
             </table>
             <div class="text-center">
                 <p class="lead">
-                    <button type="submit" class="btn btn-warning" style="width: 100%">Submit</button>
+                    <button id="btn_sbmt_sn_no" type="submit" class="btn btn-warning" style="width: 100%">Submit</button>
                 </p>
             </div>
             </form>
         </div>
     </div>
+    <script>
+        var a = document.getElementById('getproduct_qty').value;
+        //alert(a);
+        $(function() {
+            $(".draggable").draggable({
+                revert: true,
+                helper: 'clone',
+                start: function(event, ui) {
+                    $(this).fadeTo('fast', 0.5);
+                },
+                stop: function(event, ui) {
+                    $(this).fadeTo(0, 1);
+                }
+            });
+
+            for (i = 0; i < a; i++) {
+                $("#droppable"+i).droppable({
+                    hoverClass: 'active',
+                    drop: function(event, ui) {
+                        this.value = $(ui.draggable).text();
+                    }
+                });
+
+                // if ( $("#droppable"+i).val().length == 0 )
+                //     $('#btn_sbmt_sn_no').attr('disabled', true);
+                // else if ($("#droppable"+i).val().length > 0)
+                //     $('#btn_sbmt_sn_no').attr('disabled', false);
+            }
+        });
+    </script>
 @endsection

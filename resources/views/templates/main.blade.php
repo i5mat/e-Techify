@@ -21,6 +21,7 @@
         {{-- JQuery CDN --}}
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <script src="https://unpkg.com/feather-icons"></script>
         <script src="{{ asset('js/app.js') }}" defer></script>
 
@@ -71,6 +72,10 @@
 
     </head>
     <body>
+    <!-- -->
+
+    <!-- -->
+
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand" href="#"><img src="/image/online-sale.png"> e-Techify</a>

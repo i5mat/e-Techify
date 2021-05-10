@@ -22,7 +22,7 @@ class Profile extends Controller
     {
         $rmaInfo = Repair::join('products', 'products.id', '=', 'repairs.product_id')
             ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
-                'repairs.status', 'repairs.id')
+                'repairs.status', 'repairs.id', 'repairs.file_path')
             ->where([
                 'repairs.user_id' => Auth::id(),
             ])

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Responsive Bootstrap Invoice Template</title>
+    <title>RMA Job Sheet</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -80,7 +80,7 @@
 
                         {!! wordwrap($recipientInfo->address, 40, "<br>\n") !!} <br/><br/>
 
-                        <h5 class="mb-0 mt-3">{{ date('d M Y') }}</h5><br>
+                        <h5 class="mb-0 mt-3">+(60){{ $recipientInfo->phone_no }}</h5><br>
                         Requested On
                         <h2>{{ date('d M Y') }}</h2>
                     </div>
@@ -126,7 +126,7 @@
     <!-- Thank you note -->
 
     <h5 class="text-center pt-2">
-        Thank you for your patience with us!
+        Please print this and include inside your parcel. Thank You!
     </h5>
 
 </div>

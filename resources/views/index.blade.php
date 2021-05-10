@@ -94,6 +94,9 @@
                         <div class="p-3 text-center">
                             <div class="text-primary monospace">
                                 <a href="{{ route('rma.job-sheet', $rma->id) }}" class="btn btn-sm btn-primary">RMA Request Form</a>
+                                <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                                    <button class="btn"><i class="fa fa-download"></i> Download File</button>
+                                </a>
                             </div>
                         </div>
                     </div>
