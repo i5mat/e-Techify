@@ -142,34 +142,9 @@
     </form>
 
     <script src="https://www.paypal.com/sdk/js?client-id=AYGoN9I1BkU083SCTYJyibLNCCNE0eqXG6BLDbRSSKINBiWCK7eSdOKOXFeb4vz9RuG3tcMo9oYQl7R4&disable-funding=credit,card&currency=MYR"></script>
+
     <script>
-        paypal.Buttons({
-            style:{
-                color: 'blue',
-                shape: 'pill'
-            },
-            createOrder:function (data,actions) {
-                return actions.order.create({
-                    purchase_units:[{
-                        amount:{
-                            currency_code:'MYR',
-                            value:'0.1'
-                        }
-                    }]
-                })
-            },
-            onApprove:function (data,actions) {
-                return actions.order.capture().then(function (details){
-                    console.log(details)
-                    //window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
-                })
-            },
-            onCancel: function (data) {
-                alert('Failed, or canceled.')
-            }
-        }).render('#paypal-payment-button');
-    </script>
-    <script>
+
         CalculateItemsValue();
         myFunction();
 
@@ -232,6 +207,33 @@
             document.getElementById('ItemsTotal').innerHTML = formatter.format(total);
             document.getElementById('merchTotal').innerHTML = formatter.format(merchantTotal);
             document.getElementById('tot').value = total;
+
+            paypal.Buttons({
+                style:{
+                    color: 'blue',
+                    shape: 'pill'
+                },
+                createOrder:function (data,actions) {
+                    return actions.order.create({
+                        purchase_units:[{
+                            amount:{
+                                currency_code:'MYR',
+                                value:total
+                            }
+                        }]
+                    })
+                },
+                onApprove:function (data,actions) {
+                    return actions.order.capture().then(function (details) {
+                        alert('Transaction completed by ' + details.payer.name.given_name);
+                        console.log(details)
+                        //window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
+                    })
+                },
+                onCancel: function (data) {
+                    alert('Failed, or canceled. Could be insufficient funds.')
+                }
+            }).render('#paypal-payment-button');
         }
     </script>
 @endsection
