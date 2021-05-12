@@ -135,11 +135,40 @@
                          alt="Mastercard">
                 </div>
                 <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 20px" @if($items->count() == 0) disabled @endif id="submit_btn">Check Out</button>
+                <div id="paypal-payment-button" style="margin-top: 15px"></div>
             </div>
         </div>
     </div>
     </form>
 
+    <script src="https://www.paypal.com/sdk/js?client-id=AYGoN9I1BkU083SCTYJyibLNCCNE0eqXG6BLDbRSSKINBiWCK7eSdOKOXFeb4vz9RuG3tcMo9oYQl7R4&disable-funding=credit,card&currency=MYR"></script>
+    <script>
+        paypal.Buttons({
+            style:{
+                color: 'blue',
+                shape: 'pill'
+            },
+            createOrder:function (data,actions) {
+                return actions.order.create({
+                    purchase_units:[{
+                        amount:{
+                            currency_code:'MYR',
+                            value:'0.1'
+                        }
+                    }]
+                })
+            },
+            onApprove:function (data,actions) {
+                return actions.order.capture().then(function (details){
+                    console.log(details)
+                    //window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
+                })
+            },
+            onCancel: function (data) {
+                alert('Failed, or canceled.')
+            }
+        }).render('#paypal-payment-button');
+    </script>
     <script>
         CalculateItemsValue();
         myFunction();

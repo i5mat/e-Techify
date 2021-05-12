@@ -41,14 +41,24 @@
 
     <div class="card">
         <div class="card-body">
+            @if($findSN->count() > 0)
             <dl class="row">
                 <dt class="col-sm-3">Suggested SN</dt>
                 <dd class="col-sm-9">
                     @foreach($findSN as $z)
-                        <div class="draggable btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">{{ $z->serial_number }}</div>
+                        <div class="lead" id="prod_name_sn">{{ $z->product_name }}
+                        <div class="draggable btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">{{ $z->serial_number }}</div></div>
                     @endforeach
                 </dd>
             </dl>
+            @else
+                <dl class="row">
+                    <dt class="col-sm-3">Suggested SN</dt>
+                    <dd class="col-sm-9">
+                        There is no SN that is available, please request distributor to insert new SN.
+                    </dd>
+                </dl>
+            @endif
             <table class="table text-center">
                 <thead>
                 <tr>
@@ -108,6 +118,7 @@
                 },
                 stop: function(event, ui) {
                     $(this).fadeTo(0, 1);
+                    $(this).hide();
                 }
             });
 
@@ -116,6 +127,7 @@
                     hoverClass: 'active',
                     drop: function(event, ui) {
                         this.value = $(ui.draggable).text();
+                        $(ui.draggable).hide();
                     }
                 });
 
