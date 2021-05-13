@@ -277,6 +277,11 @@ class OrderController extends Controller
         return view('order.thankyou');
     }
 
+    public function payPalTest(Request $request)
+    {
+        return response()->json(['success'=>'yey!', $request->get('buyer_name')]);
+    }
+
     public function cancelOrder($id, Request $request)
     {
         Order::destroy($id);

@@ -208,6 +208,12 @@
             document.getElementById('merchTotal').innerHTML = formatter.format(merchantTotal);
             document.getElementById('tot').value = total;
 
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             paypal.Buttons({
                 style:{
                     color: 'blue',
@@ -218,7 +224,7 @@
                         purchase_units:[{
                             amount:{
                                 currency_code:'MYR',
-                                value:total
+                                value:'0.1'
                             }
                         }]
                     })
@@ -228,6 +234,30 @@
                         alert('Transaction completed by ' + details.payer.name.given_name);
                         console.log(details)
                         //window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
+
+                        var address_id = $("input[name=get_add_id]").val();
+                        var pay_total = total;
+                        var pay_method = 'PayPal';
+
+                        $.ajax({
+                            type:'POST',
+                            url:"{{ route('order.paypal.test') }}",
+                            data:{
+                                get_add_id:address_id,
+                                tot:pay_total,
+                                buyer_name:details.purchase_units[0].shipping.name.full_name,
+                                payment_method:pay_method
+                            },
+                            success:function(data){
+                                if ( data['success'] ) {
+                                    alert('Transaction completed by ' + details.payer.name.given_name);
+                                    //window.location.replace("http://127.0.0.1:8000/order/paypal-test");
+                                }
+                                else
+                                    alert('EXISTING.')
+
+                            }
+                        });
                     })
                 },
                 onCancel: function (data) {
