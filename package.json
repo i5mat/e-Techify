@@ -21,5 +21,8 @@
         "resolve-url-loader": "^3.1.2",
         "sass": "^1.32.7",
         "sass-loader": "^11.0.1"
+    },
+    "dependencies": {
+        "jquery-serializejson": "^3.2.1"
     }
 }

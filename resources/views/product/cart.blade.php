@@ -70,7 +70,7 @@
                 </thead>
                 <tbody>
                 @foreach($items as $i)
-                    <form method="POST" action="{{ route('order.purchase.orderdetails', $i->order_id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('order.purchase.orderdetails', $i->order_id) }}" enctype="multipart/form-data" id="form_cart" name="form_cart">
                         @csrf
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
@@ -83,6 +83,7 @@
                             <input type='number' name="{{ $i->product_id }}[]" min="1" value="{{ $i->product_order_quantity }}" class="text-center" data-price="{{ $i->product_price }}" id="qnt_{{ $loop->iteration }}" oninput="CalculateItemsValue()">
                             <input type="number" id="get_qty{{ $loop->iteration }}" name="get_qty{{ $loop->iteration }}" hidden>
                             <input type="text" id="get_prod_id" name="get_prod_id" value="{{ $i->product_id }}" hidden>
+                            <input type="text" id="get_ord_id" name="get_ord_id" value="{{ $i->order_id }}" hidden>
                         </td>
                         <td>
                             <button type="button" class="btn btn-info" style="background-color: transparent; border: none">
@@ -139,10 +140,10 @@
             </div>
         </div>
     </div>
+    <script src="https://www.paypal.com/sdk/js?client-id=AYGoN9I1BkU083SCTYJyibLNCCNE0eqXG6BLDbRSSKINBiWCK7eSdOKOXFeb4vz9RuG3tcMo9oYQl7R4&disable-funding=credit,card&currency=MYR"></script>
     </form>
 
-    <script src="https://www.paypal.com/sdk/js?client-id=AYGoN9I1BkU083SCTYJyibLNCCNE0eqXG6BLDbRSSKINBiWCK7eSdOKOXFeb4vz9RuG3tcMo9oYQl7R4&disable-funding=credit,card&currency=MYR"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.2.1/jquery.serializejson.min.js"></script>
     <script>
 
         CalculateItemsValue();
@@ -207,63 +208,59 @@
             document.getElementById('ItemsTotal').innerHTML = formatter.format(total);
             document.getElementById('merchTotal').innerHTML = formatter.format(merchantTotal);
             document.getElementById('tot').value = total;
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
-            paypal.Buttons({
-                style:{
-                    color: 'blue',
-                    shape: 'pill'
-                },
-                createOrder:function (data,actions) {
-                    return actions.order.create({
-                        purchase_units:[{
-                            amount:{
-                                currency_code:'MYR',
-                                value:'0.1'
-                            }
-                        }]
-                    })
-                },
-                onApprove:function (data,actions) {
-                    return actions.order.capture().then(function (details) {
-                        alert('Transaction completed by ' + details.payer.name.given_name);
-                        console.log(details)
-                        //window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
-
-                        var address_id = $("input[name=get_add_id]").val();
-                        var pay_total = total;
-                        var pay_method = 'PayPal';
-
-                        $.ajax({
-                            type:'POST',
-                            url:"{{ route('order.paypal.test') }}",
-                            data:{
-                                get_add_id:address_id,
-                                tot:pay_total,
-                                buyer_name:details.purchase_units[0].shipping.name.full_name,
-                                payment_method:pay_method
-                            },
-                            success:function(data){
-                                if ( data['success'] ) {
-                                    alert('Transaction completed by ' + details.payer.name.given_name);
-                                    //window.location.replace("http://127.0.0.1:8000/order/paypal-test");
-                                }
-                                else
-                                    alert('EXISTING.')
-
-                            }
-                        });
-                    })
-                },
-                onCancel: function (data) {
-                    alert('Failed, or canceled. Could be insufficient funds.')
-                }
-            }).render('#paypal-payment-button');
         }
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        paypal.Buttons({
+            style:{
+                color: 'blue',
+                shape: 'pill'
+            },
+            createOrder:function (data,actions) {
+                return actions.order.create({
+                    purchase_units:[{
+                        amount:{
+                            currency_code:'MYR',
+                            value:document.getElementById('tot').value
+                        }
+                    }]
+                })
+            },
+            onApprove:function (data,actions) {
+                return actions.order.capture().then(function (details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                    console.log(details)
+                    //window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
+
+                    var pay_total = details.purchase_units[0].amount.value;
+                    var pay_method = 'PayPal';
+                    var order_Id = $("input[name=get_ord_id]").val();
+
+                    $.ajax({
+                        type:'POST',
+                        url:"http://127.0.0.1:8000/order/purchase/success/"+order_Id,
+                        data:$("#form_cart").serialize() + '&pay_method=' + pay_method + '&pay_total=' + pay_total,
+                        success:function(data){
+                            if ( data['success'] ) {
+                                console.log(data)
+                                alert('Transaction completed by ' + details.purchase_units[0].shipping.name.full_name);
+                                //window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
+                            }
+                            else
+                                alert('EXISTING.')
+
+                        }
+                    });
+                })
+            },
+            onCancel: function (data) {
+                alert('Failed, or canceled. Could be insufficient funds.')
+            }
+        }).render('#paypal-payment-button');
     </script>
 @endsection

@@ -233,48 +233,49 @@ class OrderController extends Controller
     public function orderConfirm($id, Request $request)
     {
         //dd($request->except(['_token']));
-        $findOrderID = Order::find($id);
-        $randomNum = rand(0, 999999999999);
-        $randomReceiptNum = "XT-".rand(0, 999999999999);
-
-        $insertData = new ConfirmOrder([
-            "order_id" => $findOrderID->id,
-            "addresses_id" => $request->get('get_add_id'),
-            "payment_total" => $request->get('tot'),
-            "payment_method" => 'ONLINE BANKING - M2U',
-            "tracking_num" => $randomNum,
-            "receipt_no" => $randomReceiptNum
-        ]);
-
-        foreach ($request->except(['_token']) as $key => $data)
-        {
-            $json = json_encode($data);
-            $result = implode(', ', (array)json_decode($json));
-
-            //dd($key, $data);
-            Product::where('id', '=', $key)
-                ->decrement('product_stock_count', $result);
-
-            OrderDetail::where('product_id', '=', $key)
-                ->update(['product_order_quantity' => $result]);
-        }
-
-        $findOrderID->order_status = 'To Ship';
-
-        $insertData->save();
-        $findOrderID->save();
-
-        $insertTracking = new Tracking([
-            "order_id" => $findOrderID->id,
-            "tracking_no" => $insertData->tracking_num,
-            "current_status" => "Confirmed Order"
-        ]);
-
-        $insertTracking->save();
+//        $findOrderID = Order::find($id);
+//        $randomNum = rand(0, 999999999999);
+//        $randomReceiptNum = "XT-".rand(0, 999999999999);
+//
+//        $insertData = new ConfirmOrder([
+//            "order_id" => $findOrderID->id,
+//            "addresses_id" => $request->get('get_add_id'),
+//            "payment_total" => $request->get('tot'),
+//            "payment_method" => 'PayPal',
+//            "tracking_num" => $randomNum,
+//            "receipt_no" => $randomReceiptNum
+//        ]);
+//
+//        foreach ($request->except(['_token']) as $key => $data)
+//        {
+//            $json = json_encode($data);
+//            $result = implode(', ', (array)json_decode($json));
+//
+//            //dd($key, $data);
+//            Product::where('id', '=', $key)
+//                ->decrement('product_stock_count', $result);
+//
+//            OrderDetail::where('product_id', '=', $key)
+//                ->update(['product_order_quantity' => $result]);
+//        }
+//
+//        $findOrderID->order_status = 'To Ship';
+//
+//        $insertData->save();
+//        $findOrderID->save();
+//
+//        $insertTracking = new Tracking([
+//            "order_id" => $findOrderID->id,
+//            "tracking_no" => $insertData->tracking_num,
+//            "current_status" => "Confirmed Order"
+//        ]);
+//
+//        $insertTracking->save();
 
         //dd($insertData, $findOrderID, $insertTracking);
 
-        return view('order.thankyou');
+        //return view('order.thankyou');
+        return response()->json(['success'=>'yey!', $request->all()]);
     }
 
     public function payPalTest(Request $request)
