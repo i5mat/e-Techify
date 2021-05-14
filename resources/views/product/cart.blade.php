@@ -238,12 +238,13 @@
                     //window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
 
                     var pay_total = details.purchase_units[0].amount.value;
-                    var pay_method = 'PayPal';
+                    var pay_method = details.purchase_units[0].soft_descriptor;
                     var order_Id = $("input[name=get_ord_id]").val();
 
                     $.ajax({
                         type:'POST',
                         url:"http://127.0.0.1:8000/order/purchase/success/"+order_Id,
+                        contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                         data:$("#form_cart").serialize() + '&pay_method=' + pay_method + '&pay_total=' + pay_total,
                         success:function(data){
                             if ( data['success'] ) {
