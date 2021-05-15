@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -19,9 +20,10 @@ class AccessAdmin
     public function handle(Request $request, Closure $next)
     {
         if (Gate::allows('is-reseller')) {
+            //return redirect(RouteServiceProvider::HOME);
             return $next($request);
         }
 
-        return redirect('/user/dashboard');
+        return redirect(RouteServiceProvider::HOME);
     }
 }

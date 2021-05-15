@@ -63,7 +63,7 @@ Route::prefix('order')->middleware(['auth', 'verified'])->name('order.')->group(
     Route::get('receipt/{id}', [App\Http\Controllers\Order\OrderController::class, 'receiptIndex'])->name('purchase.receipt');
     Route::get('receipt/insert-prod-sn/{id}', [App\Http\Controllers\Order\OrderController::class, 'addProductSN'])->name('purchase.insertsn');
     Route::post('receipt/update-prod-sn/{id}', [App\Http\Controllers\Order\OrderController::class, 'updateProductSN'])->name('purchase.updatesn');
-    Route::delete('purchase/delete/{id}', [App\Http\Controllers\Order\OrderController::class, 'cancelOrder'])->name('order.cancel');
+    Route::patch('purchase/delete/{id}', [App\Http\Controllers\Order\OrderController::class, 'cancelOrder'])->name('order.cancel');
     Route::post('paypal-test', [App\Http\Controllers\Order\OrderController::class, 'payPalTest'])->name('paypal.test');
 });
 

@@ -7,9 +7,11 @@ use App\Models\Address;
 use App\Models\Job;
 use App\Models\Product;
 use App\Models\Repair;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class Profile extends Controller
 {
@@ -30,7 +32,11 @@ class Profile extends Controller
 
         $jobInfo = Job::all();
 
-        return view('index', compact('rmaInfo', 'jobInfo'));
+        if (Gate::allows('is-user-reseller')) {
+            return view('index', compact('rmaInfo', 'jobInfo'));
+        }
+
+        dd('LOL?! ni utk user je.');
     }
 
     public function userAddressIndex()

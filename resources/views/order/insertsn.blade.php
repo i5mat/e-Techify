@@ -108,6 +108,7 @@
     </div>
     <script>
         var a = document.getElementById('getproduct_qty').value;
+        var b = document.getElementById('getproduct_sn').value;
         //alert(a);
         $(function() {
             $(".draggable").draggable({
@@ -130,11 +131,6 @@
                         $(ui.draggable).hide();
                     }
                 });
-
-                // if ( $("#droppable"+i).val().length == 0 )
-                //     $('#btn_sbmt_sn_no').attr('disabled', true);
-                // else if ($("#droppable"+i).val().length > 0)
-                //     $('#btn_sbmt_sn_no').attr('disabled', false);
             }
         });
     </script>

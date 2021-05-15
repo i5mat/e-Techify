@@ -149,7 +149,7 @@
                                 <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('distributor.stock.management.index') }}">Stock Management [{{ Auth::user()->name }}]</a>
+                                <a class="nav-link" href="{{ route('distributor.stock.management.index') }}">Stock Management</a>
                             </li>
                         @endcan
                     </ul>

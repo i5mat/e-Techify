@@ -23,7 +23,7 @@
                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Completed</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">/</a>
+                    <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Cancelled</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">/</a>
@@ -36,8 +36,8 @@
                     @foreach($to_ship as $i)
                     <div class="card" style="margin-top: 10px">
                         <div class="card-body">
-                            <h5 class="card-title display-6">ORDER #{{ $loop->iteration }}</h5>
-                            <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge bg-danger" style="color: white">{{ $i->order_status }}</span>
+                            <h5 class="card-title display-6">ORDER #{{ $i->id }}</h5>
+                            <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge bg-primary" style="color: white">{{ $i->order_status }}</span>
                             <a href="{{ route('order.index.orderdetails', $i->id) }}">
                                 <button type="button" class="btn btn-dark float-end">View</button>
                             </a>
@@ -61,7 +61,13 @@
                                 </button>
                             </a>
 
-                            <button type="button" class="btn btn-danger float-end" style="margin-right: 10px" onclick="event.preventDefault();
+                            <a href="{{ route('track.index.trackparcel', $i->id) }}">
+                                <button type="button" class="btn btn-primary float-end" style="margin-right: 10px">
+                                    Update Tracking
+                                </button>
+                            </a>
+
+                            <button @if(App\Models\Tracking::where('order_id', '=', $i->id)->where('current_status', '=', 'Processing Order')->exists()) hidden @endif type="button" class="btn btn-danger float-end" style="margin-right: 10px" onclick="event.preventDefault();
                                 document.getElementById('cancel-order-{{ $i->id }}').submit()">
                                 Cancel Order
                             </button>
@@ -70,12 +76,6 @@
                                 @csrf
                                 @method('DELETE')
                             </form>
-
-                            <a href="{{ route('track.index.trackparcel', $i->id) }}">
-                                <button type="button" class="btn btn-primary float-end" style="margin-right: 10px">
-                                    Update Tracking
-                                </button>
-                            </a>
                         </div>
                     </div>
                     @endforeach
@@ -84,16 +84,11 @@
                     @foreach($delivered as $i)
                         <div class="card" style="margin-top: 10px">
                             <div class="card-body">
-                                <h5 class="card-title display-6">ORDER #{{ $loop->iteration }}</h5>
+                                <h5 class="card-title display-6">ORDER #{{ $i->id }}</h5>
                                 <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge bg-success" style="color: white">{{ $i->order_status }}</span>
                                 <a href="{{ route('order.index.orderdetails', $i->id) }}">
                                     <button type="button" class="btn btn-dark float-end">View</button>
                                 </a>
-
-                                <button type="button" class="btn btn-warning float-end" style="margin-right: 10px" onclick="event.preventDefault();
-                                    document.getElementById('get-awb-order-{{ $i->id }}').submit()">
-                                    Print WayBill
-                                </button>
 
                                 <form id="get-awb-order-{{ $i->id }}" action="{{ route('order.purchase.awb', $i->id) }}" method="POST" style="display: none">
                                     @csrf
@@ -109,27 +104,81 @@
                                     </button>
                                 </a>
 
-                                <button type="button" class="btn btn-danger float-end" style="margin-right: 10px" onclick="event.preventDefault();
-                                    document.getElementById('cancel-order-{{ $i->id }}').submit()">
-                                    Cancel Order
-                                </button>
-
-                                <form id="cancel-order-{{ $i->id }}" action="{{ route('order.order.cancel', $i->id) }}" method="POST" style="display: none">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-
-                                <a href="{{ route('track.index.trackparcel', $i->id) }}">
-                                    <button type="button" class="btn btn-primary float-end" style="margin-right: 10px">
-                                        Update Tracking
+                                @if($i->order_status != 'Delivered' && new DateTime(now()) < new DateTime($i->created_at))
+                                    <button type="button" class="btn btn-warning float-end" style="margin-right: 10px" onclick="event.preventDefault();
+                                        document.getElementById('get-awb-order-{{ $i->id }}').submit()">
+                                        Print WayBill
                                     </button>
-                                </a>
+
+                                    <button type="button" class="btn btn-danger float-end" style="margin-right: 10px" onclick="event.preventDefault();
+                                        document.getElementById('cancel-order-{{ $i->id }}').submit()">
+                                        Cancel Order
+                                    </button>
+
+                                    <form id="cancel-order-{{ $i->id }}" action="{{ route('order.order.cancel', $i->id) }}" method="POST" style="display: none">
+                                        @csrf
+                                        @method('PATCH')
+                                    </form>
+
+                                    <a href="{{ route('track.index.trackparcel', $i->id) }}">
+                                        <button type="button" class="btn btn-primary float-end" style="margin-right: 10px">
+                                            Update Tracking
+                                        </button>
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     @endforeach
                 </div>
                 <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
-                    LOL
+                    @foreach($cancelled as $i)
+                        <div class="card" style="margin-top: 10px">
+                            <div class="card-body">
+                                <h5 class="card-title display-6">ORDER #{{ $i->id }}</h5>
+                                <p class="card-text small">{{ date('d-M-Y H:i A', strtotime($i->created_at)) }}</p><span class="badge bg-danger" style="color: white">{{ $i->order_status }}</span>
+
+                                @if($i->order_status == 'Cancelled')
+                                    <a href="{{ route('order.index.orderdetails', $i->id) }}">
+                                        <button type="button" class="btn btn-dark float-end">View</button>
+                                    </a>
+                                @else
+                                    <button type="button" class="btn btn-warning float-end" style="margin-right: 10px" onclick="event.preventDefault();
+                                        document.getElementById('get-awb-order-{{ $i->id }}').submit()">
+                                        Print WayBill
+                                    </button>
+
+                                    <form id="get-awb-order-{{ $i->id }}" action="{{ route('order.purchase.awb', $i->id) }}" method="POST" style="display: none">
+                                        @csrf
+                                    </form>
+                                    <a href="{{ route('order.purchase.insertsn', $i->id) }}">
+                                        <button type="button" class="btn btn-primary float-end" style="margin-right: 10px">
+                                            Insert SN
+                                        </button>
+                                    </a>
+                                    <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank">
+                                        <button type="button" class="btn btn-success float-end" style="margin-right: 10px" >
+                                            Get Receipt
+                                        </button>
+                                    </a>
+                                    <button type="button" class="btn btn-danger float-end" style="margin-right: 10px" onclick="event.preventDefault();
+                                        document.getElementById('cancel-order-{{ $i->id }}').submit()">
+                                        Cancel Order
+                                    </button>
+
+                                    <form id="cancel-order-{{ $i->id }}" action="{{ route('order.order.cancel', $i->id) }}" method="POST" style="display: none">
+                                        @csrf
+                                        @method('PATCH')
+                                    </form>
+
+                                    <a href="{{ route('track.index.trackparcel', $i->id) }}">
+                                        <button type="button" class="btn btn-primary float-end" style="margin-right: 10px">
+                                            Update Tracking
+                                        </button>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
                 <div class="tab-pane fade" id="settings" role="tabpanel" aria-labelledby="settings-tab">SIT AMET</div>
             </div>

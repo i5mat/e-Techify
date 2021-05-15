@@ -35,7 +35,13 @@ class OrderController extends Controller
         ])
         ->get();
 
-        return view('order.index', compact('to_ship', 'delivered'));
+        $cancelled = Order::where([
+            'user_id' => Auth::id(),
+            'order_status' => 'Cancelled'
+        ])
+            ->get();
+
+        return view('order.index', compact('to_ship', 'delivered', 'cancelled'));
     }
 
     public function orderDetailsIndex($id)
@@ -158,7 +164,6 @@ class OrderController extends Controller
 
                 // use of explode
                 $string = $data->serial_number;
-                //dd($str_arr);
                 $str_arr = array_pad(explode(', ', $string), $data->product_order_quantity, null);
             }
         }
@@ -285,7 +290,9 @@ class OrderController extends Controller
 
     public function cancelOrder($id, Request $request)
     {
-        Order::destroy($id);
+        $findID = Order::find($id);
+        //dd($findID->id);
+        Order::where('id', '=', $findID->id)->update(['order_status' => 'Cancelled']);
 
         return redirect()->back()->with('success', 'Order deleted...');
     }
