@@ -46,9 +46,70 @@
             </div>
         </div>
 
-        <!-- Carousell -->
-
-        <!-- END -->
+        <!-- Modal -->
+        <div class="modal fade" id="staticRMA" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="row text-center">
+                                <div class="col-xl">
+                                    <img id="myProdImg" src="" width="300" height="300">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl">
+                                    <dl class="row">
+                                        <dt class="col-sm-3">RMA No.</dt>
+                                        <dd class="col-sm-9">
+                                            <h5 id="rma_no"></h5>
+                                        </dd>
+                                        <dt class="col-sm-3">RMA Current Status</dt>
+                                        <dd class="col-sm-9">
+                                            <h5 id="rma_status"></h5>
+                                        </dd>
+                                        <dt class="col-sm-3">RMA Reason</dt>
+                                        <dd class="col-sm-9">
+                                            <h5 id="rma_reason"></h5>
+                                        </dd>
+                                        <dt class="col-sm-3">RMA Update Status</dt>
+                                        <dd class="col-sm-9">
+                                            <div class="form-floating">
+                                                <select class="form-select" id="floatingSelect" aria-label="Floating label select example" style="height: 60px">
+                                                    <option value="Received">Received</option>
+                                                    <option value="Received">Repair</option>
+                                                    <option value="Received">Replacement 1-1</option>
+                                                </select>
+                                                <label for="floatingSelect">Select Status</label>
+                                            </div>
+                                        </dd>
+                                        <dt class="col-sm-3">Receive At</dt>
+                                        <dd class="col-sm-9">
+                                            <div class="form-floating">
+                                                <input type="date" class="form-control">
+                                                <label for="date">Date Of Arrival</label>
+                                            </div>
+                                        </dd>
+                                        <dt class="col-sm-3">Requested RMA At</dt>
+                                        <dd class="col-sm-9">
+                                            <h5 id="rma_request_at"></h5>
+                                        </dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <h1>My RMA Requests</h1>
         <div class="card mt-3">
@@ -93,9 +154,20 @@
                     <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
                         <div class="p-3 text-center">
                             <div class="text-primary monospace">
-                                <a href="{{ route('rma.job-sheet', $rma->id) }}" class="btn btn-sm btn-primary">RMA Request Form</a>
+                                <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}" class="btn btn-sm btn-primary">RMA Request Form</a>
                                 <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
                                     <button class="btn"><i class="fa fa-download"></i> Download File</button>
+                                </a>
+                                <a
+                                    href="#"
+                                    data-myrmaid="{{ $rma->id }}"
+                                    data-myprodpic="{{ $rma->product_image_path }}"
+                                    data-myrmastatus="{{ $rma->status }}"
+                                    data-myrmareason="{{ $rma->reason }}"
+                                    data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#staticRMA">
+                                    <button class="btn btn-sm btn-warning"><i data-feather="alert-triangle" class="feather-16" style="margin-bottom: 5px"></i> Update RMA Status</button>
                                 </a>
                             </div>
                         </div>
@@ -128,6 +200,7 @@
     @endguest
 
     <script type="application/javascript">
+        feather.replace();
         document.addEventListener('DOMContentLoaded', function () {
 
             Highcharts.chart('graph', {
@@ -181,6 +254,25 @@
             });
         });
 
+        $('#staticRMA').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var rma_id = button.data('myrmaid') // Extract info from data-* attributes
+            var prod_pic = button.data('myprodpic') // Extract info from data-* attributes
+            var rma_status = button.data('myrmastatus') // Extract info from data-* attributes
+            var rma_reason = button.data('myrmareason') // Extract info from data-* attributes
+            var rma_request_at = button.data('myrmareqat') // Extract info from data-* attributes
 
+            var modal = $(this)
+            modal.find('.modal-body #rma_no').val(rma_id);
+            modal.find('.modal-body #rma_status').val(rma_status);
+            modal.find('.modal-body #rma_reason').val(rma_reason);
+            modal.find('.modal-body #rma_request_at').val(rma_request_at);
+
+            document.getElementById("rma_no").innerText = "#" + rma_id;
+            document.getElementById("rma_status").innerText = rma_status;
+            document.getElementById("rma_reason").innerText = rma_reason;
+            document.getElementById("rma_request_at").innerText = rma_request_at;
+            document.getElementById("myProdImg").src = "/storage/product/" + prod_pic;
+        });
     </script>
 @endsection

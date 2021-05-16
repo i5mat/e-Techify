@@ -65,7 +65,7 @@ class RepairController extends Controller
         $recipientInfo = DB::table('repairs')
             ->join('addresses', 'repairs.addresses_id', '=', 'addresses.id')
             ->where([
-                'repairs.user_id' => Auth::id()
+                'repairs.id' => $findID->id
             ])
             ->first();
 
