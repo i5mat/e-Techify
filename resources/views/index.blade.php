@@ -51,7 +51,7 @@
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">Update RMA</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -68,15 +68,15 @@
                                         <dd class="col-sm-9">
                                             <h5 id="rma_no"></h5>
                                         </dd>
-                                        <dt class="col-sm-3">RMA Current Status</dt>
+                                        <dt class="col-sm-3">Current Status</dt>
                                         <dd class="col-sm-9">
                                             <h5 id="rma_status"></h5>
                                         </dd>
-                                        <dt class="col-sm-3">RMA Reason</dt>
+                                        <dt class="col-sm-3">Reason</dt>
                                         <dd class="col-sm-9">
                                             <h5 id="rma_reason"></h5>
                                         </dd>
-                                        <dt class="col-sm-3">RMA Update Status</dt>
+                                        <dt class="col-sm-3">Update Status</dt>
                                         <dd class="col-sm-9">
                                             <div class="form-floating">
                                                 <select class="form-select" id="floatingSelect" aria-label="Floating label select example" style="height: 60px">

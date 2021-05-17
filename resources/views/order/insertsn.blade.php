@@ -85,7 +85,7 @@
                                 <input type="text" class="form-control" id="products_sn" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $i->serial_number }}">
                             @else
                                 @for ($x = 0; $x < $i->product_order_quantity; $x++)
-                                    <input readonly required type="text" class="form-control" id="droppable{{ $x }}" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $str_arr[$x] }}">
+                                    <input readonly required type="text" class="form-control" id="droppable{{ $x }}{{ $i->product_id }}" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $str_arr[$x] }}">
                                 @endfor
                             @endif
                             <input type="text" id="getproduct_sn" name="getproduct_sn" value="{{ $i->product_id }}" hidden>
@@ -119,12 +119,12 @@
                 },
                 stop: function(event, ui) {
                     $(this).fadeTo(0, 1);
-                    $(this).hide();
+                    //$(this).hide();
                 }
             });
 
             for (i = 0; i < a; i++) {
-                $("#droppable"+i).droppable({
+                $("#droppable"+i+b).droppable({
                     hoverClass: 'active',
                     drop: function(event, ui) {
                         this.value = $(ui.draggable).text();
