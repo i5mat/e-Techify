@@ -185,7 +185,7 @@
         </div>
     </div>
 
-    <div class="card" style="margin-top: 10px">
+    <div class="card shadow" style="margin-top: 10px">
         <div class="card-body">
             <table id="distri-product-table" class="display" style="width:100%">
                 <thead>
