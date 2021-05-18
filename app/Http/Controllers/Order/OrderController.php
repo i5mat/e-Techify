@@ -39,7 +39,7 @@ class OrderController extends Controller
             'user_id' => Auth::id(),
             'order_status' => 'Cancelled'
         ])
-            ->get();
+        ->get();
 
         return view('order.index', compact('to_ship', 'delivered', 'cancelled'));
     }

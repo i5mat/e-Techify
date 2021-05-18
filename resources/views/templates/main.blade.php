@@ -72,9 +72,6 @@
 
     </head>
     <body>
-    <!-- -->
-
-    <!-- -->
 
         <nav class="navbar navbar-expand-lg">
             <div class="container">
@@ -86,7 +83,7 @@
                         @if (Route::has('login'))
                             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                                 @auth
-                                    <a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><span class="badge">0</span><i class="fa fa-shopping-cart fa-2x"></i></a>
+                                    @can('is-user')<a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><span class="badge">0</span><i class="fa fa-shopping-cart fa-2x"></i></a>@endcan
                                     <a href="{{ url('/user/profile') }}" style="padding-right: 10px;"><i class="fa fa-user fa-2x"></i></a>
                                     <a href="{{ url('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
@@ -116,17 +113,23 @@
                             <a class="nav-link" href="{{ route('user.userdash') }}">Home</a>
                         </li>
                         @can('is-reseller')
-{{--                            <li class="nav-item">--}}
-{{--                                <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>--}}
-{{--                            </li>--}}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>
+                            </li>
+                        @endcan
+                        @can('is-user')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('product.items.index') }}">
                                     Shop
                                 </a>
                             </li>
+                        @endcan
+                        @can('is-user-reseller')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('order.orders.index') }}">Manage Orders</a>
                             </li>
+                        @endcan
+                        @can('is-reseller-distributor')
                             <li class="nav-item">
                                 <div class="nav-link dropdown">
                                     <button class="dropbtn" style="background-color: #FFF">Manage Product</button>
@@ -136,15 +139,21 @@
                                     </div>
                                 </div>
                             </li>
+                        @endcan
+                        @can('is-distributor')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Distributor</a>
+                                <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Insert SN (Distributor)</a>
                             </li>
+                        @endcan
+                        @can('is-user')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('rma.new.request') }}">e-RMA</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('track.new.parcel') }}">e-Track Parcel</a>
                             </li>
+                        @endcan
+                        @can('is-reseller')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
                             </li>

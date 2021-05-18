@@ -32,7 +32,7 @@ class Profile extends Controller
 
         $jobInfo = Job::all();
 
-        if (Gate::allows('is-user-reseller')) {
+        if (Gate::allows('is-all-roles')) {
             return view('index', compact('rmaInfo', 'jobInfo'));
         }
 

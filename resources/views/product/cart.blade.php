@@ -14,43 +14,53 @@
 
     <div class="card" style="margin-bottom: 10px">
         <div class="card-body">
-            <div class="text-center" style="margin-bottom: 10px">
-                <img src="/image/location.png">
-            </div>
+            @if(\App\Models\Address::where('user_id', '!=', Auth::id())->exists())
+                <p>
+                    Dear Valued Customer,
+                    Please add your address.
+                </p>
+                <a href="/user/address">
+                    <button class="btn btn-warning" style="width: 100%">Address +</button>
+                </a>
+            @else
+                <div class="text-center" style="margin-bottom: 10px">
+                    <img src="/image/location.png">
+                </div>
 
-            <dl class="row">
-                <dt class="col-sm-3">Name & Phone No.</dt>
-                <dd class="col-sm-9" id="user_name"><b>Select recipient</b></dd>
+                <dl class="row">
+                    <dt class="col-sm-3">Name & Phone No.</dt>
+                    <dd class="col-sm-9" id="user_name"><b>Select recipient</b></dd>
 
-                <dt class="col-sm-3">Address</dt>
-                <dd class="col-sm-9">
-                    <p id="address">Select address</p>
-                    <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example" style="height: 60px" onchange="myFunction()">
-                            <option>-</option>
-                            @foreach($userinfo as $ui)
-                                <option value="{{ $ui->address }}" selected>{{ $ui->address }}</option>
-                            @endforeach
-                        </select>
-                        <label for="floatingSelect">Select Address</label>
-                    </div>
-                    <div class="form-floating">
-                        <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" style="height: 60px; margin-top: 10px">
-                            <option>-</option>
-                            @foreach($userinfo as $ui)
-                                <option value="{{ $ui->name }} (+60) {{ $ui->phone_no }}" selected>{{ $ui->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-floating">
-                        <select class="form-select" id="floatingSelect3" aria-label="Floating label select example" style="height: 60px; margin-top: 10px">
-                            <option>-</option>
-                            @foreach($userinfo as $ui)
-                                <option value="{{ $ui->id }}" selected>{{ $ui->id }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-            </dl>
+                    <dt class="col-sm-3">Address</dt>
+                    <dd class="col-sm-9">
+                        <p id="address">Select address</p>
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" style="height: 60px" onchange="myFunction()">
+                                <option>-</option>
+                                @foreach($userinfo as $ui)
+                                    <option value="{{ $ui->address }}" selected>{{ $ui->address }}</option>
+                                @endforeach
+                            </select>
+                            <label for="floatingSelect">Select Address</label>
+                        </div>
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" style="height: 60px; margin-top: 10px">
+                                <option>-</option>
+                                @foreach($userinfo as $ui)
+                                    <option value="{{ $ui->name }} (+60) {{ $ui->phone_no }}" selected>{{ $ui->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-floating">
+                            <select class="form-select" id="floatingSelect3" aria-label="Floating label select example" style="height: 60px; margin-top: 10px">
+                                <option>-</option>
+                                @foreach($userinfo as $ui)
+                                    <option value="{{ $ui->id }}" selected>{{ $ui->id }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                </dl>
+            @endif
         </div>
     </div>
 
@@ -135,8 +145,8 @@
                          src="/image/mastercard.png"
                          alt="Mastercard">
                 </div>
-                <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 20px" @if($items->count() == 0) disabled @endif id="submit_btn">Check Out</button>
-                <div id="paypal-payment-button" style="margin-top: 15px"></div>
+                <!-- <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 20px" @if($items->count() == 0) disabled @endif id="submit_btn">Check Out</button> -->
+                <div id="paypal-payment-button" style="margin-top: 15px" @if($items->count() == 0) hidden @endif></div>
             </div>
         </div>
     </div>
@@ -250,7 +260,7 @@
                             if ( data['success'] ) {
                                 console.log(data)
                                 alert('Transaction completed by ' + details.purchase_units[0].shipping.name.full_name);
-                                //window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
+                                window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
                             }
                             else
                                 alert('EXISTING.')

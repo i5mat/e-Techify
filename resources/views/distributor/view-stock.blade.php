@@ -52,6 +52,9 @@
                     @endforeach
                     </tbody>
                 </table>
+                <a href="/distributor/stock-management">
+                    <button class="btn btn-warning" style="width: 100%">Back</button>
+                </a>
             </div>
         </div>
         <!-- [END] Table to manage product [END] -->

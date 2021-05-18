@@ -16,33 +16,107 @@
     @can('logged-in')
         <h1 class="display-3">Hi, {{ Auth::user()->name }} !</h1>
 
-        <div class="card-group">
-            <div class="card">
-                <div class="card-body">
-                    <div id="graph"></div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body border-3 border-start border-primary shadow h-100">
+                        <div class="row g-0 align-items-center">
+                            <div class="col" style="margin-right: 2px">
+                                <div class="text-sm text-primary text-uppercase mb-1" style="font-weight: bold">
+                                    Earnings [Monthly]
+                                </div>
+                                <div class="h5 mb-0" style="font-weight: bold">18</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fa fa-calendar fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-body">
-                    <div id="graph2"></div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body border-3 border-start border-success shadow h-100">
+                        <div class="row g-0 align-items-center">
+                            <div class="col" style="margin-right: 2px">
+                                <div class="text-sm text-success text-uppercase mb-1" style="font-weight: bold">
+                                    Earnings [Annual]
+                                </div>
+                                <div class="h5 mb-0" style="font-weight: bold">18</div>
+                            </div>
+                            <div class="col-auto">
+                                <i data-feather="dollar-sign" class="feather-32"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body border-3 border-start border-warning shadow h-100">
+                        <div class="row g-0 align-items-center">
+                            <div class="col" style="margin-right: 2px">
+                                <div class="text-sm text-warning text-uppercase mb-1" style="font-weight: bold">
+                                    Pending Requests
+                                </div>
+                                <div class="h5 mb-0" style="font-weight: bold">18</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fa fa-comments fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="container mt-4">
-            <div class="row mt-2 g-1">
-                @foreach($jobInfo as $ji)
-                <div class="col-md-3">
-                    <div class="card p-2" style="border: none">
-                        <div class="text-right badge bg-warning"> <small class="lead">{{ $ji->job_type }}</small> </div>
-                        <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold">{{ $ji->job_name }}</span>
-                            <hr> <span>Xmiryna Tech</span>
-                            <div class="d-flex flex-row align-items-center justify-content-center"> <i class="fa fa-map-marker"></i> <small class="mx-1">{{ $ji->job_location }}</small> </div>
-                            <div class="d-flex justify-content-between mt-3"> <span>RM {{ $ji->job_salary }}</span> <a href="{{ $ji->id }}"><button class="btn btn-sm btn-outline-dark">Apply Now</button></a> </div>
+        <div class="row" style="margin-top: 10px">
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 text-primary" style="font-weight: bold">Earnings Overview</h6>
+                    </div>
+                    <div class="card-body border-3 border-bottom border-warning">
+                        <div id="graph"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 text-primary" style="font-weight: bold">Revenue Sources (Distributor)</h6>
+                    </div>
+                    <div class="card-body pt-4 pb-2 border-3 border-bottom border-warning">
+                        <div id="graph2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xl-12 col-lg-11">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 text-primary" style="font-weight: bold">Job Offerings</h6>
+                    </div>
+                    <div class="card-body border-3 border-bottom border-warning">
+                        <div class="row g-1">
+                            @foreach($jobInfo as $ji)
+                                <div class="col-md-3">
+                                    <div class="card p-2" style="border: none">
+                                        <div class="text-right badge bg-warning"> <small class="lead">{{ $ji->job_type }}</small> </div>
+                                        <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold">{{ $ji->job_name }}</span>
+                                            <hr> <span>Xmiryna Tech</span>
+                                            <div class="d-flex flex-row align-items-center justify-content-center"> <i class="fa fa-map-marker"></i> <small class="mx-1">{{ $ji->job_location }}</small> </div>
+                                            <div class="d-flex justify-content-between mt-3"> <span>RM {{ $ji->job_salary }}</span> <a href="{{ $ji->id }}"><button class="btn btn-sm btn-outline-dark">Apply Now</button></a> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
         </div>
 
@@ -111,71 +185,82 @@
             </div>
         </div>
 
-        <h1>My RMA Requests</h1>
-        <div class="card mt-3">
-            <div class="card-body">
-                <!-- START HERE -->
-                @foreach($rmaInfo as $rma)
-                <div class="row">
-                    <div class="col-12 col-md-4">
-                        <div class="p-3 d-flex align-items-center">
-                            <div class="mr-3">
-                                <img src="/storage/product/{{ $rma->product_image_path }}" width="100" height="100" />
+        <div class="row">
+            <div class="col-xl-12 col-lg-11">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 text-primary" style="font-weight: bold">My RMA Requests</h6>
+                    </div>
+                    <div class="card-body border-3 border-bottom border-warning">
+                        @if($rmaInfo->count() == 0)
+                            <div class="row text-center">
+                                <h1 class="display-6">NOTHING TO SHOW HERE. Your RMA request will be shown below.</h1>
                             </div>
+                        @else
+                        <!-- START HERE -->
+                            @foreach($rmaInfo as $rma)
+                                <div class="row">
+                                    <div class="col-12 col-md-4">
+                                        <div class="p-3 d-flex align-items-center">
+                                            <div class="mr-3">
+                                                <img src="/storage/product/{{ $rma->product_image_path }}" width="100" height="100" />
+                                            </div>
 
-                            <div class="mx-3">
-                                <h5>{{ $rma->product_name }}</h5>
-                                <div class="text-muted monospace">
-                                    {{ $rma->product_sn }}
+                                            <div class="mx-3">
+                                                <h5>{{ $rma->product_name }}</h5>
+                                                <div class="text-muted monospace">
+                                                    {{ $rma->product_sn }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3 d-flex align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <div>
+                                                Serial Number
+                                            </div>
+                                            <div class="monospace text-primary">
+                                                {{ $rma->sn_no }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3 d-flex align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <div>
+                                                Status
+                                            </div>
+                                            <div class="text-primary">
+                                                {{ $rma->status }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+                                        <div class="p-3 text-center">
+                                            <div class="text-primary monospace">
+                                                <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}" class="btn btn-sm btn-primary">RMA Request Form</a>
+                                                <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                                                    <button class="btn"><i class="fa fa-download"></i> Download File</button>
+                                                </a>
+                                                <a
+                                                    href="#"
+                                                    data-myrmaid="{{ $rma->id }}"
+                                                    data-myprodpic="{{ $rma->product_image_path }}"
+                                                    data-myrmastatus="{{ $rma->status }}"
+                                                    data-myrmareason="{{ $rma->reason }}"
+                                                    data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#staticRMA">
+                                                    <button class="btn btn-sm btn-warning"><i data-feather="alert-triangle" class="feather-16" style="margin-bottom: 5px"></i> Update RMA Status</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3 d-flex align-items-center justify-content-center">
-                        <div class="text-center">
-                            <div>
-                                Serial Number
-                            </div>
-                            <div class="monospace text-primary">
-                                {{ $rma->sn_no }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3 d-flex align-items-center justify-content-center">
-                        <div class="text-center">
-                            <div>
-                                Status
-                            </div>
-                            <div class="text-primary">
-                                {{ $rma->status }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
-                        <div class="p-3 text-center">
-                            <div class="text-primary monospace">
-                                <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}" class="btn btn-sm btn-primary">RMA Request Form</a>
-                                <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
-                                    <button class="btn"><i class="fa fa-download"></i> Download File</button>
-                                </a>
-                                <a
-                                    href="#"
-                                    data-myrmaid="{{ $rma->id }}"
-                                    data-myprodpic="{{ $rma->product_image_path }}"
-                                    data-myrmastatus="{{ $rma->status }}"
-                                    data-myrmareason="{{ $rma->reason }}"
-                                    data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#staticRMA">
-                                    <button class="btn btn-sm btn-warning"><i data-feather="alert-triangle" class="feather-16" style="margin-bottom: 5px"></i> Update RMA Status</button>
-                                </a>
-                            </div>
-                        </div>
+                            @endforeach
+                        <!-- END HERE -->
+                        @endif
                     </div>
                 </div>
-                @endforeach
-                <!-- END HERE -->
-
             </div>
         </div>
     @endcan
@@ -183,18 +268,85 @@
     @guest
         <h1>Hi Homepage</h1>
 
-        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h5 class="card-title">Primary card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body border-start border-primary shadow h-100">
+                        <div class="row g-0 align-items-center">
+                            <div class="col" style="margin-right: 2px">
+                                <div class="text-sm text-primary text-uppercase mb-1" style="font-weight: bold">
+                                    Earnings [Monthly]
+                                </div>
+                                <div class="h5 mb-0" style="font-weight: bold">18</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fa fa-calendar fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body border-start border-success shadow h-100">
+                        <div class="row g-0 align-items-center">
+                            <div class="col" style="margin-right: 2px">
+                                <div class="text-sm text-success text-uppercase mb-1" style="font-weight: bold">
+                                    Earnings [Annual]
+                                </div>
+                                <div class="h5 mb-0" style="font-weight: bold">18</div>
+                            </div>
+                            <div class="col-auto">
+                                <i data-feather="dollar-sign" class="feather-32"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body border-start border-warning shadow h-100">
+                        <div class="row g-0 align-items-center">
+                            <div class="col" style="margin-right: 2px">
+                                <div class="text-sm text-warning text-uppercase mb-1" style="font-weight: bold">
+                                    Pending Requests
+                                </div>
+                                <div class="h5 mb-0" style="font-weight: bold">18</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fa fa-comments fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h5 class="card-title">Info card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+
+        <div class="row" style="margin-top: 10px">
+            <div class="col-xl-8 col-lg-7">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 text-primary" style="font-weight: bold">Earnings Overview</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <h1>GRAPH HERE</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0 text-primary" style="font-weight: bold">Earnings Overview</h6>
+                    </div>
+                    <div class="card-body pt-4 pb-2">
+                        <div class="chart-area">
+                            <h1>GRAPH HERE</h1>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     @endguest
@@ -230,27 +382,60 @@
 
             Highcharts.chart('graph2', {
                 chart: {
-                    type: 'column'
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
                 },
                 title: {
-                    text: 'Column chart with negative values'
+                    text: 'Browser market shares in January, 2018'
                 },
-                xAxis: {
-                    categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
                 },
-                credits: {
-                    enabled: false
+                accessibility: {
+                    point: {
+                        valueSuffix: '%'
+                    }
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    }
                 },
                 series: [{
-                    name: 'John',
-                    data: [5, 3, 4, 7, 2]
-                }, {
-                    name: 'Jane',
-                    data: [2, -2, -3, 2, 1]
-                }, {
-                    name: 'Joe',
-                    data: [3, 4, 4, -2, 5]
-                }]
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [{
+                        name: 'Chrome',
+                        y: 61.41,
+                        sliced: true,
+                        selected: true
+                    }, {
+                        name: 'Internet Explorer',
+                        y: 11.84
+                    }, {
+                        name: 'Firefox',
+                        y: 10.85
+                    }, {
+                        name: 'Edge',
+                        y: 4.67
+                    }, {
+                        name: 'Safari',
+                        y: 4.18
+                    }, {
+                        name: 'Other',
+                        y: 7.05
+                    }]
+                }],
+                credits: {
+                    enabled: false
+                }
             });
         });
 

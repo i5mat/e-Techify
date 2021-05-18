@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Insert Product [Distributor] <img src="/image/distribution.png"/></h1>
+    <h1 class="display-2 text-center">Insert SN Product [Distributor] <img src="/image/distribution.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
