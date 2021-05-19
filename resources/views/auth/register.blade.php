@@ -2,12 +2,8 @@
 
 @section('content')
 
-    <!-- Start -->
-
-    <!-- End -->
-
-    <h1>Register</h1>
-    <div class="card" style="padding: 20px 40px;">
+    <h1 class="text-center">Register</h1>
+    <div class="card mx-auto" style="padding: 20px 30px; width: 60%">
     <form method="POST" action="{{ route('register') }}">
         @csrf
         <div class="mb-3">

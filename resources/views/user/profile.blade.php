@@ -1,9 +1,10 @@
 @extends('templates.main')
 
 @section('content')
-    <h1>Update Profile</h1>
+    <h1 class="text-center">Update Profile</h1>
 
-    <div class="card" style="padding: 20px 40px;">
+    <div class="card mx-auto" style="padding: 20px 30px; width: 50%;">
+        <img src="/image/update-profile.jpg" class="card-img-top" alt="...">
         <form method="POST" action="{{ route('user-profile-information.update') }}">
             @csrf
             @method("PUT")

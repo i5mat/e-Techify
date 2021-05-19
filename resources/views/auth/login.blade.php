@@ -2,8 +2,8 @@
 
 @section('content')
 
-    <h1>Login</h1>
-    <div class="card" style="padding: 20px 40px;">
+    <h1 class="text-center">Login</h1>
+    <div class="card mx-auto" style="padding: 20px 30px; width: 50%;">
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="mb-3">
