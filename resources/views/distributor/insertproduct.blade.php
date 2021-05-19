@@ -130,85 +130,98 @@
 
     <div class="card" style="padding: 20px 40px;">
         <div class="card-body">
-            <form>
-            <dl class="row">
-                <dt class="col-sm-3">Picture</dt>
-                <dd class="col-sm-9">
-                    <img id="p_picture" width="300" height="300" />
-                </dd>
+            @if($fetchProduct->count() == 0)
+                <button style="width: 100%" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    Add New Product +
+                </button>
+            @else
+                <form>
+                    <dl class="row">
+                        <dt class="col-sm-3"></dt>
+                        <dd class="col-sm-9">
+                            <img id="p_picture" width="300" height="300" />
+                        </dd>
 
-                <dt class="col-sm-3">Name</dt>
-                <dd class="col-sm-9" id="p_name"><b>Select product</b></dd>
+                        <dt class="col-sm-3">Name</dt>
+                        <dd class="col-sm-9" id="p_name"><b>Select product</b></dd>
 
-                <dt class="col-sm-3">Product ID</dt>
-                <dd class="col-sm-9">
-                    <p id="products_id_dist">Select product ID</p>
-                    <div class="form-floating" style="margin-bottom: 10px">
-                        <select class="form-select" id="floatingSelectProduct" aria-label="Floating label select example" style="height: 60px" onchange="myFunctions()">
-                            @foreach($fetchProduct as $prod)
-                                <option value="{{ $prod->product_name }}" selected>{{ $prod->product_name }}</option>
-                            @endforeach
-                        </select>
-                        <label for="floatingSelectProduct">Select Product</label>
-                    </div>
-                    <div class="form-floating" style="margin-bottom: 10px">
-                        <select class="form-select" id="floatingSelectProductID" aria-label="Floating label select example" style="height: 60px">
-                            @foreach($fetchProduct as $prod)
-                                <option value="{{ $prod->product_image_path }}" selected>{{ $prod->id }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </dd>
+                        <dt class="col-sm-3">Product ID</dt>
+                        <dd class="col-sm-9">
+                            <p id="products_id_dist">Select product ID</p>
+                            <div class="form-floating" style="margin-bottom: 10px">
+                                <select class="form-select" id="floatingSelectProduct" aria-label="Floating label select example" style="height: 60px" onchange="myFunctions()">
+                                    @foreach($fetchProduct as $prod)
+                                        <option value="{{ $prod->product_name }}" selected>{{ $prod->product_name }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="floatingSelectProduct">Select Product</label>
+                            </div>
+                            <div class="form-floating" style="margin-bottom: 10px">
+                                <select class="form-select" id="floatingSelectProductID" aria-label="Floating label select example" style="height: 60px">
+                                    @foreach($fetchProduct as $prod)
+                                        <option value="{{ $prod->product_image_path }}" selected>{{ $prod->id }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </dd>
 
-                <dt class="col-sm-3">Serial Number</dt>
-                <dd class="col-sm-9">
-                    <div class="form-floating" style="margin-bottom: 10px">
-                        <select class="form-select" id="floatingSelectBatch" name="floatingSelectBatch" aria-label="Floating label select example" style="height: 60px">
-                            <option value="1" selected>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                        </select>
-                        <label for="floatingSelectBatch">Select Batch</label>
-                    </div>
-                    <input type="text" class="form-control" id="insert_product_sn" name="insert_product_sn" placeholder="Insert SN Product" value="">
-                </dd>
-            </dl>
+                        <dt class="col-sm-3">Serial Number</dt>
+                        <dd class="col-sm-9">
+                            <div class="form-floating" style="margin-bottom: 10px">
+                                <select class="form-select" id="floatingSelectBatch" name="floatingSelectBatch" aria-label="Floating label select example" style="height: 60px">
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <label for="floatingSelectBatch">Select Batch</label>
+                            </div>
+                            <input type="text" class="form-control" id="insert_product_sn" name="insert_product_sn" placeholder="Insert SN Product" value="">
+                        </dd>
+                    </dl>
 
-            <button style="width: 49.8%" type="submit" class="btn btn-primary" id="btn_submit_dist_form" name="btn_submit_dist_form">
-                Insert
-            </button>
-            <!-- Button trigger modal -->
-            <button style="width: 49.8%" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                Add New Product +
-            </button>
-            </form>
+                    <button style="width: 49.8%" type="submit" class="btn btn-primary" id="btn_submit_dist_form" name="btn_submit_dist_form">
+                        Insert
+                    </button>
+                    <!-- Button trigger modal -->
+                    <button style="width: 49.8%" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Add New Product +
+                    </button>
+                </form>
+            @endif
         </div>
     </div>
 
     <div class="card shadow" style="margin-top: 10px">
         <div class="card-body">
-            <table id="distri-product-table" class="display" style="width:100%">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Batch</th>
-                    <th>Serial Number</th>
-                    <th>Status</th>
-                    <th>Created At</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($fetchProductJoin as $lol)
+            @if($fetchProductJoin->count() > 0)
+                <table id="distri-product-table" class="display" style="width:100%">
+                    <thead>
                     <tr>
-                        <td>{{ $lol->product_name }}</td>
-                        <td>Batch #{{ $lol->batch_no }}</td>
-                        <td>{{ $lol->serial_number }}</td>
-                        <td>{{ $lol->status }}</td>
-                        <td>{{ date('d-M-Y H:i A', strtotime($lol->created_at)) }}</td>
+                        <th>Name</th>
+                        <th>Batch</th>
+                        <th>Serial Number</th>
+                        <th>Status</th>
+                        <th>Created At</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    @foreach($fetchProductJoin as $lol)
+                        <tr>
+                            <td>{{ $lol->product_name }}</td>
+                            <td>Batch #{{ $lol->batch_no }}</td>
+                            <td>{{ $lol->serial_number }}</td>
+                            <td>{{ $lol->status }}</td>
+                            <td>{{ date('d-M-Y H:i A', strtotime($lol->created_at)) }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p>
+                    Dear Valued Distributor,
+                    Please add product before insert SN.
+                </p>
+            @endif
         </div>
     </div>
 

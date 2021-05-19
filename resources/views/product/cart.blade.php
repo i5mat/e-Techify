@@ -14,15 +14,7 @@
 
     <div class="card" style="margin-bottom: 10px">
         <div class="card-body">
-            @if(\App\Models\Address::where('user_id', '!=', Auth::id())->exists())
-                <p>
-                    Dear Valued Customer,
-                    Please add your address.
-                </p>
-                <a href="/user/address">
-                    <button class="btn btn-warning" style="width: 100%">Address +</button>
-                </a>
-            @else
+            @if(\App\Models\Address::where('user_id', Auth::id())->exists())
                 <div class="text-center" style="margin-bottom: 10px">
                     <img src="/image/location.png">
                 </div>
@@ -36,7 +28,7 @@
                         <p id="address">Select address</p>
                         <div class="form-floating">
                             <select class="form-select" id="floatingSelect" aria-label="Floating label select example" style="height: 60px" onchange="myFunction()">
-                                <option>-</option>
+                                <option disabled>-</option>
                                 @foreach($userinfo as $ui)
                                     <option value="{{ $ui->address }}" selected>{{ $ui->address }}</option>
                                 @endforeach
@@ -60,6 +52,14 @@
                             </select>
                         </div>
                 </dl>
+            @else
+                <p>
+                    Dear Valued Customer,
+                    Please add your address.
+                </p>
+                <a href="/user/address">
+                    <button class="btn btn-warning" style="width: 100%">Address +</button>
+                </a>
             @endif
         </div>
     </div>

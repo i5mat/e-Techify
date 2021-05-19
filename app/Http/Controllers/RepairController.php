@@ -16,7 +16,7 @@ class RepairController extends Controller
         $retrieveVal = Product::select('id', 'product_brand', 'product_name')
             ->get();
 
-        $retrieveAddress = Address::all();
+        $retrieveAddress = Address::where('user_id', Auth::id())->get();
 
         $myArray = array();
         foreach ($retrieveVal as $row) {

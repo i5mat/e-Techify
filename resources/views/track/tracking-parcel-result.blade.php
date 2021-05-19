@@ -135,14 +135,14 @@
         }
     </style>
 
-    <h1 class="display-2 text-center">Tracking {{ $tracking_no }} <img src="/image/parcel.png"/></h1>
+    <h1 class="display-2 text-center">Tracking <img src="/image/parcel.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
             <p>Tracking status your parcel here!</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Someone famous in <cite title="Source Title">{{ $tracking_no }}</cite>
         </figcaption>
     </figure>
 

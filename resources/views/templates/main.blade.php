@@ -83,7 +83,7 @@
                         @if (Route::has('login'))
                             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                                 @auth
-                                    @can('is-user')<a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><span class="badge">0</span><i class="fa fa-shopping-cart fa-2x"></i></a>@endcan
+                                    @can('is-user')<a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><span class="badge bg-danger" style="color: white">?</span><i class="fa fa-shopping-cart fa-2x"></i></a>@endcan
                                     <a href="{{ url('/user/profile') }}" style="padding-right: 10px;"><i class="fa fa-user fa-2x"></i></a>
                                     <a href="{{ url('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"><i class="fa fa-chevron-circle-right fa-2x"></i></a>

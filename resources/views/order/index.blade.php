@@ -35,13 +35,24 @@
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="row g-1">
                         @foreach($to_ship as $i)
-                            <div class="col-md-6">
+                            <div @if($to_ship->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
                                 <div class="card p-2 border-5 border-bottom border-primary" style="border: none">
                                     <div class="text-right badge bg-primary"> <small class="lead" style="color: white">Order #{{ $i->id }}</small> </div>
                                     <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold"><span class="badge bg-primary" style="color: white">{{ $i->order_status }}</span></span>
+                                        by user <span class="display-6">{{ $i->user_id }}</span>
                                         <hr> <span>Xmiryna Tech</span>
                                         <div class="d-flex flex-row align-items-center justify-content-center"> <i class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur, TX</small> </div>
                                         <div class="d-flex justify-content-between mt-3">
+
+                                            @can('is-user')
+                                            <span>
+                                                <a href="{{ route('order.index.orderdetails', $i->id) }}"><i data-feather="eye"></i></a>
+                                            </span>
+                                            <span>
+                                                <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i data-feather="file-text"></i></a>
+                                            </span>
+                                            @endcan
+                                            @can('is-reseller')
                                             <span>
                                                 <a href="{{ route('track.index.trackparcel', $i->id) }}"><i data-feather="truck"></i></a>
                                             </span>
@@ -65,6 +76,8 @@
                                                 @method('DELETE')
                                             </form>
                                             <button @if(App\Models\Tracking::where('order_id', '=', $i->id)->where('current_status', '=', 'Processing Order')->exists()) disabled @endif style="border: none" class="btn btn-sm btn-outline-danger" onclick="event.preventDefault(); document.getElementById('cancel-order-{{ $i->id }}').submit()"><i data-feather="x-circle"></i></button>
+                                            @endcan
+
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +128,7 @@
                 <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
                     <div class="row g-1">
                         @foreach($cancelled as $i)
-                            <div class="col-md-6">
+                            <div @if($cancelled->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
                                 <div class="card p-2 border-5 border-bottom border-danger" style="border: none">
                                     <div class="text-right badge bg-danger"> <small class="lead" style="color: white">Order #{{ $i->id }}</small> </div>
                                     <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold"><span class="badge bg-danger" style="color: white">{{ $i->order_status }}</span></span>

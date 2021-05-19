@@ -14,6 +14,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Intervention\Image\Facades\Image;
 use Milon\Barcode\DNS1D;
 use Milon\Barcode\DNS2D;
@@ -23,23 +24,41 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $to_ship = Order::where([
-            'user_id' => Auth::id(),
-            'order_status' => 'To Ship'
-        ])
-        ->get();
+        if (Gate::allows('is-user')) {
+            $to_ship = Order::where([
+                'user_id' => Auth::id(),
+                'order_status' => 'To Ship'
+            ])
+            ->get();
 
-        $delivered = Order::where([
-            'user_id' => Auth::id(),
-            'order_status' => 'Delivered'
-        ])
-        ->get();
+            $delivered = Order::where([
+                'user_id' => Auth::id(),
+                'order_status' => 'Delivered'
+            ])
+            ->get();
 
-        $cancelled = Order::where([
-            'user_id' => Auth::id(),
-            'order_status' => 'Cancelled'
-        ])
-        ->get();
+            $cancelled = Order::where([
+                'user_id' => Auth::id(),
+                'order_status' => 'Cancelled'
+            ])
+            ->get();
+        }
+        elseif (Gate::allows('is-reseller')) {
+            $to_ship = Order::where([
+                'order_status' => 'To Ship'
+            ])
+            ->get();
+
+            $delivered = Order::where([
+                'order_status' => 'Delivered'
+            ])
+            ->get();
+
+            $cancelled = Order::where([
+                'order_status' => 'Cancelled'
+            ])
+            ->get();
+        }
 
         return view('order.index', compact('to_ship', 'delivered', 'cancelled'));
     }

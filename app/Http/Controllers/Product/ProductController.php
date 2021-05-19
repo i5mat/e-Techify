@@ -203,7 +203,7 @@ class ProductController extends Controller
 
     public function distriInsertProductIndex()
     {
-        $fetchProduct = Product::all();
+        $fetchProduct = Product::where('user_id', Auth::id())->get();
         $fetchProductJoin = DistributorProduct::join('products', 'products.id', '=', 'distributor_products.product_id')
             ->select('distributor_products.created_at', 'products.product_name', 'distributor_products.batch_no',
                 'distributor_products.serial_number', 'distributor_products.status')

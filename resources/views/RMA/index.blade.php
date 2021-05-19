@@ -26,7 +26,7 @@
                 <input type="number" id="get_add_id_rma" name="get_add_id_rma" hidden>
                 <div class="form-floating">
                     <select class="form-select" id="floatingSelectAddress" aria-label="Floating label select example" style="height: 60px" onchange="myFunctions()">
-                        <option>-</option>
+                        <option disabled>-</option>
                         @foreach($retrieveAddress as $ui)
                             <option value="{{ $ui->address }}" selected>{{ $ui->address }}</option>
                         @endforeach
