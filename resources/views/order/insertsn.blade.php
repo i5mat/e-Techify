@@ -85,7 +85,7 @@
                                 <input type="text" class="form-control" id="products_sn" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $i->serial_number }}">
                             @else
                                 @for ($x = 0; $x < $i->product_order_quantity; $x++)
-                                    <input readonly required type="text" class="form-control" id="droppable{{ $x }}{{ $i->product_id }}" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $str_arr[$x] }}">
+                                    <input readonly required type="text" class="form-control" id="droppable{{ $x }}{{ $i->product_id }}" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="">
                                 @endfor
                             @endif
                             <input type="text" id="getproduct_sn" name="getproduct_sn" value="{{ $i->product_id }}" hidden>
@@ -109,7 +109,36 @@
     <script>
         var a = document.getElementById('getproduct_qty').value;
         var b = document.getElementById('getproduct_sn').value;
-        //alert(a);
+        var myA = @json($myArrays);
+        var myOI = @json($orderInfoArr);
+
+        console.log(myA);
+        console.log(myOI);
+
+        $.each(myOI, function(i, item) {
+            var lols = myOI[i].product_order_quantity;
+            for (z = 0; z < lols; z++) {
+                const str = myOI[i].serial_number;
+
+                if (str === null)
+                {
+                    console.log('EMPTY SERIAL_NUMBER.')
+                    $("#droppable"+z+myOI[i].product_id).droppable({
+                        hoverClass: 'active',
+                        drop: function(event, ui) {
+                            this.value = $(ui.draggable).text();
+                            $(ui.draggable).hide();
+                        }
+                    });
+                }
+                else
+                {
+                    const sn_num = str.split(', ');
+                    $('#droppable'+z+myOI[i].product_id).val(sn_num[z])
+                }
+            }
+        });
+
         $(function() {
             $(".draggable").draggable({
                 revert: true,
@@ -122,16 +151,6 @@
                     //$(this).hide();
                 }
             });
-
-            for (i = 0; i < a; i++) {
-                $("#droppable"+i+b).droppable({
-                    hoverClass: 'active',
-                    drop: function(event, ui) {
-                        this.value = $(ui.draggable).text();
-                        $(ui.draggable).hide();
-                    }
-                });
-            }
         });
     </script>
 @endsection

@@ -188,13 +188,24 @@ class OrderController extends Controller
         }
 
         $findSN = DistributorProduct::join('order_details', 'order_details.product_id', '=', 'distributor_products.product_id')
-            ->select('distributor_products.serial_number', 'products.product_name')
+            ->select('distributor_products.serial_number', 'products.product_name',
+                'distributor_products.product_id', 'order_details.product_order_quantity', 'order_details.serial_number AS sn_product')
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->where([
                 'distributor_products.status' => 'Not Occupied',
                 'order_details.order_id' => $findID->id
             ])
             ->get();
+
+        $myArrays = array();
+        foreach ($findSN as $row) {
+            $myArrays[] = $row;
+        }
+
+        $orderInfoArr = array();
+        foreach ($orderInfo as $row) {
+            $orderInfoArr[] = $row;
+        }
 
         $total_items = DB::table('order_details')
             ->select('order_details.order_id')
@@ -214,7 +225,7 @@ class OrderController extends Controller
             ])
             ->first();
 
-        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN', 'str_arr'));
+        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN', 'str_arr', 'myArrays', 'orderInfoArr'));
     }
 
     public function updateProductSN($id, Request $request)
