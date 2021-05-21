@@ -23,6 +23,7 @@ class CreateRepairsTable extends Migration
             $table->string('file_path');
             $table->string('reason');
             $table->string('status');
+            $table->string('tracking_no');
             $table->timestamps();
         });
     }

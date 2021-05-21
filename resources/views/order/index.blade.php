@@ -14,6 +14,39 @@
 
     <div class="card">
         <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3"><i data-feather="eye"></i></dt>
+                <dd class="col-sm-9">
+                    View order in detail
+                </dd>
+
+                <dt class="col-sm-3"><i data-feather="file-text"></i></dt>
+                <dd class="col-sm-9">
+                    Get receipt
+                </dd>
+
+                <dt class="col-sm-3"><i data-feather="truck"></i></dt>
+                <dd class="col-sm-9">
+                    Check tracking status
+                </dd>
+
+                <dt class="col-sm-3"><i data-feather="upload"></i></dt>
+                <dd class="col-sm-9">
+                    Insert SN each product
+                </dd>
+
+                <dt class="col-sm-3"><i data-feather="printer"></i></dt>
+                <dd class="col-sm-9">
+                    Print AWB
+                </dd>
+
+                <dt class="col-sm-3"><i data-feather="x-circle"></i></dt>
+                <dd class="col-sm-9">
+                    Cancel order
+                </dd>
+            </dl>
+        </div>
+        <div class="card-body">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">

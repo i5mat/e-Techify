@@ -214,7 +214,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-3 d-flex align-items-center justify-content-center">
+                                    <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                                         <div class="text-center">
                                             <div>
                                                 Serial Number
@@ -224,13 +224,23 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-3 d-flex align-items-center justify-content-center">
+                                    <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                                         <div class="text-center">
                                             <div>
                                                 Status
                                             </div>
                                             <div class="text-primary">
                                                 {{ $rma->status }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <div>
+                                                Tracking No.
+                                            </div>
+                                            <div class="text-primary">
+                                                <a class="btn btn-outline-dark" style="font-size: 15px" onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -269,6 +279,7 @@
         <h1>Hi Homepage</h1>
     @endguest
 
+    <script src="//www.tracking.my/track-button.js"></script>
     <script type="application/javascript">
         feather.replace();
         document.addEventListener('DOMContentLoaded', function () {
@@ -377,5 +388,11 @@
             document.getElementById("rma_request_at").innerText = rma_request_at;
             document.getElementById("myProdImg").src = "/storage/product/" + prod_pic;
         });
+
+        function linkTrack(num) {
+            TrackButton.track({
+                tracking_no: num
+            });
+        }
     </script>
 @endsection
