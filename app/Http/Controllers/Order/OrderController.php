@@ -74,7 +74,7 @@ class OrderController extends Controller
             ->join('orders', 'orders.id', '=', 'order_details.order_id')
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->where([
-                'orders.user_id' => Auth::id(),
+                'orders.user_id' => $findID->user_id,
                 'orders.order_status' => $findID->order_status,
                 'order_details.order_id' => $findID->id
             ])
@@ -92,7 +92,7 @@ class OrderController extends Controller
             ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
             ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
-                'orders.user_id' => Auth::id(),
+                'orders.user_id' => $findID->user_id,
                 'orders.order_status' => $findID->order_status,
                 'orders.id' => $findID->id
             ])
@@ -163,7 +163,7 @@ class OrderController extends Controller
             ->join('orders', 'orders.id', '=', 'order_details.order_id')
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->where([
-                'orders.user_id' => Auth::id(),
+                'orders.user_id' => $findID->user_id,
                 'orders.order_status' => $findID->order_status,
                 'order_details.order_id' => $findID->id
             ])
@@ -182,8 +182,8 @@ class OrderController extends Controller
                     ->get();
 
                 // use of explode
-                $string = $data->serial_number;
-                $str_arr = array_pad(explode(', ', $string), $data->product_order_quantity, null);
+//                $string = $data->serial_number;
+//                $str_arr = array_pad(explode(', ', $string), $data->product_order_quantity, null);
             }
         }
 
@@ -219,13 +219,13 @@ class OrderController extends Controller
             ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
             ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
-                'orders.user_id' => Auth::id(),
+                'orders.user_id' => $findID->user_id,
                 'orders.order_status' => $findID->order_status,
                 'orders.id' => $findID->id
             ])
             ->first();
 
-        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN', 'str_arr', 'myArrays', 'orderInfoArr'));
+        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN', 'myArrays', 'orderInfoArr'));
     }
 
     public function updateProductSN($id, Request $request)
@@ -335,7 +335,7 @@ class OrderController extends Controller
             ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
             ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
-                'orders.user_id' => Auth::id(),
+                'orders.user_id' => $findID->user_id,
                 'orders.order_status' => $findID->order_status,
                 'orders.id' => $findID->id
             ])

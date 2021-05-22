@@ -13,39 +13,37 @@
     </figure>
 
     <div class="card">
-        <div class="card-body">
-            <dl class="row">
-                <dt class="col-sm-3"><i data-feather="eye"></i></dt>
-                <dd class="col-sm-9">
-                    View order in detail
-                </dd>
-
-                <dt class="col-sm-3"><i data-feather="file-text"></i></dt>
-                <dd class="col-sm-9">
-                    Get receipt
-                </dd>
-
-                <dt class="col-sm-3"><i data-feather="truck"></i></dt>
-                <dd class="col-sm-9">
-                    Check tracking status
-                </dd>
-
-                <dt class="col-sm-3"><i data-feather="upload"></i></dt>
-                <dd class="col-sm-9">
-                    Insert SN each product
-                </dd>
-
-                <dt class="col-sm-3"><i data-feather="printer"></i></dt>
-                <dd class="col-sm-9">
-                    Print AWB
-                </dd>
-
-                <dt class="col-sm-3"><i data-feather="x-circle"></i></dt>
-                <dd class="col-sm-9">
-                    Cancel order
-                </dd>
-            </dl>
+        <div class="container mt-4">
+            <div class="row text-center">
+                <div class="col">
+                    <i data-feather="eye"></i>
+                    <span class="ms-5">View order in detail</span>
+                </div>
+                <div class="col">
+                    <i data-feather="file-text"></i>
+                    <span class="ms-5">Get receipt</span>
+                </div>
+                <div class="col">
+                    <i data-feather="truck"></i>
+                    <span class="ms-5">Check tracking status</span>
+                </div>
+            </div>
+            <div class="row text-center mt-3 mb-3">
+                <div class="col">
+                    <i data-feather="printer"></i>
+                    <span class="ms-5">Print AWB</span>
+                </div>
+                <div class="col">
+                    <i data-feather="x-circle"></i>
+                    <span class="ms-5">Cancel order</span>
+                </div>
+                <div class="col">
+                    <i data-feather="upload"></i>
+                    <span class="ms-5">Insert SN each product</span>
+                </div>
+            </div>
         </div>
+
         <div class="card-body">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">

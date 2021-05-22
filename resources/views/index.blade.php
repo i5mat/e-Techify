@@ -1,6 +1,7 @@
 @extends('templates.main')
 
 @section('content')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
     <style>
         .btn-outline-dark {
             border-radius: 35px;
@@ -10,6 +11,11 @@
 
         .col-md-3 {
             margin-top: 5px
+        }
+
+        .map {
+            height: 400px;
+            width: 100%;
         }
     </style>
 
@@ -74,7 +80,7 @@
             <div class="col-xl-8 col-lg-7">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 text-primary" style="font-weight: bold">Earnings Overview</h6>
+                        <h6 class="m-0" style="font-weight: bold">Earnings Overview</h6>
                     </div>
                     <div class="card-body border-3 border-bottom border-warning">
                         <div id="graph"></div>
@@ -98,7 +104,7 @@
             <div class="col-xl-12 col-lg-11">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 text-primary" style="font-weight: bold">Job Offerings</h6>
+                        <h6 class="m-0" style="font-weight: bold">Job Offerings</h6>
                     </div>
                     <div class="card-body border-3 border-bottom border-warning">
                         <div class="row g-1">
@@ -107,7 +113,7 @@
                                     <div class="card p-2" style="border: none">
                                         <div class="text-right badge bg-warning"> <small class="lead">{{ $ji->job_type }}</small> </div>
                                         <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold">{{ $ji->job_name }}</span>
-                                            <hr> <span>Xmiryna Tech</span>
+                                            <span class="badge bg-primary mt-2" style="color: white">{{ $ji->status }}</span> <hr> <span>Xmiryna Tech</span>
                                             <div class="d-flex flex-row align-items-center justify-content-center"> <i class="fa fa-map-marker"></i> <small class="mx-1">{{ $ji->job_location }}</small> </div>
                                             <div class="d-flex justify-content-between mt-3"> <span>RM {{ $ji->job_salary }}</span> <a href="{{ $ji->id }}"><button class="btn btn-sm btn-outline-dark">Apply Now</button></a> </div>
                                         </div>
@@ -189,12 +195,12 @@
             <div class="col-xl-12 col-lg-11">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 text-primary" style="font-weight: bold">My RMA Requests</h6>
+                        <h6 class="m-0" style="font-weight: bold">My RMA Requests</h6>
                     </div>
                     <div class="card-body border-3 border-bottom border-warning">
                         @if($rmaInfo->count() == 0)
                             <div class="row text-center">
-                                <h1 class="display-6">NOTHING TO SHOW HERE. Your RMA request will be shown below.</h1>
+                                <h1 class="display-6">Your RMA request will be shown here.</h1>
                             </div>
                         @else
                         <!-- START HERE -->
@@ -276,9 +282,39 @@
     @endcan
 
     @guest
-        <h1>Hi Homepage</h1>
+        <div class="row mt-3">
+            <div class="col-xl-12 col-lg-11">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0" style="font-weight: bold">My Map</h6>
+                    </div>
+                    <div class="card-body border-3 border-bottom border-warning">
+                        <div class="row">
+                            <div class="col-8">
+                                <div id="map" class="map"></div>
+                            </div>
+                            <div class="col">
+                                <h1 class="display-6">Xmiryna Technology [SA0546866-M]</h1>
+                                No. 79 Jalan Taman Melati 1,<br>
+                                Taman Melati, Setapak,<br>
+                                53100, Kuala Lumpur<br>
+                                xmiryna.tech@outlook.com <br>
+                                <b>+(60) 17-217 8319</b> / <strong>xmiryna.com.my</strong>
+                                <div class="col mt-lg-5 text-center">
+                                    <i data-feather="message-circle"></i>
+                                    <i data-feather="truck" class="ms-5"></i>
+                                    <i data-feather="phone" class="ms-5"></i>
+                                    <i data-feather="at-sign" class="ms-5"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endguest
 
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
     <script src="//www.tracking.my/track-button.js"></script>
     <script type="application/javascript">
         feather.replace();
@@ -394,5 +430,29 @@
                 tracking_no: num
             });
         }
+
+        var map = new ol.Map({
+            target: 'map',
+            controls: ol.control.defaults({ attribution: false }),
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                center: ol.proj.fromLonLat([101.72427413995997, 3.221067247294041]),
+                zoom: 17
+            })
+        });
+        var layer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: [
+                    new ol.Feature({
+                        geometry: new ol.geom.Point(ol.proj.fromLonLat([101.72427413995997, 3.221067247294041]))
+                    })
+                ]
+            })
+        });
+        map.addLayer(layer);
     </script>
 @endsection
