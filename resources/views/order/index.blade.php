@@ -82,6 +82,9 @@
                                             <span>
                                                 <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i data-feather="file-text"></i></a>
                                             </span>
+                                            <span>
+                                                <a href="{{ route('track.index.trackparcel', $i->id) }}"><i data-feather="truck"></i></a>
+                                            </span>
                                             @endcan
                                             @can('is-reseller')
                                             <span>

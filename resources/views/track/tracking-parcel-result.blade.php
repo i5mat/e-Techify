@@ -201,7 +201,7 @@
         </div>
     </div>
 
-    <script>
+    <script type="application/javascript">
         feather.replace()
     </script>
 @endsection

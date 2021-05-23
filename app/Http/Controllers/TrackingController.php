@@ -19,7 +19,7 @@ class TrackingController extends Controller
             ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
             ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
-                'orders.user_id' => Auth::id(),
+                'orders.user_id' => $findID->user_id,
                 'orders.order_status' => $findID->order_status,
                 'orders.id' => $findID->id
             ])

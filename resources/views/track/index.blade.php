@@ -1,6 +1,7 @@
 @extends('templates.main')
 
 @section('content')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
     <style>
         .tracking-detail {
             padding:3rem 0
@@ -133,6 +134,11 @@
                 background-color:transparent
             }
         }
+
+        .map {
+            height: 300px;
+            width: 100%;
+        }
     </style>
 
     <h1 class="display-2 text-center">Tracking Status <img src="/image/sn.png"/></h1>
@@ -147,6 +153,10 @@
     </figure>
 
     <div class="card" style="margin-bottom: 10px">
+        <div class="card-body">
+            <div id="map" class="map"></div>
+        </div>
+
         <div class="card-body" >
             <dl class="row">
                 <dt class="col-sm-3">Name & Phone No.</dt>
@@ -187,6 +197,10 @@
                                 <div class="text-center tracking-status-intransit">
                                     <p class="tracking-status text-tight">in transit</p>
                                 </div>
+                            @elseif ($recipientInfo->order_status == 'Cancelled')
+                                <div class="text-center tracking-status-error">
+                                    <p class="tracking-status text-tight">Cancelled</p>
+                                </div>
                             @endif
                             <div class="tracking-list">
                                 @foreach($trackingStatus as $track_stats)
@@ -225,8 +239,9 @@
             <form>
                 @csrf
                 @if($recipientInfo->order_status == 'Delivered')
-                    <h1 class="text-center display-6">Thank You! Enjoy your new item Bangsawan! #BangsawanForever</h1>
+                    <h1 class="text-center display-6">Thank You! Enjoy your new item!</h1>
                 @elseif ($recipientInfo->order_status == 'To Ship')
+                    @can('is-reseller')
                     <dl class="row">
                         <dt class="col-sm-3">Tracking Status</dt>
                         <dd class="col-sm-9">
@@ -247,11 +262,16 @@
                             <button type="submit" class="btn btn-warning" style="width: 100%" id="btn_sbmit" name="btn_sbmit">Submit</button>
                         </p>
                     </div>
+                    @endcan
                 @endif
             </form>
+            @can('is-user')
+                <a href="/order/orders" class="btn btn-warning" style="width: 100%">Back</a>
+            @endcan
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
     <script>
         feather.replace()
 
@@ -296,5 +316,102 @@
                 }
             });
         });
+
+        var locations = [[3.220970840314312, 101.72429559763033], [{{ $recipientInfo->longitude }}, {{ $recipientInfo->latitude }}]];
+
+        // OpenLayers uses [lon, lat], not [lat, lon]
+        locations.map(function(l) {
+            return l.reverse();
+        });
+
+        var route = new ol.geom.LineString(locations)
+            .transform('EPSG:4326', 'EPSG:3857');
+
+        var routeCoords = route.getCoordinates();
+        var routeLength = routeCoords.length;
+
+        var routeFeature = new ol.Feature({
+            type: 'route',
+            geometry: route
+        });
+        var geoMarker = new ol.Feature({
+            type: 'geoMarker',
+            geometry: new ol.geom.Point(routeCoords[routeLength - 1])
+        });
+        var startMarker = new ol.Feature({
+            type: 'icon',
+            geometry: new ol.geom.Point(routeCoords[0])
+        });
+        var endMarker = new ol.Feature({
+            type: 'reached_icon',
+            geometry: new ol.geom.Point(routeCoords[routeLength - 1])
+        });
+
+        var styles = {
+            'route': new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    width: 6,
+                    color: [237, 212, 0, 0.8]
+                })
+            }),
+            'icon': new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 1],
+                    src: '/image/start.png'
+                })
+            }),
+            'reached_icon': new ol.style.Style({
+                image: new ol.style.Icon({
+                    anchor: [0.5, 1],
+                    src: '/image/home.png'
+                })
+            }),
+            'geoMarker': new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 7,
+                    snapToPixel: false,
+                    fill: new ol.style.Fill({
+                        color: 'black'
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: 'white',
+                        width: 2
+                    })
+                })
+            })
+        };
+
+        var animating = false;
+
+        var vectorLayer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: [routeFeature, geoMarker, startMarker, endMarker]
+            }),
+            style: function(feature) {
+                // hide geoMarker if animation is active
+                if (animating && feature.get('type') === 'geoMarker') {
+                    return null;
+                }
+                return styles[feature.get('type')];
+            }
+        });
+
+        var map = new ol.Map({
+            target: document.getElementById('map'),
+            controls: ol.control.defaults({ attribution: false }),
+            loadTilesWhileAnimating: true,
+            view: new ol.View(),
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                }),
+                vectorLayer
+            ]
+        });
+        map.getView().fit(
+            vectorLayer.getSource().getExtent(), {"maxZoom":8},
+            {padding: [30, 5, 5, 5]});
+        var center = map.getView().getCenter();
+
     </script>
 @endsection

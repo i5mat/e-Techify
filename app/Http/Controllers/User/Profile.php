@@ -50,13 +50,26 @@ class Profile extends Controller
 
     public function addAddress(Request $request)
     {
-        $insert = new Address([
-            "user_id" => Auth::id(),
-            "name" => $request->get('user_name'),
-            "phone_no" => $request->get('user_phone'),
-            "address" => $request->get('user_address'),
-            "postcode" => $request->get('user_postcode'),
-        ]);
+        if ($request->get('user_unit') == null)
+            $insert = new Address([
+                "user_id" => Auth::id(),
+                "name" => $request->get('user_name'),
+                "phone_no" => $request->get('user_phone'),
+                "address" => $request->get('user_address'),
+                "postcode" => $request->get('user_postcode'),
+                "longitude" => $request->get('longitude'),
+                "latitude" => $request->get('latitude'),
+            ]);
+        else
+            $insert = new Address([
+                "user_id" => Auth::id(),
+                "name" => $request->get('user_name'),
+                "phone_no" => $request->get('user_phone'),
+                "address" => $request->get('user_unit').', '.$request->get('user_address'),
+                "postcode" => $request->get('user_postcode'),
+                "longitude" => $request->get('longitude'),
+                "latitude" => $request->get('latitude'),
+            ]);
 
         $insert->save();
         $request->session()->flash('success', 'Address Inserted');

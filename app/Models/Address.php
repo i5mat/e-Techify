@@ -18,5 +18,7 @@ class Address extends Model
         'created_at',
         'updated_at',
         'postcode',
+        'longitude',
+        'latitude'
     ];
 }

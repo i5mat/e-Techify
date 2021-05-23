@@ -17,21 +17,26 @@
         @csrf
 
         <label for="user_name" class="error"></label>
-        <div class="form-floating mb-3">
+        <div class="form-floating mb-2">
             <input type="text" class="form-control" id="user_name" name="user_name" placeholder="test">
             <label for="user_name">Name</label>
         </div>
 
+        <label for="user_unit" class="error"></label>
+        <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="user_unit" name="user_unit" placeholder="test">
+            <label for="floatingTextarea2">Apartment, unit, suite, or floor #</label>
+        </div>
+
         <label for="user_address" class="error"></label>
-        <div class="form-floating" style="margin-bottom: 10px">
-            <textarea class="form-control" placeholder="Leave a comment here" id="user_address" name="user_address" style="height: 120px"></textarea>
+        <div class="form-floating mb-2">
+            <input type="text" class="form-control" id="user_address" name="user_address" placeholder="test">
             <label for="floatingTextarea2">Address</label>
         </div>
 
-        <div class="row g-2 mb-3">
+        <div class="row g-2">
             <div class="col-md">
-
-                <div class="form-floating mb-3">
+                <div class="form-floating">
                     <input type="text" class="form-control" id="user_phone" name="user_phone" placeholder="test">
                     <label for="user_phone">Phone No.</label>
                 </div>
@@ -39,14 +44,34 @@
             </div>
             <div class="col-md">
 
-                <div class="form-floating mb-3">
+                <div class="form-floating">
                     <input type="number" class="form-control" id="user_postcode" name="user_postcode" placeholder="test">
                     <label for="user_postcode">Insert Postcode</label>
                 </div>
                 <label for="user_postcode" class="error"></label>
             </div>
         </div>
+        <div class="row g-2 mb-2">
+            <div class="col-md">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" name="latitude" id="latitude" readonly>
+                    <label for="autocomplete">Lat</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" name="longitude" id="longitude" readonly>
+                    <label for="autocomplete">Long</label>
+                </div>
+            </div>
+        </div>
 
+        <div class="form-check mb-2">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+            <label class="form-check-label" for="flexCheckChecked">
+                Click here if in google suggestion does not have your specific location
+            </label>
+        </div>
         <button type="submit" class="btn btn-primary float-end" style="width: 100%">Submit</button>
     </form>
     </div>
@@ -99,6 +124,9 @@
         </div>
     </div>
 
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7jC89-qmnCWo2FSQy8zg0LxOvNlncp9I&libraries=places&sensor=false"></script>
+
     <script>
         $(document).ready(function() {
             $("#insert-address-form").validate({
@@ -137,6 +165,36 @@
 
                 }
             });
+
+            $('#user_unit').hide();
+            $("#flexCheckChecked").change(function() {
+                if($(this).prop('checked')) {
+                    $('#user_unit').show();
+                } else {
+                    $('#user_unit').hide();
+                }
+            });
         });
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+        function initialize() {
+            var input = document.getElementById('user_address');
+            var autocomplete = new google.maps.places.Autocomplete(input);
+            autocomplete.addListener('place_changed', function() {
+                var place = autocomplete.getPlace();
+                console.log(place)
+                $('#latitude').val(place.geometry['location'].lat());
+                $('#longitude').val(place.geometry['location'].lng());
+                for (var i = 0; i < place.address_components.length; i++) {
+                    for (var j = 0; j < place.address_components[i].types.length; j++) {
+                        if (place.address_components[i].types[j] === "postal_code") {
+                            $('#user_postcode').val(place.address_components[i].long_name);
+                            $('#user_postcode').attr('readonly', true);
+                        }
+                    }
+                }
+            });
+        }
     </script>
 @endsection
