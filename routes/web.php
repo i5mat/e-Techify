@@ -42,6 +42,7 @@ Route::prefix('product')->middleware(['auth', 'verified'])->name('product.')->gr
     Route::get('manageProduct', [App\Http\Controllers\Product\ProductController::class, 'manageProductIndex'])->name('manageProd');
     Route::get('cart', [App\Http\Controllers\Product\ProductController::class, 'manageCartIndex'])->name('manageCart');
     Route::post('addProductCart/{id}', [App\Http\Controllers\Product\ProductController::class, 'addToCart'])->name('addProdCart');
+    Route::delete('del-item-cart/{id}', [App\Http\Controllers\Product\ProductController::class, 'delItemCart'])->name('del-cart');
 });
 
 // Product related pages
@@ -79,6 +80,7 @@ Route::prefix('distributor')->middleware(['auth', 'verified'])->name('distributo
     Route::post('insert-sn-product', [App\Http\Controllers\Product\ProductController::class, 'distriInsertSN'])->name('insertsn.product.dist');
     Route::get('stock-management', [App\Http\Controllers\Product\ProductController::class, 'stockManagementIndex'])->name('stock.management.index');
     Route::get('stock-management/{id}', [App\Http\Controllers\Product\ProductController::class, 'stockManagementView'])->name('specific.stock.view');
+    Route::patch('product/update-status/{id}', [App\Http\Controllers\Product\ProductController::class, 'updateStatusSNProduct'])->name('update-status');
 });
 
 Route::prefix('rma')->middleware(['auth', 'verified'])->name('rma.')->group(function () {

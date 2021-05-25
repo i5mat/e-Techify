@@ -409,7 +409,7 @@
             ]
         });
         map.getView().fit(
-            vectorLayer.getSource().getExtent(), {"maxZoom":8},
+            vectorLayer.getSource().getExtent(), {"maxZoom":7},
             {padding: [30, 5, 5, 5]});
         var center = map.getView().getCenter();
 

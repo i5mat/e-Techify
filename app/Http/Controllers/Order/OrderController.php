@@ -115,7 +115,7 @@ class OrderController extends Controller
             ->join('orders', 'orders.id', '=', 'order_details.order_id')
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->where([
-                'orders.user_id' => Auth::id(),
+                'orders.user_id' => $findID->user_id,
                 'orders.order_status' => $findID->order_status,
                 'order_details.order_id' => $findID->id
             ])
@@ -133,7 +133,7 @@ class OrderController extends Controller
             ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
             ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
-                'orders.user_id' => Auth::id(),
+                'orders.user_id' => $findID->user_id,
                 'orders.order_status' => $findID->order_status,
                 'orders.id' => $findID->id
             ])
@@ -197,6 +197,15 @@ class OrderController extends Controller
             ])
             ->get();
 
+        $getNameSN = DistributorProduct::join('order_details', 'order_details.product_id', '=', 'distributor_products.product_id')
+            ->select('products.product_name')
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->where([
+                'distributor_products.status' => 'Not Occupied',
+                'order_details.order_id' => $findID->id
+            ])
+            ->first();
+
         $myArrays = array();
         foreach ($findSN as $row) {
             $myArrays[] = $row;
@@ -225,7 +234,7 @@ class OrderController extends Controller
             ])
             ->first();
 
-        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN', 'myArrays', 'orderInfoArr'));
+        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN', 'myArrays', 'orderInfoArr', 'getNameSN'));
     }
 
     public function updateProductSN($id, Request $request)

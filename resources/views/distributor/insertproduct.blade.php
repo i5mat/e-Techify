@@ -202,6 +202,7 @@
                         <th>Serial Number</th>
                         <th>Status</th>
                         <th>Created At</th>
+                        <th>Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -212,6 +213,22 @@
                             <td>{{ $lol->serial_number }}</td>
                             <td>{{ $lol->status }}</td>
                             <td>{{ date('d-M-Y H:i A', strtotime($lol->created_at)) }}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger" style="background-color: transparent; border: none; color: black"
+                                        onclick="event.preventDefault();
+                                            document.getElementById('update-product-status-{{ $lol->id }}').submit()">
+                                    @if($lol->status == 'Occupied')
+                                        <i data-feather="toggle-right" class="feather-32"></i>
+                                    @elseif($lol->status == 'Not Occupied')
+                                        <i data-feather="toggle-left" class="feather-32"></i>
+                                    @endif
+                                </button>
+
+                                <form id="update-product-status-{{ $lol->id }}" action="{{ route('distributor.update-status', $lol->id) }}" method="POST" style="display: none">
+                                    @csrf
+                                    @method("PATCH")
+                                </form>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>

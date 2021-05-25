@@ -129,7 +129,7 @@
                                 <a class="nav-link" href="{{ route('order.orders.index') }}">Manage Orders</a>
                             </li>
                         @endcan
-                        @can('is-reseller-distributor')
+                        @can('is-distributor')
                             <li class="nav-item">
                                 <div class="nav-link dropdown">
                                     <button class="dropbtn" style="background-color: #FFF">Manage Product</button>
@@ -139,8 +139,6 @@
                                     </div>
                                 </div>
                             </li>
-                        @endcan
-                        @can('is-distributor')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Insert SN (Distributor)</a>
                             </li>

@@ -90,6 +90,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Brand</th>
                         <th scope="col">Date</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Actions</th>
                     </tr>
                     </thead>
@@ -102,6 +103,15 @@
                         <td>{{ $prod->product_brand }}</td>
                         <td>
                             {{ date('d/m/Y H:i A', strtotime($prod->created_at ))}}
+                        </td>
+                        <td>
+                            @if ($prod->product_stock_count >= 0 && $prod->product_stock_count <= 5)
+                                <span class="badge bg-danger" style="color: white">PLEASE RESTOCK</span>
+                            @elseif($prod->product_stock_count >= 6 && $prod->product_stock_count <= 10)
+                                <span class="badge bg-warning" style="color: white">LOW STOCK</span>
+                            @elseif($prod->product_stock_count > 10)
+                                <span class="badge bg-success" style="color: white">READY STOCK</span>
+                            @endif
                         </td>
                         <td>
                             <button type="button" class="btn btn-danger" style="background-color: transparent; border: none"

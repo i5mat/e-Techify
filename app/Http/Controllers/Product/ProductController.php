@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConfirmOrder;
 use App\Models\DistributorProduct;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -73,6 +74,13 @@ class ProductController extends Controller
             ->where('user_id', Auth::id())
             ->get();
         return view('product.cart', compact('items', 'userinfo'));
+    }
+
+    public function delItemCart($id)
+    {
+        $findID = Order::findOrFail($id);
+
+        dd($findID);
     }
 
     public function addToCart($id, Request $request)
@@ -201,12 +209,25 @@ class ProductController extends Controller
         return redirect(route('user.userdash'));
     }
 
+    public function updateStatusSNProduct($id)
+    {
+        $findID = DistributorProduct::findOrFail($id);
+        if ($findID->status == 'Occupied')
+            $findID->status = 'Not Occupied';
+        elseif ($findID->status == 'Not Occupied')
+            $findID->status = 'Occupied';
+
+        $findID->save();
+
+        return redirect()->back();
+    }
+
     public function distriInsertProductIndex()
     {
         $fetchProduct = Product::where('user_id', Auth::id())->get();
         $fetchProductJoin = DistributorProduct::join('products', 'products.id', '=', 'distributor_products.product_id')
             ->select('distributor_products.created_at', 'products.product_name', 'distributor_products.batch_no',
-                'distributor_products.serial_number', 'distributor_products.status')
+                'distributor_products.serial_number', 'distributor_products.status', 'distributor_products.product_id', 'distributor_products.id')
             ->where([
                 'distributor_products.user_id' => Auth::id()
             ])

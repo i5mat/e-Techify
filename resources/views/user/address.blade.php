@@ -17,24 +17,24 @@
         @csrf
 
         <label for="user_name" class="error"></label>
-        <div class="form-floating mb-2">
+        <div class="form-floating mb-3">
             <input type="text" class="form-control" id="user_name" name="user_name" placeholder="test">
             <label for="user_name">Name</label>
         </div>
 
         <label for="user_unit" class="error"></label>
-        <div class="form-floating mb-2">
+        <div class="form-floating mb-3">
             <input type="text" class="form-control" id="user_unit" name="user_unit" placeholder="test">
             <label for="floatingTextarea2">Apartment, unit, suite, or floor #</label>
         </div>
 
         <label for="user_address" class="error"></label>
-        <div class="form-floating mb-2">
+        <div class="form-floating mb-3">
             <input type="text" class="form-control" id="user_address" name="user_address" placeholder="test">
             <label for="floatingTextarea2">Address</label>
         </div>
 
-        <div class="row g-2">
+        <div class="row g-2 mb-3">
             <div class="col-md">
                 <div class="form-floating">
                     <input type="text" class="form-control" id="user_phone" name="user_phone" placeholder="test">
@@ -51,25 +51,25 @@
                 <label for="user_postcode" class="error"></label>
             </div>
         </div>
-        <div class="row g-2 mb-2">
-            <div class="col-md">
-                <div class="form-floating mb-2">
-                    <input type="text" class="form-control" name="latitude" id="latitude" readonly>
-                    <label for="autocomplete">Lat</label>
-                </div>
-            </div>
+        <div class="row g-2 mb-3">
             <div class="col-md">
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" name="longitude" id="longitude" readonly>
                     <label for="autocomplete">Long</label>
                 </div>
             </div>
+            <div class="col-md">
+                <div class="form-floating mb-2">
+                    <input type="text" class="form-control" name="latitude" id="latitude" readonly>
+                    <label for="autocomplete">Lat</label>
+                </div>
+            </div>
         </div>
 
-        <div class="form-check mb-2">
+        <div class="form-check form-switch mb-2">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
             <label class="form-check-label" for="flexCheckChecked">
-                Click here if in google suggestion does not have your specific location
+                Click here if in google suggestion does not have your specific location or your postcode is wrong.
             </label>
         </div>
         <button type="submit" class="btn btn-primary float-end" style="width: 100%">Submit</button>
@@ -167,11 +167,14 @@
             });
 
             $('#user_unit').hide();
+            $('#user_postcode').attr('readonly', true);
             $("#flexCheckChecked").change(function() {
                 if($(this).prop('checked')) {
                     $('#user_unit').show();
+                    $('#user_postcode').attr('readonly', false);
                 } else {
                     $('#user_unit').hide();
+                    $('#user_postcode').attr('readonly', true);
                 }
             });
         });
@@ -184,8 +187,8 @@
             autocomplete.addListener('place_changed', function() {
                 var place = autocomplete.getPlace();
                 console.log(place)
-                $('#latitude').val(place.geometry['location'].lat());
-                $('#longitude').val(place.geometry['location'].lng());
+                $('#latitude').val(place.geometry['location'].lng());
+                $('#longitude').val(place.geometry['location'].lat());
                 for (var i = 0; i < place.address_components.length; i++) {
                     for (var j = 0; j < place.address_components[i].types.length; j++) {
                         if (place.address_components[i].types[j] === "postal_code") {

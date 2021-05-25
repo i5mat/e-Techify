@@ -45,9 +45,9 @@
             <dl class="row">
                 <dt class="col-sm-3">Suggested SN</dt>
                 <dd class="col-sm-9">
+                    <div class="lead" id="prod_name_sn">{{ $getNameSN->product_name }}</div>
                     @foreach($findSN as $z)
-                        <div class="lead" id="prod_name_sn">{{ $z->product_name }}
-                        <div class="draggable btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">{{ $z->serial_number }}</div></div>
+                        <div class="draggable btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">{{ $z->serial_number }}</div>
                     @endforeach
                 </dd>
             </dl>
@@ -81,13 +81,9 @@
                         <td>{{ $i->product_name }} <p class="lead">[x{{ $i->product_order_quantity }}]</p></td>
                         <td>
                             <input type="text" id="getproduct_qty" name="getproduct_qty" value="{{ $i->product_order_quantity }}" hidden>
-                            @if($i->product_order_quantity == 1)
-                                <input type="text" class="form-control" id="products_sn" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="{{ $i->serial_number }}">
-                            @else
-                                @for ($x = 0; $x < $i->product_order_quantity; $x++)
-                                    <input readonly required type="text" class="form-control" id="droppable{{ $x }}{{ $i->product_id }}" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="">
-                                @endfor
-                            @endif
+                            @for ($x = 0; $x < $i->product_order_quantity; $x++)
+                                <input readonly required type="text" class="form-control" id="droppable{{ $x }}{{ $i->product_id }}" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="">
+                            @endfor
                             <input type="text" id="getproduct_sn" name="getproduct_sn" value="{{ $i->product_id }}" hidden>
 
                         </td>
