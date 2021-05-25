@@ -64,23 +64,33 @@ class ProductController extends Controller
         $items = DB::table('order_details')
             ->join('orders', 'orders.id', '=', 'order_details.order_id')
             ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->select('order_details.order_id', 'products.product_image_path', 'products.product_name', 'products.product_price',
+            'order_details.product_id', 'order_details.product_order_quantity', 'order_details.id AS o_d_id')
             ->where([
                 'orders.user_id' => Auth::id(),
                 'orders.order_status' => 'To Pay'
             ])
             ->get();
 
+        $myArrays = array();
+        foreach ($items as $row) {
+            $myArrays[] = $row;
+        }
+
         $userinfo = DB::table('addresses')
             ->where('user_id', Auth::id())
             ->get();
-        return view('product.cart', compact('items', 'userinfo'));
+        return view('product.cart', compact('items', 'userinfo', 'myArrays'));
     }
 
-    public function delItemCart($id)
+    public function delItemCart($id, Request $request)
     {
-        $findID = Order::findOrFail($id);
+        OrderDetail::destroy($id);
+        $request->session()->flash('success', 'Item is removed from your cart');
 
-        dd($findID);
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 
     public function addToCart($id, Request $request)

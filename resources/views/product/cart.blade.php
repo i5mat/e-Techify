@@ -27,7 +27,8 @@
                     <dd class="col-sm-9">
                         <p id="address">Select address</p>
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example" style="height: 60px" onchange="myFunction()">
+                            <select class="form-select" id="floatingSelect" aria-label="Floating label select example"
+                                    style="height: 60px" onchange="myFunction()">
                                 <option disabled>-</option>
                                 @foreach($userinfo as $ui)
                                     <option value="{{ $ui->address }}" selected>{{ $ui->address }}</option>
@@ -36,15 +37,18 @@
                             <label for="floatingSelect">Select Address</label>
                         </div>
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelect2" aria-label="Floating label select example" style="height: 60px; margin-top: 10px">
+                            <select class="form-select" id="floatingSelect2" aria-label="Floating label select example"
+                                    style="height: 60px; margin-top: 10px">
                                 <option>-</option>
                                 @foreach($userinfo as $ui)
-                                    <option value="{{ $ui->name }} (+60) {{ $ui->phone_no }}" selected>{{ $ui->name }}</option>
+                                    <option value="{{ $ui->name }} (+60) {{ $ui->phone_no }}"
+                                            selected>{{ $ui->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-floating">
-                            <select class="form-select" id="floatingSelect3" aria-label="Floating label select example" style="height: 60px; margin-top: 10px">
+                            <select class="form-select" id="floatingSelect3" aria-label="Floating label select example"
+                                    style="height: 60px; margin-top: 10px">
                                 <option>-</option>
                                 @foreach($userinfo as $ui)
                                     <option value="{{ $ui->id }}" selected>{{ $ui->id }}</option>
@@ -80,27 +84,34 @@
                 </thead>
                 <tbody>
                 @foreach($items as $i)
-                    <form method="POST" action="{{ route('order.purchase.orderdetails', $i->order_id) }}" enctype="multipart/form-data" id="form_cart" name="form_cart">
+                    <form id="form_cart" name="form_cart">
                         @csrf
-                    <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <td>
-                            <img src="/storage/product/{{ $i->product_image_path }}" style="width:120px; height:120px;">
-                        </td>
-                        <td>{{ $i->product_name }}</td>
-                        <td><img src="/image/malaysia.png"> <span>{{ $i->product_price }}</span></td>
-                        <td>
-                            <input type='number' name="{{ $i->product_id }}[]" min="1" value="{{ $i->product_order_quantity }}" class="text-center" data-price="{{ $i->product_price }}" id="qnt_{{ $loop->iteration }}" oninput="CalculateItemsValue()">
-                            <input type="number" id="get_qty{{ $loop->iteration }}" name="get_qty{{ $loop->iteration }}" hidden>
-                            <input type="text" id="get_prod_id" name="get_prod_id" value="{{ $i->product_id }}" hidden>
-                            <input type="text" id="get_ord_id" name="get_ord_id" value="{{ $i->order_id }}" hidden>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-info" style="background-color: transparent; border: none">
-                                X
-                            </button>
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>
+                                <img src="/storage/product/{{ $i->product_image_path }}"
+                                     style="width:120px; height:120px;">
+                            </td>
+                            <td>{{ $i->product_name }}</td>
+                            <td><img src="/image/malaysia.png"> <span>{{ $i->product_price }}</span></td>
+                            <td>
+                                <input type='number' name="{{ $i->product_id }}[]" min="1"
+                                       value="{{ $i->product_order_quantity }}" class="text-center"
+                                       data-price="{{ $i->product_price }}" id="qnt_{{ $loop->iteration }}"
+                                       oninput="CalculateItemsValue()">
+                                <input type="number" id="get_qty{{ $loop->iteration }}"
+                                       name="get_qty{{ $loop->iteration }}" hidden>
+                                <input type="text" id="get_prod_id" name="get_prod_id" value="{{ $i->product_id }}"
+                                       hidden>
+                                <input type="text" id="get_ord_id" name="get_ord_id" value="{{ $i->order_id }}" hidden>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger" style="background-color: transparent; border: none"
+                                        id="btn_del_item{{ $loop->iteration }}" data-id="{{ $i->o_d_id }}">
+                                    <img src="/image/delete.png">
+                                </button>
+                            </td>
+                        </tr>
                 @endforeach
                 </tbody>
             </table>
@@ -114,11 +125,12 @@
             <table class="table">
                 <tbody>
                 <tr>
-                    <th scope="row">Merchandise Subtotal </th>
+                    <th scope="row">Merchandise Subtotal</th>
                     <td id="merchTotal"></td>
                 </tr>
                 <tr>
-                    <th scope="row">Shipping - XT Express </th>(Included with insurance and extra protection)
+                    <th scope="row">Shipping - XT Express</th>
+                    (Included with insurance and extra protection)
                     <td>RM 25.00</td>
                 </tr>
                 <tr>
@@ -145,27 +157,51 @@
                          src="/image/mastercard.png"
                          alt="Mastercard">
                 </div>
-                <!-- <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 20px" @if($items->count() == 0) disabled @endif id="submit_btn">Check Out</button> -->
                 <div id="paypal-payment-button" style="margin-top: 15px" @if($items->count() == 0) hidden @endif></div>
             </div>
         </div>
     </div>
-    <script src="https://www.paypal.com/sdk/js?client-id=AYGoN9I1BkU083SCTYJyibLNCCNE0eqXG6BLDbRSSKINBiWCK7eSdOKOXFeb4vz9RuG3tcMo9oYQl7R4&disable-funding=credit,card&currency=MYR"></script>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=AYGoN9I1BkU083SCTYJyibLNCCNE0eqXG6BLDbRSSKINBiWCK7eSdOKOXFeb4vz9RuG3tcMo9oYQl7R4&disable-funding=credit,card&currency=MYR"></script>
     </form>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.2.1/jquery.serializejson.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.2.1/jquery.serializejson.min.js"></script>
     <script>
 
         CalculateItemsValue();
         myFunction();
+
+        var myA = @json($myArrays);
+        console.log(myA);
+
+        for (z = 1; z <= myA.length; z++) {
+            $("#btn_del_item"+z).click(function () {
+                var id = $(this).data("id");
+                var token = $("meta[name='csrf-token']").attr("content");
+
+                $.ajax(
+                    {
+                        url: "http://127.0.0.1:8000/product/del-item-cart/" + id,
+                        type: 'DELETE',
+                        data: {
+                            "id": id,
+                            "_token": token,
+                        },
+                        success: function () {
+                            console.log("It Works");
+                        }
+                    });
+            });
+        }
 
         function myFunction() {
 
             $('#floatingSelect2').attr('hidden', true);
             $('#floatingSelect3').attr('hidden', true);
 
-            $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected',true);
-            $("#floatingSelect3 option").eq($(this).find(':selected').index()).prop('selected',true);
+            $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected', true);
+            $("#floatingSelect3 option").eq($(this).find(':selected').index()).prop('selected', true);
             var value = $("#floatingSelect option:selected");
             var value2 = $("#floatingSelect2 option:selected");
             var value3 = $("#floatingSelect3 option:selected");
@@ -174,9 +210,9 @@
             document.getElementById('user_name').innerHTML = value2.val().bold();
             document.getElementById('get_add_id').value = value3.val();
 
-            $('#floatingSelect').change(function(){
-                $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected',true);
-                $("#floatingSelect3 option").eq($(this).find(':selected').index()).prop('selected',true);
+            $('#floatingSelect').change(function () {
+                $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected', true);
+                $("#floatingSelect3 option").eq($(this).find(':selected').index()).prop('selected', true);
                 var value = $("#floatingSelect option:selected");
                 var value2 = $("#floatingSelect2 option:selected");
                 var value3 = $("#floatingSelect3 option:selected");
@@ -194,9 +230,9 @@
             var total_items = {{ $items->count() }};
             for (i = 1; i <= total_items; i++) {
 
-                itemID = document.getElementById("qnt_"+i);
+                itemID = document.getElementById("qnt_" + i);
                 if (typeof itemID === 'undefined' || itemID === null) {
-                    alert("No such item - " + "qnt_"+i);
+                    alert("No such item - " + "qnt_" + i);
                 } else {
                     total = total + parseInt(itemID.value) * parseInt(itemID.getAttribute("data-price"));
                 }
@@ -204,8 +240,8 @@
                 if (isNaN(total))
                     total = 0;
 
-                var a = document.getElementById("qnt_"+i).value;
-                document.getElementById("get_qty"+i).value = a;
+                var a = document.getElementById("qnt_" + i).value;
+                document.getElementById("get_qty" + i).value = a;
             }
             merchantTotal = total;
             total += 25;
@@ -227,21 +263,21 @@
         });
 
         paypal.Buttons({
-            style:{
+            style: {
                 color: 'blue',
                 shape: 'pill'
             },
-            createOrder:function (data,actions) {
+            createOrder: function (data, actions) {
                 return actions.order.create({
-                    purchase_units:[{
-                        amount:{
-                            currency_code:'MYR',
-                            value:document.getElementById('tot').value
+                    purchase_units: [{
+                        amount: {
+                            currency_code: 'MYR',
+                            value: document.getElementById('tot').value
                         }
                     }]
                 })
             },
-            onApprove:function (data,actions) {
+            onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
                     alert('Transaction completed by ' + details.payer.name.given_name);
                     console.log(details)
@@ -252,17 +288,16 @@
                     var order_Id = $("input[name=get_ord_id]").val();
 
                     $.ajax({
-                        type:'POST',
-                        url:"http://127.0.0.1:8000/order/purchase/success/"+order_Id,
+                        type: 'POST',
+                        url: "http://127.0.0.1:8000/order/purchase/success/" + order_Id,
                         contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-                        data:$("#form_cart").serialize() + '&pay_method=' + pay_method + '&pay_total=' + pay_total,
-                        success:function(data){
-                            if ( data['success'] ) {
+                        data: $("#form_cart").serialize() + '&pay_method=' + pay_method + '&pay_total=' + pay_total,
+                        success: function (data) {
+                            if (data['success']) {
                                 console.log(data)
                                 alert('Transaction completed by ' + details.purchase_units[0].shipping.name.full_name);
                                 window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
-                            }
-                            else
+                            } else
                                 alert('EXISTING.')
 
                         }
