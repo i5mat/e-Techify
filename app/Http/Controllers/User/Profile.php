@@ -41,7 +41,10 @@ class Profile extends Controller
             ])
             ->get();
 
-        $jobInfo = Job::all();
+        $jobInfo = Job::join('users', 'users.id', '=', 'jobs.user_id')
+            ->select('users.name', 'users.email', 'jobs.job_location', 'jobs.job_salary', 'jobs.job_name',
+                'jobs.status', 'jobs.job_type', 'jobs.id AS job_id', 'jobs.occupied_by')
+            ->get();
 
         if (Gate::allows('is-all-roles')) {
             return view('index', compact('rmaInfo', 'jobInfo', 'rmaInfoDistri'));

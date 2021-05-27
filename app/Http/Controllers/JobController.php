@@ -30,4 +30,16 @@ class JobController extends Controller
 
         return redirect(route('user.userdash'));
     }
+
+    public function updateJob($id, Request $request)
+    {
+        $findID = Job::findOrFail($id);
+
+        $findID->status = 'Occupied';
+        $findID->occupied_by = $request->get('usr_id');
+
+        $findID->save();
+
+        return response()->json(['success'=>'yey! RMA UPDATED!']);
+    }
 }

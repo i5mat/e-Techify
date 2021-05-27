@@ -29,7 +29,7 @@
                         <div class="row g-0 align-items-center">
                             <div class="col" style="margin-right: 2px">
                                 <div class="text-sm text-primary text-uppercase mb-1" style="font-weight: bold">
-                                    Earnings [Monthly]
+                                    Earnings Monthly
                                 </div>
                                 <div class="h5 mb-0" style="font-weight: bold">18</div>
                             </div>
@@ -46,7 +46,7 @@
                         <div class="row g-0 align-items-center">
                             <div class="col" style="margin-right: 2px">
                                 <div class="text-sm text-success text-uppercase mb-1" style="font-weight: bold">
-                                    Earnings [Annual]
+                                    Earnings Annual
                                 </div>
                                 <div class="h5 mb-0" style="font-weight: bold">18</div>
                             </div>
@@ -113,11 +113,27 @@
                                     <div class="card p-2" style="border: none">
                                         <div class="text-right badge bg-warning"> <small class="lead">{{ $ji->job_type }}</small> </div>
                                         <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold">{{ $ji->job_name }}</span>
-                                            <span class="badge bg-primary mt-2" style="color: white">{{ $ji->status }}</span> <hr> <span>Xmiryna Tech</span>
+                                            <span @if($ji->status == 'Not Occupied') class="badge bg-primary mt-2" @else class="badge bg-success mt-2" @endif style="color: white">{{ $ji->status }}</span> <hr> <span>{{ $ji->name }}</span>
                                             <div class="d-flex flex-row align-items-center justify-content-center"> <i class="fa fa-map-marker"></i> <small class="mx-1">{{ $ji->job_location }}</small> </div>
                                             <div class="d-flex justify-content-between mt-3">
                                                 <span>RM {{ $ji->job_salary }}</span>
-                                                <button type="button" id="liveToastBtn{{ $loop->iteration }}" class="btn btn-sm btn-outline-dark">Apply Now</button>
+                                                <button
+                                                    @if($ji->status == 'Occupied')
+                                                        disabled
+                                                    @endif
+                                                    type="button"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#jobModal"
+                                                    data-usrname="{{ $ji->name }}"
+                                                    data-usremail="{{ $ji->email }}"
+                                                    data-jobloc="{{ $ji->job_location }}"
+                                                    data-jobsalary="{{ $ji->job_salary }}"
+                                                    data-jobname="{{ $ji->job_name }}"
+                                                    data-jobid="{{ $ji->job_id }}"
+                                                    data-joboccupy="{{ $ji->occupied_by }}"
+                                                    class="btn btn-lg btn-outline-dark"
+                                                >Apply
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +145,57 @@
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Modal for Job -->
+        <div class="modal fade" id="jobModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+                <form>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Job's Application</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row ">
+                                <dt class="col-sm-4">Person in Charge</dt>
+                                <dd class="col-sm-5">
+                                    <p id="pic_job">You can use the mark tag to <mark>highlight</mark> text.</p>
+                                    <p id="job_id" hidden>You can use the mark tag to <mark>highlight</mark> text.</p>
+                                </dd>
+                                <dt class="col-sm-4">Email</dt>
+                                <dd class="col-sm-5">
+                                    <p id="job_email">You can use the mark tag to <mark>highlight</mark> text.</p>
+                                </dd>
+                                <dt class="col-sm-4">Contact No.</dt>
+                                <dd class="col-sm-5">
+                                    <p>+(60) 12-217 8319</p>
+                                </dd>
+                                <dt class="col-sm-4">Location</dt>
+                                <dd class="col-sm-5">
+                                    <p id="job_loc">+(60) 12-217 8319</p>
+                                </dd>
+                                <dt class="col-sm-4">Rate</dt>
+                                <dd class="col-sm-5">
+                                    <p id="job_rate">RM 150</p>
+                                </dd>
+                                <dt class="col-sm-4">Job Scope</dt>
+                                <dd class="col-sm-5">
+                                    <p id="job_name">PC Builder</p>
+                                </dd>
+                                <dt class="col-sm-4">Applied By</dt>
+                                <dd class="col-sm-5">
+                                    <p id="job_occupy_by">PC Builder</p>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="btn_apply_job" style="width: 100%">Apply</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for update RMA status -->
         <div class="modal fade" id="staticRMA" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <form>
@@ -549,6 +615,28 @@
             });
         });
 
+        $("#btn_apply_job").click(function(e){
+
+            e.preventDefault();
+
+            var job_id = $("#job_id").val();
+
+            $.ajax({
+                type:'PATCH',
+                url:"http://127.0.0.1:8000/job/update/" + job_id,
+                data:{
+                    usr_id:{{ Auth::id() }}
+                },
+                success:function(data){
+                    if ( data['success'] )
+                        location.reload();
+                    else
+                        alert('EXISTING.')
+
+                }
+            });
+        });
+
         $('#staticRMA').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var rma_id = button.data('myrmaid') // Extract info from data-* attributes
@@ -580,6 +668,34 @@
             document.getElementById("rma_receive_at").value = rma_receive;
             document.getElementById("floatingSelectStatus").value = rma_status;
             document.getElementById("myProdImg").src = "/storage/product/" + prod_pic;
+        });
+
+        $('#jobModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var job_person_in_charge = button.data('usrname')
+            var job_email = button.data('usremail')
+            var job_location = button.data('jobloc')
+            var job_rate= button.data('jobsalary')
+            var job_scope= button.data('jobname')
+            var job_id= button.data('jobid')
+            var job_occ_by= button.data('joboccupy')
+
+            var modal = $(this)
+            modal.find('.modal-body #pic_job').val(job_person_in_charge);
+            modal.find('.modal-body #job_email').val(job_email);
+            modal.find('.modal-body #job_loc').val(job_location);
+            modal.find('.modal-body #job_rate').val(job_rate);
+            modal.find('.modal-body #job_name').val(job_scope);
+            modal.find('.modal-body #job_id').val(job_id);
+            modal.find('.modal-body #job_occupy_by').val(job_occ_by);
+
+            document.getElementById("pic_job").innerText = job_person_in_charge;
+            document.getElementById("job_email").innerText = job_email;
+            document.getElementById("job_loc").innerText = job_location;
+            document.getElementById("job_rate").innerText = 'RM '+job_rate;
+            document.getElementById("job_name").innerText = job_scope;
+            document.getElementById("job_id").innerText = job_id;
+            document.getElementById("job_occupy_by").innerText = job_occ_by;
         });
 
         function linkTrack(num) {

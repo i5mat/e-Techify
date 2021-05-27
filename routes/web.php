@@ -93,4 +93,5 @@ Route::prefix('rma')->middleware(['auth', 'verified'])->name('rma.')->group(func
 Route::prefix('job')->middleware(['auth', 'verified'])->name('job.')->group(function () {
     Route::get('new-job', [App\Http\Controllers\JobController::class, 'jobIndex'])->name('new');
     Route::post('new-job-request', [App\Http\Controllers\JobController::class, 'jobInsert'])->name('request.new');
+    Route::patch('update/{id}', [App\Http\Controllers\JobController::class, 'updateJob'])->name('update');
 });
