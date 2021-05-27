@@ -22,6 +22,8 @@ class Profile extends Controller
 
     public function userDash()
     {
+        //if (Gate::allows('is-user'))
+
         $rmaInfo = Repair::join('products', 'products.id', '=', 'repairs.product_id')
             ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
                 'repairs.status', 'repairs.id', 'repairs.file_path', 'repairs.reason', 'repairs.created_at', 'repairs.tracking_no')
@@ -30,10 +32,19 @@ class Profile extends Controller
             ])
             ->get();
 
+        $rmaInfoDistri = Repair::join('products', 'products.id', '=', 'repairs.product_id')
+            ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
+                'repairs.status', 'repairs.id', 'repairs.file_path', 'repairs.reason', 'repairs.created_at', 'repairs.tracking_no',
+            'repairs.resolve_solution', 'repairs.receive_at')
+            ->where([
+                'products.user_id' => Auth::id(),
+            ])
+            ->get();
+
         $jobInfo = Job::all();
 
         if (Gate::allows('is-all-roles')) {
-            return view('index', compact('rmaInfo', 'jobInfo'));
+            return view('index', compact('rmaInfo', 'jobInfo', 'rmaInfoDistri'));
         }
 
         dd('LOL?! ni utk user je.');

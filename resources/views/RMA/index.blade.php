@@ -53,7 +53,7 @@
             <dd class="col-sm-9">
                 <label for="date-purchased" class="error"></label>
                 <div class="form-floating mb-3">
-                    <input type="date" class="form-control" id="date-purchased" name="date-purchased" onchange="handler(event);">
+                    <input type="date" class="form-control" id="date-purchased" name="date-purchased">
                     <label for="date-purchased">Date Of Purchase</label>
                 </div>
             </dd>
@@ -73,6 +73,7 @@
                         <option value=''><strong>Name</strong></option>
                         <option value="NZXT">NZXT</option>
                         <option value="FRACTAL DESIGN">FRACTAL DESIGN</option>
+                        <option value="ASUS ROG">ASUS ROG</option>
                     </select>
                     <label for="prod_brand">Brand</label>
                 </div>
@@ -115,6 +116,7 @@
     <script>
         myFunctions();
         var myArr = @json($myArray);
+        console.log(myArr)
 
         $("#prod_brand").change(function(){
             var company = $(this).val();

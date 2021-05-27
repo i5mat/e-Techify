@@ -115,12 +115,12 @@
             <td class="font-weight-bold align-middle text-right text-nowrap">{{ $i->sn_no }}</td>
             <td class="font-weight-bold align-middle text-right text-nowrap">{{ $i->date_of_purchase }}</td>
         </tr>
-        @endforeach
         <tr>
             <td colspan="5" class="text-right border-0 pt-4">
                 Reason<h2>{{ $i->reason }}</h2>
             </td>
         </tr>
+        @endforeach
     </table>
 
     <!-- Thank you note -->

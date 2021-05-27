@@ -136,7 +136,7 @@
                 <tr>
                     <th scope="row">Payment Method</th>
                     <td>
-                        <i class="fa fa-amazon"></i>
+                        <i class="fa fa-paypal"></i>
                     </td>
                 </tr>
                 </tbody>
@@ -189,7 +189,7 @@
                             "_token": token,
                         },
                         success: function () {
-                            console.log("It Works");
+                            location.reload();
                         }
                     });
             });

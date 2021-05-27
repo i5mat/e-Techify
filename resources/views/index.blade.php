@@ -91,7 +91,7 @@
             <div class="col-xl-4 col-lg-5">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0 text-primary" style="font-weight: bold">Revenue Sources (Distributor)</h6>
+                        <h6 class="m-0" style="font-weight: bold">Revenue Sources (Distributor)</h6>
                     </div>
                     <div class="card-body pt-4 pb-2 border-3 border-bottom border-warning">
                         <div id="graph2"></div>
@@ -115,7 +115,10 @@
                                         <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold">{{ $ji->job_name }}</span>
                                             <span class="badge bg-primary mt-2" style="color: white">{{ $ji->status }}</span> <hr> <span>Xmiryna Tech</span>
                                             <div class="d-flex flex-row align-items-center justify-content-center"> <i class="fa fa-map-marker"></i> <small class="mx-1">{{ $ji->job_location }}</small> </div>
-                                            <div class="d-flex justify-content-between mt-3"> <span>RM {{ $ji->job_salary }}</span> <a href="{{ $ji->id }}"><button class="btn btn-sm btn-outline-dark">Apply Now</button></a> </div>
+                                            <div class="d-flex justify-content-between mt-3">
+                                                <span>RM {{ $ji->job_salary }}</span>
+                                                <button type="button" id="liveToastBtn{{ $loop->iteration }}" class="btn btn-sm btn-outline-dark">Apply Now</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -129,68 +132,81 @@
         <!-- Modal -->
         <div class="modal fade" id="staticRMA" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Update RMA</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="container">
-                            <div class="row text-center">
-                                <div class="col-xl">
-                                    <img id="myProdImg" src="" width="300" height="300">
+                <form>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Update My-RMA</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row text-center">
+                                    <div class="col-xl">
+                                        <img id="myProdImg" src="" width="300" height="300">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xl">
-                                    <dl class="row">
-                                        <dt class="col-sm-3">RMA No.</dt>
-                                        <dd class="col-sm-9">
-                                            <h5 id="rma_no"></h5>
-                                        </dd>
-                                        <dt class="col-sm-3">Current Status</dt>
-                                        <dd class="col-sm-9">
-                                            <h5 id="rma_status"></h5>
-                                        </dd>
-                                        <dt class="col-sm-3">Reason</dt>
-                                        <dd class="col-sm-9">
-                                            <h5 id="rma_reason"></h5>
-                                        </dd>
-                                        <dt class="col-sm-3">Update Status</dt>
-                                        <dd class="col-sm-9">
-                                            <div class="form-floating">
-                                                <select class="form-select" id="floatingSelect" aria-label="Floating label select example" style="height: 60px">
-                                                    <option value="Received">Received</option>
-                                                    <option value="Received">Repair</option>
-                                                    <option value="Received">Replacement 1-1</option>
-                                                </select>
-                                                <label for="floatingSelect">Select Status</label>
-                                            </div>
-                                        </dd>
-                                        <dt class="col-sm-3">Receive At</dt>
-                                        <dd class="col-sm-9">
-                                            <div class="form-floating">
-                                                <input type="date" class="form-control">
-                                                <label for="date">Date Of Arrival</label>
-                                            </div>
-                                        </dd>
-                                        <dt class="col-sm-3">Requested RMA At</dt>
-                                        <dd class="col-sm-9">
-                                            <h5 id="rma_request_at"></h5>
-                                        </dd>
-                                    </dl>
+                                <div class="row">
+                                    <div class="col-xl">
+                                        <dl class="row">
+                                            <dt class="col-sm-3">RMA No.</dt>
+                                            <dd class="col-sm-9">
+                                                <h5 id="rma_no"></h5>
+                                            </dd>
+                                            <dt class="col-sm-3">Current Status</dt>
+                                            <dd class="col-sm-9">
+                                                <h5 id="rma_status"></h5>
+                                            </dd>
+                                            <dt class="col-sm-3">Reason</dt>
+                                            <dd class="col-sm-9">
+                                                <h5 id="rma_reason"></h5>
+                                            </dd>
+                                            <dt class="col-sm-3">Update Status</dt>
+                                            <dd class="col-sm-9">
+                                                <div class="form-floating">
+                                                    <select class="form-select" id="floatingSelectStatus" aria-label="Floating label select example" style="height: 60px">
+                                                        <option value="Pending Checking">Pending Checking</option>
+                                                        <option value="Received">Received</option>
+                                                        <option value="Repair">Repair</option>
+                                                        <option value="Replacement 1-1">Replacement 1-1</option>
+                                                        <option value="Shipped">Shipped</option>
+                                                    </select>
+                                                    <label for="floatingSelect">Select Status</label>
+                                                </div>
+                                            </dd>
+                                            <dt class="col-sm-3">Receive At</dt>
+                                            <dd class="col-sm-9">
+                                                <div class="form-floating">
+                                                    <input type="date" class="form-control" id="rma_receive_at">
+                                                    <label for="date">Date Of Arrival</label>
+                                                </div>
+                                            </dd>
+                                            <dt class="col-sm-3">Requested RMA At</dt>
+                                            <dd class="col-sm-9">
+                                                <h5 id="rma_request_at"></h5>
+                                            </dd>
+                                            <dt class="col-sm-3">Tracking No.</dt>
+                                            <dd class="col-sm-9">
+                                                <input id="rma_tracking_no" class="form-control">
+                                            </dd>
+                                            <dt class="col-sm-3">Remark</dt>
+                                            <dd class="col-sm-9">
+                                                <textarea class="form-control" id="rma_resolution" rows="3"></textarea>
+                                            </dd>
+                                        </dl>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" style="width: 89%" id="btn_update_rma">Update</button>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
 
+        @can('is-user')
         <div class="row">
             <div class="col-xl-12 col-lg-11">
                 <div class="card shadow mb-4">
@@ -246,7 +262,95 @@
                                                 Tracking No.
                                             </div>
                                             <div class="text-primary">
-                                                <a class="btn btn-outline-dark" style="font-size: 15px" onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                                                @if($rma->tracking_no != null)
+                                                    <a class="btn btn-outline-dark" style="font-size: 15px" onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                                                @else
+                                                    Not Available
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+                                        <div class="p-3 text-center">
+                                            <div class="text-primary monospace">
+                                                <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}" class="btn btn-sm btn-primary">RMA Request Form</a>
+                                                <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                                                    <button class="btn"><i class="fa fa-download"></i> Download File</button>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        <!-- END HERE -->
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endcan
+
+        @can('is-reseller-distributor')
+        <div class="row">
+            <div class="col-xl-12 col-lg-11">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                        <h6 class="m-0" style="font-weight: bold">All RMA Requests</h6>
+                    </div>
+                    <div class="card-body border-3 border-bottom border-warning">
+                        @if($rmaInfoDistri->count() == 0)
+                            <div class="row text-center">
+                                <h1 class="display-6">RMA request from customer will be shown here.</h1>
+                            </div>
+                        @else
+                        <!-- START HERE -->
+                            @foreach($rmaInfoDistri as $rma)
+                                <div class="row">
+                                    <div class="col-12 col-md-4">
+                                        <div class="p-3 d-flex align-items-center">
+                                            <div class="mr-3">
+                                                <img src="/storage/product/{{ $rma->product_image_path }}" width="100" height="100" />
+                                            </div>
+
+                                            <div class="mx-3">
+                                                <h5>{{ $rma->product_name }}</h5>
+                                                <div class="text-muted monospace">
+                                                    {{ $rma->product_sn }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <div>
+                                                Serial Number
+                                            </div>
+                                            <div class="monospace text-primary">
+                                                {{ $rma->sn_no }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <div>
+                                                Status
+                                            </div>
+                                            <div class="text-primary">
+                                                {{ $rma->status }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                        <div class="text-center">
+                                            <div>
+                                                Tracking No.
+                                            </div>
+                                            <div class="text-primary">
+                                                @if($rma->tracking_no != null)
+                                                    <a class="btn btn-outline-dark" style="font-size: 15px" onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                                                @else
+                                                    Not Available
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -264,9 +368,14 @@
                                                     data-myrmastatus="{{ $rma->status }}"
                                                     data-myrmareason="{{ $rma->reason }}"
                                                     data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
+                                                    data-mytrack="{{ $rma->tracking_no }}"
+                                                    data-myresolution="{{ $rma->resolve_solution }}"
+                                                    data-myreceive="{{ $rma->receive_at }}"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#staticRMA">
-                                                    <button class="btn btn-sm btn-warning"><i data-feather="alert-triangle" class="feather-16" style="margin-bottom: 5px"></i> Update RMA Status</button>
+                                                    @can('is-distributor')
+                                                        <button class="btn btn-sm btn-warning"><i data-feather="alert-triangle" class="feather-16" style="margin-bottom: 5px"></i> Update RMA Status</button>
+                                                    @endcan
                                                 </a>
                                             </div>
                                         </div>
@@ -279,6 +388,7 @@
                 </div>
             </div>
         </div>
+        @endcan
     @endcan
 
     @guest
@@ -338,7 +448,7 @@
                     data: [5, 3, 4, 7, 2]
                 }, {
                     name: 'Jane',
-                    data: [2, -2, -3, 2, 1]
+                    data: [2, 2, 3, 2, 1]
                 }, {
                     name: 'Joe',
                     data: [3, 4, 4, -2, 5]
@@ -353,7 +463,7 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Browser market shares in January, 2018'
+                    text: 'Browser market shares in January, 2021'
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -404,6 +514,41 @@
             });
         });
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $("#btn_update_rma").click(function(e){
+
+            e.preventDefault();
+
+            var status = $("#floatingSelectStatus").val();
+            var receive_at = $("#rma_receive_at").val();
+            var remark = $("#rma_resolution").val();
+            var tracking = $("#rma_tracking_no").val();
+            var rma_id = $("#rma_no").val();
+
+            $.ajax({
+                type:'PATCH',
+                url:"http://127.0.0.1:8000/rma/rma-update/" + rma_id,
+                data:{
+                    rma_status:status,
+                    receive:receive_at,
+                    remark_note:remark,
+                    track_no:tracking
+                },
+                success:function(data){
+                    if ( data['success'] )
+                        location.reload();
+                    else
+                        alert('EXISTING.')
+
+                }
+            });
+        });
+
         $('#staticRMA').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal
             var rma_id = button.data('myrmaid') // Extract info from data-* attributes
@@ -411,17 +556,29 @@
             var rma_status = button.data('myrmastatus') // Extract info from data-* attributes
             var rma_reason = button.data('myrmareason') // Extract info from data-* attributes
             var rma_request_at = button.data('myrmareqat') // Extract info from data-* attributes
+            var rma_tracking_no = button.data('mytrack') // Extract info from data-* attributes
+            var rma_resolution = button.data('myresolution') // Extract info from data-* attributes
+            var rma_receive = button.data('myreceive') // Extract info from data-* attributes
 
             var modal = $(this)
             modal.find('.modal-body #rma_no').val(rma_id);
             modal.find('.modal-body #rma_status').val(rma_status);
             modal.find('.modal-body #rma_reason').val(rma_reason);
             modal.find('.modal-body #rma_request_at').val(rma_request_at);
+            modal.find('.modal-body #rma_tracking_no').val(rma_tracking_no);
+            modal.find('.modal-body #rma_resolution').val(rma_resolution);
+            modal.find('.modal-body #rma_receive_at').val(rma_receive);
+
+            modal.find('.modal-body #floatingSelectStatus').val(rma_status);
 
             document.getElementById("rma_no").innerText = "#" + rma_id;
             document.getElementById("rma_status").innerText = rma_status;
             document.getElementById("rma_reason").innerText = rma_reason;
             document.getElementById("rma_request_at").innerText = rma_request_at;
+            document.getElementById("rma_tracking_no").innerText = rma_tracking_no;
+            document.getElementById("rma_resolution").innerText = rma_resolution;
+            document.getElementById("rma_receive_at").value = rma_receive;
+            document.getElementById("floatingSelectStatus").value = rma_status;
             document.getElementById("myProdImg").src = "/storage/product/" + prod_pic;
         });
 

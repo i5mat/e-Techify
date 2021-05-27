@@ -10732,13 +10732,24 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+html, body {
+  /* IE 10-11 didn't like using min-height */
+  height: 100%;
+}
+
+.container {
+  flex: 1 0 auto;
+  /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
+}
+
 body {
   background-color: #F7F8F9;
   color: #3A3C42;
+  display: flex;
+  flex-direction: column;
 }
 
 h1, .h1 {
-  margin-top: 20px;
   margin-bottom: 30px;
 }
 
@@ -10763,7 +10774,8 @@ h1, .h1 {
 }
 
 .footer {
-  position: absolute;
+  flex-shrink: 0;
+  /* Prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size. */
   width: 100%;
   background-color: #1E2632;
   color: white;

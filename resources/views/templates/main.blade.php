@@ -170,7 +170,6 @@
             @yield('content')
         </main>
 
-        <br>
         <div class="footer">
             <p style="padding-top: 30px; padding-bottom: 30px;"><img src="/image/online-sale.png"></p>
         </div>

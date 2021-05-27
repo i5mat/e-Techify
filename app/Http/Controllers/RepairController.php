@@ -73,11 +73,23 @@ class RepairController extends Controller
             ->join('addresses', 'repairs.addresses_id', '=', 'addresses.id')
             ->join('products', 'repairs.product_id', '=', 'products.id')
             ->where([
-                'repairs.user_id' => Auth::id(),
                 'repairs.id' => $findID->id
             ])
             ->get();
 
         return view('rma.rma-sheet', compact('recipientInfo', 'rmaInfo'));
+    }
+
+    public function updateRMA($id, Request $request)
+    {
+        $findID = Repair::findOrFail($id);
+        $findID->resolve_solution = $request->get('remark_note');
+        $findID->receive_at = $request->get('receive');
+        $findID->status = $request->get('rma_status');
+        $findID->tracking_no = $request->get('track_no');
+
+        $findID->save();
+
+        return response()->json(['success'=>'yey! RMA UPDATED!']);
     }
 }
