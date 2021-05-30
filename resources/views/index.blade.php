@@ -158,7 +158,7 @@
                                     <div class="text-sm text-primary text-uppercase mb-1" style="font-weight: bold">
                                         Earnings Monthly
                                     </div>
-                                    <div class="h5 mb-0" style="font-weight: bold" id="monthly_earn">{{ $getConfirmOrder }}</div>
+                                    <div class="h5 mb-0" style="font-weight: bold" id="monthly_earn">{{ $getConfirmOrderMonthly->sale_per_month }}</div>
                                 </div>
                                 <div class="col-auto">
                                     <i class="fa fa-calendar fa-2x"></i>
@@ -771,6 +771,7 @@
 
         @can('is-reseller')
             var test = $("#annual_earn").text();
+            var test2 = $("#monthly_earn").text();
 
             var formatter = new Intl.NumberFormat('en-US', {
                 style: 'currency',
@@ -778,7 +779,7 @@
             });
 
             document.getElementById('annual_earn').innerHTML = formatter.format(test);
-            document.getElementById('monthly_earn').innerHTML = formatter.format(test);
+            document.getElementById('monthly_earn').innerHTML = formatter.format(test2);
         @endcan
 
         @can('is-distributor')
@@ -882,11 +883,9 @@
                     type: 'column'
                 },
                 title: {
-                    text: 'Monthly Average Rainfall'
+                    text: 'Brand Counter Sale Per Month'
                 },
-                subtitle: {
-                    text: 'Source: WorldClimate.com'
-                },
+                credits: false,
                 xAxis: {
                     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                     crosshair: true
@@ -894,7 +893,7 @@
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Total sale per month'
+                        text: 'Total'
                     }
                 },
                 tooltip: {

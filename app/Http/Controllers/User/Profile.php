@@ -61,22 +61,8 @@ class Profile extends Controller
 
         $getRMATotal = Repair::count();
         $getConfirmOrder = ConfirmOrder::sum('payment_total');
-//        $getOrderDetail = OrderDetail::join('products', 'products.id', '=', 'order_details.product_id')
-//            ->groupBy('products.product_brand')
-//            ->groupBy('month')
-//            ->selectRaw("COUNT(MONTH(order_details.created_at)) AS total, product_brand, MONTHNAME(order_details.created_at) AS month")
-//            ->get();
-
-//        $getOrderDetail = OrderDetail::join('products', 'products.id', '=', 'order_details.product_id')
-//            ->groupBy('products.product_brand')
-//            ->groupBy('month')
-//            ->selectRaw("COUNT(MONTH(order_details.created_at)) AS total, product_brand, MONTHNAME(order_details.created_at) AS month")
-//            ->get();
-
-//        $getOrderDetail = OrderDetail::select(DB::raw('A.product_brand, GROUP_CONCAT(A.CNT SEPARATOR ", ") AS total'))
-//            ->from(DB::raw('(SELECT products.product_brand, COUNT(*) AS CNT FROM order_details INNER JOIN products ON products.id = order_details.product_id GROUP BY products.product_brand, MONTH(order_details.created_at) ) A'))
-//            ->groupBy('A.product_brand')
-//            ->get();
+        $getConfirmOrderMonthly = ConfirmOrder::selectRaw("sum(confirm_orders.payment_total) as sale_per_month")
+            ->whereRaw("MONTH(created_at) = MONTH(curdate())")->first();
 
         $getOrderDetail = OrderDetail::select(DB::raw('A.product_brand, GROUP_CONCAT(A.Jan, ", ", A.Feb, ", ", A.Mar, ", ", A.Apr, ", ", A.May, ", ", A.Jun, ", ", A.Jul, ", ", A.Aug, ", ", A.Sep, ", ", A.Oct, ", ", A.Nov, ", ", A.Dec) AS total_per_month'))
             ->from(DB::raw('(SELECT products.product_brand,
@@ -110,7 +96,7 @@ class Profile extends Controller
 
         if (Gate::allows('is-all-roles')) {
             return view('index', compact('rmaInfo', 'jobInfo', 'rmaInfoDistri',
-                'getCartTotal', 'getRMATotal', 'getConfirmOrder', 'myArray', 'rmaInfoReseller', 'findMonth', 'getOrderDetail'));
+                'getCartTotal', 'getRMATotal', 'getConfirmOrder', 'myArray', 'rmaInfoReseller', 'findMonth', 'getOrderDetail', 'getConfirmOrderMonthly'));
         }
 
         dd('LOL?! ni utk user je.');
