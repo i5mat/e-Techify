@@ -1,9 +1,7 @@
 @extends('templates.main')
 
 @section('content')
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css"
-          type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
     <style>
         .btn-outline-dark {
             border-radius: 35px;
@@ -25,11 +23,52 @@
             height: 400px;
             width: 100%;
         }
+
+        .highcharts-figure, .highcharts-data-table table {
+            min-width: 310px;
+            max-width: 800px;
+            margin: 1em auto;
+        }
+
+        #container {
+            height: 400px;
+        }
+
+        .highcharts-data-table table {
+            font-family: Verdana, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #EBEBEB;
+            margin: 10px auto;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        .highcharts-data-table caption {
+            padding: 1em 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+        .highcharts-data-table th {
+            font-weight: 600;
+            padding: 0.5em;
+        }
+        .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+            padding: 0.5em;
+        }
+        .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+        .highcharts-data-table tr:hover {
+            background: #f1f7ff;
+        }
+
+
     </style>
 
     @can('logged-in')
         <h1 class="display-3">Hi, {{ Auth::user()->name }} !</h1>
 
+        @can('is-distributor')
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -107,6 +146,76 @@
                 </div>
             </div>
         </div>
+        @endcan
+
+        @can('is-reseller')
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body border-3 border-start border-primary shadow h-100">
+                            <div class="row g-0 align-items-center">
+                                <div class="col" style="margin-right: 2px">
+                                    <div class="text-sm text-primary text-uppercase mb-1" style="font-weight: bold">
+                                        Earnings Monthly
+                                    </div>
+                                    <div class="h5 mb-0" style="font-weight: bold" id="monthly_earn">{{ $getConfirmOrder }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fa fa-calendar fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body border-3 border-start border-success shadow h-100">
+                            <div class="row g-0 align-items-center">
+                                <div class="col" style="margin-right: 2px">
+                                    <div class="text-sm text-success text-uppercase mb-1" style="font-weight: bold">
+                                        Earnings Annual
+                                    </div>
+                                    <div class="h5 mb-0" style="font-weight: bold" id="annual_earn">{{ $getConfirmOrder }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i data-feather="dollar-sign" class="feather-32"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body border-3 border-start border-warning shadow h-100">
+                            <div class="row g-0 align-items-center">
+                                <div class="col" style="margin-right: 2px">
+                                    <div class="text-sm text-warning text-uppercase mb-1" style="font-weight: bold">
+                                        RMA Requests
+                                    </div>
+                                    <div class="h5 mb-0" style="font-weight: bold">{{ $getRMATotal }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fa fa-wrench fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px">
+                <div class="col-xl-12 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">Brand Cumulative</h6>
+                        </div>
+                        <div class="card-body border-3 border-bottom border-warning">
+                            <div id="container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endcan
 
         <div class="row">
             <div class="col-xl-12 col-lg-11">
@@ -136,7 +245,7 @@
                                                 <span>RM {{ $ji->job_salary }}</span>
 
                                                 @if($ji->status == 'Occupied')
-                                                    @can('is-distributor')
+                                                    @can('is-reseller-distributor')
                                                         <button type="button" id="btn_up_job"
                                                                 class="btn btn-lg btn-outline-primary">Update
                                                         </button>
@@ -406,7 +515,7 @@
             </div>
         @endcan
 
-        @can('is-reseller-distributor')
+        @can('is-distributor')
             <div class="row">
                 <div class="col-xl-12 col-lg-11">
                     <div class="card shadow mb-4">
@@ -512,6 +621,114 @@
                 </div>
             </div>
         @endcan
+
+        @can('is-reseller')
+            <div class="row">
+                <div class="col-xl-12 col-lg-11">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">All RMA Requests</h6>
+                        </div>
+                        <div class="card-body border-3 border-bottom border-warning">
+                            @if($rmaInfoReseller->count() == 0)
+                                <div class="row text-center">
+                                    <h1 class="display-6">RMA request from customer will be shown here.</h1>
+                                </div>
+                            @else
+                            <!-- START HERE -->
+                                @foreach($rmaInfoReseller as $rma)
+                                    <div class="row">
+                                        <div class="col-12 col-md-4">
+                                            <div class="p-3 d-flex align-items-center">
+                                                <div class="mr-3">
+                                                    <img src="/storage/product/{{ $rma->product_image_path }}"
+                                                         width="100" height="100"/>
+                                                </div>
+
+                                                <div class="mx-3">
+                                                    <h5>{{ $rma->product_name }}</h5>
+                                                    <div class="text-muted monospace">
+                                                        {{ $rma->product_sn }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="text-center">
+                                                <div>
+                                                    Serial Number
+                                                </div>
+                                                <div class="monospace text-primary">
+                                                    {{ $rma->sn_no }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="text-center">
+                                                <div>
+                                                    Status
+                                                </div>
+                                                <div class="text-primary">
+                                                    {{ $rma->status }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="text-center">
+                                                <div>
+                                                    Tracking No.
+                                                </div>
+                                                <div class="text-primary">
+                                                    @if($rma->tracking_no != null)
+                                                        <a class="btn btn-outline-dark" style="font-size: 15px"
+                                                           onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                                                    @else
+                                                        Not Available
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="p-3 text-center">
+                                                <div class="text-primary monospace">
+                                                    <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
+                                                       class="btn btn-sm btn-primary">RMA Request Form</a>
+                                                    <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                                                        <button class="btn"><i class="fa fa-download"></i> Download File
+                                                        </button>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        data-myrmaid="{{ $rma->id }}"
+                                                        data-myprodpic="{{ $rma->product_image_path }}"
+                                                        data-myrmastatus="{{ $rma->status }}"
+                                                        data-myrmareason="{{ $rma->reason }}"
+                                                        data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
+                                                        data-mytrack="{{ $rma->tracking_no }}"
+                                                        data-myresolution="{{ $rma->resolve_solution }}"
+                                                        data-myreceive="{{ $rma->receive_at }}"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#staticRMA">
+                                                        @can('is-reseller-distributor')
+                                                            <button class="btn btn-sm btn-warning"><i
+                                                                    data-feather="alert-triangle" class="feather-16"
+                                                                    style="margin-bottom: 5px"></i> Update RMA Status
+                                                            </button>
+                                                        @endcan
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            <!-- END HERE -->
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endcan
+
     @endcan
 
     @guest
@@ -551,6 +768,20 @@
     <script src="//www.tracking.my/track-button.js"></script>
     <script type="application/javascript">
         feather.replace();
+
+        @can('is-reseller')
+            var test = $("#annual_earn").text();
+
+            var formatter = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'MYR',
+            });
+
+            document.getElementById('annual_earn').innerHTML = formatter.format(test);
+            document.getElementById('monthly_earn').innerHTML = formatter.format(test);
+        @endcan
+
+        @can('is-distributor')
         document.addEventListener('DOMContentLoaded', function () {
 
             Highcharts.chart('graph', {
@@ -636,6 +867,68 @@
                 }
             });
         });
+        @endcan
+
+        @can('is-reseller')
+        document.addEventListener('DOMContentLoaded', function () {
+            var myA = @json($myArray);
+            var myB = @json($findMonth)
+
+            console.log(myB);
+            console.log(myA);
+
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Monthly Average Rainfall'
+                },
+                subtitle: {
+                    text: 'Source: WorldClimate.com'
+                },
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Total sale per month'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: (function() {
+                    var series = [];
+
+                    $.each(myA, function(i, item) {
+                        const str = item.total_per_month.split(', ').map(Number);
+                        series.push({
+                            name: item.product_brand,
+                            data: str,
+                        });
+                        console.log(str)
+                    })
+
+                    return series;
+                }()),
+            });
+
+        });
+        @endcan
 
         $.ajaxSetup({
             headers: {

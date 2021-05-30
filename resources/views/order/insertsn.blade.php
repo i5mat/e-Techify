@@ -45,8 +45,8 @@
             <dl class="row">
                 <dt class="col-sm-3">Suggested SN</dt>
                 <dd class="col-sm-9">
-                    <div class="lead" id="prod_name_sn">{{ $getNameSN->product_name }}</div>
                     @foreach($findSN as $z)
+                        <div class="lead" id="prod_name_sn">{{ $z->product_name }}</div>
                         <div class="draggable btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">{{ $z->serial_number }}</div>
                     @endforeach
                 </dd>

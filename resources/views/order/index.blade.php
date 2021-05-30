@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Your Orders! <img src="/image/received.png"/></h1>
+    <h1 class="display-2 text-center">Orders <img src="/image/received.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
