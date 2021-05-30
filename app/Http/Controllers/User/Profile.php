@@ -107,7 +107,7 @@ class Profile extends Controller
             ->groupBy('A.product_brand')
             ->get();
 
-        $getPieChartData = OrderDetail::select(DB::raw('SUM(order_details.product_order_quantity) AS tot_qty, products.product_brand'))
+        $getPieChartData = OrderDetail::select(DB::raw('products.product_brand, SUM(order_details.product_order_quantity) AS tot_qty'))
             ->from(DB::raw('order_details INNER JOIN products ON products.id = order_details.product_id'))
             ->where('products.user_id', $x)
             ->groupBy('products.product_brand')

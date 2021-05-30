@@ -950,6 +950,13 @@
                 }()),
             });
 
+            var data = [];
+            for(i in myD){
+                const str_num = myD[i].tot_qty.split(' ').map(Number);
+                data.push({"name":myD[i].product_brand,"y":parseInt(str_num)});
+                console.log(parseInt(str_num))
+            }
+
             Highcharts.chart('graph2', {
                 chart: {
                     plotBackgroundColor: null,
@@ -958,7 +965,7 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Total Sold for Each Brand, 2021'
+                    text: 'Percentage Sold for Each Brand, 2021'
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -981,27 +988,7 @@
                 series: [{
                     name: 'Brands',
                     colorByPoint: true,
-                    data: [{
-                        name: 'Chrome',
-                        y: 61.41,
-                        sliced: true,
-                        selected: true
-                    }, {
-                        name: 'Internet Explorer',
-                        y: 11.84
-                    }, {
-                        name: 'Firefox',
-                        y: 10.85
-                    }, {
-                        name: 'Edge',
-                        y: 4.67
-                    }, {
-                        name: 'Safari',
-                        y: 4.18
-                    }, {
-                        name: 'Other',
-                        y: 7.05
-                    }]
+                    data: data
                 }],
                 credits: {
                     enabled: false
