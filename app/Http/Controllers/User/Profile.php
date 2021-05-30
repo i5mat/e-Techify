@@ -85,6 +85,42 @@ class Profile extends Controller
             ->groupBy('A.product_brand')
             ->get();
 
+        $x = Auth::id();
+        $getDataDistributor = OrderDetail::select(DB::raw('A.product_brand, GROUP_CONCAT(A.Jan, ", ", A.Feb, ", ", A.Mar, ", ", A.Apr, ", ", A.May, ", ", A.Jun, ", ", A.Jul, ", ", A.Aug, ", ", A.Sep, ", ", A.Oct, ", ", A.Nov, ", ", A.Dec) AS total_per_month'))
+            ->from(DB::raw("(SELECT products.product_brand,
+                                    SUM(if(MONTH(order_details.created_at) = 1, 1,0)) as Jan,
+                                    SUM(if(MONTH(order_details.created_at) = 2, 1,0)) as Feb,
+                                    SUM(if(MONTH(order_details.created_at) = 3, 1,0)) as Mar,
+                                    SUM(if(MONTH(order_details.created_at) = 4, 1,0)) as Apr,
+                                    SUM(if(MONTH(order_details.created_at) = 5, 1,0)) as May,
+                                    SUM(if(MONTH(order_details.created_at) = 6, 1,0)) as Jun,
+                                    SUM(if(MONTH(order_details.created_at) = 7, 1,0)) as Jul,
+                                    SUM(if(MONTH(order_details.created_at) = 8, 1,0)) as Aug,
+                                    SUM(if(MONTH(order_details.created_at) = 9, 1,0)) as Sep,
+                                    SUM(if(MONTH(order_details.created_at) = 10, 1,0)) as Oct,
+                                    SUM(if(MONTH(order_details.created_at) = 11, 1,0)) as Nov,
+                                    SUM(if(MONTH(order_details.created_at) = 12, 1,0)) as `Dec`
+                                FROM order_details
+                                INNER JOIN products ON products.id = order_details.product_id
+                                WHERE YEAR(NOW()) AND products.user_id = '$x'
+                                GROUP by products.product_brand ) A"))
+            ->groupBy('A.product_brand')
+            ->get();
+
+        $getPieChartData = OrderDetail::select(DB::raw('SUM(order_details.product_order_quantity) AS tot_qty, products.product_brand'))
+            ->from(DB::raw('order_details INNER JOIN products ON products.id = order_details.product_id'))
+            ->where('products.user_id', $x)
+            ->groupBy('products.product_brand')
+            ->get();
+
+        $getTotalSold = OrderDetail::join('products', 'products.id', '=', 'order_details.product_id')
+            ->where('products.user_id', $x)
+            ->sum('order_details.product_order_quantity');
+
+        $getRMA = Repair::join('products', 'products.id', '=', 'repairs.product_id')
+            ->where('products.user_id', $x)
+            ->count();
+
         $findMonth = OrderDetail::selectRaw('DISTINCT MONTHNAME(created_at) AS monthName')->get();
 
         $myArray = array();
@@ -96,7 +132,8 @@ class Profile extends Controller
 
         if (Gate::allows('is-all-roles')) {
             return view('index', compact('rmaInfo', 'jobInfo', 'rmaInfoDistri',
-                'getCartTotal', 'getRMATotal', 'getConfirmOrder', 'myArray', 'rmaInfoReseller', 'findMonth', 'getOrderDetail', 'getConfirmOrderMonthly'));
+                'getCartTotal', 'getRMATotal', 'getConfirmOrder', 'myArray', 'rmaInfoReseller', 'findMonth',
+                'getOrderDetail', 'getConfirmOrderMonthly', 'getDataDistributor', 'getTotalSold', 'getRMA', 'getPieChartData'));
         }
 
         dd('LOL?! ni utk user je.');

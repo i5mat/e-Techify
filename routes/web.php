@@ -94,4 +94,6 @@ Route::prefix('job')->middleware(['auth', 'verified'])->name('job.')->group(func
     Route::get('new-job', [App\Http\Controllers\JobController::class, 'jobIndex'])->name('new');
     Route::post('new-job-request', [App\Http\Controllers\JobController::class, 'jobInsert'])->name('request.new');
     Route::patch('update/{id}', [App\Http\Controllers\JobController::class, 'updateJob'])->name('update');
+    Route::patch('update-job-info/{id}', [App\Http\Controllers\JobController::class, 'updateJobInfo'])->name('updateJI');
+    Route::patch('update-job-status/{id}', [App\Http\Controllers\JobController::class, 'updateJobStatus'])->name('updateJS');
 });

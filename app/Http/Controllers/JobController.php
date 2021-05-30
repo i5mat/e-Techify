@@ -40,6 +40,31 @@ class JobController extends Controller
 
         $findID->save();
 
-        return response()->json(['success'=>'yey! RMA UPDATED!']);
+        return response()->json(['success'=>'yey! JOB UPDATED!']);
+    }
+
+    public function updateJobInfo($id, Request $request)
+    {
+        $findID = Job::findOrFail($id);
+
+        $findID->job_name = $request->get('scope');
+        $findID->job_location = $request->get('location');
+        $findID->job_salary = $request->get('rate');
+
+        $findID->save();
+
+        return response()->json(['success'=>'yey! JOB INFO UPDATED!']);
+    }
+
+    public function updateJobStatus($id, Request $request)
+    {
+        $findID = Job::findOrFail($id);
+
+        $findID->status = $request->get('status');
+        $findID->occupied_by = null;
+
+        $findID->save();
+
+        return response()->json(['success'=>'yey! JOB STATUS UPDATED!']);
     }
 }

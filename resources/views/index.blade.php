@@ -5,13 +5,13 @@
     <style>
         .btn-outline-dark {
             border-radius: 35px;
-            font-size: 10px;
+            font-size: 12px;
             box-shadow: none
         }
 
         .btn-outline-primary {
             border-radius: 35px;
-            font-size: 10px;
+            font-size: 12px;
             box-shadow: none
         }
 
@@ -72,50 +72,33 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body border-3 border-start border-primary shadow h-100">
-                        <div class="row g-0 align-items-center">
-                            <div class="col" style="margin-right: 2px">
-                                <div class="text-sm text-primary text-uppercase mb-1" style="font-weight: bold">
-                                    Earnings Monthly
-                                </div>
-                                <div class="h5 mb-0" style="font-weight: bold">18</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fa fa-calendar fa-2x"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <div class="card-body border-3 border-start border-success shadow h-100">
-                        <div class="row g-0 align-items-center">
-                            <div class="col" style="margin-right: 2px">
-                                <div class="text-sm text-success text-uppercase mb-1" style="font-weight: bold">
-                                    Earnings Annual
-                                </div>
-                                <div class="h5 mb-0" style="font-weight: bold">18</div>
-                            </div>
-                            <div class="col-auto">
-                                <i data-feather="dollar-sign" class="feather-32"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
                     <div class="card-body border-3 border-start border-warning shadow h-100">
                         <div class="row g-0 align-items-center">
                             <div class="col" style="margin-right: 2px">
                                 <div class="text-sm text-warning text-uppercase mb-1" style="font-weight: bold">
-                                    Pending Requests
+                                    Total RMA
                                 </div>
-                                <div class="h5 mb-0" style="font-weight: bold">18</div>
+                                <div class="h5 mb-0" style="font-weight: bold">{{ $getRMA }}</div>
                             </div>
                             <div class="col-auto">
-                                <i class="fa fa-comments fa-2x"></i>
+                                <i class="fa fa-wrench fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body border-3 border-start border-danger shadow h-100">
+                        <div class="row g-0 align-items-center">
+                            <div class="col" style="margin-right: 2px">
+                                <div class="text-sm text-danger text-uppercase mb-1" style="font-weight: bold">
+                                    Total Products Sold
+                                </div>
+                                <div class="h5 mb-0" style="font-weight: bold">{{ $getTotalSold }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fa fa-cubes fa-2x"></i>
                             </div>
                         </div>
                     </div>
@@ -246,29 +229,53 @@
 
                                                 @if($ji->status == 'Occupied')
                                                     @can('is-reseller-distributor')
-                                                        <button type="button" id="btn_up_job"
-                                                                class="btn btn-lg btn-outline-primary">Update
+                                                        <button
+                                                            type="button"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#updateJobStatusModal"
+                                                            data-jobname="{{ $ji->job_name }}"
+                                                            data-jobid="{{ $ji->job_id }}"
+                                                            data-jobstats="{{ $ji->status }}"
+                                                            class="btn btn-lg btn-outline-primary"
+                                                        >Update Status
                                                         </button>
                                                     @endcan
                                                     @can('is-user')
                                                         <button type="button" disabled class="btn btn-lg btn-outline-dark">Apply</button>
                                                     @endcan
                                                 @elseif ($ji->status == 'Not Occupied')
-                                                    <button
-                                                        type="button"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#jobModal"
-                                                        data-usrname="{{ $ji->name }}"
-                                                        data-usremail="{{ $ji->email }}"
-                                                        data-jobloc="{{ $ji->job_location }}"
-                                                        data-jobsalary="{{ $ji->job_salary }}"
-                                                        data-jobname="{{ $ji->job_name }}"
-                                                        data-jobid="{{ $ji->job_id }}"
-                                                        data-joboccupy="{{ $ji->occupied_by }}"
-                                                        data-jobuserid="{{ Auth::id() }}"
-                                                        class="btn btn-lg btn-outline-dark"
-                                                    >Apply
-                                                    </button>
+                                                    @can('is-user')
+                                                        <button
+                                                            type="button"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#jobModal"
+                                                            data-usrname="{{ $ji->name }}"
+                                                            data-usremail="{{ $ji->email }}"
+                                                            data-jobloc="{{ $ji->job_location }}"
+                                                            data-jobsalary="{{ $ji->job_salary }}"
+                                                            data-jobname="{{ $ji->job_name }}"
+                                                            data-jobid="{{ $ji->job_id }}"
+                                                            data-jobuserid="{{ Auth::id() }}"
+                                                            class="btn btn-lg btn-outline-dark"
+                                                        >Apply
+                                                        </button>
+                                                    @else
+                                                        <button
+                                                            type="button"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#updateJobModal"
+                                                            data-usrname="{{ $ji->name }}"
+                                                            data-usremail="{{ $ji->email }}"
+                                                            data-jobloc="{{ $ji->job_location }}"
+                                                            data-jobsalary="{{ $ji->job_salary }}"
+                                                            data-jobname="{{ $ji->job_name }}"
+                                                            data-jobid="{{ $ji->job_id }}"
+                                                            data-joboccupy="{{ $ji->occupied_by }}"
+                                                            data-jobuserid="{{ Auth::id() }}"
+                                                            class="btn btn-lg btn-outline-dark"
+                                                        >View
+                                                        </button>
+                                                    @endcan
                                                 @endif
                                             </div>
                                         </div>
@@ -281,9 +288,50 @@
             </div>
         </div>
 
-        <!-- Modal for Job -->
-        <div class="modal fade" id="jobModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+        <!-- Modal for update Job status -->
+        <div class="modal fade" id="updateJobStatusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <form>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Job's Application</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row ">
+                                <dt class="col-sm-4">Job Scope</dt>
+                                <dd class="col-sm-5">
+                                    <h5 id="job_name_status_modal">PC Builder</h5>
+                                    <p id="job_id_status_modal" hidden>You can use the mark tag to
+                                        <mark>highlight</mark>
+                                        text.
+                                    </p>
+                                </dd>
+                                <dt class="col-sm-4">Update Status</dt>
+                                <dd class="col-sm-8">
+                                    <div class="form-floating">
+                                        <select class="form-select" id="floatingUpdateStatus"
+                                                aria-label="Floating label select example"
+                                                style="height: 60px">
+                                            <option value="Occupied">Occupied</option>
+                                            <option value="Not Occupied">Not Occupied</option>
+                                        </select>
+                                        <label for="floatingSelect">Select Status</label>
+                                    </div>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="btn_update_job_status" style="width: 100%">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for update Job -->
+        <div class="modal fade" id="updateJobModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <form>
                     <div class="modal-content">
                         <div class="modal-header">
@@ -320,25 +368,88 @@
                                 </dd>
                                 <dt class="col-sm-4">Location</dt>
                                 <dd class="col-sm-5">
-                                    <p id="job_loc">+(60) 12-217 8319</p>
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="job_loc">
+                                        <label for="text">Job Location</label>
+                                    </div>
                                 </dd>
-                                <dt class="col-sm-4">Rate</dt>
+                                <dt class="col-sm-4">Rate (RM)</dt>
                                 <dd class="col-sm-5">
-                                    <p id="job_rate">RM 150</p>
+                                    <div class="form-floating">
+                                        <input type="number" class="form-control" id="job_rate">
+                                        <label for="number">Job Rate</label>
+                                    </div>
                                 </dd>
                                 <dt class="col-sm-4">Job Scope</dt>
                                 <dd class="col-sm-5">
-                                    <p id="job_name">PC Builder</p>
-                                </dd>
-                                <dt class="col-sm-4">Applied By</dt>
-                                <dd class="col-sm-5">
-                                    <p id="job_occupy_by">PC Builder</p>
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="job_names">
+                                        <label for="text">Job Scope</label>
+                                    </div>
                                 </dd>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-success" id="btn_apply_job" style="width: 100%">Apply
-                            </button>
+                            <button type="button" class="btn btn-success" id="btn_update_job" style="width: 100%">Apply</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal for Job -->
+        <div class="modal fade" id="jobModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
+                <form>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Job's Application</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row ">
+                                <dt class="col-sm-4">Person in Charge</dt>
+                                <dd class="col-sm-5">
+                                    <p id="pic_job_apply">You can use the mark tag to
+                                        <mark>highlight</mark>
+                                        text.
+                                    </p>
+                                    <p id="job_id_apply" hidden>You can use the mark tag to
+                                        <mark>highlight</mark>
+                                        text.
+                                    </p>
+                                    <p id="job_user_id_apply" hidden>You can use the mark tag to
+                                        <mark>highlight</mark>
+                                        text.
+                                    </p>
+                                </dd>
+                                <dt class="col-sm-4">Email</dt>
+                                <dd class="col-sm-5">
+                                    <p id="job_email_apply">You can use the mark tag to
+                                        <mark>highlight</mark>
+                                        text.
+                                    </p>
+                                </dd>
+                                <dt class="col-sm-4">Contact No.</dt>
+                                <dd class="col-sm-5">
+                                    <p>+(60) 12-217 8319</p>
+                                </dd>
+                                <dt class="col-sm-4">Location</dt>
+                                <dd class="col-sm-5">
+                                    <p id="job_loc_apply">+(60) 12-217 8319</p>
+                                </dd>
+                                <dt class="col-sm-4">Rate</dt>
+                                <dd class="col-sm-5">
+                                    <p id="job_rate_apply">RM 150</p>
+                                </dd>
+                                <dt class="col-sm-4">Job Scope</dt>
+                                <dd class="col-sm-5">
+                                    <p id="job_name_apply">PC Builder</p>
+                                </dd>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" id="btn_apply_job" style="width: 100%">Apply</button>
                         </div>
                     </div>
                 </form>
@@ -785,29 +896,58 @@
         @can('is-distributor')
         document.addEventListener('DOMContentLoaded', function () {
 
+            var myC = @json($getDataDistributor);
+            var myD = @json($getPieChartData);
+
+            //console.log(myC);
+            console.log(myD);
+
             Highcharts.chart('graph', {
                 chart: {
                     type: 'column'
                 },
                 title: {
-                    text: 'Column chart with negative values'
+                    text: 'Brand Counter Sale Per Month'
                 },
+                credits: false,
                 xAxis: {
-                    categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    crosshair: true
                 },
-                credits: {
-                    enabled: false
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Total'
+                    }
                 },
-                series: [{
-                    name: 'John',
-                    data: [5, 3, 4, 7, 2]
-                }, {
-                    name: 'Jane',
-                    data: [2, 2, 3, 2, 1]
-                }, {
-                    name: 'Joe',
-                    data: [3, 4, 4, -2, 5]
-                }]
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: (function() {
+                    var series = [];
+
+                    $.each(myC, function(i, item) {
+                        const str = item.total_per_month.split(', ').map(Number);
+                        series.push({
+                            name: item.product_brand,
+                            data: str,
+                        });
+                        console.log(str)
+                    })
+
+                    return series;
+                }()),
             });
 
             Highcharts.chart('graph2', {
@@ -818,7 +958,7 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Browser market shares in January, 2021'
+                    text: 'Total Sold for Each Brand, 2021'
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -875,7 +1015,6 @@
             var myA = @json($myArray);
             var myB = @json($findMonth)
 
-            console.log(myB);
             console.log(myA);
 
             Highcharts.chart('container', {
@@ -968,14 +1107,68 @@
 
             e.preventDefault();
 
-            var job_id = $("#job_id").val();
-            var job_u_id = $("#job_user_id").val();
+            var job_id = $("#job_id_apply").val();
+            var job_u_id = $("#job_user_id_apply").val();
 
             $.ajax({
                 type: 'PATCH',
                 url: "http://127.0.0.1:8000/job/update/" + job_id,
                 data: {
                     usr_id: job_u_id,
+                },
+                success: function (data) {
+                    if (data['success'])
+                        location.reload();
+                    else
+                        alert('EXISTING.')
+
+                }
+            });
+        });
+
+        $("#btn_update_job").click(function (e) {
+
+            e.preventDefault();
+
+            var job_id = $("#job_id").val();
+            var job_loc = $("#job_loc").val();
+            var job_rate = $("#job_rate").val();
+            var job_scope = $("#job_names").val();
+
+            //alert(job_scope)
+
+            $.ajax({
+                type: 'PATCH',
+                url: "http://127.0.0.1:8000/job/update-job-info/" + job_id,
+                data: {
+                    location: job_loc,
+                    rate: job_rate,
+                    scope: job_scope
+                },
+                success: function (data) {
+                    if (data['success'])
+                        location.reload();
+                    else
+                        alert('EXISTING.')
+
+                }
+            });
+        });
+
+        $("#btn_update_job_status").click(function (e) {
+
+            e.preventDefault();
+
+            var job_id = $("#job_id_status_modal").val();
+            var stats = $("#floatingUpdateStatus").val();
+
+            console.log(job_id, stats)
+
+            $.ajax({
+                type: 'PATCH',
+                url: "http://127.0.0.1:8000/job/update-job-status/" + job_id,
+                data: {
+                    status: stats,
                 },
                 success: function (data) {
                     if (data['success'])
@@ -1028,7 +1221,34 @@
             var job_rate = button.data('jobsalary')
             var job_scope = button.data('jobname')
             var job_id = button.data('jobid')
-            var job_occ_by = button.data('joboccupy')
+            var job_usr_id = button.data('jobuserid')
+
+            var modal = $(this)
+            modal.find('.modal-body #pic_job_apply').val(job_person_in_charge);
+            modal.find('.modal-body #job_email_apply').val(job_email);
+            modal.find('.modal-body #job_loc_apply').val(job_location);
+            modal.find('.modal-body #job_rate_apply').val(job_rate);
+            modal.find('.modal-body #job_name_apply').val(job_scope);
+            modal.find('.modal-body #job_id_apply').val(job_id);
+            modal.find('.modal-body #job_user_id_apply').val(job_usr_id);
+
+            document.getElementById("pic_job_apply").innerText = job_person_in_charge;
+            document.getElementById("job_email_apply").innerText = job_email;
+            document.getElementById("job_loc_apply").innerText = job_location;
+            document.getElementById("job_rate_apply").innerText = 'RM ' + job_rate;
+            document.getElementById("job_name_apply").innerText = job_scope;
+            document.getElementById("job_id_apply").innerText = job_id;
+            document.getElementById("job_user_id_apply").innerText = job_usr_id;
+        });
+
+        $('#updateJobModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var job_person_in_charge = button.data('usrname')
+            var job_email = button.data('usremail')
+            var job_location = button.data('jobloc')
+            var job_rate = button.data('jobsalary')
+            var job_scope = button.data('jobname')
+            var job_id = button.data('jobid')
             var job_usr_id = button.data('jobuserid')
 
             var modal = $(this)
@@ -1036,19 +1256,33 @@
             modal.find('.modal-body #job_email').val(job_email);
             modal.find('.modal-body #job_loc').val(job_location);
             modal.find('.modal-body #job_rate').val(job_rate);
-            modal.find('.modal-body #job_name').val(job_scope);
+            modal.find('.modal-body #job_names').val(job_scope);
             modal.find('.modal-body #job_id').val(job_id);
-            modal.find('.modal-body #job_occupy_by').val(job_occ_by);
             modal.find('.modal-body #job_user_id').val(job_usr_id);
 
             document.getElementById("pic_job").innerText = job_person_in_charge;
             document.getElementById("job_email").innerText = job_email;
             document.getElementById("job_loc").innerText = job_location;
             document.getElementById("job_rate").innerText = 'RM ' + job_rate;
-            document.getElementById("job_name").innerText = job_scope;
+            document.getElementById("job_names").innerText = job_scope;
             document.getElementById("job_id").innerText = job_id;
-            document.getElementById("job_occupy_by").innerText = job_occ_by;
             document.getElementById("job_user_id").innerText = job_usr_id;
+        });
+
+        $('#updateJobStatusModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var job_scope = button.data('jobname')
+            var job_id = button.data('jobid')
+            var job_status = button.data('jobstats')
+
+            var modal = $(this)
+            modal.find('.modal-body #job_name_status_modal').val(job_scope);
+            modal.find('.modal-body #job_id_status_modal').val(job_id);
+            modal.find('.modal-body #floatingUpdateStatus').val(job_status);
+
+            document.getElementById("job_name_status_modal").innerText = job_scope;
+            document.getElementById("job_id_status_modal").innerText = job_id;
+            document.getElementById("floatingUpdateStatus").value = job_status;
         });
 
         function linkTrack(num) {
