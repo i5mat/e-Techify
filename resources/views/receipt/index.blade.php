@@ -80,7 +80,7 @@
 
                         {!! wordwrap($recipientInfo->address, 40, "<br>\n") !!} <br/><br/>
 
-                        <h5 class="mb-0 mt-3">{{ date('d M Y') }}</h5><br>
+                        <h5 class="mb-0 mt-3">{{ date('d M Y', strtotime($recipientInfo->created_at)) }}</h5><br>
                         XT Express
                         <h2> #{{ $recipientInfo->tracking_num }}</h2>
                     </div>

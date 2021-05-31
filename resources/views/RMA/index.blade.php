@@ -71,9 +71,9 @@
                 <div class="form-floating">
                     <select class="form-select" id="prod_brand" name="prod_brand">
                         <option value=''><strong>Name</strong></option>
-                        <option value="NZXT">NZXT</option>
-                        <option value="FRACTAL DESIGN">FRACTAL DESIGN</option>
-                        <option value="ASUS ROG">ASUS ROG</option>
+                        @foreach($getProductBrand as $prod_brand)
+                            <option value="{{ $prod_brand->product_brand }}">{{ $prod_brand->product_brand }}</option>
+                        @endforeach
                     </select>
                     <label for="prod_brand">Brand</label>
                 </div>

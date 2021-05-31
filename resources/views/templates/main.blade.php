@@ -151,7 +151,7 @@
                                 <a class="nav-link" href="{{ route('track.new.parcel') }}">e-Track Parcel</a>
                             </li>
                         @endcan
-                        @can('is-reseller')
+                        @can('is-reseller-distributor')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
                             </li>

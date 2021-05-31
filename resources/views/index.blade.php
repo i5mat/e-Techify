@@ -208,6 +208,10 @@
                     </div>
                     <div class="card-body border-3 border-bottom border-warning">
                         <div class="row g-1">
+                            @if($jobInfo->count() == 0)
+                                <h1 class="display-6 text-center">Please insert job in e-Job to be advertised in this area.</h1>
+                            @endif
+
                             @foreach($jobInfo as $ji)
                                 <div class="col-md-3">
                                     <div class="card p-2" style="border: none">

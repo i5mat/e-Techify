@@ -130,6 +130,8 @@ class OrderController extends Controller
             ->sum(DB::raw('products.product_price * order_details.product_order_quantity'));
 
         $recipientInfo = DB::table('confirm_orders')
+            ->select('confirm_orders.receipt_no', 'confirm_orders.tracking_num', 'confirm_orders.payment_total',
+            'addresses.name', 'addresses.address', 'confirm_orders.created_at')
             ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
             ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
             ->where([
@@ -330,7 +332,10 @@ class OrderController extends Controller
     public function cancelOrder($id, Request $request)
     {
         $findID = Order::find($id);
-        //dd($findID->id);
+        $returnQty = OrderDetail::join('products', 'products.id', '=', 'order_details.product_id')
+            ->where('order_details.order_id', $findID->id)
+            ->get();
+
         Order::where('id', '=', $findID->id)->update(['order_status' => 'Cancelled']);
 
         return redirect()->back()->with('success', 'Order deleted...');

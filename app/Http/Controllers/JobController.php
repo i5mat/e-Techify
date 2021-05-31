@@ -23,10 +23,11 @@ class JobController extends Controller
             "job_type" => $request->get('job_type'),
             "status" => 'Not Occupied'
         ]);
-        if ($request->has('user_id'))
-            $job_req->save();
-        else
-            dd('WOI ISI LE.');
+//        if ($request->has('user_id'))
+//            $job_req->save();
+//        else
+//            dd('WOI ISI LE.');
+        $job_req->save();
 
         return redirect(route('user.userdash'));
     }

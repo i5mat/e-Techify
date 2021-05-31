@@ -23,8 +23,10 @@ class RepairController extends Controller
             $myArray[] = $row;
         }
 
+        $getProductBrand = Product::select('product_brand')->distinct()->get();
+
         //return response()->json($addressArray);
-        return view('RMA.index', compact('myArray', 'retrieveAddress'));
+        return view('RMA.index', compact('myArray', 'retrieveAddress', 'getProductBrand'));
     }
 
     public function storeRMA(Request $request)

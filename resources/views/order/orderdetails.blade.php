@@ -27,6 +27,9 @@
                 <dd class="col-sm-9">{{ $recipientInfo->tracking_num }} <span class="badge bg-warning text-dark">XT Express</span>
                 </dd>
 
+                <dt class="col-sm-3">Order Created At</dt>
+                <dd class="col-sm-9">{{ date('d-M-Y H:i A', strtotime($recipientInfo->created_at)) }}</dd>
+
                 <dt class="col-sm-3">Invoice No.</dt>
                 <dd class="col-sm-9">#{{ $recipientInfo->receipt_no }}</dd>
             </dl>

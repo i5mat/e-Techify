@@ -47,10 +47,18 @@ class Profile extends Controller
                 'repairs.resolve_solution', 'repairs.receive_at')
             ->get();
 
-        $jobInfo = Job::join('users', 'users.id', '=', 'jobs.user_id')
-            ->select('users.name', 'users.email', 'jobs.job_location', 'jobs.job_salary', 'jobs.job_name',
-                'jobs.status', 'jobs.job_type', 'jobs.id AS job_id', 'jobs.occupied_by')
-            ->get();
+        if (Gate::allows('is-user-reseller')) {
+            $jobInfo = Job::join('users', 'users.id', '=', 'jobs.user_id')
+                ->select('users.name', 'users.email', 'jobs.job_location', 'jobs.job_salary', 'jobs.job_name',
+                    'jobs.status', 'jobs.job_type', 'jobs.id AS job_id', 'jobs.occupied_by')
+                ->get();
+        } elseif (Gate::allows('is-distributor')) {
+            $jobInfo = Job::join('users', 'users.id', '=', 'jobs.user_id')
+                ->select('users.name', 'users.email', 'jobs.job_location', 'jobs.job_salary', 'jobs.job_name',
+                    'jobs.status', 'jobs.job_type', 'jobs.id AS job_id', 'jobs.occupied_by')
+                ->where('jobs.user_id', Auth::id())
+                ->get();
+        }
 
         $getCartTotal = OrderDetail::join('orders', 'orders.id', '=', 'order_details.order_id')
             ->where([

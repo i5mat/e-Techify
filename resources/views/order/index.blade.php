@@ -14,50 +14,76 @@
 
     <div class="card">
         <div class="container mt-4">
-            <div class="row text-center">
-                <div class="col">
-                    <i data-feather="eye"></i>
-                    <span class="ms-5">View order in detail</span>
+            @can('is-reseller')
+                <div class="row text-center">
+                    <div class="col">
+                        <i data-feather="eye"></i>
+                        <span class="ms-5">View order in detail</span>
+                    </div>
+                    <div class="col">
+                        <i data-feather="file-text"></i>
+                        <span class="ms-5">Get receipt</span>
+                    </div>
+                    <div class="col">
+                        <i data-feather="truck"></i>
+                        <span class="ms-5">Check tracking status</span>
+                    </div>
                 </div>
-                <div class="col">
-                    <i data-feather="file-text"></i>
-                    <span class="ms-5">Get receipt</span>
+                <div class="row text-center mt-3 mb-3">
+                    <div class="col">
+                        <i data-feather="printer"></i>
+                        <span class="ms-5">Print AWB</span>
+                    </div>
+                    <div class="col">
+                        <i data-feather="x-circle"></i>
+                        <span class="ms-5">Cancel order</span>
+                    </div>
+                    <div class="col">
+                        <i data-feather="upload"></i>
+                        <span class="ms-5">Insert SN each product</span>
+                    </div>
                 </div>
-                <div class="col">
-                    <i data-feather="truck"></i>
-                    <span class="ms-5">Check tracking status</span>
+            @endcan
+            @can('is-user')
+                <div class="row text-center">
+                    <div class="col">
+                        <i data-feather="eye"></i>
+                        <span class="ms-5">View order in detail</span>
+                    </div>
+                    <div class="col">
+                        <i data-feather="file-text"></i>
+                        <span class="ms-5">Get receipt</span>
+                    </div>
+                    <div class="col">
+                        <i data-feather="truck"></i>
+                        <span class="ms-5">Check tracking status</span>
+                    </div>
+                    <div class="col">
+                        <i data-feather="x-circle"></i>
+                        <span class="ms-5">Cancel order</span>
+                    </div>
                 </div>
-            </div>
-            <div class="row text-center mt-3 mb-3">
-                <div class="col">
-                    <i data-feather="printer"></i>
-                    <span class="ms-5">Print AWB</span>
-                </div>
-                <div class="col">
-                    <i data-feather="x-circle"></i>
-                    <span class="ms-5">Cancel order</span>
-                </div>
-                <div class="col">
-                    <i data-feather="upload"></i>
-                    <span class="ms-5">Insert SN each product</span>
-                </div>
-            </div>
+            @endcan
         </div>
 
         <div class="card-body">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">To Ship</a>
+                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                       aria-controls="home" aria-selected="true">To Ship</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Completed</a>
+                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                       aria-controls="profile" aria-selected="false">Completed</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Cancelled</a>
+                    <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab"
+                       aria-controls="messages" aria-selected="false">Cancelled</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab" aria-controls="settings" aria-selected="false">/</a>
+                    <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
+                       aria-controls="settings" aria-selected="false">/</a>
                 </li>
             </ul>
 
@@ -68,48 +94,81 @@
                         @foreach($to_ship as $i)
                             <div @if($to_ship->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
                                 <div class="card p-2 border-5 border-bottom border-primary" style="border: none">
-                                    <div class="text-right badge bg-primary"> <small class="lead" style="color: white">Order #{{ $i->id }}</small> </div>
-                                    <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold"><span class="badge bg-primary" style="color: white">{{ $i->order_status }}</span></span>
+                                    <div class="text-right badge bg-primary"><small class="lead" style="color: white">Order
+                                            #{{ $i->id }}</small></div>
+                                    <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100"
+                                                                           height="65"/> <span
+                                            class="d-block font-weight-bold"><span class="badge bg-primary"
+                                                                                   style="color: white">{{ $i->order_status }}</span></span>
                                         by user <span class="display-6">{{ $i->user_id }}</span>
-                                        <hr> <span>Xmiryna Tech</span>
-                                        <div class="d-flex flex-row align-items-center justify-content-center"> <i class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur, TX</small> </div>
+                                        <hr>
+                                        <span>Xmiryna Tech</span>
+                                        <div class="d-flex flex-row align-items-center justify-content-center"><i
+                                                class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur,
+                                                TX</small></div>
                                         <div class="d-flex justify-content-between mt-3">
 
                                             @can('is-user')
-                                            <span>
-                                                <a href="{{ route('order.index.orderdetails', $i->id) }}"><i data-feather="eye"></i></a>
+                                                <span>
+                                                <a href="{{ route('order.index.orderdetails', $i->id) }}"><i
+                                                        data-feather="eye"></i></a>
                                             </span>
-                                            <span>
-                                                <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i data-feather="file-text"></i></a>
+                                                <span>
+                                                <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i
+                                                        data-feather="file-text"></i></a>
                                             </span>
-                                            <span>
-                                                <a href="{{ route('track.index.trackparcel', $i->id) }}"><i data-feather="truck"></i></a>
+                                                <span>
+                                                <a href="{{ route('track.index.trackparcel', $i->id) }}"><i
+                                                        data-feather="truck"></i></a>
                                             </span>
+                                                <form id="cancel-order-{{ $i->id }}"
+                                                      action="{{ route('order.order.cancel', $i->id) }}" method="POST"
+                                                      style="display: none">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                </form>
+                                                <button
+                                                    @if(App\Models\Tracking::where('order_id', '=', $i->id)->where('current_status', '=', 'Processing Order')->exists()) disabled
+                                                    @endif style="border: none" class="btn btn-sm btn-outline-danger"
+                                                    onclick="event.preventDefault(); document.getElementById('cancel-order-{{ $i->id }}').submit()">
+                                                    <i data-feather="x-circle"></i></button>
                                             @endcan
                                             @can('is-reseller')
-                                            <span>
-                                                <a href="{{ route('track.index.trackparcel', $i->id) }}"><i data-feather="truck"></i></a>
+                                                <span>
+                                                <a href="{{ route('track.index.trackparcel', $i->id) }}"><i
+                                                        data-feather="truck"></i></a>
                                             </span>
-                                            <span>
-                                                <a href="{{ route('order.index.orderdetails', $i->id) }}"><i data-feather="eye"></i></a>
+                                                <span>
+                                                <a href="{{ route('order.index.orderdetails', $i->id) }}"><i
+                                                        data-feather="eye"></i></a>
                                             </span>
-                                            <span>
-                                                <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i data-feather="file-text"></i></a>
+                                                <span>
+                                                <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i
+                                                        data-feather="file-text"></i></a>
                                             </span>
-                                            <span>
-                                                <a href="{{ route('order.purchase.insertsn', $i->id) }}"><i data-feather="upload"></i></a>
+                                                <span>
+                                                <a href="{{ route('order.purchase.insertsn', $i->id) }}"><i
+                                                        data-feather="upload"></i></a>
                                             </span>
 
-                                            <form id="get-awb-order-{{ $i->id }}" action="{{ route('order.purchase.awb', $i->id) }}" method="POST" style="display: none">
-                                                @csrf
-                                            </form>
-                                            <button style="border: none" class="btn btn-sm btn-outline-dark" onclick="event.preventDefault(); document.getElementById('get-awb-order-{{ $i->id }}').submit()"><i data-feather="printer"></i></button>
+                                                <form id="get-awb-order-{{ $i->id }}"
+                                                      action="{{ route('order.purchase.awb', $i->id) }}" method="POST"
+                                                      style="display: none">
+                                                    @csrf
+                                                </form>
+                                                <button style="border: none" class="btn btn-sm btn-outline-dark"
+                                                        onclick="event.preventDefault(); document.getElementById('get-awb-order-{{ $i->id }}').submit()">
+                                                    <i data-feather="printer"></i></button>
 
-                                            <form id="cancel-order-{{ $i->id }}" action="{{ route('order.order.cancel', $i->id) }}" method="POST" style="display: none">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
-                                            <button @if(App\Models\Tracking::where('order_id', '=', $i->id)->where('current_status', '=', 'Processing Order')->exists()) disabled @endif style="border: none" class="btn btn-sm btn-outline-danger" onclick="event.preventDefault(); document.getElementById('cancel-order-{{ $i->id }}').submit()"><i data-feather="x-circle"></i></button>
+                                                <form id="cancel-order-{{ $i->id }}"
+                                                      action="{{ route('order.order.cancel', $i->id) }}" method="POST"
+                                                      style="display: none">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                </form>
+                                                <button style="border: none" class="btn btn-sm btn-outline-danger"
+                                                        onclick="event.preventDefault(); document.getElementById('cancel-order-{{ $i->id }}').submit()">
+                                                    <i data-feather="x-circle"></i></button>
                                             @endcan
 
                                         </div>
@@ -124,34 +183,55 @@
                         @foreach($delivered as $i)
                             <div @if($delivered->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
                                 <div class="card p-2 border-5 border-bottom border-success" style="border: none">
-                                    <div class="text-right badge bg-success"> <small class="lead" style="color: white">Order #{{ $i->id }}</small> </div>
-                                    <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold"><span class="badge bg-success" style="color: white">{{ $i->order_status }}</span></span>
-                                        <hr> <span>Xmiryna Tech</span>
-                                        <div class="d-flex flex-row align-items-center justify-content-center"> <i class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur, TX</small> </div>
+                                    <div class="text-right badge bg-success"><small class="lead" style="color: white">Order
+                                            #{{ $i->id }}</small></div>
+                                    <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100"
+                                                                           height="65"/> <span
+                                            class="d-block font-weight-bold"><span class="badge bg-success"
+                                                                                   style="color: white">{{ $i->order_status }}</span></span>
+                                        <hr>
+                                        <span>Xmiryna Tech</span>
+                                        <div class="d-flex flex-row align-items-center justify-content-center"><i
+                                                class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur,
+                                                TX</small></div>
                                         <div class="d-flex justify-content-between mt-3">
                                             <span>
-                                                <a href="{{ route('track.index.trackparcel', $i->id) }}"><i data-feather="truck"></i></a>
+                                                <a href="{{ route('track.index.trackparcel', $i->id) }}"><i
+                                                        data-feather="truck"></i></a>
                                             </span>
                                             <span>
-                                                <a href="{{ route('order.index.orderdetails', $i->id) }}"><i data-feather="eye"></i></a>
+                                                <a href="{{ route('order.index.orderdetails', $i->id) }}"><i
+                                                        data-feather="eye"></i></a>
                                             </span>
                                             <span>
-                                                <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i data-feather="file-text"></i></a>
+                                                <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i
+                                                        data-feather="file-text"></i></a>
                                             </span>
                                             <span>
-                                                <a href="{{ route('order.purchase.insertsn', $i->id) }}"><i data-feather="upload"></i></a>
+                                                <a href="{{ route('order.purchase.insertsn', $i->id) }}"><i
+                                                        data-feather="upload"></i></a>
                                             </span>
 
-                                            <form id="get-awb-order-{{ $i->id }}" action="{{ route('order.purchase.awb', $i->id) }}" method="POST" style="display: none">
+                                            <form id="get-awb-order-{{ $i->id }}"
+                                                  action="{{ route('order.purchase.awb', $i->id) }}" method="POST"
+                                                  style="display: none">
                                                 @csrf
                                             </form>
-                                            <button style="border: none" class="btn btn-sm btn-outline-dark" onclick="event.preventDefault(); document.getElementById('get-awb-order-{{ $i->id }}').submit()"><i data-feather="printer"></i></button>
+                                            <button style="border: none" class="btn btn-sm btn-outline-dark"
+                                                    onclick="event.preventDefault(); document.getElementById('get-awb-order-{{ $i->id }}').submit()">
+                                                <i data-feather="printer"></i></button>
 
-                                            <form id="cancel-order-{{ $i->id }}" action="{{ route('order.order.cancel', $i->id) }}" method="POST" style="display: none">
+                                            <form id="cancel-order-{{ $i->id }}"
+                                                  action="{{ route('order.order.cancel', $i->id) }}" method="POST"
+                                                  style="display: none">
                                                 @csrf
-                                                @method('DELETE')
+                                                @method('PATCH')
                                             </form>
-                                            <button @if(App\Models\Tracking::where('order_id', '=', $i->id)->where('current_status', '=', 'Processing Order')->exists()) disabled @endif style="border: none" class="btn btn-sm btn-outline-danger" onclick="event.preventDefault(); document.getElementById('cancel-order-{{ $i->id }}').submit()"><i data-feather="x-circle"></i></button>
+                                            <button
+                                                @if(App\Models\Tracking::where('order_id', '=', $i->id)->where('current_status', '=', 'Processing Order')->exists()) disabled
+                                                @endif style="border: none" class="btn btn-sm btn-outline-danger"
+                                                onclick="event.preventDefault(); document.getElementById('cancel-order-{{ $i->id }}').submit()">
+                                                <i data-feather="x-circle"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -164,34 +244,55 @@
                         @foreach($cancelled as $i)
                             <div @if($cancelled->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
                                 <div class="card p-2 border-5 border-bottom border-danger" style="border: none">
-                                    <div class="text-right badge bg-danger"> <small class="lead" style="color: white">Order #{{ $i->id }}</small> </div>
-                                    <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold"><span class="badge bg-danger" style="color: white">{{ $i->order_status }}</span></span>
-                                        <hr> <span>Xmiryna Tech</span>
-                                        <div class="d-flex flex-row align-items-center justify-content-center"> <i class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur, TX</small> </div>
+                                    <div class="text-right badge bg-danger"><small class="lead" style="color: white">Order
+                                            #{{ $i->id }}</small></div>
+                                    <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100"
+                                                                           height="65"/> <span
+                                            class="d-block font-weight-bold"><span class="badge bg-danger"
+                                                                                   style="color: white">{{ $i->order_status }}</span></span>
+                                        <hr>
+                                        <span>Xmiryna Tech</span>
+                                        <div class="d-flex flex-row align-items-center justify-content-center"><i
+                                                class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur,
+                                                TX</small></div>
                                         <div class="d-flex justify-content-between mt-3">
                                             <span>
-                                                <a href="{{ route('track.index.trackparcel', $i->id) }}"><i data-feather="truck"></i></a>
+                                                <a href="{{ route('track.index.trackparcel', $i->id) }}"><i
+                                                        data-feather="truck"></i></a>
                                             </span>
                                             <span>
-                                                <a href="{{ route('order.index.orderdetails', $i->id) }}"><i data-feather="eye"></i></a>
+                                                <a href="{{ route('order.index.orderdetails', $i->id) }}"><i
+                                                        data-feather="eye"></i></a>
                                             </span>
                                             <span>
-                                                <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i data-feather="file-text"></i></a>
+                                                <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i
+                                                        data-feather="file-text"></i></a>
                                             </span>
                                             <span>
-                                                <a href="{{ route('order.purchase.insertsn', $i->id) }}"><i data-feather="upload"></i></a>
+                                                <a href="{{ route('order.purchase.insertsn', $i->id) }}"><i
+                                                        data-feather="upload"></i></a>
                                             </span>
 
-                                            <form id="get-awb-order-{{ $i->id }}" action="{{ route('order.purchase.awb', $i->id) }}" method="POST" style="display: none">
+                                            <form id="get-awb-order-{{ $i->id }}"
+                                                  action="{{ route('order.purchase.awb', $i->id) }}" method="POST"
+                                                  style="display: none">
                                                 @csrf
                                             </form>
-                                            <button style="border: none" class="btn btn-sm btn-outline-dark" onclick="event.preventDefault(); document.getElementById('get-awb-order-{{ $i->id }}').submit()"><i data-feather="printer"></i></button>
+                                            <button style="border: none" class="btn btn-sm btn-outline-dark"
+                                                    onclick="event.preventDefault(); document.getElementById('get-awb-order-{{ $i->id }}').submit()">
+                                                <i data-feather="printer"></i></button>
 
-                                            <form id="cancel-order-{{ $i->id }}" action="{{ route('order.order.cancel', $i->id) }}" method="POST" style="display: none">
+                                            <form id="cancel-order-{{ $i->id }}"
+                                                  action="{{ route('order.order.cancel', $i->id) }}" method="POST"
+                                                  style="display: none">
                                                 @csrf
-                                                @method('DELETE')
+                                                @method('PATCH')
                                             </form>
-                                            <button @if(App\Models\Tracking::where('order_id', '=', $i->id)->where('current_status', '=', 'Processing Order')->exists()) disabled @endif style="border: none" class="btn btn-sm btn-outline-danger" onclick="event.preventDefault(); document.getElementById('cancel-order-{{ $i->id }}').submit()"><i data-feather="x-circle"></i></button>
+                                            <button
+                                                @if(App\Models\Tracking::where('order_id', '=', $i->id)->where('current_status', '=', 'Processing Order')->exists()) disabled
+                                                @endif style="border: none" class="btn btn-sm btn-outline-danger"
+                                                onclick="event.preventDefault(); document.getElementById('cancel-order-{{ $i->id }}').submit()">
+                                                <i data-feather="x-circle"></i></button>
                                         </div>
                                     </div>
                                 </div>
