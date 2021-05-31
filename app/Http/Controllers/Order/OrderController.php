@@ -336,9 +336,17 @@ class OrderController extends Controller
             ->where('order_details.order_id', $findID->id)
             ->get();
 
+        foreach ($returnQty as $lol)
+        {
+            Product::where('id', '=', $lol->product_id)
+                ->increment('product_stock_count', (int)$lol->product_order_quantity);
+        }
+
+        //dd($returnQty->toArray());
+
         Order::where('id', '=', $findID->id)->update(['order_status' => 'Cancelled']);
 
-        return redirect()->back()->with('success', 'Order deleted...');
+        return redirect()->back()->with('danger', 'Order has been cancelled');
     }
 
     public function airwayBill($id)

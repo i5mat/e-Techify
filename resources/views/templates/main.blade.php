@@ -140,7 +140,10 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Insert SN (Distributor)</a>
+                                <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Insert SN</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
                             </li>
                         @endcan
                         @can('is-user')
@@ -151,7 +154,7 @@
                                 <a class="nav-link" href="{{ route('track.new.parcel') }}">e-Track Parcel</a>
                             </li>
                         @endcan
-                        @can('is-reseller-distributor')
+                        @can('is-reseller')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
                             </li>

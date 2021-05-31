@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="job_loc" name="job_loc" placeholder="test">
+                    <input type="text" class="form-control" id="job_loc" name="job_loc" placeholder="test" maxlength="39">
                     <label for="job_loc">Job Location</label>
                 </div>
 
