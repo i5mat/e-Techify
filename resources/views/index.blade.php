@@ -31,7 +31,7 @@
         }
 
         #container {
-            height: 400px;
+            height: 442px;
         }
 
         .highcharts-data-table table {
@@ -98,7 +98,7 @@
                                     <div class="h5 mb-0" style="font-weight: bold">{{ $getCustTotalOrder }}</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fa fa-cubes fa-2x"></i>
+                                    <i class="fa fa-archive fa-2x"></i>
                                 </div>
                             </div>
                         </div>
@@ -329,6 +329,7 @@
                                                             data-jobid="{{ $ji->job_id }}"
                                                             data-joboccupy="{{ $ji->occupied_by }}"
                                                             data-jobuserid="{{ Auth::id() }}"
+                                                            data-jobtype="{{ $ji->job_type }}"
                                                             class="btn btn-lg btn-outline-dark"
                                                         >View
                                                         </button>
@@ -442,6 +443,19 @@
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="job_names">
                                         <label for="text">Job Scope</label>
+                                    </div>
+                                </dd>
+                                <dt class="col-sm-4">Job Type</dt>
+                                <dd class="col-sm-5">
+                                    <div class="form-floating">
+                                        <select class="form-select" name="job_type_update" id="job_type_update">
+                                            <option selected>Please select...</option>
+                                            <option value="Full Time">Full Time</option>
+                                            <option value="Part Time">Part Time</option>
+                                            <option value="Temporary">Temporary</option>
+                                            <option value="Permanent">Permanent</option>
+                                        </select>
+                                        <label for="job_type">Job Type</label>
                                     </div>
                                 </dd>
                             </div>
@@ -971,6 +985,9 @@
                 title: {
                     text: 'Brand Counter Sale Per Month'
                 },
+                subtitle: {
+                    text: 'Each total brand sale per month for XT Technology'
+                },
                 credits: false,
                 xAxis: {
                     categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -1248,6 +1265,7 @@
             var job_loc = $("#job_loc").val();
             var job_rate = $("#job_rate").val();
             var job_scope = $("#job_names").val();
+            var job_type = $("#job_type_update").val();
 
             //alert(job_scope)
 
@@ -1257,7 +1275,8 @@
                 data: {
                     location: job_loc,
                     rate: job_rate,
-                    scope: job_scope
+                    scope: job_scope,
+                    type: job_type
                 },
                 success: function (data) {
                     if (data['success'])
@@ -1364,6 +1383,7 @@
             var job_scope = button.data('jobname')
             var job_id = button.data('jobid')
             var job_usr_id = button.data('jobuserid')
+            var job_type = button.data('jobtype')
 
             var modal = $(this)
             modal.find('.modal-body #pic_job').val(job_person_in_charge);
@@ -1373,6 +1393,7 @@
             modal.find('.modal-body #job_names').val(job_scope);
             modal.find('.modal-body #job_id').val(job_id);
             modal.find('.modal-body #job_user_id').val(job_usr_id);
+            modal.find('.modal-body #job_type_update').val(job_type);
 
             document.getElementById("pic_job").innerText = job_person_in_charge;
             document.getElementById("job_email").innerText = job_email;
@@ -1381,6 +1402,7 @@
             document.getElementById("job_names").innerText = job_scope;
             document.getElementById("job_id").innerText = job_id;
             document.getElementById("job_user_id").innerText = job_usr_id;
+            document.getElementById("job_type_update").value = job_type;
         });
 
         $('#updateJobStatusModal').on('show.bs.modal', function (event) {

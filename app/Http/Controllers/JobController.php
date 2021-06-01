@@ -51,6 +51,7 @@ class JobController extends Controller
         $findID->job_name = $request->get('scope');
         $findID->job_location = $request->get('location');
         $findID->job_salary = $request->get('rate');
+        $findID->job_type = $request->get('type');
 
         $findID->save();
 
