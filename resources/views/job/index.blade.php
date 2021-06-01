@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Insert Job <i data-feather="briefcase" class="feather-64" style="margin-bottom: 10px"></i></h1>
+    <h1 class="display-2 text-center">Insert Job <i class="fa fa-briefcase"></i></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
@@ -56,8 +56,4 @@
         </div>
         </div>
     </div>
-
-    <script>
-        feather.replace();
-    </script>
 @endsection
