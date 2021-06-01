@@ -1167,7 +1167,7 @@
                         polar: false
                     },
                     subtitle: {
-                        text: 'Plain'
+                        text: 'Monthly sales for XT Technology'
                     }
                 });
             });
@@ -1179,7 +1179,7 @@
                         polar: false
                     },
                     subtitle: {
-                        text: 'Inverted'
+                        text: 'Monthly sales for XT Technology'
                     }
                 });
             });
@@ -1191,7 +1191,7 @@
                         polar: true
                     },
                     subtitle: {
-                        text: 'Polar'
+                        text: 'Monthly sales for XT Technology'
                     }
                 });
             });
