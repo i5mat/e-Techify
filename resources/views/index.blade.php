@@ -68,6 +68,45 @@
     @can('logged-in')
         <h1 class="display-3">Hi, {{ Auth::user()->name }} !</h1>
 
+        @can('is-user')
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body border-3 border-start border-success shadow h-100">
+                            <div class="row g-0 align-items-center">
+                                <div class="col" style="margin-right: 2px">
+                                    <div class="text-sm text-success text-uppercase mb-1" style="font-weight: bold">
+                                        Total Spending
+                                    </div>
+                                    <div class="h5 mb-0" style="font-weight: bold" id="total_cust_spend">{{ $getCustTotalSpend }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fa fa-dollar fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body border-3 border-start border-danger shadow h-100">
+                            <div class="row g-0 align-items-center">
+                                <div class="col" style="margin-right: 2px">
+                                    <div class="text-sm text-danger text-uppercase mb-1" style="font-weight: bold">
+                                        Total Orders Created
+                                    </div>
+                                    <div class="h5 mb-0" style="font-weight: bold">{{ $getCustTotalOrder }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fa fa-cubes fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endcan
+
         @can('is-distributor')
         <div class="row">
             <div class="col">
@@ -121,7 +160,7 @@
             <div class="col-xl-4 col-lg-5">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0" style="font-weight: bold">Revenue Sources (Distributor)</h6>
+                        <h6 class="m-0" style="font-weight: bold">Revenue Sources</h6>
                     </div>
                     <div class="card-body pt-4 pb-2 border-3 border-bottom border-warning">
                         <div id="graph2"></div>
@@ -187,13 +226,27 @@
             </div>
 
             <div class="row" style="margin-top: 10px">
-                <div class="col-xl-12 col-lg-7">
+                <div class="col-xl-7 col-lg-7">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0" style="font-weight: bold">Brand Cumulative</h6>
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
                             <div id="container"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-5 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">Earnings Monthly</h6>
+                        </div>
+                        <div class="card-body border-3 border-bottom border-warning">
+                            <div id="earnings"></div>
+
+                            <button class="btn btn-primary mt-1" id="plain">Plain</button>
+                            <button class="btn btn-primary mt-1" id="inverted">Inverted</button>
+                            <button class="btn btn-primary mt-1" id="polar">Polar</button>
                         </div>
                     </div>
                 </div>
@@ -884,14 +937,19 @@
     <script type="application/javascript">
         feather.replace();
 
+        var formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'MYR',
+        });
+
+        @can('is-user')
+            var test3 = $("#total_cust_spend").text();
+            document.getElementById('total_cust_spend').innerHTML = formatter.format(test3);
+        @endcan
+
         @can('is-reseller')
             var test = $("#annual_earn").text();
             var test2 = $("#monthly_earn").text();
-
-            var formatter = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'MYR',
-            });
 
             document.getElementById('annual_earn').innerHTML = formatter.format(test);
             document.getElementById('monthly_earn').innerHTML = formatter.format(test2);
@@ -1004,9 +1062,10 @@
         @can('is-reseller')
         document.addEventListener('DOMContentLoaded', function () {
             var myA = @json($myArray);
-            var myB = @json($findMonth)
+            var myB = @json($findMonth);
+            var myZ = @json($getTotalSalesReseller);
 
-            console.log(myA);
+            console.log(myZ);
 
             Highcharts.chart('container', {
                 chart: {
@@ -1014,6 +1073,9 @@
                 },
                 title: {
                     text: 'Brand Counter Sale Per Month'
+                },
+                subtitle: {
+                    text: 'Each total brand sale per month for XT Technology'
                 },
                 credits: false,
                 xAxis: {
@@ -1054,6 +1116,67 @@
 
                     return series;
                 }()),
+            });
+
+            let str_reseller = [];
+            $.each(myZ, function(i, item) {
+                str_reseller = item.total_per_month_reseller.split(', ').map(Number);
+            })
+            console.log(str_reseller)
+
+            const chart = Highcharts.chart('earnings', {
+                title: {
+                    text: 'Monthly Earnings'
+                },
+                credits: false,
+                subtitle: {
+                    text: 'Monthly sales for XT Technology'
+                },
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                series: [{
+                    type: 'column',
+                    colorByPoint: true,
+                    data: str_reseller,
+                    showInLegend: false
+                }]
+            });
+
+            document.getElementById('plain').addEventListener('click', () => {
+                chart.update({
+                    chart: {
+                        inverted: false,
+                        polar: false
+                    },
+                    subtitle: {
+                        text: 'Plain'
+                    }
+                });
+            });
+
+            document.getElementById('inverted').addEventListener('click', () => {
+                chart.update({
+                    chart: {
+                        inverted: true,
+                        polar: false
+                    },
+                    subtitle: {
+                        text: 'Inverted'
+                    }
+                });
+            });
+
+            document.getElementById('polar').addEventListener('click', () => {
+                chart.update({
+                    chart: {
+                        inverted: false,
+                        polar: true
+                    },
+                    subtitle: {
+                        text: 'Polar'
+                    }
+                });
             });
 
         });

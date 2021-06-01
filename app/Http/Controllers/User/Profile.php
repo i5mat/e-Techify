@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\ConfirmOrder;
 use App\Models\Job;
+use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Repair;
@@ -115,6 +116,24 @@ class Profile extends Controller
             ->groupBy('A.product_brand')
             ->get();
 
+        $getTotalSalesReseller = ConfirmOrder::select(DB::raw('GROUP_CONCAT(A.Jan, ", ", A.Feb, ", ", A.Mar, ", ", A.Apr, ", ", A.May, ", ", A.Jun, ", ", A.Jul, ", ", A.Aug, ", ", A.Sep, ", ", A.Oct, ", ", A.Nov, ", ", A.Dec) AS total_per_month_reseller'))
+            ->from(DB::raw("(SELECT
+                                    SUM(if(MONTH(confirm_orders.created_at) = 1, confirm_orders.payment_total,0)) as Jan,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 2, confirm_orders.payment_total,0)) as Feb,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 3, confirm_orders.payment_total,0)) as Mar,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 4, confirm_orders.payment_total,0)) as Apr,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 5, confirm_orders.payment_total,0)) as May,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 6, confirm_orders.payment_total,0)) as Jun,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 7, confirm_orders.payment_total,0)) as Jul,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 8, confirm_orders.payment_total,0)) as Aug,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 9, confirm_orders.payment_total,0)) as Sep,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 10, confirm_orders.payment_total,0)) as Oct,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 11, confirm_orders.payment_total,0)) as Nov,
+                                    SUM(if(MONTH(confirm_orders.created_at) = 12, confirm_orders.payment_total,0)) as `Dec`
+                                FROM confirm_orders
+                                WHERE YEAR(NOW())) A"))
+            ->get();
+
         $getPieChartData = OrderDetail::select(DB::raw('products.product_brand, SUM(order_details.product_order_quantity) AS tot_qty'))
             ->from(DB::raw('order_details INNER JOIN products ON products.id = order_details.product_id'))
             ->where('products.user_id', $x)
@@ -129,6 +148,14 @@ class Profile extends Controller
             ->where('products.user_id', $x)
             ->count();
 
+        $getCustTotalSpend = ConfirmOrder::join('orders', 'orders.id', '=', 'confirm_orders.order_id')
+            ->where('orders.user_id', $x)
+            ->sum('confirm_orders.payment_total');
+
+        $getCustTotalOrder = Order::where('user_id', $x)
+            ->where('order_status', 'To Ship')
+            ->count();
+
         $findMonth = OrderDetail::selectRaw('DISTINCT MONTHNAME(created_at) AS monthName')->get();
 
         $myArray = array();
@@ -141,7 +168,8 @@ class Profile extends Controller
         if (Gate::allows('is-all-roles')) {
             return view('index', compact('rmaInfo', 'jobInfo', 'rmaInfoDistri',
                 'getCartTotal', 'getRMATotal', 'getConfirmOrder', 'myArray', 'rmaInfoReseller', 'findMonth',
-                'getOrderDetail', 'getConfirmOrderMonthly', 'getDataDistributor', 'getTotalSold', 'getRMA', 'getPieChartData'));
+                'getOrderDetail', 'getConfirmOrderMonthly', 'getDataDistributor', 'getTotalSold', 'getRMA',
+                'getPieChartData', 'getCustTotalSpend', 'getCustTotalOrder', 'getTotalSalesReseller'));
         }
 
         dd('LOL?! ni utk user je.');
