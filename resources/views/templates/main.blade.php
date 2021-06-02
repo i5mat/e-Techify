@@ -147,7 +147,7 @@
                                 <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('shipment.new') }}">Arrange Shipment</a>
+                                <a class="nav-link" href="{{ route('shipment.new') }}">Shipment Requested</a>
                             </li>
                         @endcan
                         @can('is-user')
@@ -164,6 +164,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('distributor.stock.management.index') }}">Stock Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('shipment.new') }}">Request Shipment</a>
                             </li>
                         @endcan
                     </ul>

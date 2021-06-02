@@ -101,4 +101,7 @@ Route::prefix('job')->middleware(['auth', 'verified'])->name('job.')->group(func
 Route::prefix('shipment')->middleware(['auth', 'verified'])->name('shipment.')->group(function () {
     Route::get('new-shipment', [App\Http\Controllers\ShipmentController::class, 'shipmentIndex'])->name('new');
     Route::post('new-shipment-request/{id}', [App\Http\Controllers\ShipmentController::class, 'shipmentInsert'])->name('request.new');
+    Route::patch('shipment-request/{id}', [App\Http\Controllers\ShipmentController::class, 'shipmentUpdate'])->name('request');
+    Route::patch('shipment-request-approval-distributor/{id}', [App\Http\Controllers\ShipmentController::class, 'shipmentApprovalDistributor'])->name('request.approval');
+    Route::get('shipment-details/{id}', [App\Http\Controllers\ShipmentController::class, 'shipmentDetailsIndex'])->name('details');
 });
