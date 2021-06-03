@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Requested Shipment Details <img src="/image/order-list.png"/></h1>
+    <h1 class="display-2 text-center">Requested Shipment {{ $resellerInfo->id }} <i class="fa fa-fire"></i></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
@@ -23,7 +23,7 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col">Name</th>
                         <th scope="col">Unit Price</th>
@@ -90,10 +90,14 @@
             @endcan
 
             @can('is-reseller')
+                    <a href="{{ route('shipment.new') }}">
+                        <button class="btn btn-primary mb-2 float-start" style="background-color: transparent; border: none; color: black"><i class="fa fa-angle-left fa-2x"></i></button>
+                    </a>
+
                     <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
+                            <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col">Name</th>
                             <th scope="col">Unit Price</th>
@@ -150,10 +154,6 @@
                         <button @if(App\Models\Shipment::where('id', '=', request()->route('id'))->where('status', '!=', 'Approved')->exists()) disabled @endif type="submit" class="btn btn-warning mt-2" style="width: 100%" id="btn_upload_payment">Upload</button>
                     </form>
                 @endif
-
-                <a href="{{ route('shipment.new') }}">
-                    <button class="btn btn-primary mt-3" style="width: 100%">Back</button>
-                </a>
             @endcan
         </div>
     </div>
