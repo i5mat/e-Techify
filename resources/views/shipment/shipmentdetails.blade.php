@@ -15,11 +15,10 @@
     <div class="card text-center">
         <div class="card-body">
             @can('is-distributor')
-                <div class="mb-3">
-                    <label class="form-label">Tracking No.</label>
-                    <input type="text" class="form-control" id="inputTracking" aria-describedby="trackingHelp" value="{{ $resellerInfo->tracking_no }}">
-                    <div id="trackingHelp" class="form-text">Insert tracking number here.</div>
-                </div>
+
+                <a href="{{ route('shipment.new') }}">
+                    <button class="btn btn-primary mb-2 float-start" style="background-color: transparent; border: none; color: black"><i class="fa fa-angle-left fa-2x"></i></button>
+                </a>
 
                 <table class="table">
                     <thead>
@@ -56,16 +55,38 @@
 
                     <h1 class="display-5" id="total"></h1>
                 </div>
-                <button type="submit" class="btn btn-success mt-2" style="width: 100%" id="btn_request_approval_shipment">
-                    @if(App\Models\Shipment::where('id', '=', request()->route('id'))->where('status', '=', 'Shipped')->exists())
-                        Update Request
-                    @else
-                        Approve Request
+
+                @if(isset($resellerInfo->proof_of_payment))
+                    <div class="mb-3">
+                        <label class="form-label">Tracking No.</label>
+                        <input type="text" class="form-control" id="inputTracking" aria-describedby="trackingHelp" value="{{ $resellerInfo->tracking_no }}">
+                        <div id="trackingHelp" class="form-text">Insert tracking number here.</div>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-2" style="width: 100%" id="btn_request_approval_shipment">
+                        @if($resellerInfo->status == 'Approved' || $resellerInfo->status == 'Shipped')
+                            Update Tracking No.
+                        @else
+                            Approve Request
+                        @endif
+                    </button>
+                    <a href="/storage/shipments/{{ $resellerInfo->proof_of_payment }}" target="_blank">
+                        <button class="btn btn-warning mt-2" style="width: 100%"><i class="fa fa-download"></i> Download Proof of Payment</button>
+                    </a>
+                @else
+                    @if($resellerInfo->status == 'Approved')
+                        <h1 class="display-6">Payment not completed, please ask for payment.</h1>
+                    @elseif($resellerInfo->status == 'Waiting Approval')
+                        <h1 class="display-6">Reseller waiting for your approval.</h1>
+                        <button type="submit" class="btn btn-success mt-2" style="width: 100%" id="btn_request_approval_shipment">
+                            @if($resellerInfo->status == 'Approved' || $resellerInfo->status == 'Shipped')
+                                Update Tracking No.
+                            @else
+                                Approve Request
+                            @endif
+                        </button>
                     @endif
-                </button>
-                <a href="{{ route('shipment.new') }}">
-                    <button class="btn btn-primary mt-2" style="width: 100%">Back</button>
-                </a>
+                @endif
+
             @endcan
 
             @can('is-reseller')
@@ -104,27 +125,35 @@
 
                         <h1 class="display-5" id="total"></h1>
                     </div>
-                    @if(App\Models\Shipment::where('id', '=', request()->route('id'))->where('status', '=', 'Shipped')->exists())
+
+                    @if(isset($resellerInfo->tracking_no) && $resellerInfo->status == 'Shipped')
                         <a class="btn btn-outline-dark" style="font-size: 15px"
                            onclick="linkTrack(this.innerText)">{{ $resellerInfo->tracking_no }}</a>
-                        <a href="{{ route('shipment.new') }}">
-                            <button class="btn btn-primary mt-2" style="width: 100%">Back</button>
-                        </a>
-                    @else
-                        <form method="POST" action="{{ route('shipment.request', request()->route('id')) }}" enctype="multipart/form-data">
-                            @csrf
-                            @method('PATCH')
-
-                            <div class="form-floating mb-3">
-                                <div class="col-sm-auto">
-                                    <label class="form-label">Upload Receipt</label>
-                                    <input accept="application/pdf" type="file" name="proof_of_payment_file" id="proof_of_payment_file" class="form-control">
-                                    <h1 hidden class="display-5" id="shipment_id">{{ request()->route('id') }}</h1>
-                                </div>
-                            </div>
-                            <button @if(App\Models\Shipment::where('id', '=', request()->route('id'))->where('status', '!=', 'Approved')->exists()) disabled @endif type="submit" class="btn btn-primary mt-2" style="width: 100%" id="btn_upload_payment">Upload</button>
-                        </form>
+                    @elseif(!isset($resellerInfo->tracking_no) && $resellerInfo->status == 'Shipped')
+                        <h1 class="display-6">Tracking not available, ask distributor for tracking no.</h1>
                     @endif
+
+                @if($resellerInfo->status == 'Waiting Approval' || $resellerInfo->status =='Requested')
+                    <h1 class="display-6">{{ $resellerInfo->remark }}</h1>
+                @elseif($resellerInfo->status !='Shipped')
+                    <form method="POST" action="{{ route('shipment.request', request()->route('id')) }}" enctype="multipart/form-data">
+                        @csrf
+                        @method('PATCH')
+
+                        <div class="form-floating mb-3">
+                            <div class="col-sm-auto">
+                                <label class="form-label">Upload Receipt</label>
+                                <input accept="application/pdf" type="file" name="proof_of_payment_file" id="proof_of_payment_file" class="form-control">
+                                <h1 hidden class="display-5" id="shipment_id">{{ request()->route('id') }}</h1>
+                            </div>
+                        </div>
+                        <button @if(App\Models\Shipment::where('id', '=', request()->route('id'))->where('status', '!=', 'Approved')->exists()) disabled @endif type="submit" class="btn btn-warning mt-2" style="width: 100%" id="btn_upload_payment">Upload</button>
+                    </form>
+                @endif
+
+                <a href="{{ route('shipment.new') }}">
+                    <button class="btn btn-primary mt-3" style="width: 100%">Back</button>
+                </a>
             @endcan
         </div>
     </div>

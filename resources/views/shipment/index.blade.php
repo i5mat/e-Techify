@@ -13,7 +13,178 @@
     </figure>
 
     @can('is-reseller')
-        <div class="card mb-2" style="padding: 20px 40px;">
+        <div class="card">
+            <div class="card-body">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Shipped
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row g-1">
+                                    @foreach($shipped as $i)
+                                        <div @if($shipped->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
+                                            <div class="card p-2 border-5 border-bottom border-primary" style="border: none">
+                                                <div class="text-right badge bg-primary"><small class="lead" style="color: white">Request ID
+                                                        #{{ $i->id }}</small></div>
+                                                <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100" height="65"/>
+                                                    <span class="d-block font-weight-bold">
+                                                        <span class="badge bg-primary" style="color: white">{{ $i->status }}
+                                                        </span>
+                                                    </span>
+                                                    <hr>
+                                                    <span>Xmiryna Tech</span>
+                                                    <div class="d-flex flex-row align-items-center justify-content-center">
+                                                        <i class="fa fa-map-marker"></i>
+                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mt-3">
+                                                        <span>
+                                                            <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
+                                                        </span>
+                                                        <span>
+                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Waiting Approval
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row g-1">
+                                    @foreach($waitingApproval as $i)
+                                        <div @if($waitingApproval->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
+                                            <div class="card p-2 border-5 border-bottom border-warning" style="border: none">
+                                                <div class="text-right badge bg-warning"><small class="lead" style="color: white">Request ID
+                                                        #{{ $i->id }}</small></div>
+                                                <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100" height="65"/>
+                                                    <span class="d-block font-weight-bold">
+                                                        <span class="badge bg-warning" style="color: white">{{ $i->status }}
+                                                        </span>
+                                                    </span>
+                                                    <hr>
+                                                    <span>Xmiryna Tech</span>
+                                                    <div class="d-flex flex-row align-items-center justify-content-center">
+                                                        <i class="fa fa-map-marker"></i>
+                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mt-3">
+                                                        <span>
+                                                            <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
+                                                        </span>
+                                                        <span>
+                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Approved
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row g-1">
+                                    @foreach($approved as $i)
+                                        <div @if($approved->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
+                                            <div class="card p-2 border-5 border-bottom border-success" style="border: none">
+                                                <div class="text-right badge bg-success"><small class="lead" style="color: white">Request ID
+                                                        #{{ $i->id }}</small></div>
+                                                <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100" height="65"/>
+                                                    <span class="d-block font-weight-bold">
+                                                        <span class="badge bg-success" style="color: white">{{ $i->status }}
+                                                        </span>
+                                                    </span>
+                                                    <hr>
+                                                    <span>Xmiryna Tech</span>
+                                                    <div class="d-flex flex-row align-items-center justify-content-center">
+                                                        <i class="fa fa-map-marker"></i>
+                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mt-3">
+                                                        <span>
+                                                            <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
+                                                        </span>
+                                                        <span>
+                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFourth">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourth" aria-expanded="true" aria-controls="collapseFourth">
+                                Requested
+                            </button>
+                        </h2>
+                        <div id="collapseFourth" class="accordion-collapse collapse show" aria-labelledby="headingFourth" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row g-1">
+                                    @foreach($requested as $i)
+                                        <div @if($requested->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
+                                            <div class="card p-2 border-5 border-bottom border-dark" style="border: none">
+                                                <div class="text-right badge bg-dark"><small class="lead" style="color: white">Request ID
+                                                        #{{ $i->id }}</small></div>
+                                                <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100" height="65"/>
+                                                    <span class="d-block font-weight-bold">
+                                                        <span class="badge bg-dark" style="color: white">{{ $i->status }}
+                                                        </span>
+                                                    </span>
+                                                    <hr>
+                                                    <span>Xmiryna Tech</span>
+                                                    <div class="d-flex flex-row align-items-center justify-content-center">
+                                                        <i class="fa fa-map-marker"></i>
+                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mt-3">
+                                                        <span>
+                                                            <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
+                                                        </span>
+                                                        <span>
+                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-2 mb-2" style="padding: 20px 40px;">
             <div class="card-body" >
                 <div class="col text-center">
                     <img id="product_pic" width="300" height="300" />
@@ -103,74 +274,180 @@
             </div>
         </div>
     @endif
-
-        <div class="row g-1">
-            @foreach($approved as $i)
-                <div @if($approved->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
-                    <div class="card p-2 border-5 border-bottom border-success" style="border: none">
-                        <div class="text-right badge bg-success"><small class="lead" style="color: white">Request ID
-                                #{{ $i->shipment_id }}</small></div>
-                        <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100"
-                                                               height="65"/> <span
-                                class="d-block font-weight-bold"><span class="badge bg-success"
-                                                                       style="color: white">{{ $i->status }}</span></span>
-                            <hr>
-                            <span>Xmiryna Tech</span>
-                            <div class="d-flex flex-row align-items-center justify-content-center"><i
-                                    class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur,
-                                    TX</small></div>
-                            <div class="d-flex justify-content-between mt-3">
-                                <span>
-                                    <a href="#"><i data-feather="truck"></i></a>
-                                </span>
-                                <span>
-                                    <a href="{{ route('shipment.details', $i->shipment_id) }}"><i data-feather="eye"></i></a>
-                                </span>
-                                <span>
-                                    <a href="#" target="_blank"><i data-feather="file-text"></i></a>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
     @endcan
 
     @can('is-distributor')
         @if($getItems->count() > 0)
 
-        <div class="row g-1">
-            @foreach($approved as $i)
-                <div @if($approved->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
-                    <div class="card p-2 border-5 border-bottom border-success" style="border: none">
-                        <div class="text-right badge bg-success"><small class="lead" style="color: white">Request ID
-                                #{{ $i->shipment_id }}</small></div>
-                        <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100"
-                                                               height="65"/> <span
-                                class="d-block font-weight-bold"><span class="badge bg-success"
-                                                                       style="color: white">{{ $i->status }}</span></span>
-                            <hr>
-                            <span>Xmiryna Tech</span>
-                            <div class="d-flex flex-row align-items-center justify-content-center"><i
-                                    class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur,
-                                    TX</small></div>
-                            <div class="d-flex justify-content-between mt-3">
-                                <span>
-                                    <a href="#"><i data-feather="truck"></i></a>
-                                </span>
-                                <span>
-                                    <a href="{{ route('shipment.details', $i->shipment_id) }}"><i data-feather="eye"></i></a>
-                                </span>
-                                <span>
-                                    <a href="#" target="_blank"><i data-feather="file-text"></i></a>
-                                </span>
+        <div class="card">
+            <div class="card-body">
+                <div class="accordion" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Shipped
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row g-1">
+                                    @foreach($shipped as $i)
+                                        <div @if($shipped->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
+                                            <div class="card p-2 border-5 border-bottom border-primary" style="border: none">
+                                                <div class="text-right badge bg-primary"><small class="lead" style="color: white">Request ID
+                                                        #{{ $i->id }}</small></div>
+                                                <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100" height="65"/>
+                                                    <span class="d-block font-weight-bold">
+                                                        <span class="badge bg-primary" style="color: white">{{ $i->status }}
+                                                        </span>
+                                                    </span>
+                                                    <hr>
+                                                    <span>Xmiryna Tech</span>
+                                                    <div class="d-flex flex-row align-items-center justify-content-center">
+                                                        <i class="fa fa-map-marker"></i>
+                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mt-3">
+                                                        <span>
+                                                            <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
+                                                        </span>
+                                                        <span>
+                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Waiting Approval
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row g-1">
+                                    @foreach($waitingApproval as $i)
+                                        <div @if($waitingApproval->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
+                                            <div class="card p-2 border-5 border-bottom border-warning" style="border: none">
+                                                <div class="text-right badge bg-warning"><small class="lead" style="color: white">Request ID
+                                                        #{{ $i->id }}</small></div>
+                                                <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100" height="65"/>
+                                                    <span class="d-block font-weight-bold">
+                                                        <span class="badge bg-warning" style="color: white">{{ $i->status }}
+                                                        </span>
+                                                    </span>
+                                                    <hr>
+                                                    <span>Xmiryna Tech</span>
+                                                    <div class="d-flex flex-row align-items-center justify-content-center">
+                                                        <i class="fa fa-map-marker"></i>
+                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mt-3">
+                                                        <span>
+                                                            <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
+                                                        </span>
+                                                        <span>
+                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Approved
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row g-1">
+                                    @foreach($approved as $i)
+                                        <div @if($approved->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
+                                            <div class="card p-2 border-5 border-bottom border-success" style="border: none">
+                                                <div class="text-right badge bg-success"><small class="lead" style="color: white">Request ID
+                                                        #{{ $i->id }}</small></div>
+                                                <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100" height="65"/>
+                                                    <span class="d-block font-weight-bold">
+                                                        <span class="badge bg-success" style="color: white">{{ $i->status }}
+                                                        </span>
+                                                    </span>
+                                                    <hr>
+                                                    <span>Xmiryna Tech</span>
+                                                    <div class="d-flex flex-row align-items-center justify-content-center">
+                                                        <i class="fa fa-map-marker"></i>
+                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mt-3">
+                                                        <span>
+                                                            <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
+                                                        </span>
+                                                        <span>
+                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFourth">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourth" aria-expanded="true" aria-controls="collapseFourth">
+                                Requested
+                            </button>
+                        </h2>
+                        <div id="collapseFourth" class="accordion-collapse collapse show" aria-labelledby="headingFourth" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <div class="row g-1">
+                                    @foreach($requested as $i)
+                                        <div @if($requested->count() == 1) class="col-md-12" @else class="col-md-6" @endif>
+                                            <div class="card p-2 border-5 border-bottom border-dark" style="border: none">
+                                                <div class="text-right badge bg-dark"><small class="lead" style="color: white">Request ID
+                                                        #{{ $i->id }}</small></div>
+                                                <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100" height="65"/>
+                                                    <span class="d-block font-weight-bold">
+                                                        <span class="badge bg-dark" style="color: white">{{ $i->status }}
+                                                        </span>
+                                                    </span>
+                                                    <hr>
+                                                    <span>Xmiryna Tech</span>
+                                                    <div class="d-flex flex-row align-items-center justify-content-center">
+                                                        <i class="fa fa-map-marker"></i>
+                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mt-3">
+                                                        <span>
+                                                            <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
+                                                        </span>
+                                                        <span>
+                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            </div>
         </div>
 
         @endif

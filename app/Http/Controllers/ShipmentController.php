@@ -33,18 +33,28 @@ class ShipmentController extends Controller
                 ])
                 ->get();
 
-            $approved = DB::table('shipment_details')
-                ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
-                ->join('products', 'products.id', '=', 'shipment_details.product_id')
-                ->select('shipments.id AS shipment_id', 'shipments.status')
-                ->where([
-                    'shipments.user_id' => Auth::id(),
-                ])
-                ->distinct()
-                ->get();
+            $shipped = Shipment::where([
+                'status' => 'Shipped',
+                'user_id' => Auth::id()
+            ])->get();
+
+            $approved = Shipment::where([
+                'status' => 'Approved',
+                'user_id' => Auth::id()
+            ])->get();
+
+            $waitingApproval = Shipment::where([
+                'status' => 'Waiting Approval',
+                'user_id' => Auth::id()
+            ])->get();
+
+            $requested = Shipment::where([
+                'status' => 'Requested',
+                'user_id' => Auth::id()
+            ])->get();
 
             return view('shipment.index', compact('fetchProduct', 'getProductBrand', 'retrieveVal',
-                'getItems', 'getInfo', 'approved'));
+                'getItems', 'getInfo', 'approved', 'shipped', 'waitingApproval', 'requested'));
 
         } elseif (Gate::allows('is-distributor')) {
             $getItems = DB::table('shipment_details')
@@ -60,15 +70,49 @@ class ShipmentController extends Controller
             $approved = DB::table('shipment_details')
                 ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
                 ->join('products', 'products.id', '=', 'shipment_details.product_id')
-                ->select('shipments.id AS shipment_id', 'shipments.status')
+                ->select('shipments.id', 'shipments.status')
                 ->where([
                     'products.user_id' => Auth::id(),
+                    'shipments.status' => 'Approved',
+                ])
+                ->distinct()
+                ->get();
+
+            $shipped = DB::table('shipment_details')
+                ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
+                ->join('products', 'products.id', '=', 'shipment_details.product_id')
+                ->select('shipments.id', 'shipments.status')
+                ->where([
+                    'products.user_id' => Auth::id(),
+                    'shipments.status' => 'Shipped',
+                ])
+                ->distinct()
+                ->get();
+
+            $waitingApproval = DB::table('shipment_details')
+                ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
+                ->join('products', 'products.id', '=', 'shipment_details.product_id')
+                ->select('shipments.id', 'shipments.status')
+                ->where([
+                    'products.user_id' => Auth::id(),
+                    'shipments.status' => 'Waiting Approval',
+                ])
+                ->distinct()
+                ->get();
+
+            $requested = DB::table('shipment_details')
+                ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
+                ->join('products', 'products.id', '=', 'shipment_details.product_id')
+                ->select('shipments.id', 'shipments.status')
+                ->where([
+                    'products.user_id' => Auth::id(),
+                    'shipments.status' => 'Requested',
                 ])
                 ->distinct()
                 ->get();
 
             return view('shipment.index', compact('fetchProduct', 'getProductBrand', 'retrieveVal',
-                'getItems', 'getInfo', 'approved'));
+                'getItems', 'getInfo', 'approved', 'shipped', 'waitingApproval', 'requested'));
         }
     }
 
@@ -185,9 +229,15 @@ class ShipmentController extends Controller
     public function shipmentApprovalDistributor($id, Request $request)
     {
         $findID = Shipment::findOrFail($id);
-        $findID->status = $request->get('status');
-        $findID->remark = $request->get('remark');
-        $findID->tracking_no = $request->get('tracking');
+
+        if ($findID->status == 'Shipped') {
+            $findID->remark = 'Tracking number updated. '.$request->get('tracking');
+            $findID->tracking_no = $request->get('tracking');
+        } else {
+            $findID->status = $request->get('status');
+            $findID->remark = $request->get('remark');
+            $findID->tracking_no = $request->get('tracking');
+        }
 
         $findID->save();
 
