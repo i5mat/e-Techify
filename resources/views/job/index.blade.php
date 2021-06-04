@@ -12,8 +12,8 @@
         </figcaption>
     </figure>
 
-    <div class="card" style="padding: 20px 40px;">
-        <div class="card-body" >
+    <div class="card">
+        <div class="card-body">
             <form method="POST" action="{{ route('job.request.new') }}">
                 @csrf
 

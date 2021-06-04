@@ -24,7 +24,6 @@
                     <thead>
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col"></th>
                         <th scope="col">Name</th>
                         <th scope="col">Unit Price</th>
                         <th scope="col">Quantity</th>
@@ -34,7 +33,6 @@
                     <tbody>
                     @foreach($getItems as $getShipment)
                         <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
                             <td>
                                 <img src="/storage/product/{{ $getShipment->product_image_path }}"
                                      style="width:120px; height:120px;">
@@ -62,16 +60,23 @@
                         <input type="text" class="form-control" id="inputTracking" aria-describedby="trackingHelp" value="{{ $resellerInfo->tracking_no }}">
                         <div id="trackingHelp" class="form-text">Insert tracking number here.</div>
                     </div>
-                    <button type="submit" class="btn btn-success mt-2" style="width: 100%" id="btn_request_approval_shipment">
-                        @if($resellerInfo->status == 'Approved' || $resellerInfo->status == 'Shipped')
-                            Update Tracking No.
-                        @else
-                            Approve Request
-                        @endif
-                    </button>
-                    <a href="/storage/shipments/{{ $resellerInfo->proof_of_payment }}" target="_blank">
-                        <button class="btn btn-warning mt-2" style="width: 100%"><i class="fa fa-download"></i> Download Proof of Payment</button>
-                    </a>
+
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-success mt-2" style="width: 100%" id="btn_request_approval_shipment">
+                                @if($resellerInfo->status == 'Approved' || $resellerInfo->status == 'Shipped')
+                                    Update Tracking No.
+                                @else
+                                    Approve Request
+                                @endif
+                            </button>
+                        </div>
+                        <div class="col">
+                            <a href="/storage/shipments/{{ $resellerInfo->proof_of_payment }}" target="_blank">
+                                <button class="btn btn-warning mt-2" style="width: 100%"><i class="fa fa-download"></i> Download Proof of Payment</button>
+                            </a>
+                        </div>
+                    </div>
                 @else
                     @if($resellerInfo->status == 'Approved')
                         <h1 class="display-6">Payment not completed, please ask for payment.</h1>

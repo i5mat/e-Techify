@@ -13,13 +13,126 @@
     </figure>
 
     @can('is-reseller')
+
+        <div class="row mb-2">
+            <div class="col">
+                    @if($getItems->count() > 0)
+                        <div class="card mb-2">
+                            <div class="card-header">
+                                Cart
+                            </div>
+                            <div class="card-body text-center border-3 border-bottom border-warning">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Unit Price</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($getItems as $getShipment)
+                                        <tr>
+                                            <td>
+                                                <img src="/storage/product/{{ $getShipment->product_image_path }}"
+                                                     style="width:120px; height:120px;">
+                                            </td>
+                                            <td>{{ $getShipment->product_name }}</td>
+                                            <td hidden id="get_shipment_id">{{ $getShipment->shipment_id }}</td>
+                                            <td><img src="/image/malaysia.png"> <span>{{ $getShipment->product_price }}</span></td>
+                                            <td>x{{ $getShipment->product_order_quantity }}</td>
+                                            <td id="total_shipment_item{{ $loop->iteration }}">{{ $getShipment->product_price * $getShipment->product_order_quantity }}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="text-center">
+                                    <p class="lead">
+                                        Merchandise Subtotal ({{ $getItems->count() }} items):
+                                    </p>
+
+                                    <h1 class="display-5" id="total"></h1>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-2" style="width: 100%" id="btn_request_shipment">Request Shipment</button>
+                            </div>
+                        </div>
+                    @else
+                        <div class="card">
+                            <div class="card-header">
+                                Cart
+                            </div>
+                            <div class="card-body border-3 border-bottom border-warning">
+                                <h1 class="display-6 text-center">Your cart is empty.</h1>
+                            </div>
+                        </div>
+                    @endif
+            </div>
+            <div class="col-6 col-sm-5">
+                <div class="card">
+                    <div class="card-header">
+                        Request
+                    </div>
+                    <div class="card-body border-3 border-bottom border-warning">
+                        <div class="col text-center">
+                            <img id="product_pic" width="300" height="300" />
+
+                            <div class="form-floating" style="margin-bottom: 10px">
+                                <select class="form-select" id="SelectProductID" aria-label="Floating label select example" style="height: 60px">
+                                    <option value=""><strong>Product ID</strong></option>
+                                    @foreach($fetchProduct as $prod)
+                                        <option value="{{ $prod->product_image_path }}" selected>{{ $prod->id }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-2">
+                                <select class="form-select" id="product_brand" name="product_brand">
+                                    <option value=""><strong>Name</strong></option>
+                                    @foreach($getProductBrand as $prod_brand)
+                                        <option value="{{ $prod_brand->product_brand }}">{{ $prod_brand->product_brand }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="prod_brand">Brand</label>
+                            </div>
+                            <div class="form-floating" style="margin-bottom: 10px">
+                                <select class="form-select" id="SelectProduct" aria-label="Floating label select example" style="height: 60px" onchange="myFunctions()">
+                                    <option value=""><strong>Products</strong></option>
+                                </select>
+                                <label for="floatingSelectProduct">Select Product</label>
+                            </div>
+                            <div class="form-floating" style="margin-bottom: 10px">
+                                <select class="form-select" id="SelectQuantity" aria-label="Floating label select example" style="height: 60px">
+                                    <option value="1" selected>1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                </select>
+                                <label for="floatingSelectProduct">Select Product Quantity</label>
+                            </div>
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Leave a comment here" id="remarkTextArea" style="height: 100px"></textarea>
+                                <label for="remarkTextArea">Remark</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2" style="width: 100%" id="btn_add_shipment">Add To List</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
+                Status
+            </div>
+            <div class="card-body border-3 border-bottom border-warning">
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                Shipped
+                                Shipped <span class="badge bg-secondary ms-2" style="color: white">{{ $shipped->count() }}</span>
                             </button>
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -60,7 +173,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Waiting Approval
+                                Waiting Approval <span class="badge bg-secondary ms-2" style="color: white">{{ $waitingApproval->count() }}</span>
                             </button>
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -101,7 +214,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingThree">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Approved
+                                Approved <span class="badge bg-secondary ms-2" style="color: white">{{ $approved->count() }}</span>
                             </button>
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
@@ -141,11 +254,11 @@
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingFourth">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourth" aria-expanded="true" aria-controls="collapseFourth">
-                                Requested
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourth" aria-expanded="false" aria-controls="collapseFourth">
+                                Requested <span class="badge bg-secondary ms-2" style="color: white">{{ $requested->count() }}</span>
                             </button>
                         </h2>
-                        <div id="collapseFourth" class="accordion-collapse collapse show" aria-labelledby="headingFourth" data-bs-parent="#accordionExample">
+                        <div id="collapseFourth" class="accordion-collapse collapse" aria-labelledby="headingFourth" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="row g-1">
                                     @foreach($requested as $i)
@@ -184,96 +297,6 @@
             </div>
         </div>
 
-        <div class="card mt-2 mb-2" style="padding: 20px 40px;">
-            <div class="card-body" >
-                <div class="col text-center">
-                    <img id="product_pic" width="300" height="300" />
-
-                    <div class="form-floating" style="margin-bottom: 10px">
-                        <select class="form-select" id="SelectProductID" aria-label="Floating label select example" style="height: 60px">
-                            <option value=""><strong>Product ID</strong></option>
-                            @foreach($fetchProduct as $prod)
-                                <option value="{{ $prod->product_image_path }}" selected>{{ $prod->id }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-floating mb-2">
-                        <select class="form-select" id="product_brand" name="product_brand">
-                            <option value=""><strong>Name</strong></option>
-                            @foreach($getProductBrand as $prod_brand)
-                                <option value="{{ $prod_brand->product_brand }}">{{ $prod_brand->product_brand }}</option>
-                            @endforeach
-                        </select>
-                        <label for="prod_brand">Brand</label>
-                    </div>
-                    <div class="form-floating" style="margin-bottom: 10px">
-                        <select class="form-select" id="SelectProduct" aria-label="Floating label select example" style="height: 60px" onchange="myFunctions()">
-                            <option value=""><strong>Products</strong></option>
-                        </select>
-                        <label for="floatingSelectProduct">Select Product</label>
-                    </div>
-                    <div class="form-floating" style="margin-bottom: 10px">
-                        <select class="form-select" id="SelectQuantity" aria-label="Floating label select example" style="height: 60px">
-                            <option value="1" selected>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                        <label for="floatingSelectProduct">Select Product Quantity</label>
-                    </div>
-                    <div class="form-floating">
-                        <textarea class="form-control" placeholder="Leave a comment here" id="remarkTextArea" style="height: 100px"></textarea>
-                        <label for="remarkTextArea">Remark</label>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary mt-2" style="width: 100%" id="btn_add_shipment">Add To List</button>
-            </div>
-        </div>
-
-    @if($getItems->count() > 0)
-        <div class="card text-center mb-2">
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col"></th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Unit Price</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($getItems as $getShipment)
-                    <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <td>
-                            <img src="/storage/product/{{ $getShipment->product_image_path }}"
-                                 style="width:120px; height:120px;">
-                        </td>
-                        <td>{{ $getShipment->product_name }}</td>
-                        <td hidden id="get_shipment_id">{{ $getShipment->shipment_id }}</td>
-                        <td><img src="/image/malaysia.png"> <span>{{ $getShipment->product_price }}</span></td>
-                        <td>x{{ $getShipment->product_order_quantity }}</td>
-                        <td id="total_shipment_item{{ $loop->iteration }}">{{ $getShipment->product_price * $getShipment->product_order_quantity }}</td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-                <div class="text-center">
-                    <p class="lead">
-                        Merchandise Subtotal ({{ $getItems->count() }} items):
-                    </p>
-
-                    <h1 class="display-5" id="total"></h1>
-                </div>
-                <button type="submit" class="btn btn-primary mt-2" style="width: 100%" id="btn_request_shipment">Request Shipment</button>
-            </div>
-        </div>
-    @endif
     @endcan
 
     @can('is-distributor')
@@ -285,7 +308,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                Shipped
+                                Shipped <span class="badge bg-secondary ms-2" style="color: white">{{ $shipped->count() }}</span>
                             </button>
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -326,7 +349,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingTwo">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                Waiting Approval
+                                Waiting Approval <span class="badge bg-secondary ms-2" style="color: white">{{ $waitingApproval->count() }}</span>
                             </button>
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -367,7 +390,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingThree">
                             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                Approved
+                                Approved <span class="badge bg-secondary ms-2" style="color: white">{{ $approved->count() }}</span>
                             </button>
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
@@ -407,11 +430,11 @@
                     </div>
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingFourth">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourth" aria-expanded="true" aria-controls="collapseFourth">
-                                Requested
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFourth" aria-expanded="false" aria-controls="collapseFourth">
+                                Requested <span class="badge bg-secondary ms-2" style="color: white">{{ $requested->count() }}</span>
                             </button>
                         </h2>
-                        <div id="collapseFourth" class="accordion-collapse collapse show" aria-labelledby="headingFourth" data-bs-parent="#accordionExample">
+                        <div id="collapseFourth" class="accordion-collapse collapse" aria-labelledby="headingFourth" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="row g-1">
                                     @foreach($requested as $i)
@@ -449,7 +472,15 @@
                 </div>
             </div>
         </div>
-
+        @else
+            <div class="card">
+                <div class="card-header">
+                    Request
+                </div>
+                <div class="card-body border-3 border-bottom border-warning">
+                    <h1 class="display-6 text-center">Your request is empty.</h1>
+                </div>
+            </div>
         @endif
     @endcan
 

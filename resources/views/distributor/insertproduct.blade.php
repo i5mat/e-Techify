@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Insert SN Product <img src="/image/distribution.png"/></h1>
+    <h1 class="display-2 text-center">Insert SN Product <i class="fa fa-paper-plane-o"></i></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
@@ -179,13 +179,19 @@
                         </dd>
                     </dl>
 
-                    <button style="width: 49.8%" type="submit" class="btn btn-primary" id="btn_submit_dist_form" name="btn_submit_dist_form">
-                        Insert
-                    </button>
-                    <!-- Button trigger modal -->
-                    <button style="width: 49.8%" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Add New Product +
-                    </button>
+                    <div class="row">
+                        <div class="col">
+                            <button style="width: 100%" type="submit" class="btn btn-primary" id="btn_submit_dist_form" name="btn_submit_dist_form">
+                                Insert
+                            </button>
+                        </div>
+                        <div class="col">
+                            <button style="width: 100%" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Add New Product +
+                            </button>
+                        </div>
+                    </div>
+
                 </form>
             @endif
         </div>
