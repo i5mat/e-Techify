@@ -89,7 +89,8 @@ class Profile extends Controller
                                     SUM(if(MONTH(order_details.created_at) = 12, 1,0)) as `Dec`
                                 FROM order_details
                                 INNER JOIN products ON products.id = order_details.product_id
-                                WHERE YEAR(NOW())
+                                INNER JOIN orders ON orders.id = order_details.order_id
+                                WHERE YEAR(NOW()) AND orders.order_status = "To Ship"
                                 GROUP by products.product_brand ) A'))
             ->groupBy('A.product_brand')
             ->get();
@@ -111,7 +112,8 @@ class Profile extends Controller
                                     SUM(if(MONTH(order_details.created_at) = 12, 1,0)) as `Dec`
                                 FROM order_details
                                 INNER JOIN products ON products.id = order_details.product_id
-                                WHERE YEAR(NOW()) AND products.user_id = '$x'
+                                INNER JOIN orders ON orders.id = order_details.order_id
+                                WHERE YEAR(NOW()) AND products.user_id = '$x' AND orders.order_status = 'To Ship'
                                 GROUP by products.product_brand ) A"))
             ->groupBy('A.product_brand')
             ->get();
