@@ -104,4 +104,5 @@ Route::prefix('shipment')->middleware(['auth', 'verified'])->name('shipment.')->
     Route::patch('shipment-request/{id}', [App\Http\Controllers\ShipmentController::class, 'shipmentUpdate'])->name('request');
     Route::patch('shipment-request-approval-distributor/{id}', [App\Http\Controllers\ShipmentController::class, 'shipmentApprovalDistributor'])->name('request.approval');
     Route::get('shipment-details/{id}', [App\Http\Controllers\ShipmentController::class, 'shipmentDetailsIndex'])->name('details');
+    Route::delete('remove-item-request/{id}', [App\Http\Controllers\ShipmentController::class, 'removeItem'])->name('remove.item');
 });

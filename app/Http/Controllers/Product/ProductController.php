@@ -32,7 +32,9 @@ class ProductController extends Controller
             ->thenReturn()
             ->paginate(6);
 
-        return view('product.index', compact('products'));
+        $getProducts = Product::select('product_brand')->distinct()->get();
+
+        return view('product.index', compact('products', 'getProducts'));
     }
 
     // Must have if did not do the Route::resource. This is compulsory for Route::get.

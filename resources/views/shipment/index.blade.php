@@ -30,6 +30,7 @@
                                         <th scope="col">Unit Price</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Total</th>
+                                        <th scope="col"></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -44,6 +45,12 @@
                                             <td><img src="/image/malaysia.png"> <span>{{ $getShipment->product_price }}</span></td>
                                             <td>x{{ $getShipment->product_order_quantity }}</td>
                                             <td id="total_shipment_item{{ $loop->iteration }}">{{ $getShipment->product_price * $getShipment->product_order_quantity }}</td>
+                                            <td>
+                                                <button class="btn btn-danger" style="background-color: transparent; border: none"
+                                                        id="btn_remove_shipment_item{{ $loop->iteration }}" data-id="{{ $getShipment->shipment_details_id }}">
+                                                    <img src="/image/delete.png">
+                                                </button>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -69,7 +76,7 @@
                         </div>
                     @endif
             </div>
-            <div class="col-6 col-sm-5">
+            <div class="col-6 col-sm-4">
                 <div class="card">
                     <div class="card-header">
                         Request
@@ -494,6 +501,29 @@
 
         @can('is-reseller')
         myFunctions();
+
+        var myArr = @json($getItems);
+        console.log(myArr);
+
+        for (z = 1; z <= myArr.length; z++) {
+            $("#btn_remove_shipment_item"+z).click(function () {
+                var id = $(this).data("id");
+                var token = $("meta[name='csrf-token']").attr("content");
+
+                $.ajax(
+                    {
+                        url: "http://127.0.0.1:8000/shipment/remove-item-request/" + id,
+                        type: 'DELETE',
+                        data: {
+                            "id": id,
+                            "_token": token,
+                        },
+                        success: function () {
+                            location.reload();
+                        }
+                    });
+            });
+        }
 
         var total_items = {{ $getItems->count() }};
         var merchandise_total = 0;

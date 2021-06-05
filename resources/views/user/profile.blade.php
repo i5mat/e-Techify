@@ -8,7 +8,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col">
-                        <img width="610px" src="/image/profile-photo.png"/>
+                        <img width="550px" src="/image/XT-logo.png"/>
                     </div>
                     <div class="col">
                         <form method="POST" action="{{ route('user-profile-information.update') }}">

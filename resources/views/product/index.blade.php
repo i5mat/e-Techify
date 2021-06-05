@@ -4,6 +4,32 @@
 
     @can('logged-in')
 
+        <div class="row mb-3">
+            <div class="col">
+                <div class="form-floating">
+                    <select class="form-select" id="filterProductBrand" aria-label="Floating label select example" style="height: 60px">
+                        <option selected disabled>Please select...</option>
+                        @foreach($getProducts as $getProduct)
+                            <option value="{{ $getProduct->product_brand }}">{{ $getProduct->product_brand }}</option>
+                        @endforeach
+                    </select>
+                    <label for="filterProductBrand">Select Brand</label>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-floating">
+                    <select class="form-select" id="filterProductPrice" aria-label="Floating label select example" style="height: 60px">
+                        <option selected disabled>Please select...</option>
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                    <label for="filterProductPrice">Select Price</label>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-warning mb-2" style="width: 100%" id="btn_apply_filter">Apply Filters</button>
+
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
@@ -102,27 +128,21 @@
         {{ $products->appends(request()->input())->links() }}
     @endcan
 
-    @guest
-        <h1>Hi Homepage</h1>
-
-        <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h5 class="card-title">Primary card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-        <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h5 class="card-title">Info card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            </div>
-        </div>
-    @endguest
-
     <script>
         feather.replace();
+
+        $( "#btn_apply_filter" ).click(function() {
+            var firstSelection = $( "#filterProductBrand :selected" ).val();
+            var secondSelection = $( "#filterProductPrice :selected" ).val();
+
+            if (firstSelection !== 'Please select...')
+                if (secondSelection !== 'Please select...')
+                    window.location.href = "http://127.0.0.1:8000/product/items?product_brand=" + firstSelection + "&product_price=" + secondSelection;
+            else if (secondSelection !== 'Please select...')
+                    window.location.href = "http://127.0.0.1:8000/product/items?product_price=" + secondSelection;
+            else if (firstSelection !== 'Please select...')
+                    window.location.href = "http://127.0.0.1:8000/product/items?product_brand=" + firstSelection;
+        });
 
         $('#staticBackdrop').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget) // Button that triggered the modal

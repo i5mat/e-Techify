@@ -26,7 +26,8 @@ class ShipmentController extends Controller
                 ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
                 ->join('products', 'products.id', '=', 'shipment_details.product_id')
                 ->select('shipment_details.shipment_id', 'products.product_image_path', 'products.product_name', 'products.product_price',
-                    'shipment_details.product_id', 'shipment_details.product_order_quantity', 'shipments.id AS shipment_id')
+                    'shipment_details.product_id', 'shipment_details.product_order_quantity',
+                    'shipment_details.id AS shipment_details_id')
                 ->where([
                     'shipments.user_id' => Auth::id(),
                     'shipments.status' => 'Requested'
@@ -114,6 +115,16 @@ class ShipmentController extends Controller
             return view('shipment.index', compact('fetchProduct', 'getProductBrand', 'retrieveVal',
                 'getItems', 'getInfo', 'approved', 'shipped', 'waitingApproval', 'requested'));
         }
+    }
+
+    public function removeItem($id, Request $request)
+    {
+        ShipmentDetail::destroy($id);
+        $request->session()->flash('success', 'Item is removed from your cart');
+
+        return response()->json([
+            'success' => 'Item is removed from list'
+        ]);
     }
 
     public function shipmentDetailsIndex($id)

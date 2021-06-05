@@ -187,10 +187,6 @@ class OrderController extends Controller
                 $updaterecs = OrderDetail::where('order_id', '=', $d)
                     ->where('product_id', '=', $key)
                     ->get();
-
-                // use of explode
-//                $string = $data->serial_number;
-//                $str_arr = array_pad(explode(', ', $string), $data->product_order_quantity, null);
             }
         }
 
