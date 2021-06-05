@@ -1,6 +1,8 @@
 @extends('templates.main')
 
 @section('content')
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
     <h1 class="display-2 text-center">Your Cart <img src="/image/carts.png"/></h1>
 
     <figure class="text-center">
@@ -165,8 +167,8 @@
         src="https://www.paypal.com/sdk/js?client-id=AYGoN9I1BkU083SCTYJyibLNCCNE0eqXG6BLDbRSSKINBiWCK7eSdOKOXFeb4vz9RuG3tcMo9oYQl7R4&disable-funding=credit,card&currency=MYR"></script>
     </form>
 
-    <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.2.1/jquery.serializejson.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.2.1/jquery.serializejson.min.js"></script>
     <script>
 
         CalculateItemsValue();
@@ -279,9 +281,8 @@
             },
             onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
-                    alert('Transaction completed by ' + details.payer.name.given_name);
+                    //alert('Transaction completed by ' + details.payer.name.given_name);
                     console.log(details)
-                    //window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
 
                     var pay_total = details.purchase_units[0].amount.value;
                     var pay_method = details.purchase_units[0].soft_descriptor;
@@ -295,8 +296,19 @@
                         success: function (data) {
                             if (data['success']) {
                                 console.log(data)
-                                alert('Transaction completed by ' + details.purchase_units[0].shipping.name.full_name);
-                                window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
+                                //alert('Transaction completed by ' + details.purchase_units[0].shipping.name.full_name);
+
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Transaction Success',
+                                    text: 'Transaction completed by ' + details.purchase_units[0].shipping.name.full_name,
+                                    confirmButtonText: `Click me!`,
+                                }).then((result) => {
+                                    /* Read more about isConfirmed, isDenied below */
+                                    if (result.isConfirmed) {
+                                        window.location.replace("http://127.0.0.1:8000/order/purchase/success/thank-you");
+                                    }
+                                })
                             } else
                                 alert('EXISTING.')
 
@@ -305,7 +317,11 @@
                 })
             },
             onCancel: function (data) {
-                alert('Failed, or canceled. Could be insufficient funds.')
+                Swal.fire(
+                    'Transaction Failed',
+                    'Failed, or canceled. Could be insufficient funds. Please check your balance.',
+                    'error'
+                );
             }
         }).render('#paypal-payment-button');
     </script>

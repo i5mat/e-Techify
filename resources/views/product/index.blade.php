@@ -99,7 +99,7 @@
             </div>
         @endforeach
         </div>
-        {{ $products->links() }}
+        {{ $products->appends(request()->input())->links() }}
     @endcan
 
     @guest

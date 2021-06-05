@@ -100,9 +100,9 @@
                                                                            height="65"/> <span
                                             class="d-block font-weight-bold"><span class="badge bg-primary"
                                                                                    style="color: white">{{ $i->order_status }}</span></span>
-                                        by user <span class="display-6">{{ $i->user_id }}</span>
+                                        by <span class="display-6">{{ $i->name }}</span>
                                         <hr>
-                                        <span>Xmiryna Tech</span>
+                                        <span>{{ date('d M Y h:i A', strtotime($i->created_at)) }}</span>
                                         <div class="d-flex flex-row align-items-center justify-content-center"><i
                                                 class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur,
                                                 TX</small></div>

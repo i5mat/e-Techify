@@ -10,6 +10,8 @@ use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -17,7 +19,19 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::paginate(6);
+        //$products = Product::paginate(6);
+        //$products = Product::query();
+
+        $products = app(Pipeline::class)
+            ->send(Product::query())
+            ->through([
+                \App\QueryFilters\ProductBrand::class,
+                \App\QueryFilters\ProductPrice::class,
+                \App\QueryFilters\MaxCount::class,
+            ])
+            ->thenReturn()
+            ->paginate(6);
+
         return view('product.index', compact('products'));
     }
 

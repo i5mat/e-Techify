@@ -25,11 +25,14 @@ class OrderController extends Controller
     public function index()
     {
         if (Gate::allows('is-user')) {
-            $to_ship = Order::where([
-                'user_id' => Auth::id(),
-                'order_status' => 'To Ship'
-            ])
-            ->get();
+
+            $to_ship = Order::join('users', 'users.id', '=', 'orders.user_id')
+                ->select('orders.id', 'orders.order_status', 'users.name', 'orders.created_at')
+                ->where([
+                    'orders.order_status' => 'To Ship',
+                    'orders.user_id' => Auth::id()
+                ])
+                ->get();
 
             $delivered = Order::where([
                 'user_id' => Auth::id(),
@@ -44,8 +47,10 @@ class OrderController extends Controller
             ->get();
         }
         elseif (Gate::allows('is-reseller')) {
-            $to_ship = Order::where([
-                'order_status' => 'To Ship'
+            $to_ship = Order::join('users', 'users.id', '=', 'orders.user_id')
+            ->select('orders.id', 'orders.order_status', 'users.name', 'orders.created_at')
+            ->where([
+                'orders.order_status' => 'To Ship'
             ])
             ->get();
 
