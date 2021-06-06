@@ -216,13 +216,28 @@ class ProductController extends Controller
         dd($findID);
     }
 
-    // In progress...
     public function update($id, Request $request)
     {
         $product = Product::find($id);
         $product->update($request->all());
 
-        $product->product_name = $request->prod_name;
+        if ($request->hasFile('prod_image_update')) {
+
+            $request->validate([
+                'files.*' => 'mimes:jpeg,jpg,png|max:1024',
+            ]);
+
+            $product->product_name = $request->prod_name;
+            $product->product_sn = $request->prod_sn;
+            $product->product_image_path = $request->prod_image_update;
+            $product->product_stock_count = $request->prod_stock;
+            $product->product_price = $request->prod_price;
+        } else {
+            $product->product_name = $request->prod_name;
+            $product->product_sn = $request->prod_sn;
+            $product->product_stock_count = $request->prod_stock;
+            $product->product_price = $request->prod_price;
+        }
 
         if($product->save()) {
             $request->session()->flash('success',  $product->product_name.' updated successfully');
@@ -232,7 +247,7 @@ class ProductController extends Controller
         }
 
         //return dd($request->all());
-        return redirect(route('user.userdash'));
+        return redirect()->back();
     }
 
     public function updateStatusSNProduct($id)

@@ -350,6 +350,21 @@ class OrderController extends Controller
         return redirect()->back()->with('danger', 'Order has been cancelled');
     }
 
+    public function receiptFinder()
+    {
+        $getAll = ConfirmOrder::join('orders', 'orders.id', '=', 'confirm_orders.order_id')
+            ->select('confirm_orders.order_id', 'confirm_orders.receipt_no', 'confirm_orders.created_at',
+                    'orders.order_status')
+            ->where('orders.order_status', '!=','Cancelled')
+            ->get();
+
+//        $getName = Order::join('users', 'users.id', '=', 'orders.user_id')
+//            ->where('id', $getAll->order_id)
+//            ->first();
+
+        return view('receipt.receipt-finder', compact('getAll'));
+    }
+
     public function airwayBill($id)
     {
         $findID = Order::find($id);

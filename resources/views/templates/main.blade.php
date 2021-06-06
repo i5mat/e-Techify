@@ -168,6 +168,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('shipment.new') }}">Request Shipment</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('order.find-receipt') }}">Receipt Finder</a>
+                            </li>
                         @endcan
                     </ul>
                 </div>

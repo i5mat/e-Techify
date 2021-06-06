@@ -6,7 +6,7 @@ $text: #3A3C42;
 
 html, body {
     /* IE 10-11 didn't like using min-height */
-    height: 100%;
+    min-height: 100vh;
 }
 
 .container {

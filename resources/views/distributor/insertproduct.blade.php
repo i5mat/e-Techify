@@ -1,6 +1,7 @@
 @extends('templates.main')
 
 @section('content')
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
     <h1 class="display-2 text-center">Insert SN Product <i class="fa fa-paper-plane-o"></i></h1>
 
     <figure class="text-center">
@@ -181,7 +182,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <button style="width: 100%" type="submit" class="btn btn-primary" id="btn_submit_dist_form" name="btn_submit_dist_form">
+                            <button style="width: 100%" type="button" class="btn btn-primary" id="btn_submit_dist_form" name="btn_submit_dist_form">
                                 Insert
                             </button>
                         </div>
@@ -224,9 +225,9 @@
                                         onclick="event.preventDefault();
                                             document.getElementById('update-product-status-{{ $lol->id }}').submit()">
                                     @if($lol->status == 'Occupied')
-                                        <i data-feather="toggle-right" class="feather-32"></i>
+                                        <i class="fa fa-toggle-on fa-2x"></i>
                                     @elseif($lol->status == 'Not Occupied')
-                                        <i data-feather="toggle-left" class="feather-32"></i>
+                                        <i class="fa fa-toggle-off fa-2x"></i>
                                     @endif
                                 </button>
 
@@ -248,6 +249,7 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         feather.replace();
         myFunctions();
@@ -260,67 +262,35 @@
 
         $("#btn_submit_dist_form").click(function(e){
 
-            e.preventDefault();
+            if ($("#insert_product_sn").val() === '') {
+                Swal.fire(
+                    'Input NULL',
+                    'Please input all fields with relevant information',
+                    'error'
+                )
+            } else {
+                e.preventDefault();
 
-            var product_id_dist_form = $("#products_id_dist").text();
-            var batch_no = $("#floatingSelectBatch").val();
-            var sn = $("#insert_product_sn").val();
+                var product_id_dist_form = $("#products_id_dist").text();
+                var batch_no = $("#floatingSelectBatch").val();
+                var sn = $("#insert_product_sn").val();
 
-            $.ajax({
-                type:'POST',
-                url:"{{ route('distributor.insertsn.product.dist') }}",
-                data:{products_id_dist:product_id_dist_form, floatingSelectBatch:batch_no, insert_product_sn:sn},
-                success:function(data){
-                    if ( data['success'] )
-                        location.reload();
-                    else
-                        alert('EXISTING.')
+                $.ajax({
+                    type:'POST',
+                    url:"{{ route('distributor.insertsn.product.dist') }}",
+                    data:{products_id_dist:product_id_dist_form, floatingSelectBatch:batch_no, insert_product_sn:sn},
+                    success:function(data){
+                        if ( data['success'] )
+                            location.reload();
+                        else
+                            alert('EXISTING.')
 
-                }
-            });
+                    }
+                });
+            }
         });
 
         $(document).ready(function() {
-            $("#insert-product-form").validate({
-                rules: {
-                    prod_name : {
-                        required: true
-                    },
-                    prod_sn: {
-                        required: true
-                    },
-                    prod_price: {
-                        required: true
-                    },
-                    prod_link: {
-                        required: true
-                    },
-                    prod_image: {
-                        required: true
-                    },
-                    prod_duration: {
-                        required: true
-                    },
-                    prod_category: {
-                        required: true
-                    },
-                    prod_brand: {
-                        required: true
-                    },
-                    prod_stock: {
-                        required: true
-                    }
-                },
-                messages : {
-                    prod_name: {
-                        required: "Please enter product name"
-                    },
-                    prod_sn: {
-                        required: "Please enter serial number",
-                    }
-                }
-            });
-
             $('#distri-product-table').DataTable();
         });
 

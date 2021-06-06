@@ -86,7 +86,7 @@
                             @elseif($recipientInfo->status == 'Approved')
                                 <span class="badge bg-success" style="color: black">{{ $recipientInfo->status }}</span>
                             @elseif($recipientInfo->status == 'Requested')
-                                <span class="badge bg-dark" style="color: black">{{ $recipientInfo->status }}</span>
+                                <span class="badge bg-dark" style="color: white">{{ $recipientInfo->status }}</span>
                             @endif
                         </h2>
                         <br>

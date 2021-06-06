@@ -3,7 +3,7 @@
 @section('content')
 
     @can('logged-in')
-
+        <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
         <div class="row mb-3">
             <div class="col">
                 <div class="form-floating">
@@ -128,6 +128,7 @@
         {{ $products->appends(request()->input())->links() }}
     @endcan
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         feather.replace();
 
@@ -135,13 +136,21 @@
             var firstSelection = $( "#filterProductBrand :selected" ).val();
             var secondSelection = $( "#filterProductPrice :selected" ).val();
 
-            if (firstSelection !== 'Please select...')
-                if (secondSelection !== 'Please select...')
-                    window.location.href = "http://127.0.0.1:8000/product/items?product_brand=" + firstSelection + "&product_price=" + secondSelection;
-            else if (secondSelection !== 'Please select...')
-                    window.location.href = "http://127.0.0.1:8000/product/items?product_price=" + secondSelection;
-            else if (firstSelection !== 'Please select...')
-                    window.location.href = "http://127.0.0.1:8000/product/items?product_brand=" + firstSelection;
+            if ($("#filterProductBrand :selected").text() === 'Please select...' || $("#filterProductPrice :selected").text() === 'Please select...') {
+                Swal.fire(
+                    'Input NULL',
+                    'Please input brand and price',
+                    'error'
+                )
+            } else {
+                if (firstSelection !== 'Please select...')
+                    if (secondSelection !== 'Please select...')
+                        window.location.href = "http://127.0.0.1:8000/product/items?product_brand=" + firstSelection + "&product_price=" + secondSelection;
+                    else if (secondSelection !== 'Please select...')
+                        window.location.href = "http://127.0.0.1:8000/product/items?product_price=" + secondSelection;
+                    else if (firstSelection !== 'Please select...')
+                        window.location.href = "http://127.0.0.1:8000/product/items?product_brand=" + firstSelection;
+            }
         });
 
         $('#staticBackdrop').on('show.bs.modal', function (event) {

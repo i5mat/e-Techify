@@ -64,7 +64,7 @@
 
                                     <h1 class="display-5" id="total"></h1>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-2" style="width: 100%" id="btn_request_shipment">Request Shipment</button>
+                                <button type="button" class="btn btn-primary mt-2" style="width: 100%" id="btn_request_shipment">Request Shipment</button>
                             </div>
                         </div>
                     @else
@@ -601,31 +601,55 @@
 
         $("#btn_request_shipment").click(function(e){
 
-            e.preventDefault();
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, submit it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
 
-            var shipment_id = $("#get_shipment_id").text();
-            var status = 'Waiting Approval';
-            var update_remark = 'Waiting Approval from distributor. If approved please make payment.';
+                    e.preventDefault();
 
-            console.log(parseInt(shipment_id))
-            console.log(status)
+                    var shipment_id = $("#get_shipment_id").text();
+                    var status = 'Waiting Approval';
+                    var update_remark = 'Waiting Approval from distributor. If approved please make payment.';
 
-            $.ajax({
-                type:'PATCH',
-                url:"http://127.0.0.1:8000/shipment/shipment-request/" + parseInt(shipment_id),
-                data:{
-                    id:parseInt(shipment_id),
-                    status:status,
-                    remark:update_remark
-                },
-                success:function(data){
-                    if ( data['success'] )
-                        location.reload();
-                    else
-                        alert('EXISTING.')
+                    console.log(parseInt(shipment_id))
+                    console.log(status)
 
+                    $.ajax({
+                        type:'PATCH',
+                        url:"http://127.0.0.1:8000/shipment/shipment-request/" + parseInt(shipment_id),
+                        data:{
+                            id:parseInt(shipment_id),
+                            status:status,
+                            remark:update_remark
+                        },
+                        success:function(data){
+                            if ( data['success'] ) {
+                                Swal.fire({
+                                    title: 'Submitted!',
+                                    text: "Your request has been submitted.",
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Okay!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        location.reload();
+                                    }
+                                })
+                            }
+                            else
+                                alert('EXISTING.')
+
+                        }
+                    });
                 }
-            });
+            })
         });
 
         function myFunctions() {

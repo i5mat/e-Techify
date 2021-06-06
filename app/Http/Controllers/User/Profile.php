@@ -155,7 +155,7 @@ class Profile extends Controller
             ->sum('confirm_orders.payment_total');
 
         $getCustTotalOrder = Order::where('user_id', $x)
-            ->where('order_status', 'To Ship')
+            ->where('order_status', '!=', 'Cancelled')
             ->count();
 
         $findMonth = OrderDetail::selectRaw('DISTINCT MONTHNAME(created_at) AS monthName')->get();
