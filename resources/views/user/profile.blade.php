@@ -1,6 +1,8 @@
 @extends('templates.main')
 
 @section('content')
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
     <h1 class="text-center">Update Profile</h1>
 
     <div class="container">
@@ -11,7 +13,7 @@
                         <img width="550px" src="/image/XT-logo.png"/>
                     </div>
                     <div class="col">
-                        <form method="POST" action="{{ route('user-profile-information.update') }}">
+                        <form method="POST" action="{{ route('user-profile-information.update') }}" id="edit_profile_form">
                             @csrf
                             @method("PUT")
                             <div class="mb-3">
@@ -33,7 +35,7 @@
                                 <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" class="btn btn-primary" id="btn_edit_profile">Submit</button>
                             <a href="{{ route('user.useraddress') }}">
                                 <button type="button" class="btn btn-primary">Add New Address +</button>
                             </a>
@@ -43,4 +45,19 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $("#btn_edit_profile").click(function() {
+            if ($("#name").val() === '{{ auth()->user()->name }}' && $("#email").val() === '{{ auth()->user()->email }}') {
+                Swal.fire(
+                    'Same Input',
+                    'Please make some changes to the input to make changes.',
+                    'error'
+                )
+            } else
+                $("#edit_profile_form").submit();
+        });
+
+    </script>
 @endsection

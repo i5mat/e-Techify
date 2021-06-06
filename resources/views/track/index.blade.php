@@ -2,6 +2,7 @@
 
 @section('content')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
     <style>
         .tracking-detail {
             padding:3rem 0
@@ -259,7 +260,7 @@
                     </dl>
                     <div class="text-center">
                         <p class="lead">
-                            <button type="submit" class="btn btn-warning" style="width: 100%" id="btn_sbmit" name="btn_sbmit">Submit</button>
+                            <button type="button" class="btn btn-warning" style="width: 100%" id="btn_sbmit" name="btn_sbmit">Submit</button>
                         </p>
                     </div>
                     @endcan
@@ -272,6 +273,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         feather.replace()
 
@@ -301,20 +303,28 @@
 
         $("#btn_sbmit").click(function(e){
 
-            e.preventDefault();
+            if ($("#update_tracking").val() === '') {
+                Swal.fire(
+                    'Input NULL',
+                    'Please input all fields with relevant information',
+                    'error'
+                )
+            } else {
+                e.preventDefault();
 
-            var tracking = $("#update_tracking").val();
+                var tracking = $("#update_tracking").val();
 
-            $.ajax({
-                type:'POST',
-                url:"{{ route('track.insert.trackparcel', $recipientInfo->order_id) }}",
-                data:{update_tracking:tracking},
-                success:function(data){
-                    if ( data['success'] )
-                        location.reload();
+                $.ajax({
+                    type:'POST',
+                    url:"{{ route('track.insert.trackparcel', $recipientInfo->order_id) }}",
+                    data:{update_tracking:tracking},
+                    success:function(data){
+                        if ( data['success'] )
+                            location.reload();
 
-                }
-            });
+                    }
+                });
+            }
         });
 
         var locations = [[3.220970840314312, 101.72429559763033], [{{ $recipientInfo->longitude }}, {{ $recipientInfo->latitude }}]];

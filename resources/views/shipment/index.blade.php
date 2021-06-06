@@ -1,6 +1,8 @@
 @extends('templates.main')
 
 @section('content')
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
     <h1 class="display-2 text-center">Shipment <i class="fa fa-cubes"></i></h1>
 
     <figure class="text-center">
@@ -119,12 +121,8 @@
                                 </select>
                                 <label for="floatingSelectProduct">Select Product Quantity</label>
                             </div>
-                            <div class="form-floating">
-                                <textarea class="form-control" placeholder="Leave a comment here" id="remarkTextArea" style="height: 100px"></textarea>
-                                <label for="remarkTextArea">Remark</label>
-                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-2" style="width: 100%" id="btn_add_shipment">Add To List</button>
+                        <button type="button" class="btn btn-primary mt-2" style="width: 100%" id="btn_add_shipment">Add To List</button>
                     </div>
                 </div>
             </div>
@@ -491,6 +489,7 @@
         @endif
     @endcan
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         feather.replace();
         $.ajaxSetup({
@@ -561,35 +560,43 @@
 
         $("#btn_add_shipment").click(function(e){
 
-            e.preventDefault();
+            if ($("#product_brand :selected").text() === 'Name' || $("#SelectProduct :selected").text() === 'Products') {
+                Swal.fire(
+                    'NaN Value',
+                    'Please select input brand and product',
+                    'error'
+                )
+            } else {
+                e.preventDefault();
 
-            var user_id = {{ Auth::id() }};
-            var product_id = $("#SelectProduct").val();
-            var product_qty = $("#SelectQuantity").val();
-            var product_remark = $("#remarkTextArea").val();
+                var user_id = {{ Auth::id() }};
+                var product_id = $("#SelectProduct").val();
+                var product_qty = $("#SelectQuantity").val();
+                var product_remark = 'Please process my request. Thanks :)';
 
-            console.log(user_id)
-            console.log(parseInt(product_id))
-            console.log(parseInt(product_qty))
-            console.log(product_remark)
+                console.log(user_id)
+                console.log(parseInt(product_id))
+                console.log(parseInt(product_qty))
+                console.log(product_remark)
 
-            $.ajax({
-                type:'POST',
-                url:"http://127.0.0.1:8000/shipment/new-shipment-request/" + parseInt(product_id),
-                data:{
-                    user_id:user_id,
-                    prod_id:parseInt(product_id),
-                    prod_qty:parseInt(product_qty),
-                    prod_remark:product_remark
-                },
-                success:function(data){
-                    if ( data['success'] )
-                        location.reload();
-                    else
-                        alert('EXISTING.')
+                $.ajax({
+                    type:'POST',
+                    url:"http://127.0.0.1:8000/shipment/new-shipment-request/" + parseInt(product_id),
+                    data:{
+                        user_id:user_id,
+                        prod_id:parseInt(product_id),
+                        prod_qty:parseInt(product_qty),
+                        prod_remark:product_remark
+                    },
+                    success:function(data){
+                        if ( data['success'] )
+                            location.reload();
+                        else
+                            alert('EXISTING.')
 
-                }
-            });
+                    }
+                });
+            }
         });
 
         $("#btn_request_shipment").click(function(e){

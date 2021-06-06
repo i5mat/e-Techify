@@ -71,19 +71,19 @@
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                       aria-controls="home" aria-selected="true">To Ship</a>
+                       aria-controls="home" aria-selected="true">To Ship <span class="badge bg-secondary ms-2" style="color: white">{{ $to_ship->count() }}</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                       aria-controls="profile" aria-selected="false">Completed</a>
+                       aria-controls="profile" aria-selected="false">Completed <span class="badge bg-secondary ms-2" style="color: white">{{ $delivered->count() }}</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab"
-                       aria-controls="messages" aria-selected="false">Cancelled</a>
+                       aria-controls="messages" aria-selected="false">Cancelled <span class="badge bg-secondary ms-2" style="color: white">{{ $cancelled->count() }}</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="settings-tab" data-toggle="tab" href="#settings" role="tab"
-                       aria-controls="settings" aria-selected="false">/</a>
+                       aria-controls="settings" aria-selected="false">Extras</a>
                 </li>
             </ul>
 

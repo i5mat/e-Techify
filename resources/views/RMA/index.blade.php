@@ -1,6 +1,7 @@
 @extends('templates.main')
 
 @section('content')
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
     <h1 class="display-2 text-center">e-RMA Product <img src="/image/tool-box.png"/></h1>
 
     <figure class="text-center">
@@ -13,7 +14,7 @@
     </figure>
 
     <div class="card" style="padding: 20px 40px;">
-    <form method="POST" action="{{ route('rma.new.post.request') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('rma.new.post.request') }}" enctype="multipart/form-data" id="rma_form">
         @csrf
 
         <dl class="row">
@@ -90,12 +91,14 @@
 
         <div class="row g-2 mb-3">
             <div class="col-md">
+                <label for="product_sn" class="error"></label>
                 <div class="form-floating">
                     <input type="text" class="form-control" id="product_sn" name="product_sn" placeholder="test">
                     <label for="product_sn">Serial Number</label>
                 </div>
             </div>
             <div class="col-md">
+                <label for="product_sn_confirm" class="error"></label>
                 <div class="form-floating">
                     <input type="text" class="form-control" id="product_sn_confirm" name="product_sn_confirm" placeholder="test">
                     <label for="product_sn_confirm">Confirm Serial Number</label>
@@ -104,17 +107,62 @@
             </div>
         </div>
 
+        <label for="reason_field" class="error"></label>
         <div class="form-floating mb-3">
             <textarea class="form-control" placeholder="Leave a comment here" id="reason_field" name="reason_field" style="height: 100px"></textarea>
             <label for="reason_field">Comments</label>
         </div>
 
-        <button type="submit" class="btn btn-primary float-end" style="width: 100%" id="btn_submit_rma">Submit</button>
+        <button type="button" class="btn btn-primary float-end" style="width: 100%" id="btn_submit_rma">Submit</button>
     </form>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         myFunctions();
+
+        $("#rma_form").validate({
+            rules: {
+                proof_of_purchase_file : {
+                    required: true
+                },
+                product_sn: {
+                    required: true
+                },
+                product_sn_confirm: {
+                    required: true
+                },
+                reason_field: {
+                    required: true
+                }
+            },
+            messages : {
+                proof_of_purchase_file: {
+                    required: "Please attach proof of purchase in PDF form"
+                },
+                product_sn: {
+                    required: "Please enter serial number"
+                },
+                product_sn_confirm: {
+                    required: "Please enter serial number confirmation"
+                },
+                reason_field: {
+                    required: "Please enter reason"
+                }
+            }
+        });
+
+        $("#btn_submit_rma").click(function() {
+            if ($("#prod_brand :selected").text() === 'Name' || $("#prod_name :selected").text() === 'Products') {
+                Swal.fire(
+                    'NaN Value',
+                    'Please select input brand and product',
+                    'error'
+                )
+            } else
+                $("#rma_form").submit();
+        });
+
         var myArr = @json($myArray);
         console.log(myArr)
 

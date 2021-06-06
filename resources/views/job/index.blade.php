@@ -60,7 +60,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $("#btn_submit_job").click(function() {
-            if ($("#job_name").val() === '' && $("#job_salary").val() === '' && $("#job_loc").val() === '' && $("#job_type :selected").text() === 'Please select...') {
+            if ($("#job_name").val() === '' || $("#job_salary").val() === '' || $("#job_loc").val() === '' || $("#job_type :selected").text() === 'Please select...') {
                 Swal.fire(
                     'Input NULL',
                     'Please input all fields with relevant information',
@@ -69,6 +69,5 @@
             } else
                 $("#form_job").submit();
         });
-
     </script>
 @endsection
