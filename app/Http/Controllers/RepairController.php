@@ -66,6 +66,7 @@ class RepairController extends Controller
         $findID = Repair::find($id);
         $recipientInfo = DB::table('repairs')
             ->join('addresses', 'repairs.addresses_id', '=', 'addresses.id')
+            ->select('repairs.id', 'addresses.name', 'addresses.address', 'addresses.phone_no', 'repairs.created_at')
             ->where([
                 'repairs.id' => $findID->id
             ])

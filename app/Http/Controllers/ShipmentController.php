@@ -254,4 +254,28 @@ class ShipmentController extends Controller
 
         return response()->json(['success'=>'Shipment Approved']);
     }
+
+    public function shipmentSheet($id)
+    {
+        $findID = Shipment::find($id);
+
+        $items = DB::table('shipment_details')
+            ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
+            ->join('products', 'products.id', '=', 'shipment_details.product_id')
+            ->where([
+                'shipments.user_id' => $findID->user_id,
+                'shipments.id' => $findID->id
+            ])
+            ->get();
+
+        $recipientInfo = DB::table('shipment_details')
+            ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
+            ->where([
+                'shipments.user_id' => $findID->user_id,
+                'shipments.id' => $findID->id
+            ])
+            ->first();
+
+        return view('shipment.shipment-sheet', compact('items', 'recipientInfo'));
+    }
 }

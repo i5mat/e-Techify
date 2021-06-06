@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>RMA Job Sheet</title>
+    <title>Request Shipment #{{ request()->route('id') }}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -11,6 +11,7 @@
 
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Override some Bootstrap CDN styles - normally you should apply these through your Bootstrap variables / sass -->
     <style>
@@ -72,17 +73,33 @@
 
                         <!-- Dont' display Bill To on mobile -->
                         <span class="d-none d-md-block">
-                            <h1>RMA Request</h1>
-                            <h2>#{{ $recipientInfo->id }}</h2>
+                            <h1>Request Shipment</h1>
+                            <h2>#{{ request()->route('id') }}</h2>
                         </span>
 
-                        <h4 class="mb-0">{{ $recipientInfo->name }}</h4>
-
-                        {!! wordwrap($recipientInfo->address, 40, "<br>\n") !!} <br/><br/>
-
-                        <h5 class="mb-0 mt-3">+(60){{ $recipientInfo->phone_no }}</h5><br>
+                        Status
+                        <h2>
+                            @if($recipientInfo->status == 'Shipped')
+                                <span class="badge bg-primary" style="color: black">{{ $recipientInfo->status }}</span>
+                            @elseif($recipientInfo->status == 'Waiting Approval')
+                                <span class="badge bg-warning" style="color: black">{{ $recipientInfo->status }}</span>
+                            @elseif($recipientInfo->status == 'Approved')
+                                <span class="badge bg-success" style="color: black">{{ $recipientInfo->status }}</span>
+                            @elseif($recipientInfo->status == 'Requested')
+                                <span class="badge bg-dark" style="color: black">{{ $recipientInfo->status }}</span>
+                            @endif
+                        </h2>
+                        <br>
                         Requested On
-                        <h2>{{ date('d M Y', strtotime($recipientInfo->created_at)) }}</h2>
+                        <h2>{{ date('d M Y', strtotime($recipientInfo->created_at)) }}</h2><br>
+                        Tracking No.
+                        <h2>
+                            @if(isset($recipientInfo->tracking_no))
+                                #{{ $recipientInfo->tracking_no }}
+                            @else
+                                Not Available
+                            @endif
+                        </h2>
                     </div>
                 </div>
             </td>
@@ -90,45 +107,58 @@
         </tbody>
     </table>
 
-    <!-- Invoice items table -->
-
     <table class="table">
         <thead>
         <tr>
             <th>Summary</th>
-            <th class="text-center">Brand</th>
-            <th class="text-right">Product SKU</th>
-            <th class="text-right">Serial Number</th>
-            <th class="text-right">Date Of Purchase</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-right">Unit Price</th>
+            <th class="text-right">Price</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($rmaInfo as $i)
+        @foreach($items as $i)
         <tr>
             <td>
                 <img src="/storage/product/{{ $i->product_image_path }}" style="width:120px; height:120px;">
                 <h5 class="mb-1">{{ $i->product_name }}</h5>
                 {{ $i->product_warranty_duration }} years local distributor warranty.
             </td>
-            <td class="font-weight-bold align-middle text-center text-nowrap">{{ $i->product_brand }}</td>
-            <td class="font-weight-bold align-middle text-right text-nowrap">{{ $i->product_sn }}</td>
-            <td class="font-weight-bold align-middle text-right text-nowrap">{{ $i->sn_no }}</td>
-            <td class="font-weight-bold align-middle text-right text-nowrap">{{ $i->date_of_purchase }}</td>
-        </tr>
-        <tr>
-            <td colspan="5" class="text-right border-0 pt-4">
-                Reason<h2>{{ $i->reason }}</h2>
-            </td>
+            <td class="font-weight-bold align-middle text-center text-nowrap">x{{ $i->product_order_quantity }}</td>
+            <td class="font-weight-bold align-middle text-right text-nowrap">RM {{ number_format($i->product_price / 1) }}.00</td>
+            <td class="font-weight-bold align-middle text-right text-nowrap" id="total_per_item{{ $loop->iteration }}">{{ $i->product_price * $i->product_order_quantity }}</td>
         </tr>
         @endforeach
+        <tr>
+            <td colspan="4" class="text-right border-0 pt-4">Total <h5 id="total"></h5></td>
+        </tr>
     </table>
 
     <!-- Thank you note -->
 
-    <h5 class="text-center pt-2">
-        Please print this and include inside your parcel. Thank You!
-    </h5>
-
+    <div class="text-center">
+        Remark
+    </div>
+    <h2 class="text-center pt-2">
+        {{ $recipientInfo->remark }}
+    </h2>
 </div>
 
+<script>
+    var total_items = {{ $items->count() }};
+    var merchandise_total = 0;
+
+    for (i = 1; i <= total_items; i++) {
+        var formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'MYR',
+        });
+        var total_price_item = $("#total_per_item"+ i).text();
+
+        merchandise_total += parseInt(total_price_item);
+
+        document.getElementById('total').innerHTML = formatter.format(merchandise_total);
+        document.getElementById('total_per_item'+ i).innerHTML = formatter.format(total_price_item);
+    }
+</script>
 </body>
