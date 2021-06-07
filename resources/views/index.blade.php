@@ -1085,13 +1085,6 @@
 
             console.log(myZ);
 
-            $('.owl-carousel').owlCarousel({
-                margin:10,
-                loop:true,
-                autoWidth:true,
-                items:4
-            })
-
             Highcharts.chart('container', {
                 chart: {
                     type: 'column'
@@ -1434,6 +1427,13 @@
                 tracking_no: num
             });
         }
+
+        $('.owl-carousel').owlCarousel({
+            margin:10,
+            loop:true,
+            autoWidth:true,
+            items:4
+        })
 
         var map = new ol.Map({
             target: 'map',
