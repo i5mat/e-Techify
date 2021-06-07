@@ -987,7 +987,7 @@
                     text: 'Brand Counter Sale Per Month'
                 },
                 subtitle: {
-                    text: 'Each total brand sale per month for XT Technology'
+                    text: 'Total orders sort by brand per month for XT Technology'
                 },
                 credits: false,
                 xAxis: {
@@ -1093,7 +1093,7 @@
                     text: 'Brand Counter Sale Per Month'
                 },
                 subtitle: {
-                    text: 'Each total brand sale per month for XT Technology'
+                    text: 'Total orders sort by brand per month for XT Technology'
                 },
                 credits: false,
                 xAxis: {

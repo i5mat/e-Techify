@@ -22,7 +22,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ route('product.items.store') }}" enctype="multipart/form-data" id="insert-product-form">
+                    <form method="POST" action="{{ route('product.items.store') }}" enctype="multipart/form-data" id="insert-product-form-modal">
                         @csrf
 
                         <label for="prod_name" class="error"></label>
@@ -292,6 +292,46 @@
 
         $(document).ready(function() {
             $('#distri-product-table').DataTable();
+
+            $("#insert-product-form-modal").validate({
+                rules: {
+                    prod_name : {
+                        required: true
+                    },
+                    prod_sn: {
+                        required: true
+                    },
+                    prod_price: {
+                        required: true
+                    },
+                    prod_link: {
+                        required: true
+                    },
+                    prod_image: {
+                        required: true
+                    },
+                    prod_duration: {
+                        required: true
+                    },
+                    prod_category: {
+                        required: true
+                    },
+                    prod_brand: {
+                        required: true
+                    },
+                    prod_stock: {
+                        required: true
+                    }
+                },
+                messages : {
+                    prod_name: {
+                        required: "Please enter product name"
+                    },
+                    prod_sn: {
+                        required: "Please enter serial number",
+                    }
+                }
+            });
         });
 
         function myFunctions() {
