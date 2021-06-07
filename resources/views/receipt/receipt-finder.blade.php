@@ -14,7 +14,7 @@
 
     <div class="card">
         <div class="card-body">
-            <input class="form-control mb-3" onkeyup="myFunction()" type="text" id="myInput" placeholder="Search for names.." title="Type in a name">
+            <input class="form-control mb-3" onkeyup="myFunction()" type="text" id="myInput" placeholder="Search either order status or invoice ID" title="Type in a name">
 
             <div class="list-group mb-2" id="myUL">
                 @foreach($getAll as $gA)

@@ -340,7 +340,7 @@
                                                             <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
                                                         </span>
                                                         <span>
-                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                            <a href="{{ route('shipment.sheet', $i->id) }}" target="_blank"><i data-feather="file-text"></i></a>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -381,7 +381,7 @@
                                                             <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
                                                         </span>
                                                         <span>
-                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                            <a href="{{ route('shipment.sheet', $i->id) }}" target="_blank"><i data-feather="file-text"></i></a>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -422,7 +422,7 @@
                                                             <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
                                                         </span>
                                                         <span>
-                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                            <a href="{{ route('shipment.sheet', $i->id) }}" target="_blank"><i data-feather="file-text"></i></a>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -463,7 +463,7 @@
                                                             <a href="{{ route('shipment.details', $i->id) }}"><i data-feather="eye"></i></a>
                                                         </span>
                                                         <span>
-                                                            <a href="#" target="_blank"><i data-feather="file-text"></i></a>
+                                                            <a href="{{ route('shipment.sheet', $i->id) }}" target="_blank"><i data-feather="file-text"></i></a>
                                                         </span>
                                                     </div>
                                                 </div>

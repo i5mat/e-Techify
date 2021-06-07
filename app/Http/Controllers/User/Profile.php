@@ -172,9 +172,8 @@ class Profile extends Controller
                 'getCartTotal', 'getRMATotal', 'getConfirmOrder', 'myArray', 'rmaInfoReseller', 'findMonth',
                 'getOrderDetail', 'getConfirmOrderMonthly', 'getDataDistributor', 'getTotalSold', 'getRMA',
                 'getPieChartData', 'getCustTotalSpend', 'getCustTotalOrder', 'getTotalSalesReseller'));
-        }
-
-        dd('LOL?! ni utk user je.');
+        } else
+            return view('invalid-user');
     }
 
     public function userAddressIndex()
