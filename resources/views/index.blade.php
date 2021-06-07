@@ -2,6 +2,8 @@
 
 @section('content')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
     <style>
         .btn-outline-dark {
             border-radius: 35px;
@@ -260,81 +262,78 @@
                         <h6 class="m-0" style="font-weight: bold">Job Offerings</h6>
                     </div>
                     <div class="card-body border-3 border-bottom border-warning">
-                        <div class="row g-1">
-                            @if($jobInfo->count() == 0)
-                                <h1 class="display-6 text-center">Please insert job in e-Job to be advertised in this area.</h1>
-                            @endif
-
+                        <div class="owl-carousel owl-theme">
                             @foreach($jobInfo as $ji)
-                                <div class="col-md-3">
-                                    <div class="card p-2" style="border: none">
-                                        <div class="text-right badge bg-warning"><small
-                                                class="lead">{{ $ji->job_type }}</small></div>
-                                        <div class="text-center mt-2 p-3"><img src="/image/XT-logo.png" width="100"
-                                                                               height="65"/> <span
-                                                class="d-block font-weight-bold">{{ $ji->job_name }}</span>
-                                            <span @if($ji->status == 'Not Occupied') class="badge bg-primary mt-2"
-                                                  @else class="badge bg-success mt-2"
-                                                  @endif style="color: white">{{ $ji->status }}</span>
-                                            <hr>
-                                            <span>{{ $ji->name }}</span>
-                                            <div class="d-flex flex-row align-items-center justify-content-center"><i
-                                                    class="fa fa-map-marker"></i> <small
-                                                    class="mx-1">{{ $ji->job_location }}</small></div>
-                                            <div class="d-flex justify-content-between mt-3">
-                                                <span>RM {{ $ji->job_salary }}</span>
+                                <div class="item" style="width:307px">
+                                    <div class="col">
+                                        <div class="card p-2 mb-3 ms-1" style="border: none">
+                                            <div class="text-right badge bg-warning"><small
+                                                    class="lead">{{ $ji->job_type }}</small></div>
+                                            <div class="text-center mt-2 p-3"> <i class="fa fa-child fa-4x"></i> <span
+                                                    class="d-block font-weight-bold">{{ $ji->job_name }}</span>
+                                                <span @if($ji->status == 'Not Occupied') class="badge bg-primary mt-2"
+                                                      @else class="badge bg-success mt-2"
+                                                      @endif style="color: white">{{ $ji->status }}</span>
+                                                <hr>
+                                                <span>{{ $ji->name }}</span>
+                                                <div class="d-flex flex-row align-items-center justify-content-center"><i
+                                                        class="fa fa-map-marker"></i> <small
+                                                        class="mx-1">{{ $ji->job_location }}</small></div>
+                                                <div class="d-flex justify-content-between mt-3">
+                                                    <span>RM {{ $ji->job_salary }}</span>
 
-                                                @if($ji->status == 'Occupied')
-                                                    @can('is-reseller-distributor')
-                                                        <button
-                                                            type="button"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#updateJobStatusModal"
-                                                            data-jobname="{{ $ji->job_name }}"
-                                                            data-jobid="{{ $ji->job_id }}"
-                                                            data-jobstats="{{ $ji->status }}"
-                                                            class="btn btn-lg btn-outline-primary"
-                                                        >Update Status
-                                                        </button>
-                                                    @endcan
-                                                    @can('is-user')
-                                                        <button type="button" disabled class="btn btn-lg btn-outline-dark">Apply</button>
-                                                    @endcan
-                                                @elseif ($ji->status == 'Not Occupied')
-                                                    @can('is-user')
-                                                        <button
-                                                            type="button"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#jobModal"
-                                                            data-usrname="{{ $ji->name }}"
-                                                            data-usremail="{{ $ji->email }}"
-                                                            data-jobloc="{{ $ji->job_location }}"
-                                                            data-jobsalary="{{ $ji->job_salary }}"
-                                                            data-jobname="{{ $ji->job_name }}"
-                                                            data-jobid="{{ $ji->job_id }}"
-                                                            data-jobuserid="{{ Auth::id() }}"
-                                                            class="btn btn-lg btn-outline-dark"
-                                                        >Apply
-                                                        </button>
-                                                    @else
-                                                        <button
-                                                            type="button"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#updateJobModal"
-                                                            data-usrname="{{ $ji->name }}"
-                                                            data-usremail="{{ $ji->email }}"
-                                                            data-jobloc="{{ $ji->job_location }}"
-                                                            data-jobsalary="{{ $ji->job_salary }}"
-                                                            data-jobname="{{ $ji->job_name }}"
-                                                            data-jobid="{{ $ji->job_id }}"
-                                                            data-joboccupy="{{ $ji->occupied_by }}"
-                                                            data-jobuserid="{{ Auth::id() }}"
-                                                            data-jobtype="{{ $ji->job_type }}"
-                                                            class="btn btn-lg btn-outline-dark"
-                                                        >View
-                                                        </button>
-                                                    @endcan
-                                                @endif
+                                                    @if($ji->status == 'Occupied')
+                                                        @can('is-reseller-distributor')
+                                                            <button
+                                                                type="button"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#updateJobStatusModal"
+                                                                data-jobname="{{ $ji->job_name }}"
+                                                                data-jobid="{{ $ji->job_id }}"
+                                                                data-jobstats="{{ $ji->status }}"
+                                                                class="btn btn-lg btn-outline-primary"
+                                                            >Update Status
+                                                            </button>
+                                                        @endcan
+                                                        @can('is-user')
+                                                            <button type="button" disabled class="btn btn-lg btn-outline-dark">Apply</button>
+                                                        @endcan
+                                                    @elseif ($ji->status == 'Not Occupied')
+                                                        @can('is-user')
+                                                            <button
+                                                                type="button"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#jobModal"
+                                                                data-usrname="{{ $ji->name }}"
+                                                                data-usremail="{{ $ji->email }}"
+                                                                data-jobloc="{{ $ji->job_location }}"
+                                                                data-jobsalary="{{ $ji->job_salary }}"
+                                                                data-jobname="{{ $ji->job_name }}"
+                                                                data-jobid="{{ $ji->job_id }}"
+                                                                data-jobuserid="{{ Auth::id() }}"
+                                                                class="btn btn-lg btn-outline-dark"
+                                                            >Apply
+                                                            </button>
+                                                        @else
+                                                            <button
+                                                                type="button"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#updateJobModal"
+                                                                data-usrname="{{ $ji->name }}"
+                                                                data-usremail="{{ $ji->email }}"
+                                                                data-jobloc="{{ $ji->job_location }}"
+                                                                data-jobsalary="{{ $ji->job_salary }}"
+                                                                data-jobname="{{ $ji->job_name }}"
+                                                                data-jobid="{{ $ji->job_id }}"
+                                                                data-joboccupy="{{ $ji->occupied_by }}"
+                                                                data-jobuserid="{{ Auth::id() }}"
+                                                                data-jobtype="{{ $ji->job_type }}"
+                                                                class="btn btn-lg btn-outline-dark"
+                                                            >View
+                                                            </button>
+                                                        @endcan
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -949,6 +948,7 @@
 
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
     <script src="//www.tracking.my/track-button.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script type="application/javascript">
         feather.replace();
 
@@ -1084,6 +1084,13 @@
             var myZ = @json($getTotalSalesReseller);
 
             console.log(myZ);
+
+            $('.owl-carousel').owlCarousel({
+                margin:10,
+                loop:true,
+                autoWidth:true,
+                items:4
+            })
 
             Highcharts.chart('container', {
                 chart: {
