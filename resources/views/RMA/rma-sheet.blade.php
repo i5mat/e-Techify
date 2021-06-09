@@ -63,8 +63,8 @@
                         @can('is-distributor')
                             <h2 class="mb-1">{{ $distriAddress->name }}</h2>
                             {!! wordwrap($distriAddress->address, 40, "<br>\n") !!} <br/><br/>
-                            <b>+(60) {{ $distriAddress->phone_no }}</b><br>
-                            exclusively by <strong>xmiryna.com.my</strong>
+                            <b>+(60) {{ $distriAddress->phone_no }}</b><br><br>
+                            exclusively by <h2>Xmiryna Technology</h2>
                         @endcan
                         @can ('is-reseller')
                             <h2 class="mb-1">Xmiryna Technology [SA0546866-M]</h2>
