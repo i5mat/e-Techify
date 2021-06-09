@@ -4,31 +4,49 @@
 
     @can('logged-in')
         <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
-        <div class="row mb-3">
-            <div class="col">
-                <div class="form-floating">
-                    <select class="form-select" id="filterProductBrand" aria-label="Floating label select example" style="height: 60px">
-                        <option selected disabled>Please select...</option>
-                        @foreach($getProducts as $getProduct)
-                            <option value="{{ $getProduct->product_brand }}">{{ $getProduct->product_brand }}</option>
-                        @endforeach
-                    </select>
-                    <label for="filterProductBrand">Select Brand</label>
+
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h1 class="display-2 text-center">Shop <i class="fa fa-laptop"></i></h1>
+                    <figure class="text-center">
+                        <blockquote class="blockquote">
+                            <p>A well-known quote, contained in a blockquote element.</p>
+                        </blockquote>
+                        <figcaption class="blockquote-footer">
+                            Someone famous in <cite title="Source Title">Source Title</cite>
+                        </figcaption>
+                    </figure>
                 </div>
-            </div>
-            <div class="col">
-                <div class="form-floating">
-                    <select class="form-select" id="filterProductPrice" aria-label="Floating label select example" style="height: 60px">
-                        <option selected disabled>Please select...</option>
-                        <option value="asc">Ascending</option>
-                        <option value="desc">Descending</option>
-                    </select>
-                    <label for="filterProductPrice">Select Price</label>
+                <div class="col">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <div class="form-floating">
+                                <select class="form-select" id="filterProductBrand" aria-label="Floating label select example" style="height: 60px">
+                                    <option selected disabled>Please select...</option>
+                                    @foreach($getProducts as $getProduct)
+                                        <option value="{{ $getProduct->product_brand }}">{{ $getProduct->product_brand }}</option>
+                                    @endforeach
+                                </select>
+                                <label for="filterProductBrand">Select Brand</label>
+                            </div>
+                            <button class="btn btn-warning mt-2 float-start" style="width: 100%" id="btn_apply_filter">Apply Filters</button>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating">
+                                <select class="form-select" id="filterProductPrice" aria-label="Floating label select example" style="height: 60px">
+                                    <option selected disabled>Please select...</option>
+                                    <option value="asc">Ascending</option>
+                                    <option value="desc">Descending</option>
+                                </select>
+                                <label for="filterProductPrice">Select Price</label>
+                            </div>
+                            <button class="btn btn-primary mt-2 float-start" style="width: 100%" id="btn_reset_filter">Reset</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <button class="btn btn-warning mb-2" style="width: 100%" id="btn_apply_filter">Apply Filters</button>
 
         <!-- Modal -->
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -151,6 +169,10 @@
                     else if (firstSelection !== 'Please select...')
                         window.location.href = "http://127.0.0.1:8000/product/items?product_brand=" + firstSelection;
             }
+        });
+
+        $( "#btn_reset_filter" ).click(function() {
+            window.location.href = "http://127.0.0.1:8000/product/items";
         });
 
         $('#staticBackdrop').on('show.bs.modal', function (event) {

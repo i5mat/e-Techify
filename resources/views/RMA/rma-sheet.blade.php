@@ -60,12 +60,26 @@
                         <img class="logo img-fluid mb-3" src="/image/XT-logo.png" style="max-height: 140px;"/>
                         <br>
 
-                        <h2 class="mb-1">Xmiryna Technology [SA0546866-M]</h2>
-                        No. 79 Jalan Taman Melati 1,<br>
-                        Taman Melati, Setapak,<br>
-                        53100, Kuala Lumpur<br>
-                        xmiryna.tech@outlook.com / <b>+(60) 17-217 8319</b><br>
-                        <strong>xmiryna.com.my</strong>
+                        @can('is-distributor')
+                            <h2 class="mb-1">{{ $distriAddress->name }}</h2>
+                            {!! wordwrap($distriAddress->address, 40, "<br>\n") !!} <br/><br/>
+                            <b>+(60) {{ $distriAddress->phone_no }}</b><br>
+                            exclusively by <strong>xmiryna.com.my</strong>
+                        @endcan
+                        @can ('is-reseller')
+                            <h2 class="mb-1">Xmiryna Technology [SA0546866-M]</h2>
+                            No. 79 Jalan Taman Melati 1,<br>
+                            Taman Melati, Setapak,<br>
+                            53100, Kuala Lumpur<br>
+                            xmiryna.tech@outlook.com / <b>+(60) 17-217 8319</b><br>
+                            <strong>xmiryna.com.my</strong>
+                        @endcan
+                        @can ('is-user')
+                            <h2 class="mb-1">{{ $userAddress->name }}</h2>
+                            {!! wordwrap($userAddress->address, 40, "<br>\n") !!} <br/><br/>
+                            <b>+(60) {{ $userAddress->phone_no }}</b><br><br>
+                            exclusively by <h2>Xmiryna Technology</h2>
+                        @endcan
                     </div>
 
                     <div class="col text-center text-md-right">

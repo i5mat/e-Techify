@@ -1,6 +1,8 @@
 @extends('templates.main')
 
 @section('content')
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
     <h1 class="display-2 text-center">Insert Address <img src="/image/locations.png"/></h1>
 
     <figure class="text-center">
@@ -87,6 +89,7 @@
                     <th scope="col">Address</th>
                     <th scope="col">Created On</th>
                     <th scope="col">Action</th>
+                    <th scope="col">Default</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -117,6 +120,17 @@
                                 @method("DELETE")
                             </form>
                         </td>
+                        <td>
+                            @if($i->default_status == 1)
+                                <button type="button" class="btn btn-warning" id="btn_default{{ $loop->iteration }}" data-id="{{ $i->id }}">
+                                    Update
+                                </button>
+                            @elseif ($countActive == 0)
+                                <button type="button" class="btn btn-primary" id="btn_default{{ $loop->iteration }}" data-id="{{ $i->id }}">
+                                    Default
+                                </button>
+                            @endif
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -126,7 +140,7 @@
 
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7jC89-qmnCWo2FSQy8zg0LxOvNlncp9I&libraries=places&sensor=false"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).ready(function() {
             $("#insert-address-form").validate({
@@ -179,11 +193,52 @@
             });
         });
 
+        var total_items = {{ $userinfo->count() }};
+        for (i = 1; i <= total_items; i++) {
+            $("#btn_default"+i).click(function (e) {
+
+                e.preventDefault();
+
+                var id = $(this).data("id");
+                var token = $("meta[name='csrf-token']").attr("content");
+
+                $.ajax({
+                    type: 'PATCH',
+                    url: "http://127.0.0.1:8000/user/updateAddressStatus/" + id,
+                    data: {
+                        "id": id,
+                        "_token": token,
+                    },
+                    success: function (data) {
+                        if (data['success']) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Status Updated',
+                                text: 'Your default status have been updated',
+                                confirmButtonText: `Click me!`,
+                            }).then((result) => {
+                                /* Read more about isConfirmed, isDenied below */
+                                if (result.isConfirmed) {
+                                    location.reload();
+                                }
+                            })
+                        }
+                        else
+                            alert('EXISTING.')
+
+                    }
+                });
+            });
+        }
+
         google.maps.event.addDomListener(window, 'load', initialize);
 
         function initialize() {
+            var options = {
+                componentRestrictions: {country: "MY"}
+            };
             var input = document.getElementById('user_address');
-            var autocomplete = new google.maps.places.Autocomplete(input);
+            var autocomplete = new google.maps.places.Autocomplete(input, options);
             autocomplete.addListener('place_changed', function() {
                 var place = autocomplete.getPlace();
                 console.log(place)

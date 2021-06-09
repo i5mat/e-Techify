@@ -182,7 +182,27 @@ class Profile extends Controller
             ->where('user_id', Auth::id())
             ->get();
 
-        return view('user.address', compact('userinfo'));
+        $countActive = Address::where('default_status', 1)->where('user_id', Auth::id())->count();
+
+        return view('user.address', compact('userinfo', 'countActive'));
+    }
+
+    public function userAddressUpdate($id, Request $request)
+    {
+        $getAddress = Address::find($id);
+
+        if ($getAddress->default_status == 1)
+            $getAddress->default_status = 0;
+        elseif ($getAddress->default_status == 0)
+            $getAddress->default_status = 1;
+
+        $getAddress->save();
+
+        $request->session()->flash('success', 'Address default status updated');
+
+        return response()->json([
+            'success' => 'Address default status updated'
+        ]);
     }
 
     public function addAddress(Request $request)

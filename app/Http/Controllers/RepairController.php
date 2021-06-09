@@ -80,7 +80,20 @@ class RepairController extends Controller
             ])
             ->get();
 
-        return view('rma.rma-sheet', compact('recipientInfo', 'rmaInfo'));
+        $distriAddress = Address::where('user_id', '=', Auth::id())->where('default_status', '=', 1)->first();
+
+        $userAddress = DB::table('repairs')
+            ->join('products', 'repairs.product_id', '=', 'products.id')
+            ->join('users', 'products.user_id', '=', 'users.id')
+            ->join('addresses', 'users.id', '=', 'addresses.user_id')
+            ->where([
+                'repairs.id' => $findID->id
+            ])
+            ->first();
+
+        //dd($userAddress);
+
+        return view('rma.rma-sheet', compact('recipientInfo', 'rmaInfo', 'distriAddress', 'userAddress'));
     }
 
     public function updateRMA($id, Request $request)

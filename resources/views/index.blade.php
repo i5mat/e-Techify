@@ -952,6 +952,13 @@
     <script type="application/javascript">
         feather.replace();
 
+        $('.owl-carousel').owlCarousel({
+            margin:10,
+            loop:true,
+            autoWidth:true,
+            items:2,
+        });
+
         var formatter = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'MYR',
@@ -960,6 +967,18 @@
         @can('is-user')
             var test3 = $("#total_cust_spend").text();
             document.getElementById('total_cust_spend').innerHTML = formatter.format(test3);
+
+        <!--Start of Tawk.to Script-->
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/60befaa64ae6dd0abe7d09f4/1f7l0673b';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+        <!--End of Tawk.to Script-->
         @endcan
 
         @can('is-reseller')
@@ -1427,13 +1446,6 @@
                 tracking_no: num
             });
         }
-
-        $('.owl-carousel').owlCarousel({
-            margin:10,
-            loop:true,
-            autoWidth:true,
-            items:4
-        })
 
         var map = new ol.Map({
             target: 'map',

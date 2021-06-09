@@ -29,7 +29,7 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
     Route::get('address', [App\Http\Controllers\User\Profile::class, 'userAddressIndex'])->name('useraddress');
     Route::post('addUserAddress', [App\Http\Controllers\User\Profile::class, 'addAddress'])->name('userinsertaddress');
     Route::delete('delAddress/{id}', [App\Http\Controllers\User\Profile::class, 'destroyAddress'])->name('userdel_address');
-
+    Route::patch('updateAddressStatus/{id}', [App\Http\Controllers\User\Profile::class, 'userAddressUpdate'])->name('update.status');
 });
 
 // Admin Routes
