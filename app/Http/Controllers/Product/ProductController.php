@@ -158,9 +158,9 @@ class ProductController extends Controller
             $order_details->save();
         }
 
-        $request->session()->flash('success', 'You have order -> Product '.$prodCart->product_name);
+        $request->session()->flash('success', 'You have added '.$prodCart->product_name. ' to your cart!');
 
-        return redirect(route('product.manageCart'));
+        return redirect()->back();
     }
 
     public function store(Request $request)

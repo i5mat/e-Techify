@@ -2,7 +2,9 @@
 
 @section('content')
 
-    <h1 class="text-center mt-5">Login</h1>
+    <h1 class="text-center mt-5">
+        <i class="fa fa-users fa-2x"></i>
+    </h1>
     <div class="card mx-auto" style="padding: 20px 30px; width: 50%;">
         <form method="POST" action="{{ route('login') }}">
             @csrf
@@ -13,7 +15,7 @@
                 @error('email')
                 <span class="invalid-feedback" role="alert">
                         {{ $message }}
-                    </span>
+                </span>
                 @enderror
             </div>
             <div class="mb-3">
@@ -26,7 +28,7 @@
                 @enderror
             </div>
             Forgotten your password? <a href="{{ route('password.request') }}">Reset it here.</a>
-            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px">Login</button>
+            <button type="submit" class="btn btn-primary rounded-pill" style="width: 100%; margin-top: 10px">Login</button>
         </form>
     </div>
 

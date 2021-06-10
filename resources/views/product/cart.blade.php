@@ -3,7 +3,7 @@
 @section('content')
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 
-    <h1 class="display-2 text-center">Your Cart <img src="/image/carts.png"/></h1>
+    <h1 class="display-2 text-center">Cart <img src="/image/carts.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">

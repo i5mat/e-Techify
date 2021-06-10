@@ -6,6 +6,7 @@
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
+        <link rel="shortcut icon" type="image/x-icon" href="/image/online-sale.png" />
         <title>e-Techify</title>
 
         <!-- Styles -->
