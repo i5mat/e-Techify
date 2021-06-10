@@ -321,10 +321,32 @@ class OrderController extends Controller
         ]);
 
         $insertTracking->save();
+        $orderInfo = DB::table('order_details')
+            ->select('order_details.order_id', 'products.product_image_path',
+                'products.product_name', 'products.product_price', 'order_details.product_order_quantity',
+                'orders.created_at', 'orders.id AS orders')
+            ->join('orders', 'orders.id', '=', 'order_details.order_id')
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->where([
+                'orders.user_id' => $findOrderID->user_id,
+                'orders.order_status' => $findOrderID->order_status,
+                'order_details.order_id' => $findOrderID->id
+            ])
+            ->get();
 
-        //dd($insertData, $findOrderID, $insertTracking);
+        $recipientInfo = DB::table('confirm_orders')
+            ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
+            ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
+            ->where([
+                'orders.user_id' => $findOrderID->user_id,
+                'orders.order_status' => $findOrderID->order_status,
+                'orders.id' => $findOrderID->id
+            ])
+            ->first();
 
-        //return view('order.thankyou');
+        $getData = Order::where('user_id', Auth::id())->get();
+
+        Mail::to("ismatazmy10@gmail.com")->send(new ConfirmOrderMail($getData, $orderInfo, $recipientInfo));
         return response()->json(['success'=>'yey!', $request->except(['_token'])]);
     }
 
@@ -361,22 +383,45 @@ class OrderController extends Controller
             ->where('orders.order_status', '!=','Cancelled')
             ->get();
 
-//        $getName = Order::join('users', 'users.id', '=', 'orders.user_id')
-//            ->where('id', $getAll->order_id)
-//            ->first();
-
         return view('receipt.receipt-finder', compact('getAll'));
     }
 
-    public function sendEmail()
+    public function sendEmail($id)
     {
-        $details = [
-            'title' => 'Mail from e-Techify',
-            'body' => 'This is for testing mail!'
-        ];
+        $findID = Order::find($id);
 
-        //Mail::to("ismatazmy10@gmail.com")->send(new ConfirmOrderMail($details));
-        return new ConfirmOrderMail();
+//        $details = [
+//            'title' => 'Mail from e-Techify',
+//            'body' => 'This is for testing mail!'
+//        ];
+
+        $orderInfo = DB::table('order_details')
+            ->select('order_details.order_id', 'products.product_image_path',
+                'products.product_name', 'products.product_price', 'order_details.product_order_quantity',
+                'orders.created_at', 'orders.id AS orders')
+            ->join('orders', 'orders.id', '=', 'order_details.order_id')
+            ->join('products', 'products.id', '=', 'order_details.product_id')
+            ->where([
+                'orders.user_id' => $findID->user_id,
+                'orders.order_status' => $findID->order_status,
+                'order_details.order_id' => $findID->id
+            ])
+            ->get();
+
+        $recipientInfo = DB::table('confirm_orders')
+            ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
+            ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
+            ->where([
+                'orders.user_id' => $findID->user_id,
+                'orders.order_status' => $findID->order_status,
+                'orders.id' => $findID->id
+            ])
+            ->first();
+
+        $getData = Order::where('user_id', Auth::id())->get();
+
+        //Mail::to("ismatazmy10@gmail.com")->send(new ConfirmOrderMail($getData, $orderInfo, $recipientInfo));
+        return new ConfirmOrderMail($getData, $orderInfo, $recipientInfo);
     }
 
     public function airwayBill($id)
