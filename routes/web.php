@@ -68,6 +68,7 @@ Route::prefix('order')->middleware(['auth', 'verified'])->name('order.')->group(
     Route::patch('purchase/delete/{id}', [App\Http\Controllers\Order\OrderController::class, 'cancelOrder'])->name('order.cancel');
     Route::post('paypal-test', [App\Http\Controllers\Order\OrderController::class, 'payPalTest'])->name('paypal.test');
     Route::get('receipt-finder', [App\Http\Controllers\Order\OrderController::class, 'receiptFinder'])->name('find-receipt');
+    Route::get('confirm-order-email', [App\Http\Controllers\Order\OrderController::class, 'sendEmail'])->name('email');
 });
 
 Route::prefix('tracking')->middleware(['auth', 'verified'])->name('track.')->group(function () {

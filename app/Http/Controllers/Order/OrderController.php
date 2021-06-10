@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Order;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ConfirmOrderMail;
+use App\Mail\TestMail;
 use App\Models\Address;
 use App\Models\ConfirmOrder;
 use App\Models\DistributorProduct;
@@ -15,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Facades\Image;
 use Milon\Barcode\DNS1D;
 use Milon\Barcode\DNS2D;
@@ -363,6 +366,17 @@ class OrderController extends Controller
 //            ->first();
 
         return view('receipt.receipt-finder', compact('getAll'));
+    }
+
+    public function sendEmail()
+    {
+        $details = [
+            'title' => 'Mail from e-Techify',
+            'body' => 'This is for testing mail!'
+        ];
+
+        //Mail::to("ismatazmy10@gmail.com")->send(new ConfirmOrderMail($details));
+        return new ConfirmOrderMail();
     }
 
     public function airwayBill($id)
