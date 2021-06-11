@@ -110,66 +110,172 @@
         @endcan
 
         @can('is-distributor')
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body border-3 border-start border-warning shadow h-100">
-                        <div class="row g-0 align-items-center">
-                            <div class="col" style="margin-right: 2px">
-                                <div class="text-sm text-warning text-uppercase mb-1" style="font-weight: bold">
-                                    Total RMA
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body border-3 border-start border-warning shadow h-100">
+                            <div class="row g-0 align-items-center">
+                                <div class="col" style="margin-right: 2px">
+                                    <div class="text-sm text-warning text-uppercase mb-1" style="font-weight: bold">
+                                        Total RMA
+                                    </div>
+                                    <div class="h5 mb-0" style="font-weight: bold">{{ $getRMA }}</div>
                                 </div>
-                                <div class="h5 mb-0" style="font-weight: bold">{{ $getRMA }}</div>
+                                <div class="col-auto">
+                                    <i class="fa fa-wrench fa-2x"></i>
+                                </div>
                             </div>
-                            <div class="col-auto">
-                                <i class="fa fa-wrench fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body border-3 border-start border-danger shadow h-100">
+                            <div class="row g-0 align-items-center">
+                                <div class="col" style="margin-right: 2px">
+                                    <div class="text-sm text-danger text-uppercase mb-1" style="font-weight: bold">
+                                        Total Products Sold
+                                    </div>
+                                    <div class="h5 mb-0" style="font-weight: bold">{{ $getTotalSold }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fa fa-cubes fa-2x"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card">
-                    <div class="card-body border-3 border-start border-danger shadow h-100">
-                        <div class="row g-0 align-items-center">
-                            <div class="col" style="margin-right: 2px">
-                                <div class="text-sm text-danger text-uppercase mb-1" style="font-weight: bold">
-                                    Total Products Sold
+
+            <div class="row mt-4">
+                <div class="col-xl-12 col-lg-11">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">All RMA Requests</h6>
+                            {{ $rmaInfoDistri->links() }}
+                        </div>
+                        <div class="card-body border-3 border-bottom border-warning">
+                            @if($rmaInfoDistri->count() == 0)
+                                <div class="row text-center">
+                                    <h1 class="display-6">RMA request from customer will be shown here.</h1>
                                 </div>
-                                <div class="h5 mb-0" style="font-weight: bold">{{ $getTotalSold }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="fa fa-cubes fa-2x"></i>
-                            </div>
+                            @else
+                            <!-- START HERE -->
+                                @foreach($rmaInfoDistri as $rma)
+                                    <div class="row">
+                                        <div class="col-12 col-md-4">
+                                            <div class="p-3 d-flex align-items-center">
+                                                <div class="mr-3">
+                                                    <img src="/storage/product/{{ $rma->product_image_path }}"
+                                                         width="100" height="100"/>
+                                                </div>
+
+                                                <div class="mx-3">
+                                                    <h5>{{ $rma->product_name }}</h5>
+                                                    <div class="text-muted monospace">
+                                                        {{ $rma->product_sn }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="text-center">
+                                                <div>
+                                                    Serial Number
+                                                </div>
+                                                <div class="monospace text-primary">
+                                                    {{ $rma->sn_no }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="text-center">
+                                                <div>
+                                                    Status
+                                                </div>
+                                                <div class="text-primary">
+                                                    {{ $rma->status }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="text-center">
+                                                <div>
+                                                    Tracking No.
+                                                </div>
+                                                <div class="text-primary">
+                                                    @if($rma->tracking_no != null)
+                                                        <a class="btn btn-outline-dark" style="font-size: 15px"
+                                                           onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                                                    @else
+                                                        Not Available
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="p-3 text-center">
+                                                <div class="text-primary monospace">
+                                                    <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
+                                                       class="btn btn-sm btn-primary">RMA Request Form</a>
+                                                    <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                                                        <button class="btn"><i class="fa fa-download"></i> Download File
+                                                        </button>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        data-myrmaid="{{ $rma->id }}"
+                                                        data-myprodpic="{{ $rma->product_image_path }}"
+                                                        data-myrmastatus="{{ $rma->status }}"
+                                                        data-myrmareason="{{ $rma->reason }}"
+                                                        data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
+                                                        data-mytrack="{{ $rma->tracking_no }}"
+                                                        data-myresolution="{{ $rma->resolve_solution }}"
+                                                        data-myreceive="{{ $rma->receive_at }}"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#staticRMA">
+                                                        @can('is-distributor')
+                                                            <button class="btn btn-sm btn-warning"><i
+                                                                    data-feather="alert-triangle" class="feather-16"
+                                                                    style="margin-bottom: 5px"></i> Update RMA Status
+                                                            </button>
+                                                        @endcan
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            <!-- END HERE -->
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row" style="margin-top: 10px">
-            <div class="col-xl-8 col-lg-7">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0" style="font-weight: bold">Earnings Overview</h6>
+            <div class="row" style="margin-top: 10px">
+                <div class="col-xl-8 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">Earnings Overview</h6>
+                        </div>
+                        <div class="card-body border-3 border-bottom border-warning">
+                            <div id="graph"></div>
+                        </div>
                     </div>
-                    <div class="card-body border-3 border-bottom border-warning">
-                        <div id="graph"></div>
+                </div>
+
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">Revenue Sources</h6>
+                        </div>
+                        <div class="card-body pt-4 pb-2 border-3 border-bottom border-warning">
+                            <div id="graph2"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="col-xl-4 col-lg-5">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0" style="font-weight: bold">Revenue Sources</h6>
-                    </div>
-                    <div class="card-body pt-4 pb-2 border-3 border-bottom border-warning">
-                        <div id="graph2"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
         @endcan
 
         @can('is-reseller')
@@ -222,6 +328,112 @@
                                     <i class="fa fa-wrench fa-2x"></i>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-xl-12 col-lg-11">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">All RMA Requests</h6>
+                            {{ $rmaInfoReseller->links() }}
+                        </div>
+                        <div class="card-body border-3 border-bottom border-warning">
+                            @if($rmaInfoReseller->count() == 0)
+                                <div class="row text-center">
+                                    <h1 class="display-6">RMA request from customer will be shown here.</h1>
+                                </div>
+                            @else
+                            <!-- START HERE -->
+                                @foreach($rmaInfoReseller as $rma)
+                                    <div class="row">
+                                        <div class="col-12 col-md-4">
+                                            <div class="p-3 d-flex align-items-center">
+                                                <div class="mr-3">
+                                                    <img src="/storage/product/{{ $rma->product_image_path }}"
+                                                         width="100" height="100"/>
+                                                </div>
+
+                                                <div class="mx-3">
+                                                    <h5>{{ $rma->product_name }}</h5>
+                                                    <div class="text-muted monospace">
+                                                        {{ $rma->product_sn }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="text-center">
+                                                <div>
+                                                    Serial Number
+                                                </div>
+                                                <div class="monospace text-primary">
+                                                    {{ $rma->sn_no }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="text-center">
+                                                <div>
+                                                    Status
+                                                </div>
+                                                <div class="text-primary">
+                                                    {{ $rma->status }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="text-center">
+                                                <div>
+                                                    Tracking No.
+                                                </div>
+                                                <div class="text-primary">
+                                                    @if($rma->tracking_no != null)
+                                                        <a class="btn btn-outline-dark" style="font-size: 15px"
+                                                           onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                                                    @else
+                                                        Not Available
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+                                            <div class="p-3 text-center">
+                                                <div class="text-primary monospace">
+                                                    <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
+                                                       class="btn btn-sm btn-primary">RMA Request Form</a>
+                                                    <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                                                        <button class="btn"><i class="fa fa-download"></i> Download File
+                                                        </button>
+                                                    </a>
+                                                    <a
+                                                        href="#"
+                                                        data-myrmaid="{{ $rma->id }}"
+                                                        data-myprodpic="{{ $rma->product_image_path }}"
+                                                        data-myrmastatus="{{ $rma->status }}"
+                                                        data-myrmareason="{{ $rma->reason }}"
+                                                        data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
+                                                        data-mytrack="{{ $rma->tracking_no }}"
+                                                        data-myresolution="{{ $rma->resolve_solution }}"
+                                                        data-myreceive="{{ $rma->receive_at }}"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#staticRMA">
+                                                        @can('is-reseller-distributor')
+                                                            <button class="btn btn-sm btn-warning"><i
+                                                                    data-feather="alert-triangle" class="feather-16"
+                                                                    style="margin-bottom: 5px"></i> Update RMA Status
+                                                            </button>
+                                                        @endcan
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            <!-- END HERE -->
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -343,224 +555,6 @@
             </div>
 
             {{ $rmaInfo->links() }}
-        @endcan
-
-        @can('is-distributor')
-            <div class="row">
-                <div class="col-xl-12 col-lg-11">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">All RMA Requests</h6>
-                        </div>
-                        <div class="card-body border-3 border-bottom border-warning">
-                            @if($rmaInfoDistri->count() == 0)
-                                <div class="row text-center">
-                                    <h1 class="display-6">RMA request from customer will be shown here.</h1>
-                                </div>
-                            @else
-                            <!-- START HERE -->
-                                @foreach($rmaInfoDistri as $rma)
-                                    <div class="row">
-                                        <div class="col-12 col-md-4">
-                                            <div class="p-3 d-flex align-items-center">
-                                                <div class="mr-3">
-                                                    <img src="/storage/product/{{ $rma->product_image_path }}"
-                                                         width="100" height="100"/>
-                                                </div>
-
-                                                <div class="mx-3">
-                                                    <h5>{{ $rma->product_name }}</h5>
-                                                    <div class="text-muted monospace">
-                                                        {{ $rma->product_sn }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                                            <div class="text-center">
-                                                <div>
-                                                    Serial Number
-                                                </div>
-                                                <div class="monospace text-primary">
-                                                    {{ $rma->sn_no }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                                            <div class="text-center">
-                                                <div>
-                                                    Status
-                                                </div>
-                                                <div class="text-primary">
-                                                    {{ $rma->status }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                                            <div class="text-center">
-                                                <div>
-                                                    Tracking No.
-                                                </div>
-                                                <div class="text-primary">
-                                                    @if($rma->tracking_no != null)
-                                                        <a class="btn btn-outline-dark" style="font-size: 15px"
-                                                           onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
-                                                    @else
-                                                        Not Available
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
-                                            <div class="p-3 text-center">
-                                                <div class="text-primary monospace">
-                                                    <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                                                       class="btn btn-sm btn-primary">RMA Request Form</a>
-                                                    <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
-                                                        <button class="btn"><i class="fa fa-download"></i> Download File
-                                                        </button>
-                                                    </a>
-                                                    <a
-                                                        href="#"
-                                                        data-myrmaid="{{ $rma->id }}"
-                                                        data-myprodpic="{{ $rma->product_image_path }}"
-                                                        data-myrmastatus="{{ $rma->status }}"
-                                                        data-myrmareason="{{ $rma->reason }}"
-                                                        data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
-                                                        data-mytrack="{{ $rma->tracking_no }}"
-                                                        data-myresolution="{{ $rma->resolve_solution }}"
-                                                        data-myreceive="{{ $rma->receive_at }}"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#staticRMA">
-                                                        @can('is-distributor')
-                                                            <button class="btn btn-sm btn-warning"><i
-                                                                    data-feather="alert-triangle" class="feather-16"
-                                                                    style="margin-bottom: 5px"></i> Update RMA Status
-                                                            </button>
-                                                        @endcan
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            <!-- END HERE -->
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{ $rmaInfoDistri->links() }}
-        @endcan
-
-        @can('is-reseller')
-            <div class="row">
-                <div class="col-xl-12 col-lg-11">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">All RMA Requests</h6>
-                        </div>
-                        <div class="card-body border-3 border-bottom border-warning">
-                            @if($rmaInfoReseller->count() == 0)
-                                <div class="row text-center">
-                                    <h1 class="display-6">RMA request from customer will be shown here.</h1>
-                                </div>
-                            @else
-                            <!-- START HERE -->
-                                @foreach($rmaInfoReseller as $rma)
-                                    <div class="row">
-                                        <div class="col-12 col-md-4">
-                                            <div class="p-3 d-flex align-items-center">
-                                                <div class="mr-3">
-                                                    <img src="/storage/product/{{ $rma->product_image_path }}"
-                                                         width="100" height="100"/>
-                                                </div>
-
-                                                <div class="mx-3">
-                                                    <h5>{{ $rma->product_name }}</h5>
-                                                    <div class="text-muted monospace">
-                                                        {{ $rma->product_sn }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                                            <div class="text-center">
-                                                <div>
-                                                    Serial Number
-                                                </div>
-                                                <div class="monospace text-primary">
-                                                    {{ $rma->sn_no }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                                            <div class="text-center">
-                                                <div>
-                                                    Status
-                                                </div>
-                                                <div class="text-primary">
-                                                    {{ $rma->status }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                                            <div class="text-center">
-                                                <div>
-                                                    Tracking No.
-                                                </div>
-                                                <div class="text-primary">
-                                                    @if($rma->tracking_no != null)
-                                                        <a class="btn btn-outline-dark" style="font-size: 15px"
-                                                           onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
-                                                    @else
-                                                        Not Available
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
-                                            <div class="p-3 text-center">
-                                                <div class="text-primary monospace">
-                                                    <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                                                       class="btn btn-sm btn-primary">RMA Request Form</a>
-                                                    <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
-                                                        <button class="btn"><i class="fa fa-download"></i> Download File
-                                                        </button>
-                                                    </a>
-                                                    <a
-                                                        href="#"
-                                                        data-myrmaid="{{ $rma->id }}"
-                                                        data-myprodpic="{{ $rma->product_image_path }}"
-                                                        data-myrmastatus="{{ $rma->status }}"
-                                                        data-myrmareason="{{ $rma->reason }}"
-                                                        data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
-                                                        data-mytrack="{{ $rma->tracking_no }}"
-                                                        data-myresolution="{{ $rma->resolve_solution }}"
-                                                        data-myreceive="{{ $rma->receive_at }}"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#staticRMA">
-                                                        @can('is-reseller-distributor')
-                                                            <button class="btn btn-sm btn-warning"><i
-                                                                    data-feather="alert-triangle" class="feather-16"
-                                                                    style="margin-bottom: 5px"></i> Update RMA Status
-                                                            </button>
-                                                        @endcan
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-                            <!-- END HERE -->
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{ $rmaInfoReseller->links() }}
         @endcan
 
         <div class="row">
@@ -972,17 +966,17 @@
             var test3 = $("#total_cust_spend").text();
             document.getElementById('total_cust_spend').innerHTML = formatter.format(test3);
 
-        <!--Start of Tawk.to Script-->
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/60befaa64ae6dd0abe7d09f4/1f7l0673b';
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
-        <!--End of Tawk.to Script-->
+            <!--Start of Tawk.to Script-->
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='https://embed.tawk.to/60befaa64ae6dd0abe7d09f4/1f7l0673b';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                s0.parentNode.insertBefore(s1,s0);
+            })();
+            <!--End of Tawk.to Script-->
         @endcan
 
         @can('is-reseller')

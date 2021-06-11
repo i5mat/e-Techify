@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Models\ConfirmOrder;
 use App\Models\DistributorProduct;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -11,7 +10,6 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -81,7 +79,7 @@ class ProductController extends Controller
             ->join('orders', 'orders.id', '=', 'order_details.order_id')
             ->join('products', 'products.id', '=', 'order_details.product_id')
             ->select('order_details.order_id', 'products.product_image_path', 'products.product_name', 'products.product_price',
-            'order_details.product_id', 'order_details.product_order_quantity', 'order_details.id AS o_d_id')
+            'order_details.product_id', 'order_details.product_order_quantity', 'order_details.id AS o_d_id', 'products.product_stock_count')
             ->where([
                 'orders.user_id' => Auth::id(),
                 'orders.order_status' => 'To Pay'

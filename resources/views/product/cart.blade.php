@@ -97,10 +97,10 @@
                             <td>{{ $i->product_name }}</td>
                             <td><img src="/image/malaysia.png"> <span>{{ $i->product_price }}</span></td>
                             <td>
-                                <input type='number' name="{{ $i->product_id }}[]" min="1"
-                                       value="{{ $i->product_order_quantity }}" class="text-center"
+                                <input type='number' name="{{ $i->product_id }}[]" min="1" max="{{ $i->product_stock_count }}"
+                                       value="{{ $i->product_order_quantity }}" class="text-center form-control"
                                        data-price="{{ $i->product_price }}" id="qnt_{{ $loop->iteration }}"
-                                       oninput="CalculateItemsValue()">
+                                       oninput="CalculateItemsValue(); validity.valid||(value='');">
                                 <input type="number" id="get_qty{{ $loop->iteration }}"
                                        name="get_qty{{ $loop->iteration }}" hidden>
                                 <input type="text" id="get_prod_id" name="get_prod_id" value="{{ $i->product_id }}"
@@ -159,7 +159,7 @@
                          src="/image/mastercard.png"
                          alt="Mastercard">
                 </div>
-                <div id="paypal-payment-button" style="margin-top: 15px" @if($items->count() == 0) hidden @endif></div>
+                <div id="paypal-payment-button" style="margin-top: 15px"></div>
             </div>
         </div>
     </div>
@@ -244,7 +244,31 @@
 
                 var a = document.getElementById("qnt_" + i).value;
                 document.getElementById("get_qty" + i).value = a;
+
+                var x = document.getElementById("qnt_" + i).max;
+
+                if ($('#qnt_'+i).val() > parseInt(x)) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Stock is around '+ parseInt(x)+ ' only :<',
+                        icon: 'error',
+                        confirmButtonText: 'Okay',
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            document.getElementById('ItemsTotal').innerHTML = 'For the love of god, stop testing our system 😒';
+                            document.getElementById('merchTotal').innerHTML = 'Please re-enter quantity properly 🙏'
+                            $('#paypal-payment-button').attr('hidden', true);
+                        }
+                    })
+                    $('#qnt_'+i).val(1)
+                }
             }
+            if(total_items == 0)
+                $('#paypal-payment-button').attr('hidden', true);
+            else
+                $('#paypal-payment-button').attr('hidden', false);
+
             merchantTotal = total;
             total += 25;
 
