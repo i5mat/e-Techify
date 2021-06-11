@@ -193,10 +193,21 @@ class OrderController extends Controller
             }
         }
 
-        $findSN = DistributorProduct::join('order_details', 'order_details.product_id', '=', 'distributor_products.product_id')
-            ->select('distributor_products.serial_number', 'products.product_name',
-                'distributor_products.product_id', 'order_details.product_order_quantity', 'order_details.serial_number AS sn_product')
-            ->join('products', 'products.id', '=', 'order_details.product_id')
+//        $findSN = DistributorProduct::join('order_details', 'order_details.product_id', '=', 'distributor_products.product_id')
+//            ->select('distributor_products.serial_number', 'products.product_name',
+//                'distributor_products.product_id', 'order_details.product_order_quantity', 'order_details.serial_number AS sn_product')
+//            ->join('products', 'products.id', '=', 'order_details.product_id')
+//            ->where([
+//                'distributor_products.status' => 'Not Occupied',
+//                'order_details.order_id' => $findID->id
+//            ])
+//            ->get();
+
+        $findSN = DB::table('distributor_products')
+            ->select("products.id", "products.product_name", DB::raw("(GROUP_CONCAT(distributor_products.serial_number SEPARATOR ', ')) as 'sn_no'"))
+            ->join('order_details', 'order_details.product_id', '=', 'distributor_products.product_id')
+            ->join('products', 'products.id', '=', 'distributor_products.product_id')
+            ->groupBy('products.product_name')
             ->where([
                 'distributor_products.status' => 'Not Occupied',
                 'order_details.order_id' => $findID->id
@@ -272,7 +283,7 @@ class OrderController extends Controller
 
         //dd($request->except(['_token', 'getproduct_qty', 'getproduct_sn']));
 
-        return redirect()->back()->with('success', 'SUCCESS BAH');
+        return redirect()->back()->with('success', 'SUCCESS');
     }
 
     public function thankYouIndex()

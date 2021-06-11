@@ -1,6 +1,8 @@
 @extends('templates.main')
 
 @section('content')
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
+
     <h1 class="display-2 text-center">Insert Serial Number <img src="/image/sn.png"/></h1>
 
     <figure class="text-center">
@@ -33,8 +35,6 @@
 
                 <dt class="col-sm-3">QR Code</dt>
                 <dd class="col-sm-9">{!! DNS2D::getBarcodeHTML($recipientInfo->tracking_num, 'QRCODE', 5, 5) !!} </dd>
-
-
             </dl>
         </div>
     </div>
@@ -47,7 +47,9 @@
                 <dd class="col-sm-9">
                     @foreach($findSN as $z)
                         <div class="lead" id="prod_name_sn">{{ $z->product_name }}</div>
-                        <div class="draggable btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">{{ $z->serial_number }}</div>
+                        @foreach(explode(', ', $z->sn_no) as $info)
+                            <div class="draggable btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">{{ $info }}</div>
+                        @endforeach
                     @endforeach
                 </dd>
             </dl>
@@ -71,7 +73,7 @@
                 </thead>
                 <tbody class="table">
                 @foreach($orderInfo as $i)
-                    <form method="POST" action="{{ route('order.purchase.updatesn', $i->order_id) }}">
+                    <form method="POST" action="{{ route('order.purchase.updatesn', $i->order_id) }}" id="sn_insert_form">
                         @csrf
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
@@ -96,12 +98,14 @@
             </table>
             <div class="text-center">
                 <p class="lead">
-                    <button id="btn_sbmt_sn_no" type="submit" class="btn btn-warning" style="width: 100%">Submit</button>
+                    <button id="btn_sbmt_sn_no" type="button" class="btn btn-warning" style="width: 100%">Submit</button>
                 </p>
             </div>
             </form>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         var a = document.getElementById('getproduct_qty').value;
         var b = document.getElementById('getproduct_sn').value;
@@ -118,19 +122,45 @@
 
                 if (str === null)
                 {
+                    if ($('#droppable'+z+myOI[i].product_id).val() === '')
+                        $('#btn_sbmt_sn_no').attr('disabled', true);
+
                     console.log('EMPTY SERIAL_NUMBER.')
                     $("#droppable"+z+myOI[i].product_id).droppable({
                         hoverClass: 'active',
                         drop: function(event, ui) {
                             this.value = $(ui.draggable).text();
                             $(ui.draggable).hide();
+                            $('#btn_sbmt_sn_no').attr('disabled', false);
                         }
+                    });
+
+                    $("#btn_sbmt_sn_no").click(function() {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Serial number is inserted accordingly',
+                            icon: 'success',
+                            confirmButtonText: 'Okay',
+                        }).then((result) => {
+                            /* Read more about isConfirmed, isDenied below */
+                            if (result.isConfirmed) {
+                                $("#sn_insert_form").submit();
+                            }
+                        })
                     });
                 }
                 else
                 {
                     const sn_num = str.split(', ');
                     $('#droppable'+z+myOI[i].product_id).val(sn_num[z])
+
+                    $("#btn_sbmt_sn_no").click(function() {
+                        Swal.fire(
+                            'Error!',
+                            'Input is the same',
+                            'error'
+                        )
+                    });
                 }
             }
         });
