@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
     <style>
         .btn-outline-dark {
             border-radius: 35px;
@@ -465,6 +466,35 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row" style="margin-top: 10px">
+                <div class="col-xl-4 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">Quarter Earnings</h6>
+                        </div>
+                        <div class="card-body border-3 border-bottom border-warning">
+                            <div id="quarter_chart"></div>
+
+                            <button class="btn btn-primary mt-1" id="all_quarter">All</button>
+                            <button class="btn btn-primary mt-1" id="q_1">Q1</button>
+                            <button class="btn btn-primary mt-1" id="q_2">Q2</button>
+                            <button class="btn btn-primary mt-1" id="q_3">Q3</button>
+                            <button class="btn btn-primary mt-1" id="q_4">Q4</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8 col-lg-7">
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">Quarter Stock Count</h6>
+                        </div>
+                        <div class="card-body border-3 border-bottom border-warning">
+                            <h1>ENTAH NANTI AKU PIKIR</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endcan
 
         @can('is-user')
@@ -842,7 +872,7 @@
                             <div class="container">
                                 <div class="row text-center">
                                     <div class="col-xl">
-                                        <img id="myProdImg" src="" width="300" height="300">
+                                        <img id="myProdImg" src="" width="250" height="250">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -947,6 +977,7 @@
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
     <script src="//www.tracking.my/track-button.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="application/javascript">
         feather.replace();
 
@@ -1099,8 +1130,12 @@
             var myA = @json($myArray);
             var myB = @json($findMonth);
             var myZ = @json($getTotalSalesReseller);
+            var myQ1 = @json($getQ1);
+            var myQ2 = @json($getQ2);
+            var myQ3 = @json($getQ3);
+            var myQ4 = @json($getQ4);
 
-            console.log(myZ);
+            console.log(myQ1);
 
             Highcharts.chart('container', {
                 chart: {
@@ -1214,6 +1249,146 @@
                 });
             });
 
+
+            const charts = Highcharts.chart('quarter_chart', {
+                title: {
+                    text: 'Summary earnings for all quarter'
+                },
+                credits: false,
+                subtitle: {
+                    text: 'Q1, Q2, Q3, Q4'
+                },
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                series: [{
+                    type: 'column',
+                    colorByPoint: true,
+                    data: str_reseller,
+                    showInLegend: false
+                }]
+            });
+
+            document.getElementById('q_1').addEventListener('click', () => {
+                let str_q1 = [];
+                $.each(myQ1, function(i, item) {
+                    str_q1 = item.Q1.split(', ').map(Number);
+                })
+
+                charts.update({
+                    title: {
+                        text: 'Q1'
+                    },
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar']
+                    },
+                    series: [{
+                        type: 'column',
+                        colorByPoint: true,
+                        data: str_q1,
+                        showInLegend: false
+                    }],
+                    subtitle: {
+                        text: 'Earnings in Q1, 2021'
+                    }
+                });
+            });
+
+            document.getElementById('q_2').addEventListener('click', () => {
+                let str_q2 = [];
+                $.each(myQ2, function(i, item) {
+                    str_q2 = item.Q2.split(', ').map(Number);
+                })
+
+                charts.update({
+                    title: {
+                        text: 'Q2'
+                    },
+                    xAxis: {
+                        categories: ['Apr', 'May', 'Jun']
+                    },
+                    series: [{
+                        type: 'column',
+                        colorByPoint: true,
+                        data: str_q2,
+                        showInLegend: false
+                    }],
+                    subtitle: {
+                        text: 'Earnings in Q2, 2021'
+                    }
+                });
+            });
+
+            document.getElementById('q_3').addEventListener('click', () => {
+                let str_q3 = [];
+                $.each(myQ3, function(i, item) {
+                    str_q3 = item.Q3.split(', ').map(Number);
+                })
+
+                charts.update({
+                    title: {
+                        text: 'Q3'
+                    },
+                    xAxis: {
+                        categories: ['Jul', 'Aug', 'Sep']
+                    },
+                    series: [{
+                        type: 'column',
+                        colorByPoint: true,
+                        data: str_q3,
+                        showInLegend: false
+                    }],
+                    subtitle: {
+                        text: 'Earnings in Q3, 2021'
+                    }
+                });
+            });
+
+            document.getElementById('q_4').addEventListener('click', () => {
+                let str_q4 = [];
+                $.each(myQ4, function(i, item) {
+                    str_q4 = item.Q4.split(', ').map(Number);
+                })
+
+                charts.update({
+                    title: {
+                        text: 'Q4'
+                    },
+                    xAxis: {
+                        categories: ['Oct', 'Nov', 'Dec']
+                    },
+                    series: [{
+                        type: 'column',
+                        colorByPoint: true,
+                        data: str_q4,
+                        showInLegend: false
+                    }],
+                    subtitle: {
+                        text: 'Earnings in Q4, 2021'
+                    }
+                });
+            });
+
+            document.getElementById('all_quarter').addEventListener('click', () => {
+                charts.update({
+                    title: {
+                        text: 'Summary earnings for all quarter'
+                    },
+                    xAxis: {
+                        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    },
+                    series: [{
+                        type: 'column',
+                        colorByPoint: true,
+                        data: str_reseller,
+                        showInLegend: false
+                    }],
+                    subtitle: {
+                        text: 'Q1, Q2, Q3, Q4'
+                    }
+                });
+            });
+
         });
         @endcan
 
@@ -1224,32 +1399,40 @@
         });
 
         $("#btn_update_rma").click(function (e) {
-
             e.preventDefault();
 
-            var status = $("#floatingSelectStatus").val();
-            var receive_at = $("#rma_receive_at").val();
-            var remark = $("#rma_resolution").val();
-            var tracking = $("#rma_tracking_no").val();
-            var rma_id = $("#rma_no").val();
+            if ($("#rma_tracking_no").val() === '' || $("#rma_resolution").val() === '') {
+                Swal.fire(
+                    'Input NULL',
+                    'Please input all fields with relevant information',
+                    'error'
+                )
+            } else {
 
-            $.ajax({
-                type: 'PATCH',
-                url: "http://127.0.0.1:8000/rma/rma-update/" + rma_id,
-                data: {
-                    rma_status: status,
-                    receive: receive_at,
-                    remark_note: remark,
-                    track_no: tracking
-                },
-                success: function (data) {
-                    if (data['success'])
-                        location.reload();
-                    else
-                        alert('EXISTING.')
+                var status = $("#floatingSelectStatus").val();
+                var receive_at = $("#rma_receive_at").val();
+                var remark = $("#rma_resolution").val();
+                var tracking = $("#rma_tracking_no").val();
+                var rma_id = $("#rma_no").val();
 
-                }
-            });
+                $.ajax({
+                    type: 'PATCH',
+                    url: "http://127.0.0.1:8000/rma/rma-update/" + rma_id,
+                    data: {
+                        rma_status: status,
+                        receive: receive_at,
+                        remark_note: remark,
+                        track_no: tracking
+                    },
+                    success: function (data) {
+                        if (data['success'])
+                            location.reload();
+                        else
+                            alert('EXISTING.')
+
+                    }
+                });
+            }
         });
 
         $("#btn_apply_job").click(function (e) {

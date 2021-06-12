@@ -171,10 +171,13 @@
                 helper: 'clone',
                 start: function(event, ui) {
                     $(this).fadeTo('fast', 0.5);
+                    $(this).css("background-color", "green");
                 },
                 stop: function(event, ui) {
                     $(this).fadeTo(0, 1);
-                    //$(this).hide();
+                    $(this).draggable('disable');
+                    $(this).css("background-color", "red");
+                    $(this).css("cursor", "default");
                 }
             });
         });

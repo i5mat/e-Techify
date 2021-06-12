@@ -172,6 +172,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('order.find-receipt') }}">Receipt Finder</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Insert SN</a>
+                            </li>
                         @endcan
                     </ul>
                 </div>

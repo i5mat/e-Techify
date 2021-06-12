@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Address;
 use App\Models\ConfirmOrder;
+use App\Models\DistributorProduct;
 use App\Models\Job;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -165,13 +166,50 @@ class Profile extends Controller
             $myArray[] = $row;
         }
 
+        $getQ1 = ConfirmOrder::select(DB::raw('GROUP_CONCAT(A.Jan, ", ", A.Feb, ", ", A.Mar) AS Q1'))
+            ->from(DB::raw("(SELECT MONTHNAME(confirm_orders.created_at) AS month,
+                    SUM(if(MONTH(confirm_orders.created_at) = 1, confirm_orders.payment_total,0)) as Jan,
+                    SUM(if(MONTH(confirm_orders.created_at) = 2, confirm_orders.payment_total,0)) as Feb,
+                    SUM(if(MONTH(confirm_orders.created_at) = 3, confirm_orders.payment_total,0)) as Mar
+                FROM confirm_orders
+                WHERE YEAR(NOW())) A"))
+            ->get();
+
+        $getQ2 = ConfirmOrder::select(DB::raw('GROUP_CONCAT(A.Apr, ", ", A.May, ", ", A.Jun) AS Q2'))
+            ->from(DB::raw("(SELECT MONTHNAME(confirm_orders.created_at) AS month,
+                    SUM(if(MONTH(confirm_orders.created_at) = 4, confirm_orders.payment_total,0)) as Apr,
+                    SUM(if(MONTH(confirm_orders.created_at) = 5, confirm_orders.payment_total,0)) as May,
+                    SUM(if(MONTH(confirm_orders.created_at) = 6, confirm_orders.payment_total,0)) as Jun
+                FROM confirm_orders
+                WHERE YEAR(NOW())) A"))
+            ->get();
+
+        $getQ3 = ConfirmOrder::select(DB::raw('GROUP_CONCAT(A.Jul, ", ", A.Aug, ", ", A.Sep) AS Q3'))
+            ->from(DB::raw("(SELECT MONTHNAME(confirm_orders.created_at) AS month,
+                    SUM(if(MONTH(confirm_orders.created_at) = 7, confirm_orders.payment_total,0)) as Jul,
+                    SUM(if(MONTH(confirm_orders.created_at) = 8, confirm_orders.payment_total,0)) as Aug,
+                    SUM(if(MONTH(confirm_orders.created_at) = 9, confirm_orders.payment_total,0)) as Sep
+                FROM confirm_orders
+                WHERE YEAR(NOW())) A"))
+            ->get();
+
+        $getQ4 = ConfirmOrder::select(DB::raw('GROUP_CONCAT(A.Oct, ", ", A.Nov, ", ", A.Dec) AS Q4'))
+            ->from(DB::raw("(SELECT MONTHNAME(confirm_orders.created_at) AS month,
+                    SUM(if(MONTH(confirm_orders.created_at) = 10, confirm_orders.payment_total,0)) as Oct,
+                    SUM(if(MONTH(confirm_orders.created_at) = 11, confirm_orders.payment_total,0)) as Nov,
+                    SUM(if(MONTH(confirm_orders.created_at) = 12, confirm_orders.payment_total,0)) as `Dec`
+                FROM confirm_orders
+                WHERE YEAR(NOW())) A"))
+            ->get();
+
         //dd($getCartTotal);
 
         if (Gate::allows('is-all-roles')) {
             return view('index', compact('rmaInfo', 'jobInfo', 'rmaInfoDistri',
                 'getCartTotal', 'getRMATotal', 'getConfirmOrder', 'myArray', 'rmaInfoReseller', 'findMonth',
                 'getOrderDetail', 'getConfirmOrderMonthly', 'getDataDistributor', 'getTotalSold', 'getRMA',
-                'getPieChartData', 'getCustTotalSpend', 'getCustTotalOrder', 'getTotalSalesReseller'));
+                'getPieChartData', 'getCustTotalSpend', 'getCustTotalOrder', 'getTotalSalesReseller',
+                'getQ1', 'getQ2', 'getQ3', 'getQ4'));
         } else
             return view('invalid-user');
     }

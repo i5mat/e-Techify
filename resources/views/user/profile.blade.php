@@ -3,7 +3,7 @@
 @section('content')
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 
-    <h1 class="text-center">Update Profile</h1>
+    <h1 class="display-2 text-center">Update Profile <i class="fa fa-info-circle"></i></h1>
 
     <div class="container">
         <div class="card">
@@ -18,7 +18,7 @@
                             @method("PUT")
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
-                                <input name="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                <input name="name" type="text" class="form-control rounded-pill @error('name') is-invalid @enderror"
                                        id="name" aria-describedby="name" value="{{ auth()->user()->name }}">
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">{{ $message }}</span>
@@ -27,7 +27,7 @@
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email address</label>
                                 <input name="email" type="email"
-                                       class="form-control @error('email') is-invalid @enderror" id="email"
+                                       class="form-control rounded-pill @error('email') is-invalid @enderror" id="email"
                                        aria-describedby="email" value="{{ auth()->user()->email }}">
                                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
                                 </div>
@@ -35,10 +35,16 @@
                                 <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <button type="button" class="btn btn-primary" id="btn_edit_profile">Submit</button>
-                            <a href="{{ route('user.useraddress') }}">
-                                <button type="button" class="btn btn-primary">Add New Address +</button>
-                            </a>
+                            <div class="row">
+                                <div class="col">
+                                    <button style="width: 100%" type="button" class="btn btn-primary" id="btn_edit_profile">Submit</button>
+                                </div>
+                                <div class="col">
+                                    <a href="{{ route('user.useraddress') }}">
+                                        <button style="width: 100%" type="button" class="btn btn-primary">Add New Address +</button>
+                                    </a>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>

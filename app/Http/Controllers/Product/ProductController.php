@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
@@ -263,16 +264,47 @@ class ProductController extends Controller
 
     public function distriInsertProductIndex()
     {
-        $fetchProduct = Product::where('user_id', Auth::id())->get();
-        $fetchProductJoin = DistributorProduct::join('products', 'products.id', '=', 'distributor_products.product_id')
-            ->select('distributor_products.created_at', 'products.product_name', 'distributor_products.batch_no',
-                'distributor_products.serial_number', 'distributor_products.status', 'distributor_products.product_id', 'distributor_products.id')
-            ->where([
-                'distributor_products.user_id' => Auth::id()
-            ])
-            ->get();
+        if (Gate::allows('is-distributor')) {
+            $fetchProduct = Product::where('user_id', Auth::id())->get();
 
-        return view('distributor.insertproduct', compact('fetchProduct', 'fetchProductJoin'));
+            $fetchProductJoin = DistributorProduct::join('products', 'products.id', '=', 'distributor_products.product_id')
+                ->select('distributor_products.created_at', 'products.product_name', 'distributor_products.batch_no',
+                    'distributor_products.serial_number', 'distributor_products.status', 'distributor_products.product_id', 'distributor_products.id')
+                ->where([
+                    'distributor_products.user_id' => Auth::id()
+                ])
+                ->get();
+
+            $getBatchQuarter = DistributorProduct::select(DB::raw('A.batch_no, GROUP_CONCAT(A.Jan, ", ", A.Feb, ", ", A.Mar, ", ", A.Apr, ", ", A.May, ", ", A.Jun, ", ", A.Jul, ", ", A.Aug, ", ", A.Sep, ", ", A.Oct, ", ", A.Nov, ", ", A.Dec) AS Q_Batch'))
+                ->from(DB::raw("(SELECT distributor_products.batch_no,
+                        SUM(if(MONTH(distributor_products.created_at) = 1, 1,0)) as Jan,
+                        SUM(if(MONTH(distributor_products.created_at) = 2, 1,0)) as Feb,
+                        SUM(if(MONTH(distributor_products.created_at) = 3, 1,0)) as Mar,
+                        SUM(if(MONTH(distributor_products.created_at) = 4, 1,0)) as Apr,
+                        SUM(if(MONTH(distributor_products.created_at) = 5, 1,0)) as May,
+                        SUM(if(MONTH(distributor_products.created_at) = 6, 1,0)) as Jun,
+                        SUM(if(MONTH(distributor_products.created_at) = 7, 1,0)) as Jul,
+                        SUM(if(MONTH(distributor_products.created_at) = 8, 1,0)) as Aug,
+                        SUM(if(MONTH(distributor_products.created_at) = 9, 1,0)) as Sep,
+                        SUM(if(MONTH(distributor_products.created_at) = 10, 1,0)) as Oct,
+                        SUM(if(MONTH(distributor_products.created_at) = 11, 1,0)) as Nov,
+                        SUM(if(MONTH(distributor_products.created_at) = 12, 1,0)) as `Dec`
+                    FROM distributor_products
+                    WHERE YEAR(NOW()) GROUP BY distributor_products.batch_no) A"))
+                ->groupBy('A.batch_no')
+                ->get();
+
+        } elseif (Gate::allows('is-reseller')) {
+            $fetchProduct = Product::all();
+
+            $fetchProductJoin = DistributorProduct::join('products', 'products.id', '=', 'distributor_products.product_id')
+                ->select('distributor_products.created_at', 'products.product_name', 'distributor_products.batch_no',
+                    'distributor_products.serial_number', 'distributor_products.status', 'distributor_products.product_id', 'distributor_products.id')
+                ->get();
+        }
+
+        return view('distributor.insertproduct', compact('fetchProduct', 'fetchProductJoin',
+            'getBatchQuarter'));
     }
 
     public function distriInsertSN(Request $request)
