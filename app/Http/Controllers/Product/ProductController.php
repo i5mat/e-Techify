@@ -44,7 +44,12 @@ class ProductController extends Controller
 
     public function manageProductIndex()
     {
-        $products = Product::where('user_id', '=', \Auth::id())->paginate(6);
+        if (Gate::allows('is-distributor')) {
+            $products = Product::where('user_id', '=', \Auth::id())->paginate(6);
+        } elseif (Gate::allows('is-reseller')) {
+            $products = Product::paginate(6);
+        }
+
         return view('product.manage', compact('products'));
     }
 
@@ -264,6 +269,8 @@ class ProductController extends Controller
 
     public function distriInsertProductIndex()
     {
+        $uid = Auth::id();
+
         if (Gate::allows('is-distributor')) {
             $fetchProduct = Product::where('user_id', Auth::id())->get();
 
@@ -290,7 +297,7 @@ class ProductController extends Controller
                         SUM(if(MONTH(distributor_products.created_at) = 11, 1,0)) as Nov,
                         SUM(if(MONTH(distributor_products.created_at) = 12, 1,0)) as `Dec`
                     FROM distributor_products
-                    WHERE YEAR(NOW()) GROUP BY distributor_products.batch_no) A"))
+                    WHERE YEAR(NOW()) AND distributor_products.user_id = '$uid' GROUP BY distributor_products.batch_no) A"))
                 ->groupBy('A.batch_no')
                 ->get();
 
@@ -299,7 +306,27 @@ class ProductController extends Controller
 
             $fetchProductJoin = DistributorProduct::join('products', 'products.id', '=', 'distributor_products.product_id')
                 ->select('distributor_products.created_at', 'products.product_name', 'distributor_products.batch_no',
-                    'distributor_products.serial_number', 'distributor_products.status', 'distributor_products.product_id', 'distributor_products.id')
+                    'distributor_products.serial_number', 'distributor_products.status', 'distributor_products.product_id',
+                    'distributor_products.id', 'products.user_id')
+                ->get();
+
+            $getBatchQuarter = DistributorProduct::select(DB::raw('A.batch_no, GROUP_CONCAT(A.Jan, ", ", A.Feb, ", ", A.Mar, ", ", A.Apr, ", ", A.May, ", ", A.Jun, ", ", A.Jul, ", ", A.Aug, ", ", A.Sep, ", ", A.Oct, ", ", A.Nov, ", ", A.Dec) AS Q_Batch'))
+                ->from(DB::raw("(SELECT distributor_products.batch_no,
+                        SUM(if(MONTH(distributor_products.created_at) = 1, 1,0)) as Jan,
+                        SUM(if(MONTH(distributor_products.created_at) = 2, 1,0)) as Feb,
+                        SUM(if(MONTH(distributor_products.created_at) = 3, 1,0)) as Mar,
+                        SUM(if(MONTH(distributor_products.created_at) = 4, 1,0)) as Apr,
+                        SUM(if(MONTH(distributor_products.created_at) = 5, 1,0)) as May,
+                        SUM(if(MONTH(distributor_products.created_at) = 6, 1,0)) as Jun,
+                        SUM(if(MONTH(distributor_products.created_at) = 7, 1,0)) as Jul,
+                        SUM(if(MONTH(distributor_products.created_at) = 8, 1,0)) as Aug,
+                        SUM(if(MONTH(distributor_products.created_at) = 9, 1,0)) as Sep,
+                        SUM(if(MONTH(distributor_products.created_at) = 10, 1,0)) as Oct,
+                        SUM(if(MONTH(distributor_products.created_at) = 11, 1,0)) as Nov,
+                        SUM(if(MONTH(distributor_products.created_at) = 12, 1,0)) as `Dec`
+                    FROM distributor_products
+                    WHERE YEAR(NOW()) GROUP BY distributor_products.batch_no) A"))
+                ->groupBy('A.batch_no')
                 ->get();
         }
 
@@ -311,7 +338,7 @@ class ProductController extends Controller
     {
         $insertData = new DistributorProduct([
             "product_id" => $request->input('products_id_dist'),
-            "user_id" => Auth::id(),
+            "user_id" => $request->input('distri_id'),
             "batch_no" => $request->get('floatingSelectBatch'),
             "status" => 'Not Occupied',
             "serial_number" => $request->input('insert_product_sn')

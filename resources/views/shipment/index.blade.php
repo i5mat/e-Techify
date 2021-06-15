@@ -7,10 +7,10 @@
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
+            <p>Request desired item here, arrange a shipment request.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
         </figcaption>
     </figure>
 
@@ -20,7 +20,7 @@
             <div class="col">
                     @if($getItems->count() > 0)
                         <div class="card mb-2">
-                            <div class="card-header">
+                            <div class="card-header" style="font-weight: bold">
                                 Cart
                             </div>
                             <div class="card-body text-center border-3 border-bottom border-warning">
@@ -69,7 +69,7 @@
                         </div>
                     @else
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header" style="font-weight: bold">
                                 Cart
                             </div>
                             <div class="card-body border-3 border-bottom border-warning">
@@ -80,7 +80,7 @@
             </div>
             <div class="col-6 col-sm-4">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header" style="font-weight: bold">
                         Request
                     </div>
                     <div class="card-body border-3 border-bottom border-warning">
@@ -129,7 +129,7 @@
         </div>
 
         <div class="card">
-            <div class="card-header">
+            <div class="card-header" style="font-weight: bold">
                 Status
             </div>
             <div class="card-body border-3 border-bottom border-warning">
@@ -562,7 +562,7 @@
 
             if ($("#product_brand :selected").text() === 'Name' || $("#SelectProduct :selected").text() === 'Products') {
                 Swal.fire(
-                    'NaN Value',
+                    'Null Value',
                     'Please select input brand and product',
                     'error'
                 )

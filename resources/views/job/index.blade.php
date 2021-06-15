@@ -2,19 +2,22 @@
 
 @section('content')
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
-    <h1 class="display-2 text-center">Insert Job <i class="fa fa-briefcase"></i></h1>
+    <h1 class="display-2 text-center">Job <i class="fa fa-briefcase"></i></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
+            <p>Manage jobs info here!</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
         </figcaption>
     </figure>
 
     <div class="card">
-        <div class="card-body">
+        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0" style="font-weight: bold">Job Form</h6>
+        </div>
+        <div class="card-body border-3 border-bottom border-warning">
             <form method="POST" action="{{ route('job.request.new') }}" id="form_job">
                 @csrf
 

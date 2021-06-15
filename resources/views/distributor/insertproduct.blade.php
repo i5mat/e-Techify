@@ -6,10 +6,10 @@
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
+            <p>A view to insert product serial number.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
         </figcaption>
     </figure>
 
@@ -157,7 +157,7 @@
                                     <div class="form-floating" style="margin-bottom: 10px">
                                         <select class="form-select" id="floatingSelectProduct" aria-label="Floating label select example" style="height: 60px" onchange="myFunctions()">
                                             @foreach($fetchProduct as $prod)
-                                                <option value="{{ $prod->product_name }}" selected>{{ $prod->product_name }}</option>
+                                                <option value="{{ $prod->user_id }}" selected>{{ $prod->product_name }}</option>
                                             @endforeach
                                         </select>
                                         <label for="floatingSelectProduct">Select Product</label>
@@ -357,11 +357,12 @@
                 var product_id_dist_form = $("#products_id_dist").text();
                 var batch_no = $("#floatingSelectBatch").val();
                 var sn = $("#insert_product_sn").val();
+                var distri_user_id = $("#floatingSelectProduct").val()
 
                 $.ajax({
                     type:'POST',
                     url:"{{ route('distributor.insertsn.product.dist') }}",
-                    data:{products_id_dist:product_id_dist_form, floatingSelectBatch:batch_no, insert_product_sn:sn},
+                    data:{products_id_dist:product_id_dist_form, floatingSelectBatch:batch_no, insert_product_sn:sn, distri_id:distri_user_id},
                     success:function(data){
                         if ( data['success'] )
                             location.reload();
@@ -432,6 +433,8 @@
                 $("#floatingSelectProductID option").eq($(this).find(':selected').index()).prop('selected',true);
                 var value = $("#floatingSelectProduct option:selected");
                 var value2 = $("#floatingSelectProductID option:selected");
+
+                //alert($("#floatingSelectProduct option:selected").val())
 
                 document.getElementById('p_name').innerHTML = value.text().bold();
                 document.getElementById('products_id_dist').innerHTML = value2.text();

@@ -38,10 +38,10 @@
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>Tracking status your parcel here!</p>
+            <p>Tracking parcel status here.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
         </figcaption>
     </figure>
 

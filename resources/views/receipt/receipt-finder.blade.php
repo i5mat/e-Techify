@@ -1,14 +1,14 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Receipt Finder <i class="fa fa-hand-lizard-o"></i></h1>
+    <h1 class="display-2 text-center">Receipt Finder <i class="fa fa-search-plus"></i></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
+            <p>Find customer receipt here, feel free.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
         </figcaption>
     </figure>
 

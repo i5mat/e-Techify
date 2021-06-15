@@ -1,14 +1,14 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Orders <img src="/image/received.png"/></h1>
+    <h1 class="display-2 text-center">Order <img src="/image/received.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
+            <p>Manage orders.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
         </figcaption>
     </figure>
 
@@ -189,13 +189,13 @@
                                                                            height="65"/> <span
                                             class="d-block font-weight-bold"><span class="badge bg-success"
                                                                                    style="color: white">{{ $i->order_status }}</span></span>
+                                        by <span class="display-6">{{ $i->name }}</span>
                                         <hr>
-                                        <span>Xmiryna Tech</span>
+                                        <span>{{ date('d M Y h:i A', strtotime($i->created_at)) }}</span>
                                         <div class="d-flex flex-row align-items-center justify-content-center"><i
                                                 class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur,
                                                 TX</small></div>
                                         <div class="d-flex justify-content-between mt-3">
-
                                             @can('is-user')
                                                 <span>
                                                 <a href="{{ route('order.index.orderdetails', $i->id) }}"><i
@@ -277,8 +277,9 @@
                                                                            height="65"/> <span
                                             class="d-block font-weight-bold"><span class="badge bg-danger"
                                                                                    style="color: white">{{ $i->order_status }}</span></span>
+                                        by <span class="display-6">{{ $i->name }}</span>
                                         <hr>
-                                        <span>Xmiryna Tech</span>
+                                        <span>{{ date('d M Y h:i A', strtotime($i->created_at)) }}</span>
                                         <div class="d-flex flex-row align-items-center justify-content-center"><i
                                                 class="fa fa-map-marker"></i> <small class="mx-1">Kuala Lumpur,
                                                 TX</small></div>

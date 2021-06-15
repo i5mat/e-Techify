@@ -1,18 +1,18 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Insert Product <img src="/image/box.png"/></h1>
+    <h1 class="display-2 text-center">Create <img src="/image/box.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
+            <p>Insert product.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
         </figcaption>
     </figure>
 
-    <div class="card" style="padding: 20px 40px;">
+    <div class="card" style="padding: 20px;">
     <form method="POST" action="{{ route('product.items.store') }}" enctype="multipart/form-data" id="insert-product-form">
         @csrf
 
@@ -112,7 +112,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary float-end">Submit</button>
+        <button type="submit" class="btn btn-primary float-end" style="width: 100%">Submit</button>
     </form>
     </div>
 

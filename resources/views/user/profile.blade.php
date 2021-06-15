@@ -3,7 +3,7 @@
 @section('content')
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 
-    <h1 class="display-2 text-center">Update Profile <i class="fa fa-info-circle"></i></h1>
+    <h1 class="display-2 text-center">Profile <i class="fa fa-info-circle"></i></h1>
 
     <div class="container">
         <div class="card">

@@ -30,6 +30,7 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
     Route::post('addUserAddress', [App\Http\Controllers\User\Profile::class, 'addAddress'])->name('userinsertaddress');
     Route::delete('delAddress/{id}', [App\Http\Controllers\User\Profile::class, 'destroyAddress'])->name('userdel_address');
     Route::patch('updateAddressStatus/{id}', [App\Http\Controllers\User\Profile::class, 'userAddressUpdate'])->name('update.status');
+    Route::get('covid', [App\Http\Controllers\User\Profile::class, 'covidIndex'])->name('covid.index');
 });
 
 // Admin Routes

@@ -468,7 +468,7 @@
             </div>
 
             <div class="row" style="margin-top: 10px">
-                <div class="col-xl-4 col-lg-7">
+                <div class="col">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0" style="font-weight: bold">Quarter Earnings</h6>
@@ -481,16 +481,6 @@
                             <button class="btn btn-primary mt-1" id="q_2">Q2</button>
                             <button class="btn btn-primary mt-1" id="q_3">Q3</button>
                             <button class="btn btn-primary mt-1" id="q_4">Q4</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-8 col-lg-7">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">Quarter Stock Count</h6>
-                        </div>
-                        <div class="card-body border-3 border-bottom border-warning">
-                            <h1>ENTAH NANTI AKU PIKIR</h1>
                         </div>
                     </div>
                 </div>

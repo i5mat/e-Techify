@@ -214,6 +214,11 @@ class Profile extends Controller
             return view('invalid-user');
     }
 
+    public function covidIndex()
+    {
+        return view('covid');
+    }
+
     public function userAddressIndex()
     {
         $userinfo = DB::table('addresses')

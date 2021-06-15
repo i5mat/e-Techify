@@ -37,17 +37,21 @@ class OrderController extends Controller
                 ])
                 ->get();
 
-            $delivered = Order::where([
-                'user_id' => Auth::id(),
-                'order_status' => 'Delivered'
-            ])
-            ->get();
+            $delivered = Order::join('users', 'users.id', '=', 'orders.user_id')
+                ->select('orders.id', 'orders.order_status', 'users.name', 'orders.created_at')
+                ->where([
+                    'orders.order_status' => 'Delivered',
+                    'orders.user_id' => Auth::id()
+                ])
+                ->get();
 
-            $cancelled = Order::where([
-                'user_id' => Auth::id(),
-                'order_status' => 'Cancelled'
-            ])
-            ->get();
+            $cancelled = Order::join('users', 'users.id', '=', 'orders.user_id')
+                ->select('orders.id', 'orders.order_status', 'users.name', 'orders.created_at')
+                ->where([
+                    'orders.order_status' => 'Cancelled',
+                    'orders.user_id' => Auth::id()
+                ])
+                ->get();
         }
         elseif (Gate::allows('is-reseller')) {
             $to_ship = Order::join('users', 'users.id', '=', 'orders.user_id')
@@ -57,15 +61,19 @@ class OrderController extends Controller
             ])
             ->get();
 
-            $delivered = Order::where([
-                'order_status' => 'Delivered'
-            ])
-            ->get();
+            $delivered = Order::join('users', 'users.id', '=', 'orders.user_id')
+                ->select('orders.id', 'orders.order_status', 'users.name', 'orders.created_at')
+                ->where([
+                    'orders.order_status' => 'Delivered'
+                ])
+                ->get();
 
-            $cancelled = Order::where([
-                'order_status' => 'Cancelled'
-            ])
-            ->get();
+            $cancelled = Order::join('users', 'users.id', '=', 'orders.user_id')
+                ->select('orders.id', 'orders.order_status', 'users.name', 'orders.created_at')
+                ->where([
+                    'orders.order_status' => 'Cancelled'
+                ])
+                ->get();
         }
 
         return view('order.index', compact('to_ship', 'delivered', 'cancelled'));

@@ -4,8 +4,18 @@
 
     <div class="row">
         <div class="col-12">
-            <h1 class="float-start">Users</h1>
-            <a class="btn btn-sm btn-success float-end" href="{{ route('admin.users.create') }}" role="button">Create</a>
+            <h1 class="display-2 text-center">Users <i class="fa fa-user-circle"></i></h1>
+
+            <figure class="text-center">
+                <blockquote class="blockquote">
+                    <p>Manage all registered users.</p>
+                </blockquote>
+                <figcaption class="blockquote-footer">
+                    Prepared by <cite title="Source Title">Wan Ismat</cite>
+                </figcaption>
+            </figure>
+
+    {{-- <a class="btn btn-sm btn-success float-end" href="{{ route('admin.users.create') }}" role="button">Create</a> --}}
         </div>
     </div>
 

@@ -149,7 +149,7 @@
             <p>Tracking status for #{{ $recipientInfo->tracking_num }}, Order ID {{ $recipientInfo->order_id }}</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
         </figcaption>
     </figure>
 
@@ -168,7 +168,15 @@
                     <p id="address">{{ $recipientInfo->address }}</p>
 
                 <dt class="col-sm-3">Tracking No.</dt>
-                <dd class="col-sm-9">{{ $recipientInfo->tracking_num }} <span class="badge bg-warning text-dark">XT Express</span></dd>
+                <dd class="col-sm-9">{{ $recipientInfo->tracking_num }} <span class="badge bg-warning text-dark">System Tracking No.</span></dd>
+
+                @if(isset($recipientInfo->courier_tracking_no))
+                    <dt class="col-sm-3">Courier Tracking No.</dt>
+                    <dd class="col-sm-9">
+                        <a class="btn btn-outline-dark rounded-pill" style="font-size: 15px"
+                           onclick="linkTrack(this.innerText)">{{ $recipientInfo->courier_tracking_no }}</a>
+                    </dd>
+                @endif
 
                 <dt class="col-sm-3">Tracking Status</dt>
                 <dd class="col-sm-9">{{ $recipientInfo->order_status }}</dd>
@@ -240,7 +248,7 @@
             <form>
                 @csrf
                 @if($recipientInfo->order_status == 'Delivered')
-                    <h1 class="text-center display-6">Thank You! Enjoy your new item!</h1>
+                    <h1 class="text-center display-6">Thank You!</h1>
                 @elseif ($recipientInfo->order_status == 'To Ship')
                     @can('is-reseller')
                     <dl class="row">
@@ -254,6 +262,7 @@
                             @elseif ($track_stats->current_status == 'Quality Check')
                                 <button type="button" name="dispatched_btn" id="dispatched_btn" class="btn btn-outline-warning" style="margin-top: 5px">Product Dispatched</button>
                             @elseif ($track_stats->current_status == 'Product Dispatched')
+                                <input type="text" class="form-control mt-1" id="courier_track_no" name="courier_track_no" placeholder="Insert Tracking No.">
                                 <button type="button" name="delivered_btn" id="delivered_btn" class="btn btn-outline-warning" style="margin-top: 5px">Product Delivered</button>
                             @endif
                         </dd>
@@ -272,10 +281,17 @@
         </div>
     </div>
 
+    <script src="//www.tracking.my/track-button.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         feather.replace()
+
+        function linkTrack(num) {
+            TrackButton.track({
+                tracking_no: num
+            });
+        }
 
         $(document).ready(function(){
             $("#update_tracking").click(function(){
@@ -303,7 +319,7 @@
 
         $("#btn_sbmit").click(function(e){
 
-            if ($("#update_tracking").val() === '') {
+            if ($("#update_tracking").val() === '' || $("#courier_track_no").val() === '') {
                 Swal.fire(
                     'Input NULL',
                     'Please input all fields with relevant information',
@@ -313,11 +329,12 @@
                 e.preventDefault();
 
                 var tracking = $("#update_tracking").val();
+                var courier_tracking = $("#courier_track_no").val();
 
                 $.ajax({
                     type:'POST',
                     url:"{{ route('track.insert.trackparcel', $recipientInfo->order_id) }}",
-                    data:{update_tracking:tracking},
+                    data:{update_tracking:tracking, courier:courier_tracking},
                     success:function(data){
                         if ( data['success'] )
                             location.reload();

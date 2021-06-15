@@ -14,7 +14,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         {{-- HighCharts --}}
-        <script src="https://code.highcharts.com/highcharts.js"></script>
+        {{-- <script src="https://code.highcharts.com/highcharts.js"></script> --}}
+        <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+        <script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/mapdata/countries/my/my-all.js"></script>
         <script src="https://code.highcharts.com/highcharts-more.js"></script>
         <script src="https://code.highcharts.com/modules/exporting.js"></script>
         <script src="https://code.highcharts.com/modules/export-data.js"></script>
@@ -85,7 +88,7 @@
                         @if (Route::has('login'))
                             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                                 @auth
-                                    @can('is-user')<a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><span class="badge bg-danger" style="color: white">0</span><i class="fa fa-shopping-cart fa-2x"></i></a>@endcan
+                                    @can('is-user')<a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><span class="badge bg-danger" style="color: white">1</span><i class="fa fa-shopping-cart fa-2x"></i></a>@endcan
                                     <a href="{{ url('/user/profile') }}" style="padding-right: 10px;"><i class="fa fa-user fa-2x"></i></a>
                                     <a href="{{ url('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
@@ -116,6 +119,15 @@
                         </li>
                         @can('is-reseller')
                             <li class="nav-item">
+                                <div class="nav-link dropdown">
+                                    <button class="dropbtn" style="background-color: #FFF">Manage Product</button>
+                                    <div class="dropdown-content">
+                                        <a href="{{ route('product.insertProd') }}">Insert</a>
+                                        <a href="{{ route('product.manageProd') }}">Update.Delete</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>
                             </li>
                         @endcan
@@ -140,9 +152,6 @@
                                         <a href="{{ route('product.manageProd') }}">Update.Delete</a>
                                     </div>
                                 </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Insert SN</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
@@ -176,6 +185,9 @@
                                 <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Insert SN</a>
                             </li>
                         @endcan
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('user.covid.index') }}">nCov-19</a>
+                        </li>
                     </ul>
                 </div>
             </div>

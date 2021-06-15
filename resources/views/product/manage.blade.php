@@ -2,14 +2,14 @@
 
 @section('content')
 
-    <h1 class="display-2 text-center">Update.Delete Product <img src="/image/box.png"/></h1>
+    <h1 class="display-2 text-center">Update.Delete <img src="/image/box.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
+            <p>Manage products in shop stock.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
         </figcaption>
     </figure>
 
