@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Shipment;
 use App\Models\ShipmentDetail;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,8 +16,13 @@ class ShipmentController extends Controller
     public function shipmentIndex()
     {
         $fetchProduct = Product::all();
-        $getProductBrand = Product::select('product_brand')->distinct()->get();
-        $retrieveVal = Product::select('id', 'product_brand', 'product_name', 'product_image_path')
+        $getProductBrand = Product::join('users', 'users.id', '=', 'products.user_id')
+            ->select('product_brand', 'user_id', 'name')->distinct()->get();
+        $getDistributor = DB::table('role_user')->join('users', 'users.id', '=', 'role_user.user_id')
+            ->where('role_user.role_id', 2)->get();
+        $retrieveVal = Product::join('users', 'users.id', '=', 'products.user_id')
+            ->select('products.id', 'products.product_brand', 'products.product_name', 'products.product_image_path',
+                'users.name AS distri_name', 'products.user_id')
             ->get();
 
         $getInfo = Shipment::select('remark', 'status', 'id')->first();
@@ -55,7 +61,7 @@ class ShipmentController extends Controller
             ])->get();
 
             return view('shipment.index', compact('fetchProduct', 'getProductBrand', 'retrieveVal',
-                'getItems', 'getInfo', 'approved', 'shipped', 'waitingApproval', 'requested'));
+                'getItems', 'getInfo', 'approved', 'shipped', 'waitingApproval', 'requested', 'getDistributor'));
 
         } elseif (Gate::allows('is-distributor')) {
             $getItems = DB::table('shipment_details')

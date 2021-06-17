@@ -78,7 +78,7 @@
                         </div>
                     @endif
             </div>
-            <div class="col-6 col-sm-4">
+            <div class="col-6 col-sm-4 mb-2">
                 <div class="card">
                     <div class="card-header" style="font-weight: bold">
                         Request
@@ -98,11 +98,17 @@
                         </div>
                         <div class="col">
                             <div class="form-floating mb-2">
-                                <select class="form-select" id="product_brand" name="product_brand">
+                                <select class="form-select" id="brand_dist" name="brand_dist">
                                     <option value=""><strong>Name</strong></option>
-                                    @foreach($getProductBrand as $prod_brand)
-                                        <option value="{{ $prod_brand->product_brand }}">{{ $prod_brand->product_brand }}</option>
+                                    @foreach($getDistributor as $brand_distributor)
+                                        <option value="{{ $brand_distributor->name }}">{{ $brand_distributor->name }}</option>
                                     @endforeach
+                                </select>
+                                <label for="brand_dist">Brand Distributor</label>
+                            </div>
+                            <div class="form-floating mb-2">
+                                <select class="form-select" id="product_brand" name="product_brand">
+                                    <option value=""><strong>Brand</strong></option>
                                 </select>
                                 <label for="prod_brand">Brand</label>
                             </div>
@@ -541,7 +547,21 @@
         }
 
         var myArr = @json($retrieveVal);
+        var brandArr = @json($getProductBrand);
         console.log(myArr)
+        console.log(brandArr)
+
+        $("#brand_dist").change(function(){
+            var company = $(this).val();
+            var brand_options = '<option value=""><strong>Brand</strong></option>';
+            $(brandArr).each(function(index, value){
+                if(value.name == company){
+                    brand_options += '<option value="'+value.product_brand+'">'+value.product_brand+'</option>';
+                }
+            });
+
+            $('#product_brand').html(brand_options);
+        });
 
         $("#product_brand").change(function(){
             var company = $(this).val();
@@ -553,7 +573,6 @@
                     options2 += '<option value="'+value.product_image_path+'">'+value.id+'</option>';
                 }
             });
-
             $('#SelectProduct').html(options);
             $('#SelectProductID').html(options2);
         });
