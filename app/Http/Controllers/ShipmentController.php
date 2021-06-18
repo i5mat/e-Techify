@@ -25,6 +25,16 @@ class ShipmentController extends Controller
                 'users.name AS distri_name', 'products.user_id')
             ->get();
 
+        $validateShipment = ShipmentDetail::join('products', 'products.id', '=', 'shipment_details.product_id')
+            ->join('users', 'users.id', '=', 'products.user_id')
+            ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
+            ->select('users.name')
+            ->where([
+                'status' => 'Requested'
+            ])
+            ->distinct()
+            ->get();
+
         $getInfo = Shipment::select('remark', 'status', 'id')->first();
 
         if (Gate::allows('is-reseller')) {
@@ -61,7 +71,7 @@ class ShipmentController extends Controller
             ])->get();
 
             return view('shipment.index', compact('fetchProduct', 'getProductBrand', 'retrieveVal',
-                'getItems', 'getInfo', 'approved', 'shipped', 'waitingApproval', 'requested', 'getDistributor'));
+                'getItems', 'getInfo', 'approved', 'shipped', 'waitingApproval', 'requested', 'getDistributor', 'validateShipment'));
 
         } elseif (Gate::allows('is-distributor')) {
             $getItems = DB::table('shipment_details')

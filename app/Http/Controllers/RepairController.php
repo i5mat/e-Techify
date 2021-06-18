@@ -51,7 +51,7 @@ class RepairController extends Controller
                 //"date_of_purchase" => '2021-05-04',
                 "file_path" => $request->file('proof_of_purchase_file')->hashName(),
                 "reason" => $request->get('reason_field'),
-                "status" => 'Pending Checking'
+                "status" => 'Pending Receive'
             ]);
             $rma_req->save(); // Finally, save the record.
         }else

@@ -1,0 +1,247 @@
+@can('is-reseller')
+    @foreach($rmaInfoReseller as $rma)
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <div class="p-3 d-flex align-items-center">
+                    <div class="mr-3">
+                        <img src="/storage/product/{{ $rma->product_image_path }}"
+                             width="100" height="100"/>
+                    </div>
+
+                    <div class="mx-3">
+                        <h5>{{ $rma->product_name }}</h5>
+                        <div class="text-muted monospace">
+                            {{ $rma->product_sn }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <div>
+                        Serial Number
+                    </div>
+                    <div class="monospace text-primary">
+                        {{ $rma->sn_no }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <div>
+                        Status
+                    </div>
+                    <div class="text-primary">
+                        {{ $rma->status }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <div>
+                        Tracking No.
+                    </div>
+                    <div class="text-primary">
+                        @if($rma->tracking_no != null)
+                            <a class="btn btn-outline-dark" style="font-size: 15px"
+                               onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                        @else
+                            Not Available
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="p-3 text-center">
+                    <div class="text-primary monospace">
+                        <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
+                           class="btn btn-sm btn-primary">RMA Request Form</a>
+                        <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                            <button class="btn"><i class="fa fa-download"></i> Download File
+                            </button>
+                        </a>
+                        <a
+                            href="#"
+                            data-myrmaid="{{ $rma->id }}"
+                            data-myprodpic="{{ $rma->product_image_path }}"
+                            data-myrmastatus="{{ $rma->status }}"
+                            data-myrmareason="{{ $rma->reason }}"
+                            data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
+                            data-mytrack="{{ $rma->tracking_no }}"
+                            data-myresolution="{{ $rma->resolve_solution }}"
+                            data-myreceive="{{ $rma->receive_at }}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticRMA">
+                            @can('is-reseller-distributor')
+                                <button class="btn btn-sm btn-warning"><i
+                                        data-feather="alert-triangle" class="feather-16"
+                                        style="margin-bottom: 5px"></i> Update RMA Status
+                                </button>
+                            @endcan
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    {{ $rmaInfoReseller->links() }}
+@endcan
+
+@can('is-distributor')
+    @foreach($rmaInfoDistri as $rma)
+        <div class="row">
+            <div class="col-12 col-md-4">
+                <div class="p-3 d-flex align-items-center">
+                    <div class="mr-3">
+                        <img src="/storage/product/{{ $rma->product_image_path }}"
+                             width="100" height="100"/>
+                    </div>
+
+                    <div class="mx-3">
+                        <h5>{{ $rma->product_name }}</h5>
+                        <div class="text-muted monospace">
+                            {{ $rma->product_sn }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <div>
+                        Serial Number
+                    </div>
+                    <div class="monospace text-primary">
+                        {{ $rma->sn_no }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <div>
+                        Status
+                    </div>
+                    <div class="text-primary">
+                        {{ $rma->status }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <div>
+                        Tracking No.
+                    </div>
+                    <div class="text-primary">
+                        @if($rma->tracking_no != null)
+                            <a class="btn btn-outline-dark" style="font-size: 15px"
+                               onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                        @else
+                            Not Available
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="p-3 text-center">
+                    <div class="text-primary monospace">
+                        <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
+                           class="btn btn-sm btn-primary">RMA Request Form</a>
+                        <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                            <button class="btn"><i class="fa fa-download"></i> Download File
+                            </button>
+                        </a>
+                        <a
+                            href="#"
+                            data-myrmaid="{{ $rma->id }}"
+                            data-myprodpic="{{ $rma->product_image_path }}"
+                            data-myrmastatus="{{ $rma->status }}"
+                            data-myrmareason="{{ $rma->reason }}"
+                            data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
+                            data-mytrack="{{ $rma->tracking_no }}"
+                            data-myresolution="{{ $rma->resolve_solution }}"
+                            data-myreceive="{{ $rma->receive_at }}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticRMA">
+                            @can('is-distributor')
+                                <button class="btn btn-sm btn-warning"><i
+                                        data-feather="alert-triangle" class="feather-16"
+                                        style="margin-bottom: 5px"></i> Update RMA Status
+                                </button>
+                            @endcan
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    {{ $rmaInfoDistri->links() }}
+@endcan
+
+@can('is-user')
+    @foreach($rmaInfo as $rma)
+        <div class="row" id="rma-row">
+            <div class="col-12 col-md-4">
+                <div class="p-3 d-flex align-items-center">
+                    <div class="mr-3">
+                        <img src="/storage/product/{{ $rma->product_image_path }}"
+                             width="100" height="100"/>
+                    </div>
+
+                    <div class="mx-3">
+                        <h5>{{ $rma->product_name }}</h5>
+                        <div class="text-muted monospace">
+                            {{ $rma->product_sn }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <div>
+                        Serial Number
+                    </div>
+                    <div class="monospace text-primary">
+                        {{ $rma->sn_no }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <div>
+                        Status
+                    </div>
+                    <div class="text-primary">
+                        {{ $rma->status }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <div>
+                        Tracking No.
+                    </div>
+                    <div class="text-primary">
+                        @if($rma->tracking_no != null)
+                            <a class="btn btn-outline-dark" style="font-size: 15px"
+                               onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                        @else
+                            Not Available
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+                <div class="p-3 text-center">
+                    <div class="text-primary monospace">
+                        <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
+                           class="btn btn-sm btn-primary">RMA Request Form</a>
+                        <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                            <button class="btn"><i class="fa fa-download"></i> Download File
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+    {{ $rmaInfo->links() }}
+@endcan

@@ -100,9 +100,15 @@
                             <div class="form-floating mb-2">
                                 <select class="form-select" id="brand_dist" name="brand_dist">
                                     <option value=""><strong>Name</strong></option>
-                                    @foreach($getDistributor as $brand_distributor)
-                                        <option value="{{ $brand_distributor->name }}">{{ $brand_distributor->name }}</option>
-                                    @endforeach
+                                    @if(count($validateShipment) == 0)
+                                        @foreach($getDistributor as $brand_distributor)
+                                            <option value="{{ $brand_distributor->name }}">{{ $brand_distributor->name }}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach($validateShipment as $brand_distributor)
+                                            <option value="{{ $brand_distributor->name }}">{{ $brand_distributor->name }}</option>
+                                        @endforeach
+                                    @endif
                                 </select>
                                 <label for="brand_dist">Brand Distributor</label>
                             </div>
@@ -508,7 +514,8 @@
         myFunctions();
 
         var myArr = @json($getItems);
-        console.log(myArr);
+        //console.log(myArr);
+        console.log(@json($validateShipment));
 
         for (z = 1; z <= myArr.length; z++) {
             $("#btn_remove_shipment_item"+z).click(function () {
