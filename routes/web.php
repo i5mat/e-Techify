@@ -46,6 +46,7 @@ Route::prefix('product')->middleware(['auth', 'verified'])->name('product.')->gr
     Route::get('cart', [App\Http\Controllers\Product\ProductController::class, 'manageCartIndex'])->name('manageCart');
     Route::post('addProductCart/{id}', [App\Http\Controllers\Product\ProductController::class, 'addToCart'])->name('addProdCart');
     Route::delete('del-item-cart/{id}', [App\Http\Controllers\Product\ProductController::class, 'delItemCart'])->name('del-cart');
+    Route::get('items/pagination', [App\Http\Controllers\Product\ProductController::class, 'fetch_data_shop']);
 });
 
 // Product related pages
@@ -101,6 +102,9 @@ Route::prefix('job')->middleware(['auth', 'verified'])->name('job.')->group(func
     Route::patch('update/{id}', [App\Http\Controllers\JobController::class, 'updateJob'])->name('update');
     Route::patch('update-job-info/{id}', [App\Http\Controllers\JobController::class, 'updateJobInfo'])->name('updateJI');
     Route::patch('update-job-status/{id}', [App\Http\Controllers\JobController::class, 'updateJobStatus'])->name('updateJS');
+    Route::get('job-approved-email/{id}', [App\Http\Controllers\JobController::class, 'emailJob'])->name('email');
+    Route::post('job-approved/{id}', [App\Http\Controllers\JobController::class, 'approveJob'])->name('approve');
+    Route::post('job-declined/{id}', [App\Http\Controllers\JobController::class, 'declineJob'])->name('decline');
 });
 
 Route::prefix('shipment')->middleware(['auth', 'verified'])->name('shipment.')->group(function () {

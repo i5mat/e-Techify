@@ -170,7 +170,7 @@
         $("#btn_submit_rma").click(function() {
             if ($("#prod_brand :selected").text() === 'Name' || $("#prod_name :selected").text() === 'Products') {
                 Swal.fire(
-                    'NaN Value',
+                    'Null Value',
                     'Please select input brand and product',
                     'error'
                 )

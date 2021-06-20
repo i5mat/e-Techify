@@ -13,6 +13,7 @@
         </figcaption>
     </figure>
 
+    @can('is-reseller-distributor')
     <div class="card">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h6 class="m-0" style="font-weight: bold">Job Form</h6>
@@ -59,9 +60,60 @@
             </form>
         </div>
     </div>
+    @endcan
+
+    <div class="card mt-3">
+        <div class="card-header fw-bold">
+            Applicant
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Applicant</th>
+                    <th scope="col">Job Scope</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($getJob as $job)
+                    <tr>
+                        <th scope="row">{{ $loop->iteration }}</th>
+                        <td>
+                            <span class="badge rounded-pill bg-primary" style="color: white">{{ $job->job_type }}</span>
+                        </td>
+                        <td>{{ $job->name }}</td>
+                        <td>{{ $job->job_name }}</td>
+                        <td>{{ $job->email }}</td>
+                        <td>
+                            @can('is-distributor')
+                                @if(!isset($job->email_sent))
+                                    <button class="btn btn-success rounded-pill" id="accept_applicant_btn{{ $loop->iteration }}" data-id="{{ $job->id }}">Accept</button>
+                                    <button class="btn btn-danger rounded-pill" id="reject_applicant_btn{{ $loop->iteration }}" data-id="{{ $job->id }}">Decline</button>
+                                @else
+                                    Responded to applicant 😃
+                                @endif
+                            @else
+                                @if($job->email_sent == 1)
+                                    Approved ✔
+                                @else
+                                    Waiting for respond 🤞
+                                @endif
+                            @endcan
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        @can('is-reseller-distributor')
         $("#btn_submit_job").click(function() {
             if ($("#job_name").val() === '' || $("#job_salary").val() === '' || $("#job_loc").val() === '' || $("#job_type :selected").text() === 'Please select...') {
                 Swal.fire(
@@ -72,5 +124,61 @@
             } else
                 $("#form_job").submit();
         });
+        @endcan
+
+        var myA = @json($getJob);
+        console.log(myA);
+
+        for (z = 1; z <= myA.length; z++) {
+            $("#accept_applicant_btn"+z).click(function () {
+                var id = $(this).data("id");
+                var token = $("meta[name='csrf-token']").attr("content");
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Accepting your applicant request, sending an email to applicant',
+                    didOpen: function () {
+                        Swal.showLoading()
+                        $.ajax(
+                            {
+                                url: "http://127.0.0.1:8000/job/job-approved/" + id,
+                                type: 'POST',
+                                data: {
+                                    "id": id,
+                                    "_token": token,
+                                },
+                                success: function () {
+                                    location.reload();
+                                }
+                            });
+                    }
+                })
+            });
+
+            $("#reject_applicant_btn"+z).click(function () {
+                var id = $(this).data("id");
+                var token = $("meta[name='csrf-token']").attr("content");
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Rejecting your applicant request, sending an email to applicant 😥',
+                    didOpen: function () {
+                        Swal.showLoading()
+                        $.ajax(
+                            {
+                                url: "http://127.0.0.1:8000/job/job-declined/" + id,
+                                type: 'POST',
+                                data: {
+                                    "id": id,
+                                    "_token": token,
+                                },
+                                success: function () {
+                                    location.reload();
+                                }
+                            });
+                    }
+                })
+            });
+        }
     </script>
 @endsection

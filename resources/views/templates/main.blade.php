@@ -119,6 +119,9 @@
                         </li>
                         @can('is-reseller')
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>
+                            </li>
+                            <li class="nav-item">
                                 <div class="nav-link dropdown">
                                     <button class="dropbtn" style="background-color: #FFF">Manage Product</button>
                                     <div class="dropdown-content">
@@ -126,9 +129,6 @@
                                         <a href="{{ route('product.manageProd') }}">Update.Delete</a>
                                     </div>
                                 </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>
                             </li>
                         @endcan
                         @can('is-user')
@@ -166,6 +166,9 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('track.new.parcel') }}">e-Track Parcel</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
                             </li>
                         @endcan
                         @can('is-reseller')

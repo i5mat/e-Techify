@@ -48,7 +48,7 @@
                     @foreach($findSN as $z)
                         <div class="lead" id="prod_name_sn">{{ $z->product_name }}</div>
                         @foreach(explode(', ', $z->sn_no) as $info)
-                            <div class="draggable btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">{{ $info }}</div>
+                            <div id="draggable{{ $loop->index }}{{ $z->id }}" class="btn btn-primary" style="margin-top: 5px; margin-bottom: 5px">{{ $info }}</div>
                         @endforeach
                     @endforeach
                 </dd>
@@ -114,24 +114,47 @@
 
         console.log(myA);
         console.log(myOI);
+        // console.log(myOI.unshift(0));
+        // console.log(myOI);
 
         $.each(myOI, function(i, item) {
+            console.log(i)
             var lols = myOI[i].product_order_quantity;
             for (z = 0; z < lols; z++) {
                 const str = myOI[i].serial_number;
 
                 if (str === null)
                 {
+                    $("#draggable"+z+myOI[i].product_id).css("font-weight", "bold");
+                    $("#draggable"+z+myOI[i].product_id).addClass('btn-warning').removeClass('btn-primary');
+
                     if ($('#droppable'+z+myOI[i].product_id).val() === '')
                         $('#btn_sbmt_sn_no').attr('disabled', true);
 
                     console.log('EMPTY SERIAL_NUMBER.')
                     $("#droppable"+z+myOI[i].product_id).droppable({
+                        accept: "#draggable"+z+myOI[i].product_id,
                         hoverClass: 'active',
                         drop: function(event, ui) {
                             this.value = $(ui.draggable).text();
                             $(ui.draggable).hide();
                             $('#btn_sbmt_sn_no').attr('disabled', false);
+                        }
+                    });
+
+                    $("#draggable"+z+myOI[i].product_id).draggable({
+                        revert: true,
+                        helper: 'clone',
+                        start: function(event, ui) {
+                            $(this).fadeTo('fast', 0.5);
+                            //$(this).css("background-color", "green");
+                        },
+                        stop: function(event, ui) {
+                            //$(this).fadeTo('fast', 0.5);
+                            $(this).fadeTo(0, 1);
+                            //$(this).draggable('disable');
+                            //$(this).css("background-color", "red");
+                            //$(this).css("cursor", "default");
                         }
                     });
 
@@ -165,21 +188,22 @@
             }
         });
 
-        $(function() {
-            $(".draggable").draggable({
-                revert: true,
-                helper: 'clone',
-                start: function(event, ui) {
-                    $(this).fadeTo('fast', 0.5);
-                    $(this).css("background-color", "green");
-                },
-                stop: function(event, ui) {
-                    $(this).fadeTo(0, 1);
-                    $(this).draggable('disable');
-                    $(this).css("background-color", "red");
-                    $(this).css("cursor", "default");
-                }
-            });
-        });
+        // $(function() {
+        //     $(".draggable").draggable({
+        //         revert: true,
+        //         helper: 'clone',
+        //         start: function(event, ui) {
+        //             $(this).fadeTo('fast', 0.5);
+        //             //$(this).css("background-color", "green");
+        //         },
+        //         stop: function(event, ui) {
+        //             $(this).fadeTo('fast', 0.5);
+        //             //$(this).fadeTo(0, 1);
+        //             //$(this).draggable('disable');
+        //             //$(this).css("background-color", "red");
+        //             //$(this).css("cursor", "default");
+        //         }
+        //     });
+        // });
     </script>
 @endsection

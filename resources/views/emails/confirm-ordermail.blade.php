@@ -19,6 +19,9 @@ This is your order summary, hope that your items arrive safely.
 <h1 style="text-align:center">RM {{ number_format($recipientInfo->payment_total / 1) }}.00</h1>
 @endcomponent
 
+@component('mail::subcopy')
+@endcomponent
+
 Thanks ❤,<br>
 {{ Auth::user()->name }}
 @endcomponent
