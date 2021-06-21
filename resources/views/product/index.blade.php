@@ -126,16 +126,18 @@
                             </span>
                                 <span><a href="{{ $p->product_link }}" target="_blank"><img src="/image/link.png" class="float-end"></a></span>
                                 <span>
-                                <a
-                                    href="#"
-                                    data-myprodid="{{ $p->id }}"
-                                    data-myshopprodname="{{ $p->product_name }}"
-                                    data-myprodsn="{{ $p->product_sn }}"
-                                    data-myprodpic="{{ $p->product_image_path }}"
-                                    data-myprodprice="{{ $p->product_price }}"
-                                    data-myprodstock="{{ $p->product_stock_count }}"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdrop"><i data-feather="info" class="float-end feather-24" style="margin-right: 10px"></i></a></span>
+                                    <a
+                                        href="#"
+                                        data-myprodid="{{ $p->id }}"
+                                        data-myshopprodname="{{ $p->product_name }}"
+                                        data-myprodsn="{{ $p->product_sn }}"
+                                        data-myprodpic="{{ $p->product_image_path }}"
+                                        data-myprodprice="{{ $p->product_price }}"
+                                        data-myprodstock="{{ $p->product_stock_count }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop"><i data-feather="info" class="float-end feather-24" style="margin-right: 10px"></i>
+                                    </a>
+                                </span>
                             </p>
                             <small class="text-muted">Last updated {{ date('d/m/Y H:i A', strtotime($p->created_at ))}}</small>
                         </div>

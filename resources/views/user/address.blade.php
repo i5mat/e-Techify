@@ -109,7 +109,7 @@
                             {{ date('Y-m-d H:i:s A', strtotime($i->created_at)) }}
                         </td>
                         <td>
-                            <button type="button" class="btn btn-info" style="background-color: transparent; border: none"
+                            <button @if($i->default_status == 1) disabled @endif type="button" class="btn btn-info" style="background-color: transparent; border: none"
                                     onclick="event.preventDefault();
                                         document.getElementById('delete-address-{{ $i->id }}').submit()">
                                 <img src="/image/close.png">

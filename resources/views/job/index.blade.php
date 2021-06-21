@@ -63,52 +63,63 @@
     @endcan
 
     <div class="card mt-3">
-        <div class="card-header fw-bold">
-            Applicant
-        </div>
-        <div class="card-body">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Applicant</th>
-                    <th scope="col">Job Scope</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($getJob as $job)
+        @if($getJob->count() <= 0)
+            <div class="card-header fw-bold">
+                Applicant
+            </div>
+            <div class="card-body">
+                <h1 class="text-center display-4">
+                    No application made in the system
+                </h1>
+            </div>
+        @else
+            <div class="card-header fw-bold">
+                Applicant
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
                     <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <td>
-                            <span class="badge rounded-pill bg-primary" style="color: white">{{ $job->job_type }}</span>
-                        </td>
-                        <td>{{ $job->name }}</td>
-                        <td>{{ $job->job_name }}</td>
-                        <td>{{ $job->email }}</td>
-                        <td>
-                            @can('is-distributor')
-                                @if(!isset($job->email_sent))
-                                    <button class="btn btn-success rounded-pill" id="accept_applicant_btn{{ $loop->iteration }}" data-id="{{ $job->id }}">Accept</button>
-                                    <button class="btn btn-danger rounded-pill" id="reject_applicant_btn{{ $loop->iteration }}" data-id="{{ $job->id }}">Decline</button>
-                                @else
-                                    Responded to applicant 😃
-                                @endif
-                            @else
-                                @if($job->email_sent == 1)
-                                    Approved ✔
-                                @else
-                                    Waiting for respond 🤞
-                                @endif
-                            @endcan
-                        </td>
+                        <th scope="col"></th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Applicant</th>
+                        <th scope="col">Job Scope</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Actions</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    @foreach($getJob as $job)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>
+                                <span class="badge rounded-pill bg-primary" style="color: white">{{ $job->job_type }}</span>
+                            </td>
+                            <td>{{ $job->name }}</td>
+                            <td>{{ $job->job_name }}</td>
+                            <td>{{ $job->email }}</td>
+                            <td>
+                                @can('is-distributor')
+                                    @if(!isset($job->email_sent))
+                                        <button class="btn btn-success rounded-pill" id="accept_applicant_btn{{ $loop->iteration }}" data-id="{{ $job->id }}">Accept</button>
+                                        <button class="btn btn-danger rounded-pill" id="reject_applicant_btn{{ $loop->iteration }}" data-id="{{ $job->id }}">Decline</button>
+                                    @else
+                                        Responded to applicant 😃
+                                    @endif
+                                @else
+                                    @if($job->email_sent == 1)
+                                        Approved ✔
+                                    @else
+                                        Waiting for respond 🤞
+                                    @endif
+                                @endcan
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

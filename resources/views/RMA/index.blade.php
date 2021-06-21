@@ -170,8 +170,8 @@
         $("#btn_submit_rma").click(function() {
             if ($("#prod_brand :selected").text() === 'Name' || $("#prod_name :selected").text() === 'Products') {
                 Swal.fire(
-                    'Null Value',
-                    'Please select input brand and product',
+                    'Input Null',
+                    'Please input all fields',
                     'error'
                 )
             } else
