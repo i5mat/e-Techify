@@ -46,7 +46,6 @@ Route::prefix('product')->middleware(['auth', 'verified'])->name('product.')->gr
     Route::get('cart', [App\Http\Controllers\Product\ProductController::class, 'manageCartIndex'])->name('manageCart');
     Route::post('addProductCart/{id}', [App\Http\Controllers\Product\ProductController::class, 'addToCart'])->name('addProdCart');
     Route::delete('del-item-cart/{id}', [App\Http\Controllers\Product\ProductController::class, 'delItemCart'])->name('del-cart');
-    Route::get('items/pagination', [App\Http\Controllers\Product\ProductController::class, 'fetch_data_shop']);
 });
 
 // Product related pages

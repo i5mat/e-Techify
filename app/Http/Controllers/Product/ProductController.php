@@ -36,28 +36,6 @@ class ProductController extends Controller
         return view('product.index', compact('products', 'getProducts'));
     }
 
-    public function fetch_data_shop(Request $request)
-    {
-        if ($request->ajax())
-        {
-            if (Gate::allows('is-user')) {
-                $products = app(Pipeline::class)
-                    ->send(Product::query())
-                    ->through([
-                        \App\QueryFilters\ProductBrand::class,
-                        \App\QueryFilters\ProductPrice::class,
-                        \App\QueryFilters\MaxCount::class,
-                    ])
-                    ->thenReturn()
-                    ->paginate(6);
-
-                $getProducts = Product::select('product_brand')->distinct()->get();
-
-                return view('shop-pagination', compact('products', 'getProducts'))->render();
-            }
-        }
-    }
-
     // Must have if did not do the Route::resource. This is compulsory for Route::get.
     public function __invoke()
     {
