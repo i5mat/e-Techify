@@ -18,30 +18,30 @@
             </div>
             <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                    <div>
+                    <div class="fw-bold mb-2">
                         Serial Number
                     </div>
-                    <div class="monospace text-primary">
+                    <div class="font-monospace">
                         {{ $rma->sn_no }}
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                    <div>
+                    <div class="fw-bold mb-2">
                         Status
                     </div>
-                    <div class="text-primary">
+                    <div class="font-monospace">
                         {{ $rma->status }}
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                    <div>
+                    <div class="fw-bold mb-2">
                         Tracking No.
                     </div>
-                    <div class="text-primary">
+                    <div class="font-monospace">
                         @if($rma->tracking_no != null)
                             <a class="btn btn-outline-dark" style="font-size: 15px"
                                onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
@@ -55,7 +55,7 @@
                 <div class="p-3 text-center">
                     <div class="text-primary monospace">
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                           class="btn btn-sm btn-primary">RMA Request Form</a>
+                           class="btn btn-sm btn-primary"><i class="fa fa-file-o"></i> RMA Request Form</a>
                         <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
                             <button class="btn"><i class="fa fa-download"></i> Download File
                             </button>
@@ -74,8 +74,7 @@
                             data-bs-target="#staticRMA">
                             @can('is-reseller-distributor')
                                 <button class="btn btn-sm btn-warning"><i
-                                        data-feather="alert-triangle" class="feather-16"
-                                        style="margin-bottom: 5px"></i> Update RMA Status
+                                        class="fa fa-wrench"></i> Update RMA Status
                                 </button>
                             @endcan
                         </a>
@@ -107,30 +106,30 @@
             </div>
             <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                    <div>
+                    <div class="fw-bold mb-2">
                         Serial Number
                     </div>
-                    <div class="monospace text-primary">
+                    <div class="font-monospace">
                         {{ $rma->sn_no }}
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                    <div>
+                    <div class="fw-bold mb-2">
                         Status
                     </div>
-                    <div class="text-primary">
+                    <div class="font-monospace">
                         {{ $rma->status }}
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                    <div>
+                    <div class="fw-bold mb-2">
                         Tracking No.
                     </div>
-                    <div class="text-primary">
+                    <div class="font-monospace">
                         @if($rma->tracking_no != null)
                             <a class="btn btn-outline-dark" style="font-size: 15px"
                                onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
@@ -142,9 +141,9 @@
             </div>
             <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="p-3 text-center">
-                    <div class="text-primary monospace">
+                    <div>
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                           class="btn btn-sm btn-primary">RMA Request Form</a>
+                           class="btn btn-sm btn-primary"><i class="fa fa-download"></i> RMA Request Form</a>
                         <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
                             <button class="btn"><i class="fa fa-download"></i> Download File
                             </button>
@@ -163,8 +162,7 @@
                             data-bs-target="#staticRMA">
                             @can('is-distributor')
                                 <button class="btn btn-sm btn-warning"><i
-                                        data-feather="alert-triangle" class="feather-16"
-                                        style="margin-bottom: 5px"></i> Update RMA Status
+                                        class="fa fa-wrench"></i> Update RMA Status
                                 </button>
                             @endcan
                         </a>
@@ -196,30 +194,30 @@
             </div>
             <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                    <div>
+                    <div class="fw-bold mb-2">
                         Serial Number
                     </div>
-                    <div class="monospace text-primary">
+                    <div class="font-monospace">
                         {{ $rma->sn_no }}
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                    <div>
+                    <div class="fw-bold mb-2">
                         Status
                     </div>
-                    <div class="text-primary">
+                    <div class="font-monospace">
                         {{ $rma->status }}
                     </div>
                 </div>
             </div>
             <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="text-center">
-                    <div>
+                    <div class="fw-bold mb-2">
                         Tracking No.
                     </div>
-                    <div class="text-primary">
+                    <div class="font-monospace">
                         @if($rma->tracking_no != null)
                             <a class="btn btn-outline-dark" style="font-size: 15px"
                                onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
@@ -232,11 +230,14 @@
             <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="p-3 text-center">
                     <div class="text-primary monospace">
-                        <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                           class="btn btn-sm btn-primary">RMA Request Form</a>
                         <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
-                            <button class="btn"><i class="fa fa-download"></i> Download File
+                            <button class="btn btn-sm btn-warning mb-1"><i class="fa fa-download"></i>
+                                Download Receipt
                             </button>
+                        </a>
+                        <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
+                           class="btn btn-sm btn-primary"><i class="fa fa-file"></i>
+                            RMA Request Form
                         </a>
                     </div>
                 </div>

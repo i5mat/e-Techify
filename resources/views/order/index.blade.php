@@ -136,19 +136,19 @@
                                                 <span>
                                                 <a href="{{ route('track.index.trackparcel', $i->id) }}"><i
                                                         data-feather="truck"></i></a>
-                                            </span>
+                                                </span>
                                                 <span>
                                                 <a href="{{ route('order.index.orderdetails', $i->id) }}"><i
                                                         data-feather="eye"></i></a>
-                                            </span>
+                                                </span>
                                                 <span>
                                                 <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i
                                                         data-feather="file-text"></i></a>
-                                            </span>
+                                                </span>
                                                 <span>
                                                 <a href="{{ route('order.purchase.insertsn', $i->id) }}"><i
                                                         data-feather="upload"></i></a>
-                                            </span>
+                                                </span>
 
                                                 <form id="get-awb-order-{{ $i->id }}"
                                                       action="{{ route('order.purchase.awb', $i->id) }}" method="POST"

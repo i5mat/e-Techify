@@ -148,11 +148,35 @@
                 </div>
             </div>
 
-            <div class="row mt-4">
+            <div class="row mt-3">
+                <div class="col-xl-8 col-lg-7">
+                    <div class="card shadow">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">Earnings Overview</h6>
+                        </div>
+                        <div class="card-body border-3 border-bottom border-warning">
+                            <div id="graph"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow">
+                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0" style="font-weight: bold">Revenue Sources</h6>
+                        </div>
+                        <div class="card-body pt-4 pb-2 border-3 border-bottom border-warning">
+                            <div id="graph2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
                 <div class="col-xl-12 col-lg-11">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">All RMA Requests</h6>
+                            <h6 class="m-0" style="font-weight: bold">Customer RMA Requests</h6>
 
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
@@ -165,32 +189,8 @@
                                 <div id="table_data">
                                     @include('pagination')
                                 </div>
-                            <!-- END HERE -->
+                                <!-- END HERE -->
                             @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="margin-top: 10px">
-                <div class="col-xl-8 col-lg-7">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">Earnings Overview</h6>
-                        </div>
-                        <div class="card-body border-3 border-bottom border-warning">
-                            <div id="graph"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-4 col-lg-5">
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">Revenue Sources</h6>
-                        </div>
-                        <div class="card-body pt-4 pb-2 border-3 border-bottom border-warning">
-                            <div id="graph2"></div>
                         </div>
                     </div>
                 </div>
@@ -256,7 +256,7 @@
                 <div class="col-xl-12 col-lg-11">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">All RMA Requests</h6>
+                            <h6 class="m-0" style="font-weight: bold">Customer RMA Requests</h6>
 
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
@@ -352,7 +352,7 @@
             <div class="col-xl-12 col-lg-11">
                 <div class="card shadow">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0" style="font-weight: bold">Job Offerings</h6>
+                        <h6 class="m-0" style="font-weight: bold">Job Offers</h6>
                     </div>
                     <div class="card-body border-3 border-bottom border-warning">
                         <div class="owl-carousel owl-theme">

@@ -28,7 +28,7 @@
                 <dd class="col-sm-9">{{ $recipientInfo->tracking_num }} <span class="badge bg-warning text-dark">XT Express</span></dd>
 
                 <dt class="col-sm-3">Tracking Status</dt>
-                <dd class="col-sm-9">{{ $recipientInfo->order_status }}</dd>
+                <dd class="col-sm-9 fw-bold">{{ $recipientInfo->order_status }}</dd>
 
                 <dt class="col-sm-3">Barcode</dt>
                 <dd class="col-sm-9">{!! DNS1D::getBarcodeSVG($recipientInfo->tracking_num, "C39", 1, 50, '#2A3239') !!} </dd>
@@ -97,9 +97,7 @@
                 </tbody>
             </table>
             <div class="text-center">
-                <p class="lead">
-                    <button id="btn_sbmt_sn_no" type="button" class="btn btn-warning" style="width: 100%">Submit</button>
-                </p>
+                <button id="btn_sbmt_sn_no" type="button" class="btn btn-primary" style="width: 100%">Submit</button>
             </div>
             </form>
         </div>
@@ -118,7 +116,6 @@
         // console.log(myOI);
 
         $.each(myOI, function(i, item) {
-            console.log(i)
             var lols = myOI[i].product_order_quantity;
             for (z = 0; z < lols; z++) {
                 const str = myOI[i].serial_number;
@@ -139,6 +136,9 @@
                             this.value = $(ui.draggable).text();
                             $(ui.draggable).hide();
                             $('#btn_sbmt_sn_no').attr('disabled', false);
+                            var draggableId = ui.draggable.attr("id");
+                            var droppableId = $(this).attr("id");
+                            console.log(draggableId + '' + droppableId)
                         }
                     });
 
@@ -147,6 +147,8 @@
                         helper: 'clone',
                         start: function(event, ui) {
                             $(this).fadeTo('fast', 0.5);
+                            console.log('DRAGGED' + $(this).attr("id"))
+                            //$("#droppable"+z+myOI[i].product_id).focus();
                             //$(this).css("background-color", "green");
                         },
                         stop: function(event, ui) {
@@ -157,6 +159,14 @@
                             //$(this).css("cursor", "default");
                         }
                     });
+
+                    // $("#draggable"+z+myOI[i].product_id).on('mousedown', function(event) {
+                    //     // event.preventDefault(); // drag does not work anymore
+                    //     console.log('DRAGGED' + $(this).attr("id"))
+                    //     setTimeout(function(){
+                    //         $("input").focus();
+                    //     }, 1);
+                    // });
 
                     $("#btn_sbmt_sn_no").click(function() {
                         Swal.fire({
@@ -187,23 +197,5 @@
                 }
             }
         });
-
-        // $(function() {
-        //     $(".draggable").draggable({
-        //         revert: true,
-        //         helper: 'clone',
-        //         start: function(event, ui) {
-        //             $(this).fadeTo('fast', 0.5);
-        //             //$(this).css("background-color", "green");
-        //         },
-        //         stop: function(event, ui) {
-        //             $(this).fadeTo('fast', 0.5);
-        //             //$(this).fadeTo(0, 1);
-        //             //$(this).draggable('disable');
-        //             //$(this).css("background-color", "red");
-        //             //$(this).css("cursor", "default");
-        //         }
-        //     });
-        // });
     </script>
 @endsection
