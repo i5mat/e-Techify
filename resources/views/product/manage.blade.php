@@ -54,16 +54,24 @@
                                 <div class="col-md">
                                     <label for="prod-stock-label" class="col-md-4 col-form-label text-md-right">Stock</label>
 
-                                    <div class="col-md-12">
+                                    <div class="col">
                                         <input type="number" name="prod_stock" id="prod_stock" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md">
+                                <div class="col">
                                     <label for="prod-price-label" class="col-md-4 col-form-label text-md-right">Price</label>
 
                                     <div class="input-group mb-2">
                                         <span class="input-group-text" id="basic-addon1">RM</span>
                                         <input type="number" class="form-control" id="prod_price" name="prod_price">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label for="prod-price-label" class="col col-form-label text-md-right">New Price</label>
+
+                                    <div class="input-group mb-2">
+                                        <span class="input-group-text" id="basic-addon1">RM</span>
+                                        <input type="number" class="form-control" id="new_prod_price" name="new_prod_price">
                                     </div>
                                 </div>
                             </div>
@@ -81,79 +89,36 @@
 
         <!-- [START] Table to manage product [START] -->
         <div class="card text-center">
-            <div class="card-body">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Brand</th>
-                        <th scope="col">Date</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($products as $prod)
-                    <tr>
-                        <td><img src="/storage/product/{{ $prod->product_image_path }}" width="60" height="60"></td>
-                        <th scope="row">{{ $prod->product_sn }}</th>
-                        <td>{{ $prod->product_name }}</td>
-                        <td>{{ $prod->product_brand }}</td>
-                        <td>
-                            {{ date('d/m/Y H:i A', strtotime($prod->created_at ))}}
-                        </td>
-                        <td>
-                            @if ($prod->product_stock_count >= 0 && $prod->product_stock_count <= 5)
-                                <span class="badge bg-danger" style="color: white">PLEASE RESTOCK</span>
-                            @elseif($prod->product_stock_count >= 6 && $prod->product_stock_count <= 10)
-                                <span class="badge bg-warning" style="color: white">LOW STOCK</span>
-                            @elseif($prod->product_stock_count > 10)
-                                <span class="badge bg-success" style="color: white">READY STOCK</span>
-                            @endif
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger" style="background-color: transparent; border: none"
-                                    onclick="event.preventDefault();
-                                    document.getElementById('delete-product-{{ $prod->id }}').submit()">
-                                <img src="/image/delete.png">
-                            </button>
-
-                            <form id="delete-product-{{ $prod->id }}" action="{{ route('product.items.destroy', $prod->id) }}" method="POST" style="display: none">
-                                @csrf
-                                @method("DELETE")
-                            </form>
-
-                            <button
-                                type="button"
-                                class="btn btn-success"
-                                style="background-color: transparent; border: none"
-                                data-bs-toggle="modal"
-                                data-bs-target="#exampleModal"
-                                data-myprodid="{{ $prod->id }}"
-                                data-myprodname="{{ $prod->product_name }}"
-                                data-myprodsn="{{ $prod->product_sn }}"
-                                data-myprodpic="{{ $prod->product_image_path }}"
-                                data-myprodprice="{{ $prod->product_price }}"
-                                data-myprodstock="{{ $prod->product_stock_count }}">
-                                <img src="/image/edit.png">
-                            </button>
-
-                            <a href="{{ $prod->product_link }}" target="_blank">
-                                <button type="button" class="btn btn-info" style="background-color: transparent; border: none">
-                                    <img src="/image/link.png">
-                                </button>
-                            </a>
-                        </td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                </table>
+            <div class="card-body" id="table_data_product">
+                @include('manageProduct-pagination')
             </div>
         </div>
         <!-- [END] Table to manage product [END] -->
         <br>
-        {{ $products->links() }}
 
+    <script type="application/javascript">
+        $(document).ready(function() {
+
+            $(document).on('click', '.pagination a', function(event) {
+                event.preventDefault();
+                var page = $(this).attr('href').split('page=')[1];
+                fetch_data(page);
+            });
+
+            function fetch_data(page) {
+                var l = window.location;
+
+                // the request path should be
+                // domain.com/welcome/pagination
+                console.log(l.origin+ ' ' +l.pathname)
+
+                $.ajax({
+                    url: l.origin + l.pathname + "/pagination?page=" + page,
+                    success: function(products) {
+                        $('#table_data_product').html(products);
+                    }
+                });
+            }
+        });
+    </script>
 @endsection

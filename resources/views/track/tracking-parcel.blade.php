@@ -45,6 +45,10 @@
         </figcaption>
     </figure>
 
+    @if(!empty($errorMsg))
+        <div class="alert alert-danger"> {{ $errorMsg }}</div>
+    @endif
+
     <div class="card">
         <div class="card-body">
             <div class="container">

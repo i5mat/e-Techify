@@ -215,6 +215,7 @@
                 var prod_pic = button.data('myprodpic') // Extract info from data-* attributes
                 var prod_price = button.data('myprodprice') // Extract info from data-* attributes
                 var prod_stock = button.data('myprodstock') // Extract info from data-* attributes
+                var new_prod_price = button.data('myprodnewprice') // Extract info from data-* attributes
                 //var end = button.data('myend') // Extract info from data-* attributes
                 //var event_type = button.data('myeventtype') // Extract info from data-* attributes
                 //var event_level = button.data('myeventlevel') // Extract info from data-* attributes
@@ -227,6 +228,7 @@
                 //modal.find('.modal-body #prod_pic').val(prod_pic);
                 modal.find('.modal-body #prod_price').val(prod_price);
                 modal.find('.modal-body #prod_stock').val(prod_stock);
+                modal.find('.modal-body #new_prod_price').val(new_prod_price);
                 //modal.find('.modal-body #enddate').val(end);
                 //modal.find('.modal-body #event_types').val(event_type);
                 //modal.find('.modal-body #event_levels').val(event_level);

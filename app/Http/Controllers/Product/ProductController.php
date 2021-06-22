@@ -53,6 +53,20 @@ class ProductController extends Controller
         return view('product.manage', compact('products'));
     }
 
+    public function fetch_data(Request $request)
+    {
+        if ($request->ajax())
+        {
+            if (Gate::allows('is-distributor')) {
+                $products = Product::where('user_id', '=', \Auth::id())->paginate(6);
+            } elseif (Gate::allows('is-reseller')) {
+                $products = Product::paginate(6);
+            }
+
+            return view('manageProduct-pagination', compact('products'))->render();
+        }
+    }
+
     public function stockManagementIndex()
     {
         $user = User::join('role_user', 'role_user.user_id', '=', 'users.id')
@@ -241,6 +255,7 @@ class ProductController extends Controller
             $product->product_sn = $request->prod_sn;
             $product->product_stock_count = $request->prod_stock;
             $product->product_price = $request->prod_price;
+            $product->new_product_price = $request->new_prod_price;
         }
 
         if($product->save()) {

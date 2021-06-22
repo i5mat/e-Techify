@@ -101,6 +101,7 @@
                             <h5 class="card-title">{{ $p->product_name }}</h5>
                             <p class="card-text">{{ $p->product_sn }}</p>
                             <p><span><img src="/image/security.png">&nbsp; {{ $p->product_warranty_duration }} Years Warranty </span></p>
+                            {{-- <h5 class="text-decoration-line-through" style="color: red">RM {{ $p->new_product_price }}</h5> --}}
                             <h2>RM {{ $p->product_price }}
                                 <button
                                     @if($p->product_stock_count == 0)

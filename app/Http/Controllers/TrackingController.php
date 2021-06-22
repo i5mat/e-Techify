@@ -85,7 +85,7 @@ class TrackingController extends Controller
 
             return view('track.tracking-parcel-result', compact('trackingStatus', 'tracking_no', 'trackingStatusHeader'));
         }else {
-            return redirect()->back()->with('danger', 'Tracking not found, or it does not exist.');
+            return view('track.tracking-parcel')->with('errorMsg','Tracking is not exist in the system.');
         }
     }
 }
