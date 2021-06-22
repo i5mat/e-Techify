@@ -65,7 +65,8 @@
     <div class="card mt-3">
         @if($getJob->count() <= 0)
             <div class="card-header fw-bold">
-                Applicant
+                @can('is-reseller') User Applicant @endcan
+                @can('is-user') Your Application @endcan
             </div>
             <div class="card-body">
                 <h1 class="text-center display-4">
@@ -74,7 +75,8 @@
             </div>
         @else
             <div class="card-header fw-bold">
-                Applicant
+                @can('is-reseller') User Applicant @endcan
+                @can('is-user') Your Application @endcan
             </div>
             <div class="card-body">
                 <table class="table">
