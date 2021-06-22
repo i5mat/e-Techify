@@ -22,6 +22,7 @@ class Product extends Model
         'created_at',
         'updated_at',
         'product_price',
+        'new_product_price',
         'product_link',
         'product_stock_count'
     ];

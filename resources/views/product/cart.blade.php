@@ -175,7 +175,10 @@
         myFunction();
 
         var myA = @json($myArrays);
+        var recipient = @json($userinfo);
         console.log(myA);
+        console.log(recipient[0].address.toUpperCase());
+        console.log(recipient)
 
         for (z = 1; z <= myA.length; z++) {
             $("#btn_del_item"+z).click(function () {
@@ -325,7 +328,14 @@
                                 success: function (data) {
                                     if (data['success']) {
                                         console.log(data)
-                                        //alert('Transaction completed by ' + details.purchase_units[0].shipping.name.full_name);
+
+                                        var msg = 'Dear, ' + recipient[0].name.toUpperCase() + '. Thank you for shopping with us at e-Techify! Your order ID is ' + myA[0].order_id + " and it will be sent to you in 3-7 working days.";
+                                        var phone = recipient[0].phone_no;
+                                        fetch("https://terminal.adasms.com/api/v1/send?_token=Zk24gMmtAqWl1QJbIBwp3biEtZPp10bo&phone=60"+ phone +"&message=" + msg, {
+                                            "method": "POST"
+                                        })
+                                            .then(response => console.log(response))
+                                            .catch(err => console.error(err));
 
                                         Swal.fire({
                                             icon: 'success',

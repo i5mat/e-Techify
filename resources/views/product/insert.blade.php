@@ -91,19 +91,29 @@
         </div>
 
         <div class="row g-2 mb-3">
-            <div class="col-md">
+            <div class="col-md" id="div_default_prod_brand">
                 <div class="form-floating">
                     <select class="form-select" name="prod_brand" id="prod_brand">
                         <option selected>Please select...</option>
                         <option value="NZXT">NZXT</option>
                         <option value="FRACTAL DESIGN">FRACTAL DESIGN</option>
+                        <option value="ASUS ROG">ASUS ROG</option>
                     </select>
                     <label for="prod_brand">Product Brand</label>
                 </div>
             </div>
+            <div class="col-md" id="div_new_prod_brand">
+                <div class="form-floating">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="new_prod_brand" name="new_prod_brand" placeholder="test">
+                        <label for="new_prod_brand">Product Brand</label>
+                    </div>
+                </div>
+                <label for="new_prod_brand" class="error"></label>
+            </div>
             <div class="col-md">
                 <div class="form-floating">
-                    <div class="form-floating mb-3">
+                    <div class="form-floating">
                         <input type="number" class="form-control" id="prod_stock" name="prod_stock" placeholder="test">
                         <label for="prod_price">Product Stock</label>
                     </div>
@@ -111,12 +121,29 @@
                 <label for="prod_stock" class="error"></label>
             </div>
         </div>
+        <div class="form-check form-switch mb-3">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+            <label class="form-check-label" for="flexCheckChecked">
+                Click here if you want to insert new product brand.
+            </label>
+        </div>
 
         <button type="submit" class="btn btn-primary float-end" style="width: 100%">Submit</button>
     </form>
     </div>
 
     <script>
+        $('#div_new_prod_brand').hide();
+        $("#flexCheckChecked").change(function() {
+            if($(this).prop('checked')) {
+                $('#div_new_prod_brand').show();
+                $('#div_default_prod_brand').hide();
+            } else {
+                $('#div_new_prod_brand').hide();
+                $('#div_default_prod_brand').show();
+            }
+        });
+
         $(document).ready(function() {
             $("#insert-product-form").validate({
                 rules: {
@@ -139,9 +166,6 @@
                         required: true
                     },
                     prod_category: {
-                        required: true
-                    },
-                    prod_brand: {
                         required: true
                     },
                     prod_stock: {

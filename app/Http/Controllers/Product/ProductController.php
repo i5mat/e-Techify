@@ -112,7 +112,10 @@ class ProductController extends Controller
         }
 
         $userinfo = DB::table('addresses')
-            ->where('user_id', Auth::id())
+            ->where([
+                'user_id' => Auth::id(),
+                'default_status' => 1
+            ])
             ->get();
         return view('product.cart', compact('items', 'userinfo', 'myArrays'));
     }
@@ -202,22 +205,41 @@ class ProductController extends Controller
             $request->file('prod_image')->store('product', 'public');
 
             // Store the record, using the new file hashname which will be it's new filename identity.
-            $product = new Product([
-                "user_id" => Auth::id(),
-                "product_name" => $request->get('prod_name'),
-                "product_sn" => $request->get('prod_sn'),
-                "product_image_path" => $request->file('prod_image')->hashName(),
-                "product_category" => $request->get('prod_category'),
-                "product_brand" => $request->get('prod_brand'),
-                "product_warranty_duration" => $request->get('prod_warranty'),
-                "product_price" => $request->get('prod_price'),
-                "product_link" => $request->get('prod_link'),
-                "product_stock_count" => $request->get('prod_stock')
-            ]);
+            if ($request->has('new_prod_brand')) {
+                $product = new Product([
+                    "user_id" => Auth::id(),
+                    "product_name" => $request->get('prod_name'),
+                    "product_sn" => $request->get('prod_sn'),
+                    "product_image_path" => $request->file('prod_image')->hashName(),
+                    "product_category" => $request->get('prod_category'),
+                    "product_brand" => $request->get('new_prod_brand'),
+                    "product_warranty_duration" => $request->get('prod_warranty'),
+                    "product_price" => $request->get('prod_price'),
+                    "new_product_price" => $request->get('prod_price'),
+                    "product_link" => $request->get('prod_link'),
+                    "product_stock_count" => $request->get('prod_stock')
+                ]);
+            }
+            else {
+                $product = new Product([
+                    "user_id" => Auth::id(),
+                    "product_name" => $request->get('prod_name'),
+                    "product_sn" => $request->get('prod_sn'),
+                    "product_image_path" => $request->file('prod_image')->hashName(),
+                    "product_category" => $request->get('prod_category'),
+                    "product_brand" => $request->get('prod_brand'),
+                    "product_warranty_duration" => $request->get('prod_warranty'),
+                    "product_price" => $request->get('prod_price'),
+                    "new_product_price" => $request->get('prod_price'),
+                    "product_link" => $request->get('prod_link'),
+                    "product_stock_count" => $request->get('prod_stock')
+                ]);
+            }
+
             $product->save(); // Finally, save the record.
         }
 
-        return redirect(route('product.items.index'));
+        return redirect()->back();
     }
 
     public function destroy($id, Request $request)
