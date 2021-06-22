@@ -19,35 +19,9 @@
         </div>
     </div>
 
-    <div class="card mt-2">
-        <div class="card-body">
-            <table class="table" id="country_table">
-                <thead>
-                <tr>
-                    <th scope="col">Country</th>
-                    <th scope="col">Dose Completed</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    {{-- All from JQuery --}}
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
     <script>
         $.getJSON('https://covidbucketbbc.s3-ap-southeast-1.amazonaws.com/heatdata.json?1623566954915', function(data_ncov) {
             console.log(data_ncov)
-
-            $.each(data_ncov.data,function(i,item){
-                $("#country_table tbody").append(
-                    "<tr>"
-                    +"<td>"+item.nme+"</td>"
-                    +"<td>"+item.vakdosecomplete+"</td>"
-                    +"</tr>" )
-            })
 
             $.each(data_ncov.data, function(i, item) {
                 //const dose_complete = item[i].vakdosecomplete;

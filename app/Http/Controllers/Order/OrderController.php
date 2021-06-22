@@ -604,16 +604,16 @@ class OrderController extends Controller
             $font->align('center');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        $img->save(public_path('awb/'.$tracking.'-awb.jpg'));
 
-        \Storage::disk('public')->put('barcode/test'.$tracking.'.png', base64_decode($bar_code_tracking));
-        \Storage::disk('public')->put('qrcode/lol'.$tracking.'.png', base64_decode($qr_code_tracking));
+        \Storage::disk('public')->put('barcode/barcode'.$tracking.'.png', base64_decode($bar_code_tracking));
+        \Storage::disk('public')->put('qrcode/qrcode'.$tracking.'.png', base64_decode($qr_code_tracking));
 
-        $barcode = Image::make('storage/barcode/test'.$tracking.'.png')->resize(1300, 200);
-        $qrcode = Image::make('storage/qrcode/lol'.$tracking.'.png')->resize(350, 350);
+        $barcode = Image::make('storage/barcode/barcode'.$tracking.'.png')->resize(1300, 200);
+        $qrcode = Image::make('storage/qrcode/qrcode'.$tracking.'.png')->resize(350, 350);
         $img->insert($barcode, 'top-left', 550, 350);
         $img->insert($qrcode, 'top-left', 1960, 2900);
-        $img->save(public_path('awb/test-awb.jpg'));
+        $img->save(public_path('awb/'.$tracking.'-awb.jpg'));
 
         return response($img)->header('Content-type','image/png');
     }
