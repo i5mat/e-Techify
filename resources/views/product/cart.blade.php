@@ -253,7 +253,7 @@
                 if ($('#qnt_'+i).val() > parseInt(x)) {
                     Swal.fire({
                         title: 'Error!',
-                        text: 'Stock is around '+ parseInt(x)+ ' only :<',
+                        text: 'Stock is around '+ parseInt(x)+ ' only',
                         icon: 'error',
                         confirmButtonText: 'Okay',
                     }).then((result) => {

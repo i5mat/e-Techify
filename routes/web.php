@@ -79,6 +79,7 @@ Route::prefix('tracking')->middleware(['auth', 'verified'])->name('track.')->gro
     Route::post('track-parcel/insert/{id}', [App\Http\Controllers\TrackingController::class, 'insertTracking'])->name('insert.trackparcel');
     Route::get('parcel', [App\Http\Controllers\TrackingController::class, 'trackOutParcelIndex'])->name('new.parcel');
     Route::post('parcel/success', [App\Http\Controllers\TrackingController::class, 'trackOutParcel'])->name('parcel');
+    Route::get('track-parcel-google/{id}', [App\Http\Controllers\TrackingController::class, 'googleTrack']);
 });
 
 Route::prefix('distributor')->middleware(['auth', 'verified'])->name('distributor.')->group(function () {

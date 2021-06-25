@@ -41,7 +41,6 @@
                         <div class="form-floating">
                             <select class="form-select" name="job_type" id="job_type" required>
                                 <option selected>Please select...</option>
-                                <option value="Full Time">Full Time</option>
                                 <option value="Part Time">Part Time</option>
                                 <option value="Temporary">Temporary</option>
                                 <option value="Permanent">Permanent</option>

@@ -109,9 +109,11 @@
         var b = document.getElementById('getproduct_sn').value;
         var myA = @json($myArrays);
         var myOI = @json($orderInfoArr);
+        var counterSN = @json($countTotal);
 
         console.log(myA);
         console.log(myOI);
+        console.log(parseInt(counterSN))
         // console.log(myOI.unshift(0));
         // console.log(myOI);
 

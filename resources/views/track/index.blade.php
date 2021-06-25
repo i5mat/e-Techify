@@ -136,7 +136,7 @@
             }
         }
 
-        .map {
+        #map {
             height: 300px;
             width: 100%;
         }
@@ -154,9 +154,16 @@
     </figure>
 
     <div class="card" style="margin-bottom: 10px">
-        <div class="card-body">
-            <div id="map" class="map"></div>
+        <div id="floating-panel" style="display: none;">
+            <b>Mode of Travel: </b>
+            <select id="mode">
+                <option value="DRIVING">Driving</option>
+                <option value="WALKING">Walking</option>
+                <option value="BICYCLING">Bicycling</option>
+                <option value="TRANSIT">Transit</option>
+            </select>
         </div>
+        <div id="map"></div>
 
         <div class="card-body" >
             <dl class="row">
@@ -281,11 +288,47 @@
         </div>
     </div>
 
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7jC89-qmnCWo2FSQy8zg0LxOvNlncp9I&callback=initMap&libraries=&v=weekly"
+        async
+    ></script>
     <script src="//www.tracking.my/track-button.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         feather.replace()
+
+        function initMap() {
+            const directionsRenderer = new google.maps.DirectionsRenderer();
+            const directionsService = new google.maps.DirectionsService();
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 14,
+                center: { lat: 3.22097, lng: 101.724 },
+            });
+            directionsRenderer.setMap(map);
+            calculateAndDisplayRoute(directionsService, directionsRenderer);
+        }
+
+        function calculateAndDisplayRoute(directionsService, directionsRenderer) {
+            const selectedMode = document.getElementById("mode").value;
+            directionsService.route(
+                {
+                    origin: { lat: 3.22097, lng: 101.724 },
+                    destination: { lat: {{ $recipientInfo->longitude }}, lng: {{ $recipientInfo->latitude }} },
+                    // Note that Javascript allows us to access the constant
+                    // using square brackets and a string value as its
+                    // "property."
+                    travelMode: google.maps.TravelMode[selectedMode],
+                },
+                (response, status) => {
+                    if (status == "OK") {
+                        directionsRenderer.setDirections(response);
+                    } else {
+                        window.alert("Directions request failed due to " + status);
+                    }
+                }
+            );
+        }
 
         function linkTrack(num) {
             TrackButton.track({
@@ -343,102 +386,6 @@
                 });
             }
         });
-
-        var locations = [[3.220970840314312, 101.72429559763033], [{{ $recipientInfo->longitude }}, {{ $recipientInfo->latitude }}]];
-
-        // OpenLayers uses [lon, lat], not [lat, lon]
-        locations.map(function(l) {
-            return l.reverse();
-        });
-
-        var route = new ol.geom.LineString(locations)
-            .transform('EPSG:4326', 'EPSG:3857');
-
-        var routeCoords = route.getCoordinates();
-        var routeLength = routeCoords.length;
-
-        var routeFeature = new ol.Feature({
-            type: 'route',
-            geometry: route
-        });
-        var geoMarker = new ol.Feature({
-            type: 'geoMarker',
-            geometry: new ol.geom.Point(routeCoords[routeLength - 1])
-        });
-        var startMarker = new ol.Feature({
-            type: 'icon',
-            geometry: new ol.geom.Point(routeCoords[0])
-        });
-        var endMarker = new ol.Feature({
-            type: 'reached_icon',
-            geometry: new ol.geom.Point(routeCoords[routeLength - 1])
-        });
-
-        var styles = {
-            'route': new ol.style.Style({
-                stroke: new ol.style.Stroke({
-                    width: 6,
-                    color: [237, 212, 0, 0.8]
-                })
-            }),
-            'icon': new ol.style.Style({
-                image: new ol.style.Icon({
-                    anchor: [0.5, 1],
-                    src: '/image/start.png'
-                })
-            }),
-            'reached_icon': new ol.style.Style({
-                image: new ol.style.Icon({
-                    anchor: [0.5, 1],
-                    src: '/image/home.png'
-                })
-            }),
-            'geoMarker': new ol.style.Style({
-                image: new ol.style.Circle({
-                    radius: 7,
-                    snapToPixel: false,
-                    fill: new ol.style.Fill({
-                        color: 'black'
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: 'white',
-                        width: 2
-                    })
-                })
-            })
-        };
-
-        var animating = false;
-
-        var vectorLayer = new ol.layer.Vector({
-            source: new ol.source.Vector({
-                features: [routeFeature, geoMarker, startMarker, endMarker]
-            }),
-            style: function(feature) {
-                // hide geoMarker if animation is active
-                if (animating && feature.get('type') === 'geoMarker') {
-                    return null;
-                }
-                return styles[feature.get('type')];
-            }
-        });
-
-        var map = new ol.Map({
-            target: document.getElementById('map'),
-            controls: ol.control.defaults({ attribution: false }),
-            loadTilesWhileAnimating: true,
-            view: new ol.View(),
-            layers: [
-                new ol.layer.Tile({
-                    source: new ol.source.OSM()
-                }),
-                vectorLayer
-            ]
-        });
-        map.getView().fit(
-            vectorLayer.getSource().getExtent(), {"maxZoom":7},
-            {padding: [30, 5, 5, 5]});
-        var center = map.getView().getCenter();
 
     </script>
 @endsection

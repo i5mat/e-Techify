@@ -33,6 +33,23 @@ class TrackingController extends Controller
         return view('track.index', compact('recipientInfo', 'trackingStatus'));
     }
 
+    public function googleTrack($id)
+    {
+        $findID = Order::findOrFail($id);
+
+        $recipientInfo = DB::table('confirm_orders')
+            ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
+            ->join('orders', 'orders.id', '=', 'confirm_orders.order_id')
+            ->where([
+                'orders.user_id' => $findID->user_id,
+                'orders.order_status' => $findID->order_status,
+                'orders.id' => $findID->id
+            ])
+            ->first();
+
+        return view('track.google-track', compact('recipientInfo'));
+    }
+
     public function insertTracking($id, Request $request)
     {
         $findOrderID = Order::find($id);

@@ -36,8 +36,8 @@
                             <div class="form-floating">
                                 <select class="form-select" id="filterProductPrice" aria-label="Floating label select example" style="height: 60px">
                                     <option selected disabled>Please select...</option>
-                                    <option value="asc">Ascending</option>
-                                    <option value="desc">Descending</option>
+                                    <option value="asc">low to high</option>
+                                    <option value="desc">high to low</option>
                                 </select>
                                 <label for="filterProductPrice">Select Price</label>
                             </div>

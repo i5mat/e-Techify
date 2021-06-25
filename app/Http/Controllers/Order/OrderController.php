@@ -249,7 +249,17 @@ class OrderController extends Controller
             ])
             ->first();
 
-        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo', 'findSN', 'myArrays', 'orderInfoArr', 'getNameSN'));
+        $countTotal = DB::table('order_details')
+            ->join('orders', 'orders.id', '=', 'order_details.order_id')
+            ->where([
+                'order_details.order_id' => $findID->id
+            ])
+            ->sum('product_order_quantity');
+
+        //dd($countTotal);
+
+        return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo',
+            'findSN', 'myArrays', 'orderInfoArr', 'getNameSN', 'countTotal'));
     }
 
     public function updateProductSN($id, Request $request)
@@ -355,7 +365,7 @@ class OrderController extends Controller
 
         $getData = Order::where('user_id', Auth::id())->get();
 
-        Mail::to("ismatazmy10@gmail.com")->send(new ConfirmOrderMail($getData, $orderInfo, $recipientInfo));
+        Mail::to("user@etechify.com")->send(new ConfirmOrderMail($getData, $orderInfo, $recipientInfo));
         return response()->json(['success'=>'yey!', $request->except(['_token'])]);
     }
 
