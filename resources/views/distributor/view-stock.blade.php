@@ -6,10 +6,10 @@
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
+            <p>Manage products in shop stock.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
         </figcaption>
     </figure>
 
@@ -42,9 +42,11 @@
                             {{ $prod->product_stock_count }}
                         </td>
                         <td>
-                            @if ($prod->product_stock_count <= 2)
-                                <span class="badge bg-danger" style="color: white">LOW STOCK</span>
-                            @else
+                            @if ($prod->product_stock_count >= 0 && $prod->product_stock_count <= 5)
+                                <span class="badge bg-danger" style="color: white">PLEASE RESTOCK</span>
+                            @elseif($prod->product_stock_count >= 6 && $prod->product_stock_count <= 10)
+                                <span class="badge bg-warning" style="color: white">LOW STOCK</span>
+                            @elseif($prod->product_stock_count > 10)
                                 <span class="badge bg-success" style="color: white">READY STOCK</span>
                             @endif
                         </td>

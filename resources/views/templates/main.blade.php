@@ -33,6 +33,8 @@
         {{-- DataTables --}}
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+
+        {{-- Polyfill --}}
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
         <style>

@@ -256,10 +256,22 @@ class OrderController extends Controller
             ])
             ->sum('product_order_quantity');
 
+        $findSNValidate = DB::table('distributor_products')
+            ->select("products.id", "products.product_name", DB::raw("(GROUP_CONCAT(distributor_products.serial_number SEPARATOR ', ')) as 'sn_no'"))
+            ->join('order_details', 'order_details.product_id', '=', 'distributor_products.product_id')
+            ->join('products', 'products.id', '=', 'distributor_products.product_id')
+            ->groupBy('products.product_name')
+            ->where([
+                'distributor_products.status' => 'Not Occupied',
+                'order_details.order_id' => $findID->id
+            ])
+            ->first();
+
         //dd($countTotal);
+        //dd($findSNValidate);
 
         return view('order.insertsn', compact('orderInfo', 'total_items', 'recipientInfo',
-            'findSN', 'myArrays', 'orderInfoArr', 'getNameSN', 'countTotal'));
+            'findSN', 'myArrays', 'orderInfoArr', 'getNameSN', 'countTotal', 'findSNValidate'));
     }
 
     public function updateProductSN($id, Request $request)
@@ -291,7 +303,7 @@ class OrderController extends Controller
 
         //dd($request->except(['_token', 'getproduct_qty', 'getproduct_sn']));
 
-        return redirect()->back()->with('success', 'SUCCESS');
+        return redirect()->back()->with('success', 'Serial number is inserted accordingly');
     }
 
     public function thankYouIndex()

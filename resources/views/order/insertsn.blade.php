@@ -84,7 +84,7 @@
                         <td>
                             <input type="text" id="getproduct_qty" name="getproduct_qty" value="{{ $i->product_order_quantity }}" hidden>
                             @for ($x = 0; $x < $i->product_order_quantity; $x++)
-                                <input readonly required type="text" class="form-control" id="droppable{{ $x }}{{ $i->product_id }}" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="">
+                                <input type="text" class="form-control" id="droppable{{ $x }}{{ $i->product_id }}" name="{{ $i->product_id }}[]" style="margin-top: 5px; margin-bottom: 5px" value="" required>
                             @endfor
                             <input type="text" id="getproduct_sn" name="getproduct_sn" value="{{ $i->product_id }}" hidden>
 
@@ -98,6 +98,7 @@
             </table>
             <div class="text-center">
                 <button id="btn_sbmt_sn_no" type="button" class="btn btn-primary" style="width: 100%">Submit</button>
+                <button id="btn_sbmt2_sn_no" type="submit" class="btn btn-warning" style="width: 100%">Submit</button>
             </div>
             </form>
         </div>
@@ -114,8 +115,6 @@
         console.log(myA);
         console.log(myOI);
         console.log(parseInt(counterSN))
-        // console.log(myOI.unshift(0));
-        // console.log(myOI);
 
         $.each(myOI, function(i, item) {
             var lols = myOI[i].product_order_quantity;
@@ -124,11 +123,19 @@
 
                 if (str === null)
                 {
+                    var fieldSN = $('#droppable'+z+myOI[i].product_id).val();
+                    console.log(fieldSN);
+
+                    if (fieldSN === '') {
+                        $('#btn_sbmt_sn_no').attr('hidden', true);
+                        $('#btn_sbmt2_sn_no').attr('hidden', false);
+                    } else {
+                        $('#btn_sbmt_sn_no').attr('hidden', false);
+                        $('#btn_sbmt2_sn_no').attr('hidden', true);
+                    }
+
                     $("#draggable"+z+myOI[i].product_id).css("font-weight", "bold");
                     $("#draggable"+z+myOI[i].product_id).addClass('btn-warning').removeClass('btn-primary');
-
-                    if ($('#droppable'+z+myOI[i].product_id).val() === '')
-                        $('#btn_sbmt_sn_no').attr('disabled', true);
 
                     console.log('EMPTY SERIAL_NUMBER.')
                     $("#droppable"+z+myOI[i].product_id).droppable({
@@ -137,7 +144,7 @@
                         drop: function(event, ui) {
                             this.value = $(ui.draggable).text();
                             $(ui.draggable).hide();
-                            $('#btn_sbmt_sn_no').attr('disabled', false);
+                            //$('#btn_sbmt_sn_no').attr('disabled', false);
                             var draggableId = ui.draggable.attr("id");
                             var droppableId = $(this).attr("id");
                             console.log(draggableId + '' + droppableId)
@@ -162,32 +169,35 @@
                         }
                     });
 
-                    // $("#draggable"+z+myOI[i].product_id).on('mousedown', function(event) {
-                    //     // event.preventDefault(); // drag does not work anymore
-                    //     console.log('DRAGGED' + $(this).attr("id"))
-                    //     setTimeout(function(){
-                    //         $("input").focus();
-                    //     }, 1);
+                    // $("#btn_sbmt_sn_no").click(function() {
+                    //     Swal.fire({
+                    //         title: 'Success!',
+                    //         text: 'Serial number is inserted accordingly',
+                    //         icon: 'success',
+                    //         confirmButtonText: 'Okay',
+                    //     }).then((result) => {
+                    //         /* Read more about isConfirmed, isDenied below */
+                    //         if (result.isConfirmed) {
+                    //             $("#sn_insert_form").submit();
+                    //         }
+                    //     })
                     // });
-
-                    $("#btn_sbmt_sn_no").click(function() {
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'Serial number is inserted accordingly',
-                            icon: 'success',
-                            confirmButtonText: 'Okay',
-                        }).then((result) => {
-                            /* Read more about isConfirmed, isDenied below */
-                            if (result.isConfirmed) {
-                                $("#sn_insert_form").submit();
-                            }
-                        })
-                    });
                 }
                 else
                 {
                     const sn_num = str.split(', ');
                     $('#droppable'+z+myOI[i].product_id).val(sn_num[z])
+
+                    var fieldSN = $('#droppable'+z+myOI[i].product_id).val(sn_num[z]);
+                    console.log(fieldSN);
+
+                    if (fieldSN === '') {
+                        $('#btn_sbmt_sn_no').attr('hidden', true);
+                        $('#btn_sbmt2_sn_no').attr('hidden', false);
+                    } else {
+                        $('#btn_sbmt_sn_no').attr('hidden', false);
+                        $('#btn_sbmt2_sn_no').attr('hidden', true);
+                    }
 
                     $("#btn_sbmt_sn_no").click(function() {
                         Swal.fire(

@@ -6,12 +6,9 @@
     <h1 class="display-2 text-center">Profile <i class="fa fa-info-circle"></i></h1>
 
     <div class="container">
-        <div class="card">
+        <div class="card mx-auto" style="padding: 10px 10px; width: 50%;">
             <div class="card-body">
                 <div class="row">
-                    <div class="col">
-                        <img width="550px" src="/image/XT-logo.png"/>
-                    </div>
                     <div class="col">
                         <form method="POST" action="{{ route('user-profile-information.update') }}" id="edit_profile_form">
                             @csrf
@@ -35,16 +32,24 @@
                                 <span class="invalid-feedback" role="alert">{{ $message }}</span>
                                 @enderror
                             </div>
-                            <div class="row">
-                                <div class="col">
-                                    <button style="width: 100%" type="button" class="btn btn-primary" id="btn_edit_profile">Submit</button>
+                            @can('is-user-distributor')
+                                <div class="row">
+                                    <div class="col">
+                                        <button style="width: 100%" type="button" class="btn btn-primary" id="btn_edit_profile">Submit</button>
+                                    </div>
+                                    <div class="col">
+                                        <a href="{{ route('user.useraddress') }}">
+                                            <button style="width: 100%" type="button" class="btn btn-primary">Add New Address +</button>
+                                        </a>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <a href="{{ route('user.useraddress') }}">
-                                        <button style="width: 100%" type="button" class="btn btn-primary">Add New Address +</button>
-                                    </a>
+                            @else
+                                <div class="row">
+                                    <div class="col">
+                                        <button style="width: 100%" type="button" class="btn btn-primary" id="btn_edit_profile">Submit</button>
+                                    </div>
                                 </div>
-                            </div>
+                            @endcan
                         </form>
                     </div>
                 </div>

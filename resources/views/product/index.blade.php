@@ -127,17 +127,7 @@
                             </span>
                                 <span><a href="{{ $p->product_link }}" target="_blank"><img src="/image/link.png" class="float-end"></a></span>
                                 <span>
-                                    <a
-                                        href="#"
-                                        data-myprodid="{{ $p->id }}"
-                                        data-myshopprodname="{{ $p->product_name }}"
-                                        data-myprodsn="{{ $p->product_sn }}"
-                                        data-myprodpic="{{ $p->product_image_path }}"
-                                        data-myprodprice="{{ $p->product_price }}"
-                                        data-myprodstock="{{ $p->product_stock_count }}"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdrop"><i data-feather="info" class="float-end feather-24" style="margin-right: 10px"></i>
-                                    </a>
+                                    <i data-feather="info" class="float-end feather-24" style="margin-right: 10px"></i>
                                 </span>
                             </p>
                             <small class="text-muted">Last updated {{ date('d/m/Y H:i A', strtotime($p->created_at ))}}</small>
@@ -176,31 +166,6 @@
 
         $( "#btn_reset_filter" ).click(function() {
             window.location.href = "http://127.0.0.1:8000/product/items";
-        });
-
-        $('#staticBackdrop').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget) // Button that triggered the modal
-            var prod_name = button.data('myshopprodname') // Extract info from data-* attributes
-            var prod_sn = button.data('myprodsn') // Extract info from data-* attributes
-            var prod_id = button.data('myprodid') // Extract info from data-* attributes
-            var prod_pic = button.data('myprodpic') // Extract info from data-* attributes
-            var prod_price = button.data('myprodprice') // Extract info from data-* attributes
-            var prod_stock = button.data('myprodstock') // Extract info from data-* attributes
-
-            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-
-            var modal = $(this)
-            modal.find('.modal-body #shop_prod_name').val(prod_name);
-            modal.find('.modal-body #prod_sn').val(prod_sn);
-            modal.find('.modal-body #prod_id').val(prod_id);
-            //modal.find('.modal-body #prod_pic').val(prod_pic);
-            modal.find('.modal-body #prod_price').val(prod_price);
-            modal.find('.modal-body #prod_stock').val(prod_stock);
-            //document.cookie = 'name='.concat(event_type);
-
-            document.getElementById("shop_prod_name").innerText = prod_name;
-            document.getElementById("myProdImg").src = "/storage/product/" + prod_pic;
         });
     </script>
 @endsection

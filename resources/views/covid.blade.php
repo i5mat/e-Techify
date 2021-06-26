@@ -6,7 +6,7 @@
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>This for Covid-19 statistic page.</p>
+            <p>Covid-19 Vaccination Statistic</p>
         </blockquote>
         <figcaption class="blockquote-footer">
             Prepared by <cite title="Source Title">Wan Ismat</cite>

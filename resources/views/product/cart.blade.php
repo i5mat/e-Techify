@@ -95,7 +95,7 @@
                                      style="width:120px; height:120px;">
                             </td>
                             <td>{{ $i->product_name }}</td>
-                            <td><img src="/image/malaysia.png"> <span>{{ $i->product_price }}</span></td>
+                            <td><b>RM</b> <span>{{ $i->product_price }}</span></td>
                             <td>
                                 <input type='number' name="{{ $i->product_id }}[]" min="1" max="{{ $i->product_stock_count }}"
                                        value="{{ $i->product_order_quantity }}" class="text-center form-control"

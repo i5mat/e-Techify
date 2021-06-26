@@ -111,18 +111,18 @@
                                             <div class="d-flex justify-content-between mt-3">
 
                                                 @can('is-user')
-                                                    <span>
-                                                <a href="{{ route('order.index.orderdetails', $i->id) }}"><i
+                                                <span>
+                                                    <a href="{{ route('order.index.orderdetails', $i->id) }}"><i
                                                         data-feather="eye"></i></a>
-                                            </span>
-                                                    <span>
-                                                <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i
+                                                </span>
+                                                <span>
+                                                    <a href="{{ route('order.purchase.receipt', $i->id) }}" target="_blank"><i
                                                         data-feather="file-text"></i></a>
-                                            </span>
-                                                    <span>
+                                                </span>
+                                                <span>
                                                 <a href="{{ route('track.index.trackparcel', $i->id) }}"><i
                                                         data-feather="truck"></i></a>
-                                            </span>
+                                                </span>
                                                     <form id="cancel-order-{{ $i->id }}"
                                                           action="{{ route('order.order.cancel', $i->id) }}" method="POST"
                                                           style="display: none">

@@ -37,6 +37,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasAnyRoles(['user', 'reseller']);
         });
 
+        Gate::define('is-user-distributor', function ($user){
+            return $user->hasAnyRoles(['user', 'distributor']);
+        });
+
         Gate::define('is-user', function ($user){
             return $user->hasAnyRole('user');
         });
