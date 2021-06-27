@@ -126,9 +126,6 @@
                                 <img src="/image/boxes.png">&nbsp; {{ $p->product_stock_count }} @if($p->product_stock_count < 3) stock left @else piece available @endif
                             </span>
                                 <span><a href="{{ $p->product_link }}" target="_blank"><img src="/image/link.png" class="float-end"></a></span>
-                                <span>
-                                    <i data-feather="info" class="float-end feather-24" style="margin-right: 10px"></i>
-                                </span>
                             </p>
                             <small class="text-muted">Last updated {{ date('d/m/Y H:i A', strtotime($p->created_at ))}}</small>
                         </div>

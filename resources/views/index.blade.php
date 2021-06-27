@@ -155,7 +155,14 @@
                             <h6 class="m-0" style="font-weight: bold">Earnings Overview</h6>
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
-                            <div id="graph"></div>
+                            @if($getDataDistributor->count() <= 0)
+                                <div class="row text-center">
+                                    <img src="/image/no-earnings.png" style="width: 500px; height: 400px; display: block; margin-left: auto; margin-right: auto">
+                                    <h1 class="display-6">No earnings recorded.</h1>
+                                </div>
+                            @else
+                                <div id="graph"></div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -166,7 +173,14 @@
                             <h6 class="m-0" style="font-weight: bold">Revenue Sources</h6>
                         </div>
                         <div class="card-body pt-4 pb-2 border-3 border-bottom border-warning">
-                            <div id="graph2"></div>
+                            @if($getPieChartData->count() > 0)
+                                <div id="graph2"></div>
+                            @else
+                                <div class="row text-center">
+                                    <img src="/image/no-revenue.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
+                                    <h1 class="display-6">No revenue recorded.</h1>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -177,11 +191,11 @@
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                             <h6 class="m-0" style="font-weight: bold">Customer RMA Requests</h6>
-
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
                             @if($rmaInfoDistri->count() == 0)
                                 <div class="row text-center">
+                                    <img src="/image/no-rma.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
                                     <h1 class="display-6">RMA request from customer will be shown here.</h1>
                                 </div>
                             @else
@@ -333,6 +347,7 @@
                         <div class="card-body border-3 border-bottom border-warning">
                             @if($rmaInfo->count() == 0)
                                 <div class="row text-center">
+                                    <img src="/image/no-rma.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
                                     <h1 class="display-6">Your RMA request will be shown here.</h1>
                                 </div>
                             @else
@@ -355,84 +370,91 @@
                         <h6 class="m-0" style="font-weight: bold">Job Offers</h6>
                     </div>
                     <div class="card-body border-3 border-bottom border-warning">
-                        <div class="owl-carousel owl-theme">
-                            @foreach($jobInfo as $ji)
-                                <div class="item" style="width:307px">
-                                    <div class="col">
-                                        <div class="card p-2 mb-3 ms-1" style="border: none">
-                                            <div class="text-right badge bg-warning"><small
-                                                    class="lead">{{ $ji->job_type }}</small></div>
-                                            <div class="text-center mt-2 p-3"> <i class="fa fa-child fa-4x"></i> <span
-                                                    class="d-block font-weight-bold">{{ $ji->job_name }}</span>
-                                                <span @if($ji->status == 'Not Occupied') class="badge bg-primary mt-2"
-                                                      @else class="badge bg-success mt-2"
-                                                      @endif style="color: white">{{ $ji->status }}</span>
-                                                <hr>
-                                                <span>{{ $ji->name }}</span>
-                                                <div class="d-flex flex-row align-items-center justify-content-center"><i
-                                                        class="fa fa-map-marker"></i> <small
-                                                        class="mx-1">{{ $ji->job_location }}</small></div>
-                                                <div class="d-flex justify-content-between mt-3">
-                                                    <span>RM {{ $ji->job_salary }}</span>
+                        @if($jobInfo->count() <= 0)
+                            <div class="row text-center">
+                                <img src="/image/no-job.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
+                                <h1 class="display-6">All job inserted by you will be displayed here.</h1>
+                            </div>
+                        @else
+                            <div class="owl-carousel owl-theme">
+                                @foreach($jobInfo as $ji)
+                                    <div class="item" style="width:307px">
+                                        <div class="col">
+                                            <div class="card p-2 mb-3 ms-1" style="border: none">
+                                                <div class="text-right badge bg-warning"><small
+                                                        class="lead">{{ $ji->job_type }}</small></div>
+                                                <div class="text-center mt-2 p-3"> <i class="fa fa-child fa-4x"></i> <span
+                                                        class="d-block font-weight-bold">{{ $ji->job_name }}</span>
+                                                    <span @if($ji->status == 'Not Occupied') class="badge bg-primary mt-2"
+                                                          @else class="badge bg-success mt-2"
+                                                          @endif style="color: white">{{ $ji->status }}</span>
+                                                    <hr>
+                                                    <span>{{ $ji->name }}</span>
+                                                    <div class="d-flex flex-row align-items-center justify-content-center"><i
+                                                            class="fa fa-map-marker"></i> <small
+                                                            class="mx-1">{{ $ji->job_location }}</small></div>
+                                                    <div class="d-flex justify-content-between mt-3">
+                                                        <span>RM {{ $ji->job_salary }}</span>
 
-                                                    @if($ji->status == 'Occupied')
-                                                        @can('is-reseller-distributor')
-                                                            <button
-                                                                type="button"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#updateJobStatusModal"
-                                                                data-jobname="{{ $ji->job_name }}"
-                                                                data-jobid="{{ $ji->job_id }}"
-                                                                data-jobstats="{{ $ji->status }}"
-                                                                class="btn btn-lg btn-outline-primary"
-                                                            >Update Status
-                                                            </button>
-                                                        @endcan
-                                                        @can('is-user')
-                                                            <button type="button" disabled class="btn btn-lg btn-outline-dark">Apply</button>
-                                                        @endcan
-                                                    @elseif ($ji->status == 'Not Occupied')
-                                                        @can('is-user')
-                                                            <button
-                                                                type="button"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#jobModal"
-                                                                data-usrname="{{ $ji->name }}"
-                                                                data-usremail="{{ $ji->email }}"
-                                                                data-jobloc="{{ $ji->job_location }}"
-                                                                data-jobsalary="{{ $ji->job_salary }}"
-                                                                data-jobname="{{ $ji->job_name }}"
-                                                                data-jobid="{{ $ji->job_id }}"
-                                                                data-jobuserid="{{ Auth::id() }}"
-                                                                class="btn btn-lg btn-outline-dark"
-                                                            >Apply
-                                                            </button>
-                                                        @else
-                                                            <button
-                                                                type="button"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#updateJobModal"
-                                                                data-usrname="{{ $ji->name }}"
-                                                                data-usremail="{{ $ji->email }}"
-                                                                data-jobloc="{{ $ji->job_location }}"
-                                                                data-jobsalary="{{ $ji->job_salary }}"
-                                                                data-jobname="{{ $ji->job_name }}"
-                                                                data-jobid="{{ $ji->job_id }}"
-                                                                data-joboccupy="{{ $ji->occupied_by }}"
-                                                                data-jobuserid="{{ Auth::id() }}"
-                                                                data-jobtype="{{ $ji->job_type }}"
-                                                                class="btn btn-lg btn-outline-dark"
-                                                            >View
-                                                            </button>
-                                                        @endcan
-                                                    @endif
+                                                        @if($ji->status == 'Occupied')
+                                                            @can('is-reseller-distributor')
+                                                                <button
+                                                                    type="button"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#updateJobStatusModal"
+                                                                    data-jobname="{{ $ji->job_name }}"
+                                                                    data-jobid="{{ $ji->job_id }}"
+                                                                    data-jobstats="{{ $ji->status }}"
+                                                                    class="btn btn-lg btn-outline-primary"
+                                                                >Update Status
+                                                                </button>
+                                                            @endcan
+                                                            @can('is-user')
+                                                                <button type="button" disabled class="btn btn-lg btn-outline-dark">Apply</button>
+                                                            @endcan
+                                                        @elseif ($ji->status == 'Not Occupied')
+                                                            @can('is-user')
+                                                                <button
+                                                                    type="button"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#jobModal"
+                                                                    data-usrname="{{ $ji->name }}"
+                                                                    data-usremail="{{ $ji->email }}"
+                                                                    data-jobloc="{{ $ji->job_location }}"
+                                                                    data-jobsalary="{{ $ji->job_salary }}"
+                                                                    data-jobname="{{ $ji->job_name }}"
+                                                                    data-jobid="{{ $ji->job_id }}"
+                                                                    data-jobuserid="{{ Auth::id() }}"
+                                                                    class="btn btn-lg btn-outline-dark"
+                                                                >Apply
+                                                                </button>
+                                                            @else
+                                                                <button
+                                                                    type="button"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#updateJobModal"
+                                                                    data-usrname="{{ $ji->name }}"
+                                                                    data-usremail="{{ $ji->email }}"
+                                                                    data-jobloc="{{ $ji->job_location }}"
+                                                                    data-jobsalary="{{ $ji->job_salary }}"
+                                                                    data-jobname="{{ $ji->job_name }}"
+                                                                    data-jobid="{{ $ji->job_id }}"
+                                                                    data-joboccupy="{{ $ji->occupied_by }}"
+                                                                    data-jobuserid="{{ Auth::id() }}"
+                                                                    data-jobtype="{{ $ji->job_type }}"
+                                                                    class="btn btn-lg btn-outline-dark"
+                                                                >View
+                                                                </button>
+                                                            @endcan
+                                                        @endif
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </div>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -774,18 +796,6 @@
             var test3 = $("#total_cust_spend").text();
             document.getElementById('total_cust_spend').innerHTML = formatter.format(test3);
 
-            <!--Start of Tawk.to Script-->
-            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-            (function(){
-                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-                s1.async=true;
-                s1.src='https://embed.tawk.to/60befaa64ae6dd0abe7d09f4/1f7l0673b';
-                s1.charset='UTF-8';
-                s1.setAttribute('crossorigin','*');
-                s0.parentNode.insertBefore(s1,s0);
-            })();
-            <!--End of Tawk.to Script-->
-
             $(document).ready(function() {
 
                 $(document).on('click', '.pagination a', function(event) {
@@ -852,6 +862,7 @@
             //console.log(myC);
             console.log(myD);
 
+            @if($getDataDistributor->count() > 0)
             Highcharts.chart('graph', {
                 chart: {
                     type: 'column'
@@ -902,7 +913,9 @@
                     return series;
                 }()),
             });
+            @endif
 
+            @if($getPieChartData->count() > 0)
             var data = [];
             for(i in myD){
                 const str_num = myD[i].tot_qty.split(' ').map(Number);
@@ -947,6 +960,7 @@
                     enabled: false
                 }
             });
+            @endif
         });
 
         $(document).ready(function() {
@@ -1480,28 +1494,30 @@
             });
         }
 
-        var map = new ol.Map({
-            target: 'map',
-            controls: ol.control.defaults({attribution: false}),
-            layers: [
-                new ol.layer.Tile({
-                    source: new ol.source.OSM()
-                })
-            ],
-            view: new ol.View({
-                center: ol.proj.fromLonLat([101.72427413995997, 3.221067247294041]),
-                zoom: 17
-            })
-        });
-        var layer = new ol.layer.Vector({
-            source: new ol.source.Vector({
-                features: [
-                    new ol.Feature({
-                        geometry: new ol.geom.Point(ol.proj.fromLonLat([101.72427413995997, 3.221067247294041]))
+        @guest
+            var map = new ol.Map({
+                target: 'map',
+                controls: ol.control.defaults({attribution: false}),
+                layers: [
+                    new ol.layer.Tile({
+                        source: new ol.source.OSM()
                     })
-                ]
-            })
-        });
-        map.addLayer(layer);
+                ],
+                view: new ol.View({
+                    center: ol.proj.fromLonLat([101.72427413995997, 3.221067247294041]),
+                    zoom: 17
+                })
+            });
+            var layer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [
+                        new ol.Feature({
+                            geometry: new ol.geom.Point(ol.proj.fromLonLat([101.72427413995997, 3.221067247294041]))
+                        })
+                    ]
+                })
+            });
+            map.addLayer(layer);
+        @endguest
     </script>
 @endsection

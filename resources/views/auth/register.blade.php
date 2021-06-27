@@ -40,6 +40,12 @@
             <input name="password_confirmation" type="password" class="form-control rounded-pill" id="password_confirmation">
             <div id="confirmPassHelp" class="form-text">Please make sure password and confirm password are tele.</div>
         </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" value="2" name="distriCheck">
+            <label class="form-check-label" for="distriCheck">
+                Distributor?
+            </label>
+        </div>
         <button type="submit" class="btn btn-primary rounded-pill" style="width: 100%">Submit</button>
     </form>
     </div>

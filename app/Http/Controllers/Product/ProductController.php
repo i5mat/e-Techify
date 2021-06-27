@@ -261,17 +261,22 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->update($request->all());
 
-        if ($request->hasFile('prod_image_update')) {
+        if ($request->has('prod_image_update')) {
+
+            \File::delete(public_path('/storage/product/'.$product->product_image_path));
 
             $request->validate([
-                'files.*' => 'mimes:jpeg,jpg,png|max:1024',
+                'files.*' => 'mimes:jpeg,jpg,png',
             ]);
+
+            $request->file('prod_image_update')->store('product', 'public');
 
             $product->product_name = $request->prod_name;
             $product->product_sn = $request->prod_sn;
-            $product->product_image_path = $request->prod_image_update;
+            $product->product_image_path = $request->file('prod_image_update')->hashName();
             $product->product_stock_count = $request->prod_stock;
             $product->product_price = $request->prod_price;
+
         } else {
             $product->product_name = $request->prod_name;
             $product->product_sn = $request->prod_sn;

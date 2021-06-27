@@ -16,7 +16,7 @@
         <!-- [START] Modal to edit product [START] -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <form method="POST" action="" id="myForm">
+                <form method="POST" action="" enctype="multipart/form-data" id="myForm">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel"><img src="/image/link.png"> Product Information</h5>
@@ -90,7 +90,12 @@
         <!-- [START] Table to manage product [START] -->
         <div class="card text-center">
             <div class="card-body" id="table_data_product">
-                @include('manageProduct-pagination')
+                @if($products->count() <= 0)
+                    <img src="/image/no-product.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
+                    <h1 class="display-6">All products inserted by you will be displayed here.</h1>
+                @else
+                    @include('manageProduct-pagination')
+                @endif
             </div>
         </div>
         <!-- [END] Table to manage product [END] -->

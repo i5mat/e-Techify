@@ -70,15 +70,15 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                    <a class="nav-link active font-monospace" id="home-tab" data-toggle="tab" href="#home" role="tab"
                        aria-controls="home" aria-selected="true">To Ship <span class="badge bg-secondary ms-2" style="color: white">{{ $to_ship->count() }}</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                    <a class="nav-link font-monospace" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                        aria-controls="profile" aria-selected="false">Completed <span class="badge bg-secondary ms-2" style="color: white">{{ $delivered->count() }}</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="messages-tab" data-toggle="tab" href="#messages" role="tab"
+                    <a class="nav-link font-monospace" id="messages-tab" data-toggle="tab" href="#messages" role="tab"
                        aria-controls="messages" aria-selected="false">Cancelled <span class="badge bg-secondary ms-2" style="color: white">{{ $cancelled->count() }}</span></a>
                 </li>
             </ul>
@@ -88,8 +88,9 @@
                 <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     @if($to_ship->count() <= 0)
                         <div class="row">
-                            <h1 class="text-center display-4 mt-2">
-                                No to ship order made in the system.
+                            <img class="mt-2" src="/image/no-toship.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
+                            <h1 class="text-center display-6">
+                                To ship empty.
                             </h1>
                         </div>
                     @else
@@ -184,8 +185,9 @@
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     @if($delivered->count() <= 0)
                         <div class="row">
-                            <h1 class="text-center display-4 mt-2">
-                                No orders delivered made in the system.
+                            <img class="mt-2" src="/image/no-completed.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
+                            <h1 class="text-center display-6">
+                                Delivered empty.
                             </h1>
                         </div>
                     @else
@@ -289,8 +291,9 @@
                 <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">
                     @if($cancelled->count() <= 0)
                         <div class="row">
-                            <h1 class="text-center display-4 mt-2">
-                                No cancelled order made in the system.
+                            <img class="mt-2" src="/image/no-cancel.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
+                            <h1 class="text-center display-6">
+                                Cancelled empty.
                             </h1>
                         </div>
                     @else

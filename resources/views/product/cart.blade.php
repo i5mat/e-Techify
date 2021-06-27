@@ -73,50 +73,57 @@
 
     <div class="card text-center">
         <div class="card-body">
-            <table class="table" style="margin-top: 20px">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Product</th>
-                    <th scope="col"></th>
-                    <th scope="col">Unit Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($items as $i)
-                    <form id="form_cart" name="form_cart">
-                        @csrf
-                        <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
-                            <td>
-                                <img src="/storage/product/{{ $i->product_image_path }}"
-                                     style="width:120px; height:120px;">
-                            </td>
-                            <td>{{ $i->product_name }}</td>
-                            <td><b>RM</b> <span>{{ $i->product_price }}</span></td>
-                            <td>
-                                <input type='number' name="{{ $i->product_id }}[]" min="1" max="{{ $i->product_stock_count }}"
-                                       value="{{ $i->product_order_quantity }}" class="text-center form-control"
-                                       data-price="{{ $i->product_price }}" id="qnt_{{ $loop->iteration }}"
-                                       oninput="CalculateItemsValue(); validity.valid||(value='');">
-                                <input type="number" id="get_qty{{ $loop->iteration }}"
-                                       name="get_qty{{ $loop->iteration }}" hidden>
-                                <input type="text" id="get_prod_id" name="get_prod_id" value="{{ $i->product_id }}"
-                                       hidden>
-                                <input type="text" id="get_ord_id" name="get_ord_id" value="{{ $i->order_id }}" hidden>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" style="background-color: transparent; border: none"
-                                        id="btn_del_item{{ $loop->iteration }}" data-id="{{ $i->o_d_id }}">
-                                    <img src="/image/delete.png">
-                                </button>
-                            </td>
-                        </tr>
-                @endforeach
-                </tbody>
-            </table>
+            @if($items->count() <= 0)
+                <div class="row text-center">
+                    <img src="/image/no-item.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
+                    <h1 class="display-6">Cart is empty.</h1>
+                </div>
+            @else
+                <table class="table" style="margin-top: 20px">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Product</th>
+                        <th scope="col"></th>
+                        <th scope="col">Unit Price</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($items as $i)
+                        <form id="form_cart" name="form_cart">
+                            @csrf
+                            <tr>
+                                <th scope="row">{{ $loop->iteration }}</th>
+                                <td>
+                                    <img src="/storage/product/{{ $i->product_image_path }}"
+                                         style="width:120px; height:120px;">
+                                </td>
+                                <td>{{ $i->product_name }}</td>
+                                <td><b>RM</b> <span>{{ $i->product_price }}</span></td>
+                                <td>
+                                    <input type='number' name="{{ $i->product_id }}[]" min="1" max="{{ $i->product_stock_count }}"
+                                           value="{{ $i->product_order_quantity }}" class="text-center form-control"
+                                           data-price="{{ $i->product_price }}" id="qnt_{{ $loop->iteration }}"
+                                           oninput="CalculateItemsValue(); validity.valid||(value='');">
+                                    <input type="number" id="get_qty{{ $loop->iteration }}"
+                                           name="get_qty{{ $loop->iteration }}" hidden>
+                                    <input type="text" id="get_prod_id" name="get_prod_id" value="{{ $i->product_id }}"
+                                           hidden>
+                                    <input type="text" id="get_ord_id" name="get_ord_id" value="{{ $i->order_id }}" hidden>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger" style="background-color: transparent; border: none"
+                                            id="btn_del_item{{ $loop->iteration }}" data-id="{{ $i->o_d_id }}">
+                                        <img src="/image/delete.png">
+                                    </button>
+                                </td>
+                            </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
     </div>
 

@@ -118,81 +118,81 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user.userdash') }}">Home</a>
+                            <a class="nav-link font-monospace" href="{{ route('user.userdash') }}">Home</a>
                         </li>
                         @can('is-reseller')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>
+                                <a class="nav-link font-monospace" href="{{ route('admin.users.index') }}">Users</a>
                             </li>
                             <li class="nav-item">
                                 <div class="nav-link dropdown">
-                                    <button class="dropbtn" style="background-color: #FFF">Manage Product</button>
+                                    <button class="dropbtn font-monospace" style="background-color: #FFF">Manage Product</button>
                                     <div class="dropdown-content">
-                                        <a href="{{ route('product.insertProd') }}">Insert</a>
-                                        <a href="{{ route('product.manageProd') }}">Update.Delete</a>
+                                        <a class="font-monospace" href="{{ route('product.insertProd') }}">Insert</a>
+                                        <a class="font-monospace" href="{{ route('product.manageProd') }}">Update.Delete</a>
                                     </div>
                                 </div>
                             </li>
                         @endcan
                         @can('is-user')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('product.items.index') }}">
+                                <a class="nav-link font-monospace" href="{{ route('product.items.index') }}">
                                     Shop
                                 </a>
                             </li>
                         @endcan
                         @can('is-user-reseller')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('order.orders.index') }}">Manage Orders</a>
+                                <a class="nav-link font-monospace" href="{{ route('order.orders.index') }}">Manage Orders</a>
                             </li>
                         @endcan
                         @can('is-distributor')
                             <li class="nav-item">
                                 <div class="nav-link dropdown">
-                                    <button class="dropbtn" style="background-color: #FFF">Manage Product</button>
+                                    <button class="dropbtn font-monospace" style="background-color: #FFF">Manage Product</button>
                                     <div class="dropdown-content">
-                                        <a href="{{ route('product.insertProd') }}">Insert</a>
-                                        <a href="{{ route('product.manageProd') }}">Update.Delete</a>
+                                        <a class="font-monospace" href="{{ route('product.insertProd') }}">Insert</a>
+                                        <a class="font-monospace" href="{{ route('product.manageProd') }}">Update.Delete</a>
                                     </div>
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
+                                <a class="nav-link font-monospace" href="{{ route('job.new') }}">e-Job</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('shipment.new') }}">Shipment Requested</a>
+                                <a class="nav-link font-monospace" href="{{ route('shipment.new') }}">Shipment Requested</a>
                             </li>
                         @endcan
                         @can('is-user')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('rma.new.request') }}">e-RMA</a>
+                                <a class="nav-link font-monospace" href="{{ route('rma.new.request') }}">e-RMA</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('track.new.parcel') }}">e-Track Parcel</a>
+                                <a class="nav-link font-monospace" href="{{ route('track.new.parcel') }}">e-Track Parcel</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
+                                <a class="nav-link font-monospace" href="{{ route('job.new') }}">e-Job</a>
                             </li>
                         @endcan
                         @can('is-reseller')
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('job.new') }}">e-Job</a>
+                                <a class="nav-link font-monospace" href="{{ route('job.new') }}">e-Job</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('distributor.stock.management.index') }}">Stock Management</a>
+                                <a class="nav-link font-monospace" href="{{ route('distributor.stock.management.index') }}">Stock Management</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('shipment.new') }}">Request Shipment</a>
+                                <a class="nav-link font-monospace" href="{{ route('shipment.new') }}">Request Shipment</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('order.find-receipt') }}">Receipt Finder</a>
+                                <a class="nav-link font-monospace" href="{{ route('order.find-receipt') }}">Receipt Finder</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('distributor.insert.product.dist') }}">Insert SN</a>
+                                <a class="nav-link font-monospace" href="{{ route('distributor.insert.product.dist') }}">Insert SN</a>
                             </li>
                         @endcan
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('user.covid.index') }}">nCov-19</a>
+                            <a class="nav-link font-monospace" href="{{ route('user.covid.index') }}">nCov-19</a>
                         </li>
                     </ul>
                 </div>
@@ -210,6 +210,22 @@
         </div>
 
         <script>
+            @can('is-user')
+                //Start of Tawk.to Script
+
+                var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+                (function(){
+                    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                    s1.async=true;
+                    s1.src='https://embed.tawk.to/60befaa64ae6dd0abe7d09f4/1f7l0673b';
+                    s1.charset='UTF-8';
+                    s1.setAttribute('crossorigin','*');
+                    s0.parentNode.insertBefore(s1,s0);
+                })();
+
+                //End of Tawk.to Script
+            @endcan
+
             $('#exampleModal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget) // Button that triggered the modal
                 var prod_name = button.data('myprodname') // Extract info from data-* attributes

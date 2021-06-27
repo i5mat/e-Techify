@@ -16,7 +16,7 @@
     @can('is-reseller-distributor')
     <div class="card">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0" style="font-weight: bold">Job Form</h6>
+            <h6 class="m-0" style="font-weight: bold">Form</h6>
         </div>
         <div class="card-body border-3 border-bottom border-warning">
             <form method="POST" action="{{ route('job.request.new') }}" id="form_job">
@@ -63,20 +63,13 @@
 
     <div class="card mt-3">
         @if($getJob->count() <= 0)
-            <div class="card-header fw-bold">
-                @can('is-reseller-distributor') User Applicant @endcan
-                @can('is-user') Your Application @endcan
-            </div>
             <div class="card-body">
-                <h1 class="text-center display-4">
-                    No application made in the system
+                <img src="/image/no-application.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
+                <h1 class="text-center display-6">
+                    No application made in the system.
                 </h1>
             </div>
         @else
-            <div class="card-header fw-bold">
-                @can('is-reseller-distributor') User Applicant @endcan
-                @can('is-user') Your Application @endcan
-            </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
