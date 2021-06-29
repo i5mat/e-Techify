@@ -8,7 +8,7 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
         <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
+            <label for="name" class="form-label" id="name_label">Name</label>
             <input name="name" type="text" class="form-control rounded-pill @error('name') is-invalid @enderror" id="name" aria-describedby="name" value="{{ old('name') }}">
             @error('name')
                 <span class="invalid-feedback" role="alert">
@@ -41,7 +41,7 @@
             <div id="confirmPassHelp" class="form-text">Please make sure password and confirm password are tele.</div>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" value="2" name="distriCheck">
+            <input class="form-check-input" type="checkbox" value="2" name="distriCheck" id="distriCheck">
             <label class="form-check-label" for="distriCheck">
                 Distributor?
             </label>
@@ -49,4 +49,19 @@
         <button type="submit" class="btn btn-primary rounded-pill" style="width: 100%">Submit</button>
     </form>
     </div>
+
+    <script>
+        $(document).ready(function(){
+            $('#distriCheck').click(function(){
+                console.log(this.checked);
+                if(this.checked === true) {
+                    $("#name_label").text("Distributor Name");
+                    $("#name").val("Your-Company-Name Sdn. Bhd. / Ent.");
+                } else {
+                    $("#name_label").text("Name");
+                    $("#name").val("");
+                }
+            });
+        });
+    </script>
 @endsection

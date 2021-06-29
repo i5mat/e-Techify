@@ -2,11 +2,11 @@
 
 @section('content')
 
-    <h1 class="display-2 text-center">Update.Delete <img src="/image/box.png"/></h1>
+    <h1 class="display-2 text-center">Update & Delete <img src="/image/box.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>Manage products in shop stock.</p>
+            <p>Manage products in shop.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
             Prepared by <cite title="Source Title">Wan Ismat</cite>

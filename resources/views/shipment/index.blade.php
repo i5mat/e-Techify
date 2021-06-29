@@ -562,12 +562,14 @@
         $("#brand_dist").change(function(){
             var company = $(this).val();
             var brand_options = '<option value=""><strong>Brand</strong></option>';
+            var product_options = '<option value=""><strong>Product</strong></option>';
             $(brandArr).each(function(index, value){
                 if(value.name == company){
                     brand_options += '<option value="'+value.product_brand+'">'+value.product_brand+'</option>';
                 }
             });
 
+            $('#SelectProduct').html(product_options);
             $('#product_brand').html(brand_options);
         });
 
@@ -587,7 +589,7 @@
 
         $("#btn_add_shipment").click(function(e){
 
-            if ($("#product_brand :selected").text() === 'Name' || $("#SelectProduct :selected").text() === 'Products') {
+            if ($("#brand_dist :selected").text() === 'Name' || $("#product_brand :selected").text() === 'Brand' || $("#SelectProduct :selected").text() === 'Products') {
                 Swal.fire(
                     'Null Value',
                     'Please select input brand and product',

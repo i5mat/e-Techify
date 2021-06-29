@@ -266,7 +266,7 @@
                     }).then((result) => {
                         /* Read more about isConfirmed, isDenied below */
                         if (result.isConfirmed) {
-                            document.getElementById('ItemsTotal').innerHTML = 'For the love of god, stop testing our system 😒';
+                            document.getElementById('ItemsTotal').innerHTML = 'Stock is either empty or not available 😟';
                             document.getElementById('merchTotal').innerHTML = 'Please re-enter quantity properly 🙏'
                             $('#paypal-payment-button').attr('hidden', true);
                         }

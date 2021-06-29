@@ -27,6 +27,7 @@ class ProductController extends Controller
                 \App\QueryFilters\ProductBrand::class,
                 \App\QueryFilters\ProductPrice::class,
                 \App\QueryFilters\MaxCount::class,
+                \App\QueryFilters\ProductCategory::class
             ])
             ->thenReturn()
             ->paginate(6);
@@ -39,7 +40,25 @@ class ProductController extends Controller
     // Must have if did not do the Route::resource. This is compulsory for Route::get.
     public function __invoke()
     {
-        return view('product.insert');
+        $getProductBrand = Product::join('users', 'users.id', '=', 'products.user_id')
+            ->select('product_brand', 'user_id', 'name AS distri_name')->distinct()->get();
+
+        $getProductBrandSpecific = Product::join('users', 'users.id', '=', 'products.user_id')
+            ->select('product_brand', 'user_id', 'name AS distri_name')
+            ->where('user_id', Auth::id())
+            ->distinct()->get();
+
+        $getDistriName = User::join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->select('users.id', 'users.name')
+            ->where([
+                'role_user.role_id' => 2
+            ])
+            ->get();
+
+        $retrieveVal = Product::select('id', 'product_brand', 'product_name')
+            ->get();
+
+        return view('product.insert', compact('getProductBrand', 'retrieveVal', 'getDistriName', 'getProductBrandSpecific'));
     }
 
     public function manageProductIndex()
@@ -186,6 +205,8 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request->all());
+
         $request->validate([
             'prod_name' => 'required',
             'prod_sn' => 'required',
@@ -205,40 +226,74 @@ class ProductController extends Controller
             $request->file('prod_image')->store('product', 'public');
 
             // Store the record, using the new file hashname which will be it's new filename identity.
-            if ($request->has('new_prod_brand')) {
-                $product = new Product([
-                    "user_id" => Auth::id(),
-                    "product_name" => $request->get('prod_name'),
-                    "product_sn" => $request->get('prod_sn'),
-                    "product_image_path" => $request->file('prod_image')->hashName(),
-                    "product_category" => $request->get('prod_category'),
-                    "product_brand" => $request->get('new_prod_brand'),
-                    "product_warranty_duration" => $request->get('prod_warranty'),
-                    "product_price" => $request->get('prod_price'),
-                    "new_product_price" => $request->get('prod_price'),
-                    "product_link" => $request->get('prod_link'),
-                    "product_stock_count" => $request->get('prod_stock')
-                ]);
-            }
-            else {
-                $product = new Product([
-                    "user_id" => Auth::id(),
-                    "product_name" => $request->get('prod_name'),
-                    "product_sn" => $request->get('prod_sn'),
-                    "product_image_path" => $request->file('prod_image')->hashName(),
-                    "product_category" => $request->get('prod_category'),
-                    "product_brand" => $request->get('prod_brand'),
-                    "product_warranty_duration" => $request->get('prod_warranty'),
-                    "product_price" => $request->get('prod_price'),
-                    "new_product_price" => $request->get('prod_price'),
-                    "product_link" => $request->get('prod_link'),
-                    "product_stock_count" => $request->get('prod_stock')
-                ]);
+            if (Gate::allows('is-distributor')) {
+                if ($request->get('new_prod_brand') != null) {
+                    $product = new Product([
+                        "user_id" => Auth::id(),
+                        "product_name" => $request->get('prod_name'),
+                        "product_sn" => $request->get('prod_sn'),
+                        "product_image_path" => $request->file('prod_image')->hashName(),
+                        "product_category" => $request->get('prod_category'),
+                        "product_brand" => $request->get('new_prod_brand'),
+                        "product_warranty_duration" => $request->get('prod_warranty'),
+                        "product_price" => $request->get('prod_price'),
+                        "new_product_price" => $request->get('prod_price'),
+                        "product_link" => $request->get('prod_link'),
+                        "product_stock_count" => $request->get('prod_stock')
+                    ]);
+                }
+                else {
+                    $product = new Product([
+                        "user_id" => Auth::id(),
+                        "product_name" => $request->get('prod_name'),
+                        "product_sn" => $request->get('prod_sn'),
+                        "product_image_path" => $request->file('prod_image')->hashName(),
+                        "product_category" => $request->get('prod_category'),
+                        "product_brand" => $request->get('prod_brand'),
+                        "product_warranty_duration" => $request->get('prod_warranty'),
+                        "product_price" => $request->get('prod_price'),
+                        "new_product_price" => $request->get('prod_price'),
+                        "product_link" => $request->get('prod_link'),
+                        "product_stock_count" => $request->get('prod_stock')
+                    ]);
+                }
+            } elseif (Gate::allows('is-reseller')) {
+                if ($request->get('new_prod_brand') != null) {
+                    $product = new Product([
+                        "user_id" => $request->get('insert_brand_dist'),
+                        "product_name" => $request->get('prod_name'),
+                        "product_sn" => $request->get('prod_sn'),
+                        "product_image_path" => $request->file('prod_image')->hashName(),
+                        "product_category" => $request->get('prod_category'),
+                        "product_brand" => $request->get('new_prod_brand'),
+                        "product_warranty_duration" => $request->get('prod_warranty'),
+                        "product_price" => $request->get('prod_price'),
+                        "new_product_price" => $request->get('prod_price'),
+                        "product_link" => $request->get('prod_link'),
+                        "product_stock_count" => $request->get('prod_stock')
+                    ]);
+                }
+                else {
+                    $product = new Product([
+                        "user_id" => $request->get('insert_brand_dist'),
+                        "product_name" => $request->get('prod_name'),
+                        "product_sn" => $request->get('prod_sn'),
+                        "product_image_path" => $request->file('prod_image')->hashName(),
+                        "product_category" => $request->get('prod_category'),
+                        "product_brand" => $request->get('prod_brand'),
+                        "product_warranty_duration" => $request->get('prod_warranty'),
+                        "product_price" => $request->get('prod_price'),
+                        "new_product_price" => $request->get('prod_price'),
+                        "product_link" => $request->get('prod_link'),
+                        "product_stock_count" => $request->get('prod_stock')
+                    ]);
+                }
             }
 
             $product->save(); // Finally, save the record.
         }
 
+        $request->session()->flash('success', 'Product Inserted!');
         return redirect()->back();
     }
 

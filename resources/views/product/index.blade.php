@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h1 class="display-2 text-center">Shop <i class="fa fa-laptop"></i></h1>
+                    <h1 class="display-2 text-center"><b>Shop</b> <i class="fa fa-laptop"></i></h1>
                     <figure class="text-center">
                         <blockquote class="blockquote">
                             <p>Your shopping catalogue.</p>
@@ -21,7 +21,11 @@
                 <div class="col">
                     <div class="row mb-3">
                         <div class="col">
-                            <div class="form-floating">
+                            <button class="btn btn-warning float-start" style="width: 100%" id="btn_apply_filter">Apply Filters</button>
+                            <button class="btn btn-primary mt-2 float-start" style="width: 100%" id="btn_reset_filter">Reset</button>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating mb-2">
                                 <select class="form-select" id="filterProductBrand" aria-label="Floating label select example" style="height: 60px">
                                     <option selected disabled>Please select...</option>
                                     @foreach($getProducts as $getProduct)
@@ -30,9 +34,30 @@
                                 </select>
                                 <label for="filterProductBrand">Select Brand</label>
                             </div>
-                            <button class="btn btn-warning mt-2 float-start" style="width: 100%" id="btn_apply_filter">Apply Filters</button>
-                        </div>
-                        <div class="col">
+                            <div class="form-floating mb-2">
+                                <select class="form-select" id="filterProductCat" aria-label="Floating label select example" style="height: 60px">
+                                    <option selected disabled>Please select...</option>
+                                    <option value="ACCESSORIES">ACCESSORIES</option>
+                                    <option value="AIR COOLER">AIR COOLER</option>
+                                    <option value="CASES">CASES</option>
+                                    <option value="FANS">FANS</option>
+                                    <option value="GAMING CHAIR">GAMING CHAIR</option>
+                                    <option value="GAMING DESK">GAMING DESK</option>
+                                    <option value="GPU">GPU</option>
+                                    <option value="HEADSETS">HEADSETS</option>
+                                    <option value="KEYBOARDS">KEYBOARDS</option>
+                                    <option value="LIQUID COOLER">LIQUID COOLER</option>
+                                    <option value="MONITOR">MONITOR</option>
+                                    <option value="MOTHERBOARD">MOTHERBOARD</option>
+                                    <option value="MOUSE">MOUSE</option>
+                                    <option value="PSU">PSU</option>
+                                    <option value="RAM">RAM</option>
+                                    <option value="SSD">SSD</option>
+                                    <option value="THERMAL PASTE">THERMAL PASTE</option>
+                                    <option value="VIRTUAL REALITY">VIRTUAL REALITY</option>
+                                </select>
+                                <label for="filterProductCat">Select Brand Category</label>
+                            </div>
                             <div class="form-floating">
                                 <select class="form-select" id="filterProductPrice" aria-label="Floating label select example" style="height: 60px">
                                     <option selected disabled>Please select...</option>
@@ -41,7 +66,6 @@
                                 </select>
                                 <label for="filterProductPrice">Select Price</label>
                             </div>
-                            <button class="btn btn-primary mt-2 float-start" style="width: 100%" id="btn_reset_filter">Reset</button>
                         </div>
                     </div>
                 </div>
@@ -144,8 +168,9 @@
         $( "#btn_apply_filter" ).click(function() {
             var firstSelection = $( "#filterProductBrand :selected" ).val();
             var secondSelection = $( "#filterProductPrice :selected" ).val();
+            var thirdSelection = $( "#filterProductCat :selected" ).val();
 
-            if ($("#filterProductBrand :selected").text() === 'Please select...' && $("#filterProductPrice :selected").text() === 'Please select...') {
+            if ($("#filterProductBrand :selected").text() === 'Please select...' && $("#filterProductPrice :selected").text() === 'Please select...' && $( "#filterProductCat :selected" ).text() === 'Please select...') {
                 Swal.fire(
                     'Input NULL',
                     'Please input brand and price',
@@ -156,8 +181,10 @@
                     window.location.href = "http://127.0.0.1:8000/product/items?product_brand=" + firstSelection;
                 else if (secondSelection !== 'Please select...')
                     window.location.href = "http://127.0.0.1:8000/product/items?product_price=" + secondSelection;
-                else if (firstSelection !== 'Please select...' && secondSelection !== 'Please select...')
-                    window.location.href = "http://127.0.0.1:8000/product/items?product_price=" + secondSelection + "&product_brand=" + firstSelection;
+                else if (thirdSelection !== 'Please select...')
+                    window.location.href = "http://127.0.0.1:8000/product/items?product_category=" + thirdSelection;
+                else if (firstSelection !== 'Please select...' && secondSelection !== 'Please select...' && thirdSelection !== 'Please select...')
+                    window.location.href = "http://127.0.0.1:8000/product/items?product_price=" + secondSelection + "&product_brand=" + firstSelection + "&product_category=" + thirdSelection;
             }
         });
 

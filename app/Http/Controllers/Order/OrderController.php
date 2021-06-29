@@ -377,7 +377,7 @@ class OrderController extends Controller
 
         $getData = Order::where('user_id', Auth::id())->get();
 
-        Mail::to("user@etechify.com")->send(new ConfirmOrderMail($getData, $orderInfo, $recipientInfo));
+        Mail::to(Auth::user()->email)->send(new ConfirmOrderMail($getData, $orderInfo, $recipientInfo));
         return response()->json(['success'=>'yey!', $request->except(['_token'])]);
     }
 

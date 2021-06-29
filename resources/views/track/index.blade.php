@@ -255,7 +255,7 @@
             <form>
                 @csrf
                 @if($recipientInfo->order_status == 'Delivered')
-                    <h1 class="text-center display-6">Thank You!</h1>
+                    <h1 class="text-center display-6">You can check your parcel status at "Courier Tracking Number" 🚚</h1>
                 @elseif ($recipientInfo->order_status == 'To Ship')
                     @can('is-reseller')
                     <dl class="row">

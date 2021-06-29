@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Create <img src="/image/box.png"/></h1>
+    <h1 class="display-2 text-center">Create <i class="fa fa-plus"></i></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
@@ -44,6 +44,19 @@
         </div>
 
         <div class="row g-2 mb-3">
+            @can('is-reseller')
+            <div class="col">
+                <div class="form-floating">
+                    <select class="form-select" id="insert_brand_dist" name="insert_brand_dist">
+                        <option value=''><strong>Name</strong></option>
+                        @foreach($getDistriName as $distriList)
+                            <option value="{{ $distriList->id }}"><strong>{{ $distriList->name }}</strong></option>
+                        @endforeach
+                    </select>
+                    <label for="insert_brand_dist">Brand Distributor</label>
+                </div>
+            </div>
+            @endcan
             <div class="col-md">
                 <div class="form-floating">
                     <select class="form-select" id="prod_warranty" name="prod_warranty">
@@ -93,12 +106,18 @@
         <div class="row g-2 mb-3">
             <div class="col-md" id="div_default_prod_brand">
                 <div class="form-floating">
-                    <select class="form-select" name="prod_brand" id="prod_brand">
-                        <option selected>Please select...</option>
-                        <option value="NZXT">NZXT</option>
-                        <option value="FRACTAL DESIGN">FRACTAL DESIGN</option>
-                        <option value="ASUS ROG">ASUS ROG</option>
-                    </select>
+                    @can('is-distributor')
+                        <select class="form-select" name="prod_brand" id="prod_brand">
+                            <option value=""><strong>Products</strong></option>
+                            @foreach($getProductBrandSpecific as $brand)
+                                <option value="{{ $brand->product_brand }}"><strong>{{ $brand->product_brand }}</strong></option>
+                            @endforeach
+                        </select>
+                    @else
+                        <select class="form-select" name="prod_brand" id="prod_brand">
+                            <option value=""><strong>Products</strong></option>
+                        </select>
+                    @endcan
                     <label for="prod_brand">Product Brand</label>
                 </div>
             </div>
@@ -181,6 +200,31 @@
                     }
                 }
             });
+        });
+
+        var distName = @json($getDistriName);
+        var distProduct = @json($getProductBrand);
+        console.log(distName)
+        console.log(distProduct)
+
+        $("#insert_brand_dist").change(function(){
+            var company = $("#insert_brand_dist option:selected").text();
+            var options =  '<option value=""><strong>Products</strong></option>';
+            $(distProduct).each(function(index, value){
+                if(value.distri_name == company){
+                    options += '<option value="'+value.product_brand+'">'+value.product_brand+'</option>';
+                }
+            });
+
+            $('#prod_brand').html(options);
+        });
+
+        $("#prod_brand").change(function(){
+            var selection = $("#prod_brand option:selected").text();
+            if (selection === 'Products')
+                $("#insert_brand_dist").attr('disabled', true)
+            else
+                $("#insert_brand_dist").attr('disabled', false)
         });
     </script>
 @endsection

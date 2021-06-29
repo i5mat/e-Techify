@@ -102,7 +102,7 @@
                                     @endif
                                 @else
                                     @if($job->email_sent == 1)
-                                        Approved ✔
+                                        ✔
                                     @else
                                         Waiting for respond 🤞
                                     @endif

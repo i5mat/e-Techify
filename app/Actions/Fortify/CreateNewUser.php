@@ -40,7 +40,7 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ]);
 
-        if ($input['distriCheck'] != null) {
+        if (isset($input['distriCheck'])) {
             DB::table('role_user')->insert([
                 'role_id' => (int)$input['distriCheck'],
                 'user_id' => $users->id
