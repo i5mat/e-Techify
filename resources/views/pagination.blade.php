@@ -52,14 +52,17 @@
                 </div>
             </div>
             <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="p-3 text-center">
-                    <div class="text-primary monospace">
+                <div class="row">
+                    <div class="col">
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                           class="btn btn-sm btn-primary"><i class="fa fa-file-o"></i> RMA Request Form</a>
+                           class="btn btn-sm btn-primary"><i class="fa fa-file-o"></i></a>
+                    </div>
+                    <div class="col">
                         <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
-                            <button class="btn"><i class="fa fa-download"></i> Download File
-                            </button>
+                            <button class="btn btn-sm btn-info"><i class="fa fa-download"></i></button>
                         </a>
+                    </div>
+                    <div class="col">
                         <a
                             href="#"
                             data-myrmaid="{{ $rma->id }}"
@@ -74,7 +77,7 @@
                             data-bs-target="#staticRMA">
                             @can('is-reseller-distributor')
                                 <button class="btn btn-sm btn-warning"><i
-                                        class="fa fa-wrench"></i> Update RMA Status
+                                        class="fa fa-wrench"></i>
                                 </button>
                             @endcan
                         </a>
@@ -140,14 +143,17 @@
                 </div>
             </div>
             <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="p-3 text-center">
-                    <div>
+                <div class="row">
+                    <div class="col">
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                           class="btn btn-sm btn-primary"><i class="fa fa-download"></i> RMA Request Form</a>
+                           class="btn btn-sm btn-primary"><i class="fa fa-file-o"></i></a>
+                    </div>
+                    <div class="col">
                         <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
-                            <button class="btn"><i class="fa fa-download"></i> Download File
-                            </button>
+                            <button class="btn btn-sm btn-info"><i class="fa fa-download"></i></button>
                         </a>
+                    </div>
+                    <div class="col">
                         <a
                             href="#"
                             data-myrmaid="{{ $rma->id }}"
@@ -160,9 +166,9 @@
                             data-myreceive="{{ $rma->receive_at }}"
                             data-bs-toggle="modal"
                             data-bs-target="#staticRMA">
-                            @can('is-distributor')
+                            @can('is-reseller-distributor')
                                 <button class="btn btn-sm btn-warning"><i
-                                        class="fa fa-wrench"></i> Update RMA Status
+                                        class="fa fa-wrench"></i>
                                 </button>
                             @endcan
                         </a>
@@ -228,16 +234,18 @@
                 </div>
             </div>
             <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="p-3 text-center">
-                    <div class="text-primary monospace">
+                <div class="row">
+                    <div class="col">
                         <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
                             <button class="btn btn-sm btn-warning mb-1"><i class="fa fa-download"></i>
-                                Download Receipt
+
                             </button>
                         </a>
+                    </div>
+                    <div class="col">
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
                            class="btn btn-sm btn-primary"><i class="fa fa-file"></i>
-                            RMA Request Form
+
                         </a>
                     </div>
                 </div>

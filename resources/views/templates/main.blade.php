@@ -124,14 +124,14 @@
                             <li class="nav-item">
                                 <a class="nav-link font-monospace" href="{{ route('admin.users.index') }}">Users</a>
                             </li>
-                            <li class="nav-item">
-                                <div class="nav-link dropdown">
-                                    <button class="dropbtn font-monospace" style="background-color: #FFF">Manage Product</button>
-                                    <div class="dropdown-content">
-                                        <a class="font-monospace" href="{{ route('product.insertProd') }}">Insert</a>
-                                        <a class="font-monospace" href="{{ route('product.manageProd') }}">Update.Delete</a>
-                                    </div>
-                                </div>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle font-monospace" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Products
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="font-monospace dropdown-item" href="{{ route('product.insertProd') }}">Insert</a></li>
+                                    <li><a class="font-monospace dropdown-item" href="{{ route('product.manageProd') }}">Update.Delete</a></li>
+                                </ul>
                             </li>
                         @endcan
                         @can('is-user')
@@ -147,14 +147,14 @@
                             </li>
                         @endcan
                         @can('is-distributor')
-                            <li class="nav-item">
-                                <div class="nav-link dropdown">
-                                    <button class="dropbtn font-monospace" style="background-color: #FFF">Manage Product</button>
-                                    <div class="dropdown-content">
-                                        <a class="font-monospace" href="{{ route('product.insertProd') }}">Insert</a>
-                                        <a class="font-monospace" href="{{ route('product.manageProd') }}">Update.Delete</a>
-                                    </div>
-                                </div>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle font-monospace" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Products
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="font-monospace dropdown-item" href="{{ route('product.insertProd') }}">Insert</a></li>
+                                    <li><a class="font-monospace dropdown-item" href="{{ route('product.manageProd') }}">Update.Delete</a></li>
+                                </ul>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link font-monospace" href="{{ route('job.new') }}">e-Job</a>

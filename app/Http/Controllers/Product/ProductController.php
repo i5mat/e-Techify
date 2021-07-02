@@ -351,7 +351,7 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function updateStatusSNProduct($id)
+    public function updateStatusSNProduct($id, Request $request)
     {
         $findID = DistributorProduct::findOrFail($id);
         if ($findID->status == 'Occupied')
@@ -360,6 +360,7 @@ class ProductController extends Controller
             $findID->status = 'Occupied';
 
         $findID->save();
+        $request->session()->flash('success', 'Product SN is altered 🎈');
 
         return redirect()->back();
     }

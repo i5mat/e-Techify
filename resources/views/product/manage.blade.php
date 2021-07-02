@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <label for="prod-price-label" class="col col-form-label text-md-right">New Price</label>
+                                    <label for="prod-price-label" class="col col-form-label text-md-right">Dealer Price</label>
 
                                     <div class="input-group mb-2">
                                         <span class="input-group-text" id="basic-addon1">RM</span>

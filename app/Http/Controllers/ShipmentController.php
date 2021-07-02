@@ -43,7 +43,7 @@ class ShipmentController extends Controller
                 ->join('products', 'products.id', '=', 'shipment_details.product_id')
                 ->select('shipment_details.shipment_id', 'products.product_image_path', 'products.product_name', 'products.product_price',
                     'shipment_details.product_id', 'shipment_details.product_order_quantity',
-                    'shipment_details.id AS shipment_details_id')
+                    'shipment_details.id AS shipment_details_id', 'products.new_product_price')
                 ->where([
                     'shipments.user_id' => Auth::id(),
                     'shipments.status' => 'Requested'

@@ -13,7 +13,7 @@ class TrackingController extends Controller
 {
     public function trackingIndex($id)
     {
-        $findID = Order::find($id);
+        $findID = Order::withTrashed()->find($id);
 
         $recipientInfo = DB::table('confirm_orders')
             ->join('addresses', 'confirm_orders.addresses_id', '=', 'addresses.id')
@@ -52,7 +52,7 @@ class TrackingController extends Controller
 
     public function insertTracking($id, Request $request)
     {
-        $findOrderID = Order::find($id);
+        $findOrderID = Order::withTrashed()->find($id);
 
         $findTrackDetail = Tracking::join('orders', 'orders.id', '=', 'trackings.order_id')
             ->where([

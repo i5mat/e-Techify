@@ -44,9 +44,9 @@
                                             </td>
                                             <td>{{ $getShipment->product_name }}</td>
                                             <td hidden id="get_shipment_id">{{ $getShipment->shipment_id }}</td>
-                                            <td><img src="/image/malaysia.png"> <span>{{ $getShipment->product_price }}</span></td>
+                                            <td><b>RM</b> <span>{{ $getShipment->new_product_price }}</span></td>
                                             <td>x{{ $getShipment->product_order_quantity }}</td>
-                                            <td id="total_shipment_item{{ $loop->iteration }}">{{ $getShipment->product_price * $getShipment->product_order_quantity }}</td>
+                                            <td id="total_shipment_item{{ $loop->iteration }}">{{ $getShipment->new_product_price * $getShipment->product_order_quantity }}</td>
                                             <td>
                                                 <button class="btn btn-danger" style="background-color: transparent; border: none"
                                                         id="btn_remove_shipment_item{{ $loop->iteration }}" data-id="{{ $getShipment->shipment_details_id }}">
@@ -73,6 +73,7 @@
                                 Cart
                             </div>
                             <div class="card-body border-3 border-bottom border-warning">
+                                <img src="/image/no-item.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
                                 <h1 class="display-6 text-center">Your cart is empty.</h1>
                             </div>
                         </div>
@@ -688,7 +689,7 @@
             var value = $("#SelectProduct option:selected");
             var value2 = $("#SelectProductID option:selected");
 
-            document.getElementById("product_pic").src = "/storage/product/" + value2.val();
+            document.getElementById("product_pic").src = "/image/no-shipment.png";
 
             $('#SelectProduct').change(function(){
                 $("#SelectProductID option").eq($(this).find(':selected').index()).prop('selected',true);

@@ -45,13 +45,15 @@ class OrderController extends Controller
                 ])
                 ->get();
 
-            $cancelled = Order::join('users', 'users.id', '=', 'orders.user_id')
+            $cancelled = Order::onlyTrashed()
+                ->join('users', 'users.id', '=', 'orders.user_id')
                 ->select('orders.id', 'orders.order_status', 'users.name', 'orders.created_at')
                 ->where([
-                    'orders.order_status' => 'Cancelled',
                     'orders.user_id' => Auth::id()
                 ])
                 ->get();
+
+            //dd($cancelled);
         }
         elseif (Gate::allows('is-reseller')) {
             $to_ship = Order::join('users', 'users.id', '=', 'orders.user_id')
@@ -68,11 +70,9 @@ class OrderController extends Controller
                 ])
                 ->get();
 
-            $cancelled = Order::join('users', 'users.id', '=', 'orders.user_id')
+            $cancelled = Order::onlyTrashed()
+                ->join('users', 'users.id', '=', 'orders.user_id')
                 ->select('orders.id', 'orders.order_status', 'users.name', 'orders.created_at')
-                ->where([
-                    'orders.order_status' => 'Cancelled'
-                ])
                 ->get();
         }
 
@@ -81,7 +81,7 @@ class OrderController extends Controller
 
     public function orderDetailsIndex($id)
     {
-        $findID = Order::find($id);
+        $findID = Order::withTrashed()->find($id);
 
         $orderInfo = DB::table('order_details')
             ->select('order_details.order_id', 'products.product_image_path',
@@ -121,7 +121,7 @@ class OrderController extends Controller
 
     public function receiptIndex($id)
     {
-        $findID = Order::find($id);
+        $findID = Order::withTrashed()->find($id);
 
         $orderInfo = DB::table('order_details')
             ->select('order_details.order_id', 'products.product_image_path',
@@ -399,9 +399,8 @@ class OrderController extends Controller
                 ->increment('product_stock_count', (int)$lol->product_order_quantity);
         }
 
-        //dd($returnQty->toArray());
-
-        Order::where('id', '=', $findID->id)->update(['order_status' => 'Cancelled']);
+        //Order::where('id', '=', $findID->id)->update(['order_status' => 'Cancelled']);
+        Order::find($id)->delete();
 
         return redirect()->back()->with('danger', 'Order has been cancelled');
     }

@@ -220,31 +220,39 @@
                             @endif
                             <div class="tracking-list">
                                 @foreach($trackingStatus as $track_stats)
-                                <div class="tracking-item">
-                                    @if($track_stats->current_status == 'Confirmed Order')
-                                        <div class="tracking-icon status-inforeceived">
-                                            <i data-feather="clipboard" style="margin-bottom: 5px"></i>
-                                        </div>
-                                    @elseif ($track_stats->current_status == 'Processing Order')
-                                        <div class="tracking-icon status-intransit">
-                                            <i data-feather="minus" style="margin-bottom: 5px"></i>
-                                        </div>
-                                    @elseif ($track_stats->current_status == 'Quality Check')
-                                        <div class="tracking-icon status-exception">
-                                            <i data-feather="check-circle" style="margin-bottom: 5px"></i>
-                                        </div>
-                                    @elseif ($track_stats->current_status == 'Product Dispatched')
-                                        <div class="tracking-icon status-outfordelivery">
-                                            <i data-feather="truck" style="margin-bottom: 5px"></i>
-                                        </div>
-                                    @elseif ($track_stats->current_status == 'Product Delivered')
-                                        <div class="tracking-icon status-delivered">
-                                            <i data-feather="check" style="margin-bottom: 5px"></i>
-                                        </div>
-                                    @endif
-                                    <div class="tracking-date">{{ date('d M, Y', strtotime($track_stats->created_at)) }}<span>{{ date('H:i A', strtotime($track_stats->created_at)) }}</span></div>
-                                    <div class="tracking-content">{{ $track_stats->current_status }}<span>KUALA LUMPUR (XT WAREHOUSE), MALAYSIA</span></div>
-                                </div>
+                                    <div class="tracking-item">
+                                        @if($track_stats->current_status == 'Confirmed Order')
+                                            <div class="tracking-icon status-inforeceived">
+                                                <i data-feather="clipboard" style="margin-bottom: 5px"></i>
+                                            </div>
+                                            <div class="tracking-date">{{ date('d M, Y', strtotime($track_stats->created_at)) }}<span>{{ date('H:i A', strtotime($track_stats->created_at)) }}</span></div>
+                                            <div class="tracking-content">{{ $track_stats->current_status }}<span>Order is confirmed</span></div>
+                                        @elseif ($track_stats->current_status == 'Processing Order')
+                                            <div class="tracking-icon status-intransit">
+                                                <i data-feather="minus" style="margin-bottom: 5px"></i>
+                                            </div>
+                                            <div class="tracking-date">{{ date('d M, Y', strtotime($track_stats->created_at)) }}<span>{{ date('H:i A', strtotime($track_stats->created_at)) }}</span></div>
+                                            <div class="tracking-content">{{ $track_stats->current_status }}<span>Order is being processed</span></div>
+                                        @elseif ($track_stats->current_status == 'Quality Check')
+                                            <div class="tracking-icon status-exception">
+                                                <i data-feather="check-circle" style="margin-bottom: 5px"></i>
+                                            </div>
+                                            <div class="tracking-date">{{ date('d M, Y', strtotime($track_stats->created_at)) }}<span>{{ date('H:i A', strtotime($track_stats->created_at)) }}</span></div>
+                                            <div class="tracking-content">{{ $track_stats->current_status }}<span>Product is being inspected</span></div>
+                                        @elseif ($track_stats->current_status == 'Product Dispatched')
+                                            <div class="tracking-icon status-outfordelivery">
+                                                <i data-feather="truck" style="margin-bottom: 5px"></i>
+                                            </div>
+                                            <div class="tracking-date">{{ date('d M, Y', strtotime($track_stats->created_at)) }}<span>{{ date('H:i A', strtotime($track_stats->created_at)) }}</span></div>
+                                            <div class="tracking-content">{{ $track_stats->current_status }}<span>Your order is getting ready to be dispatched out to the couriers</span></div>
+                                        @elseif ($track_stats->current_status == 'Product Delivered')
+                                            <div class="tracking-icon status-delivered">
+                                                <i data-feather="check" style="margin-bottom: 5px"></i>
+                                            </div>
+                                            <div class="tracking-date">{{ date('d M, Y', strtotime($track_stats->created_at)) }}<span>{{ date('H:i A', strtotime($track_stats->created_at)) }}</span></div>
+                                            <div class="tracking-content">{{ $track_stats->current_status }}<span>Your items have been handed over to respective courier, please check in order details for "Courier Tracking Number" 🚚</span></div>
+                                        @endif
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
