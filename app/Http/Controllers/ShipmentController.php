@@ -87,7 +87,7 @@ class ShipmentController extends Controller
             $approved = DB::table('shipment_details')
                 ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
                 ->join('products', 'products.id', '=', 'shipment_details.product_id')
-                ->select('shipments.id', 'shipments.status')
+                ->select('shipments.id', 'shipments.status', 'shipments.created_at')
                 ->where([
                     'products.user_id' => Auth::id(),
                     'shipments.status' => 'Approved',
@@ -98,7 +98,7 @@ class ShipmentController extends Controller
             $shipped = DB::table('shipment_details')
                 ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
                 ->join('products', 'products.id', '=', 'shipment_details.product_id')
-                ->select('shipments.id', 'shipments.status')
+                ->select('shipments.id', 'shipments.status', 'shipments.created_at')
                 ->where([
                     'products.user_id' => Auth::id(),
                     'shipments.status' => 'Shipped',
@@ -109,7 +109,7 @@ class ShipmentController extends Controller
             $waitingApproval = DB::table('shipment_details')
                 ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
                 ->join('products', 'products.id', '=', 'shipment_details.product_id')
-                ->select('shipments.id', 'shipments.status')
+                ->select('shipments.id', 'shipments.status', 'shipments.created_at')
                 ->where([
                     'products.user_id' => Auth::id(),
                     'shipments.status' => 'Waiting Approval',
@@ -120,7 +120,7 @@ class ShipmentController extends Controller
             $requested = DB::table('shipment_details')
                 ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
                 ->join('products', 'products.id', '=', 'shipment_details.product_id')
-                ->select('shipments.id', 'shipments.status')
+                ->select('shipments.id', 'shipments.status', 'shipments.created_at')
                 ->where([
                     'products.user_id' => Auth::id(),
                     'shipments.status' => 'Requested',
@@ -154,7 +154,7 @@ class ShipmentController extends Controller
                 ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
                 ->join('products', 'products.id', '=', 'shipment_details.product_id')
                 ->select('shipment_details.shipment_id', 'products.product_image_path', 'products.product_name', 'products.product_price',
-                    'shipment_details.product_id', 'shipment_details.product_order_quantity', 'shipments.id AS shipment_id')
+                    'shipment_details.product_id', 'shipment_details.product_order_quantity', 'shipments.id AS shipment_id', 'products.new_product_price')
                 ->where([
                     'shipments.user_id' => Auth::id(),
                     'shipments.id' => $findID->id
@@ -165,7 +165,7 @@ class ShipmentController extends Controller
                 ->join('shipments', 'shipments.id', '=', 'shipment_details.shipment_id')
                 ->join('products', 'products.id', '=', 'shipment_details.product_id')
                 ->select('shipment_details.shipment_id', 'products.product_image_path', 'products.product_name', 'products.product_price',
-                    'shipment_details.product_id', 'shipment_details.product_order_quantity', 'shipments.id AS shipment_id')
+                    'shipment_details.product_id', 'shipment_details.product_order_quantity', 'shipments.id AS shipment_id', 'products.new_product_price')
                 ->where([
                     'products.user_id' => Auth::id(),
                     'shipments.id' => $findID->id
@@ -250,7 +250,7 @@ class ShipmentController extends Controller
 
         $findID->save();
 
-        return response()->json(['success'=>'Shipment Approved']);
+        return response(view('shipment.index', array('success'=>'Shipment Approved')));
     }
 
     public function shipmentApprovalDistributor($id, Request $request)

@@ -493,7 +493,7 @@ class OrderController extends Controller
             $font->align('left');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Ship By Date
         $img->text($shipByDate, 450, 760, function($font) {
@@ -503,7 +503,7 @@ class OrderController extends Controller
             $font->align('left');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Weight
         $img->text($weightItem, 450, 835, function($font) {
@@ -513,7 +513,7 @@ class OrderController extends Controller
             $font->align('left');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Order ID
         $img->text($orderID, 450, 920, function($font) {
@@ -523,7 +523,7 @@ class OrderController extends Controller
             $font->align('left');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Sender address.
         $charactersLimit = 50;
@@ -538,7 +538,7 @@ class OrderController extends Controller
             $font->valign('top');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Postcode sender.
         $img->text($companyPostcode, 435, 1985, function($font) {
@@ -548,7 +548,7 @@ class OrderController extends Controller
             $font->align('center');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Postcode recipient.
         $img->text($postcode_recipient, 435, 3000, function($font) {
@@ -558,7 +558,7 @@ class OrderController extends Controller
             $font->align('center');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Recipient address.
         $charactersLimitt = 40;
@@ -573,7 +573,7 @@ class OrderController extends Controller
             $font->valign('top');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Recipient name.
         $img->text($name, 350, 2095, function($font) {
@@ -584,7 +584,7 @@ class OrderController extends Controller
             $font->valign('top');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Big right postcode.
         $img->text($postcode_recipient, 2150, 2540, function($font) {
@@ -594,7 +594,7 @@ class OrderController extends Controller
             $font->align('center');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Sender phone no.
         $img->text('+(60) '.$companyPhoneNo, 350, 1160, function($font) {
@@ -605,7 +605,7 @@ class OrderController extends Controller
             $font->valign('top');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Recipient phone no.
         $img->text('+(60) '.$phone, 350, 2225, function($font) {
@@ -615,7 +615,7 @@ class OrderController extends Controller
             $font->align('left');
             $font->angle(360);
         });
-        $img->save(public_path('awb/test-awb.jpg'));
+        //$img->save(public_path('awb/test-awb.jpg'));
 
         // Tracking no. on right bottom.
         $img->text($tracking, 2130, 3395, function($font) {

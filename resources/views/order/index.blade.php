@@ -107,8 +107,7 @@
                                             <hr>
                                             <span class="badge bg-primary" style="color: white">{{ $i->order_status }}</span>
                                             <div class="d-flex flex-row align-items-center justify-content-center">
-                                                <span><i class="fa fa-asterisk"></i> {{ date('jS F Y h:i A', strtotime($i->created_at)) }}</span>
-                                            </div>
+                                                <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>                                            </div>
                                             <div class="d-flex justify-content-between mt-3">
 
                                                 @can('is-user')
@@ -204,8 +203,7 @@
                                             <hr>
                                             <span class="badge bg-success" style="color: white">{{ $i->order_status }}</span>
                                             <div class="d-flex flex-row align-items-center justify-content-center">
-                                                <span><i class="fa fa-asterisk"></i> {{ date('jS F Y h:i A', strtotime($i->created_at)) }}</span>
-                                            </div>
+                                                <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>                                            </div>
                                             <div class="d-flex justify-content-between mt-3">
                                                 @can('is-user')
                                                     <span>
@@ -310,7 +308,7 @@
                                             <hr>
                                             <span class="badge bg-danger" style="color: white">{{ $i->order_status }}</span>
                                             <div class="d-flex flex-row align-items-center justify-content-center">
-                                                <span><i class="fa fa-asterisk"></i> {{ date('jS F Y h:i A', strtotime($i->created_at)) }}</span>
+                                                <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>
                                             </div>
                                             <div class="d-flex justify-content-between mt-3">
 

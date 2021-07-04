@@ -4,7 +4,7 @@
 
     <div class="row">
         <div class="col-12">
-            <h1 class="display-2 text-center">Users <i class="fa fa-user-circle"></i></h1>
+            <h1 class="display-2 text-center">Users</h1>
 
             <figure class="text-center">
                 <blockquote class="blockquote">

@@ -164,6 +164,7 @@ class JobController extends Controller
 
         $findID->status = $request->get('status');
         $findID->occupied_by = null;
+        $findID->email_sent = null;
 
         $findID->save();
 

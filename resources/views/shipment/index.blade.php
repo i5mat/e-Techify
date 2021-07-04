@@ -131,6 +131,12 @@
                                     <option value="2">2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
                                 </select>
                                 <label for="floatingSelectProduct">Select Product Quantity</label>
                             </div>
@@ -167,10 +173,9 @@
                                                         </span>
                                                     </span>
                                                     <hr>
-                                                    <span>Xmiryna Tech</span>
+                                                    <span>Shipment has been shipped, 💥</span>
                                                     <div class="d-flex flex-row align-items-center justify-content-center">
-                                                        <i class="fa fa-map-marker"></i>
-                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                        <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>
                                                     </div>
                                                     <div class="d-flex justify-content-between mt-3">
                                                         <span>
@@ -208,10 +213,9 @@
                                                         </span>
                                                     </span>
                                                     <hr>
-                                                    <span>Xmiryna Tech</span>
+                                                    <span>Shipment is waiting for approval, 💥</span>
                                                     <div class="d-flex flex-row align-items-center justify-content-center">
-                                                        <i class="fa fa-map-marker"></i>
-                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                        <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>
                                                     </div>
                                                     <div class="d-flex justify-content-between mt-3">
                                                         <span>
@@ -249,10 +253,9 @@
                                                         </span>
                                                     </span>
                                                     <hr>
-                                                    <span>Xmiryna Tech</span>
+                                                    <span>Shipment have been approved, 💥</span>
                                                     <div class="d-flex flex-row align-items-center justify-content-center">
-                                                        <i class="fa fa-map-marker"></i>
-                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                        <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>
                                                     </div>
                                                     <div class="d-flex justify-content-between mt-3">
                                                         <span>
@@ -290,10 +293,9 @@
                                                         </span>
                                                     </span>
                                                     <hr>
-                                                    <span>Xmiryna Tech</span>
+                                                    <span>Shipment is in request status, waiting for confirmation 💥</span>
                                                     <div class="d-flex flex-row align-items-center justify-content-center">
-                                                        <i class="fa fa-map-marker"></i>
-                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                        <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>
                                                     </div>
                                                     <div class="d-flex justify-content-between mt-3">
                                                         <span>
@@ -343,10 +345,9 @@
                                                         </span>
                                                     </span>
                                                     <hr>
-                                                    <span>Xmiryna Tech</span>
+                                                    <span>Shipment has been shipped, 💥</span>
                                                     <div class="d-flex flex-row align-items-center justify-content-center">
-                                                        <i class="fa fa-map-marker"></i>
-                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                        <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>
                                                     </div>
                                                     <div class="d-flex justify-content-between mt-3">
                                                         <span>
@@ -384,10 +385,9 @@
                                                         </span>
                                                     </span>
                                                     <hr>
-                                                    <span>Xmiryna Tech</span>
+                                                    <span>Shipment is waiting for approval, 💥</span>
                                                     <div class="d-flex flex-row align-items-center justify-content-center">
-                                                        <i class="fa fa-map-marker"></i>
-                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                        <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>
                                                     </div>
                                                     <div class="d-flex justify-content-between mt-3">
                                                         <span>
@@ -425,10 +425,9 @@
                                                         </span>
                                                     </span>
                                                     <hr>
-                                                    <span>Xmiryna Tech</span>
+                                                    <span>Shipment have been approved, 💥</span>
                                                     <div class="d-flex flex-row align-items-center justify-content-center">
-                                                        <i class="fa fa-map-marker"></i>
-                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                        <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>
                                                     </div>
                                                     <div class="d-flex justify-content-between mt-3">
                                                         <span>
@@ -466,10 +465,9 @@
                                                         </span>
                                                     </span>
                                                     <hr>
-                                                    <span>Xmiryna Tech</span>
+                                                    <span>Shipment is in request status, waiting for confirmation 💥</span>
                                                     <div class="d-flex flex-row align-items-center justify-content-center">
-                                                        <i class="fa fa-map-marker"></i>
-                                                        <small class="mx-1">Kuala Lumpur, TX</small>
+                                                        <b>{{ date('jS F Y h:i A', strtotime($i->created_at)) }}</b>
                                                     </div>
                                                     <div class="d-flex justify-content-between mt-3">
                                                         <span>
@@ -602,7 +600,7 @@
                 var user_id = {{ Auth::id() }};
                 var product_id = $("#SelectProduct").val();
                 var product_qty = $("#SelectQuantity").val();
-                var product_remark = 'Please process my request. Thanks :)';
+                var product_remark = 'Please process my request.';
 
                 console.log(user_id)
                 console.log(parseInt(product_id))

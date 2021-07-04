@@ -3,7 +3,16 @@
 @section('content')
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 
-    <h1 class="display-2 text-center">Profile <i class="fa fa-info-circle"></i></h1>
+    <h1 class="display-2 text-center">Profile</h1>
+
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <p>Manage your own profile info.</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            Prepared by <cite title="Source Title">Wan Ismat</cite>
+        </figcaption>
+    </figure>
 
     <div class="container">
         <div class="card mx-auto" style="padding: 10px 10px; width: 50%;">

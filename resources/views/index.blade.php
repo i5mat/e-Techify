@@ -391,8 +391,8 @@
                                                     <hr>
                                                     <span>{{ $ji->name }}</span>
                                                     <div class="d-flex flex-row align-items-center justify-content-center"><i
-                                                            class="fa fa-map-marker"></i> <small
-                                                            class="mx-1">{{ $ji->job_location }}</small></div>
+                                                            class="fa fa-location-arrow"></i> <small
+                                                            class="mx-1"> {{ $ji->job_location }}</small></div>
                                                     <div class="d-flex justify-content-between mt-3">
                                                         <span>RM {{ $ji->job_salary }}</span>
 

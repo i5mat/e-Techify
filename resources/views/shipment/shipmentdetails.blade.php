@@ -39,9 +39,9 @@
                             </td>
                             <td>{{ $getShipment->product_name }}</td>
                             <td hidden id="get_shipment_id">{{ $getShipment->shipment_id }}</td>
-                            <td><img src="/image/malaysia.png"> <span>{{ $getShipment->product_price }}</span></td>
+                            <td><img src="/image/malaysia.png"> <span>{{ $getShipment->new_product_price }}</span></td>
                             <td>x{{ $getShipment->product_order_quantity }}</td>
-                            <td id="total_shipment_item{{ $loop->iteration }}">{{ $getShipment->product_price * $getShipment->product_order_quantity }}</td>
+                            <td id="total_shipment_item{{ $loop->iteration }}">{{ $getShipment->new_product_price * $getShipment->product_order_quantity }}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -120,9 +120,9 @@
                                 </td>
                                 <td>{{ $getShipment->product_name }}</td>
                                 <td hidden id="get_shipment_id">{{ $getShipment->shipment_id }}</td>
-                                <td><img src="/image/malaysia.png"> <span>{{ $getShipment->product_price }}</span></td>
+                                <td><img src="/image/malaysia.png"> <span>{{ $getShipment->new_product_price }}</span></td>
                                 <td>x{{ $getShipment->product_order_quantity }}</td>
-                                <td id="total_shipment_item{{ $loop->iteration }}">{{ $getShipment->product_price * $getShipment->product_order_quantity }}</td>
+                                <td id="total_shipment_item{{ $loop->iteration }}">{{ $getShipment->new_product_price * $getShipment->product_order_quantity }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -164,6 +164,7 @@
     </div>
 
     <script src="//www.tracking.my/track-button.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         feather.replace()
         $.ajaxSetup({
@@ -174,33 +175,41 @@
 
         $("#btn_request_approval_shipment").click(function(e){
 
-            e.preventDefault();
+            if ($("#inputTracking").val() === '') {
+                Swal.fire(
+                    'Input NULL',
+                    'Please input tracking number',
+                    'error'
+                )
+            } else {
+                e.preventDefault();
 
-            var shipment_id = $("#get_shipment_id").text();
-            var tracking_no = $("#inputTracking").val();
-            var status = 'Approved';
-            var update_remark = 'Approved, waiting for payment. Please upload receipt of payment below.';
+                var shipment_id = $("#get_shipment_id").text();
+                var tracking_no = $("#inputTracking").val();
+                var status = 'Approved';
+                var update_remark = 'Approved, waiting for payment. Please upload receipt of payment below.';
 
-            console.log(parseInt(shipment_id))
-            console.log(status, update_remark, tracking_no)
+                console.log(parseInt(shipment_id))
+                console.log(status, update_remark, tracking_no)
 
-            $.ajax({
-                type:'PATCH',
-                url:"http://127.0.0.1:8000/shipment/shipment-request-approval-distributor/" + parseInt(shipment_id),
-                data:{
-                    id:parseInt(shipment_id),
-                    status:status,
-                    remark:update_remark,
-                    tracking:tracking_no
-                },
-                success:function(data){
-                    if ( data['success'] )
-                        window.location.href = "http://127.0.0.1:8000/shipment/new-shipment";
-                    else
-                        alert('EXISTING.')
+                $.ajax({
+                    type:'PATCH',
+                    url:"http://127.0.0.1:8000/shipment/shipment-request-approval-distributor/" + parseInt(shipment_id),
+                    data:{
+                        id:parseInt(shipment_id),
+                        status:status,
+                        remark:update_remark,
+                        tracking:tracking_no
+                    },
+                    success:function(data){
+                        if ( data['success'] )
+                            window.location.href = "http://127.0.0.1:8000/shipment/new-shipment";
+                        else
+                            alert('EXISTING.')
 
-                }
-            });
+                    }
+                });
+            }
         });
 
         function linkTrack(num) {

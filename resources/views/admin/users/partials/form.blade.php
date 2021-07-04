@@ -1,7 +1,7 @@
 @csrf
 <div class="mb-3">
     <label for="name" class="form-label">Name</label>
-    <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" id="name" aria-describedby="name"
+    <input name="name" type="text" class="form-control rounded-pill @error('name') is-invalid @enderror" id="name" aria-describedby="name"
            value="{{ old('name') }}@isset($user){{ $user->name }}@endisset">
     @error('name')
     <span class="invalid-feedback" role="alert">
@@ -11,7 +11,7 @@
 </div>
 <div class="mb-3">
     <label for="email" class="form-label">Email address</label>
-    <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" id="email" aria-describedby="email"
+    <input name="email" type="email" class="form-control rounded-pill @error('email') is-invalid @enderror" id="email" aria-describedby="email"
            value="{{ old('email') }}@isset($user){{ $user->email }}@endisset">
     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
     @error('email')
@@ -52,4 +52,4 @@
         </div>
     @endforeach
 </div>
-<button type="submit" class="btn btn-primary">Submit</button>
+<button type="submit" class="btn btn-primary" style="width: 100%">Submit</button>

@@ -25,9 +25,9 @@
                                 <div class="card p-2" style="border: none">
                                     <div class="text-right badge bg-warning"> <small class="lead">{{ $usr->role_name }}</small> </div>
                                     <div class="text-center mt-2 p-3"> <img src="/image/XT-logo.png" width="100" height="65" /> <span class="d-block font-weight-bold">{{ $usr->name }}</span>
-                                        <hr> <span><i class="fa fa-dropbox"></i> Xmiryna Technology Supplier</span>
+                                        <hr> <span><i class="fa fa-box-open"></i> Xmiryna Technology Supplier</span>
                                         <div class="d-flex justify-content-between mt-3">
-                                            <span> <i data-feather="gitlab"></i> </span>
+                                            <span> Reg on: <b>{{ date('jS F Y h:i A', strtotime($usr->created_at)) }}</b> </span>
                                             <a href="{{ route('distributor.specific.stock.view', $usr->id) }}"><button class="btn btn-sm btn-outline-dark">Go</button></a>
                                         </div>
                                     </div>

@@ -2,7 +2,7 @@
 
 @section('content')
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
-    <h1 class="display-2 text-center">Insert SN <i class="fa fa-paper-plane-o"></i></h1>
+    <h1 class="display-2 text-center">Insert SN <i class="fa fa-paper-plane"></i></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">

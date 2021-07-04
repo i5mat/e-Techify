@@ -11,7 +11,7 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         {{-- HighCharts --}}
         {{-- <script src="https://code.highcharts.com/highcharts.js"></script> --}}
@@ -100,7 +100,7 @@
                                         @csrf
                                     </form>
                                 @else
-                                    <a href="{{ route('login') }}" style="padding-right: 10px;" class="text-sm text-gray-700 underline"><i class="fa fa-sign-in fa-2x"></i></a>
+                                    <a href="{{ route('login') }}" style="padding-right: 10px;" class="text-sm text-gray-700 underline"><i class="fa fa-sign-in-alt fa-2x"></i></a>
 
                                     @if (Route::has('register'))
                                         <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline"><i class="fa fa-plus-circle fa-2x"></i></a>

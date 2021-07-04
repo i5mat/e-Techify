@@ -90,7 +90,7 @@ class ProductController extends Controller
     {
         $user = User::join('role_user', 'role_user.user_id', '=', 'users.id')
             ->join('roles', 'roles.id', '=', 'role_user.role_id')
-            ->select('users.name', 'users.id', 'roles.name AS role_name')
+            ->select('users.name', 'users.id', 'roles.name AS role_name', 'users.created_at')
             ->where('role_user.role_id', 2)
             ->get();
 

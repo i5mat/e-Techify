@@ -6,7 +6,7 @@
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>Manage jobs info here!</p>
+            <p>Manage jobs info.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
             Prepared by <cite title="Source Title">Wan Ismat</cite>
@@ -75,6 +75,7 @@
                     <thead>
                     <tr>
                         <th scope="col"></th>
+                        <th scope="col"></th>
                         <th scope="col">Status</th>
                         <th scope="col">Applicant</th>
                         <th scope="col">Job Scope</th>
@@ -87,6 +88,9 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>
+                                <i class="fa fa-user-astronaut fa-2x"></i>
+                            </td>
+                            <td>
                                 <span class="badge rounded-pill bg-primary" style="color: white">{{ $job->job_type }}</span>
                             </td>
                             <td>{{ $job->name }}</td>
@@ -98,13 +102,13 @@
                                         <button class="btn btn-success rounded-pill" id="accept_applicant_btn{{ $loop->iteration }}" data-id="{{ $job->id }}">Accept</button>
                                         <button class="btn btn-danger rounded-pill" id="reject_applicant_btn{{ $loop->iteration }}" data-id="{{ $job->id }}">Decline</button>
                                     @else
-                                        Responded to applicant 😃
+                                        Responded 💨
                                     @endif
                                 @else
                                     @if($job->email_sent == 1)
-                                        ✔
+                                        <i class="fa fa-check fa-2x"></i>
                                     @else
-                                        Waiting for respond 🤞
+                                        <i class="fa fa-times fa-2x"></i>
                                     @endif
                                 @endcan
                             </td>
