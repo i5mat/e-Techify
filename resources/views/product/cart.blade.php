@@ -142,12 +142,6 @@
                     (Included with insurance and extra protection)
                     <td>RM 25.00</td>
                 </tr>
-                <tr>
-                    <th scope="row">Payment Method</th>
-                    <td>
-                        <i class="fa fa-paypal"></i>
-                    </td>
-                </tr>
                 </tbody>
             </table>
             <div class="text-center">

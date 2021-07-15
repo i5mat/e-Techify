@@ -10899,3 +10899,7 @@ input.error, textarea.error {
   width: 64px;
   height: 64px;
 }
+
+#table_data .pagination {
+  justify-content: center;
+}

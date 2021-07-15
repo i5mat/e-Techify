@@ -125,8 +125,8 @@
                 {{ $i->product_warranty_duration }} years local distributor warranty.
             </td>
             <td class="font-weight-bold align-middle text-center text-nowrap">x{{ $i->product_order_quantity }}</td>
-            <td class="font-weight-bold align-middle text-right text-nowrap">RM {{ number_format($i->product_price / 1) }}.00</td>
-            <td class="font-weight-bold align-middle text-right text-nowrap" id="total_per_item{{ $loop->iteration }}">{{ $i->product_price * $i->product_order_quantity }}</td>
+            <td class="font-weight-bold align-middle text-right text-nowrap">RM {{ number_format($i->new_product_price / 1) }}.00</td>
+            <td class="font-weight-bold align-middle text-right text-nowrap" id="total_per_item{{ $loop->iteration }}">{{ $i->new_product_price * $i->product_order_quantity }}</td>
         </tr>
         @endforeach
         <tr>

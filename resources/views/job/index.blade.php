@@ -75,21 +75,15 @@
                     <thead>
                     <tr>
                         <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Status</th>
                         <th scope="col">Applicant</th>
-                        <th scope="col">Job Scope</th>
+                        <th scope="col">Job Name</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">Status</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($getJob as $job)
                         <tr>
-                            <th scope="row">{{ $loop->iteration }}</th>
-                            <td>
-                                <i class="fa fa-user-astronaut fa-2x"></i>
-                            </td>
                             <td>
                                 <span class="badge rounded-pill bg-primary" style="color: white">{{ $job->job_type }}</span>
                             </td>

@@ -55,11 +55,11 @@
                 <div class="row">
                     <div class="col">
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                           class="btn btn-sm btn-primary"><i class="fa fa-file-pdf fa-2x"></i></a>
+                           class="btn btn-sm btn-primary" style="background-color:transparent; border-color: transparent;"><i class="fa fa-file-pdf fa-2x" style="color: red"></i></a>
                     </div>
                     <div class="col">
                         <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
-                            <button class="btn btn-sm btn-info"><i class="fa fa-receipt fa-2x"></i></button>
+                            <button class="btn btn-sm btn-info" style="background-color:transparent; border-color: transparent;"><i class="fa fa-file-invoice fa-2x"></i></button>
                         </a>
                     </div>
                     <div class="col">
@@ -76,7 +76,7 @@
                             data-bs-toggle="modal"
                             data-bs-target="#staticRMA">
                             @can('is-reseller-distributor')
-                                <button class="btn btn-sm btn-warning"><i
+                                <button class="btn btn-sm btn-warning" style="background-color:transparent; border-color: transparent;"><i
                                         class="fa fa-wrench fa-2x"></i>
                                 </button>
                             @endcan
@@ -146,11 +146,11 @@
                 <div class="row">
                     <div class="col">
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                           class="btn btn-sm btn-primary"><i class="fa fa-file-pdf fa-2x"></i></a>
+                           class="btn btn-sm btn-primary" style="background-color:transparent; border-color: transparent;"><i class="fa fa-file-pdf fa-2x" style="color: red"></i></a>
                     </div>
                     <div class="col">
                         <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
-                            <button class="btn btn-sm btn-info"><i class="fa fa-receipt fa-2x"></i></button>
+                            <button class="btn btn-sm btn-info" style="background-color:transparent; border-color: transparent;"><i class="fa fa-receipt fa-2x"></i></button>
                         </a>
                     </div>
                     <div class="col">
@@ -167,7 +167,7 @@
                             data-bs-toggle="modal"
                             data-bs-target="#staticRMA">
                             @can('is-reseller-distributor')
-                                <button class="btn btn-sm btn-warning"><i
+                                <button class="btn btn-sm btn-warning" style="background-color:transparent; border-color: transparent;"><i
                                         class="fa fa-wrench fa-2x"></i>
                                 </button>
                             @endcan
@@ -237,14 +237,14 @@
                 <div class="row">
                     <div class="col">
                         <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
-                            <button class="btn btn-sm btn-warning mb-1"><i class="fa fa-receipt fa-2x"></i>
+                            <button class="btn btn-sm btn-warning mb-1" style="background-color:transparent; border-color: transparent;"><i class="fa fa-file-invoice fa-2x"></i>
 
                             </button>
                         </a>
                     </div>
                     <div class="col">
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                           class="btn btn-sm btn-primary"><i class="fa fa-file-pdf fa-2x"></i>
+                           class="btn btn-sm btn-primary" style="background-color:transparent; border-color: transparent;"><i style="color: red" class="fa fa-file-pdf fa-2x"></i>
 
                         </a>
                     </div>

@@ -258,7 +258,7 @@
                                     <div class="h5 mb-0" style="font-weight: bold">{{ $getRMATotal }}</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fa fa-wrench fa-2x"></i>
+                                    <i class="fa fa-hammer fa-2x"></i>
                                 </div>
                             </div>
                         </div>
