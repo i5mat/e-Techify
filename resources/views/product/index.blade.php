@@ -139,7 +139,7 @@
                                 </button>
                             </h2>
 
-                            <form id="add-to-cart-{{ $p->id }}" action="{{ route('product.addProdCart', $p->id) }}" method="POST" style="display: none">
+                            <form id="add-to-cart-{{ $p->id }}" action="{{ route('product.addProdCart', $p->id) }}" method="GET" style="display: none">
                                 @csrf
                             </form>
 
