@@ -177,6 +177,7 @@
 
         var myA = @json($myArrays);
         var recipient = @json($userinfo);
+        var name = '{{ env('APP_URL') }}';
         console.log(myA);
         console.log(recipient[0].address.toUpperCase());
         console.log(recipient)
@@ -188,7 +189,7 @@
 
                 $.ajax(
                     {
-                        url: "http://127.0.0.1:8000/product/del-item-cart/" + id,
+                        url: name+"/product/del-item-cart/" + id,
                         type: 'DELETE',
                         data: {
                             "id": id,
