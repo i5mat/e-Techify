@@ -345,7 +345,7 @@
                                             text: 'Transaction completed by ' + details.purchase_units[0].shipping.name.full_name,
                                             confirmButtonText: `Click me!`,
                                         }).then((result) => {
-                                            /* Read more about isConfirmed, isDenied below */
+                                            /* Read more about isConfirmed, isDenied below haha */
                                             if (result.isConfirmed) {
                                                 window.location.replace(name+"/order/purchase/success-thank-you");
                                             }
