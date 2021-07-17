@@ -521,10 +521,11 @@
             $("#btn_remove_shipment_item"+z).click(function () {
                 var id = $(this).data("id");
                 var token = $("meta[name='csrf-token']").attr("content");
+                var name = '{{ env('APP_URL') }}';
 
                 $.ajax(
                     {
-                        url: "http://127.0.0.1:8000/shipment/remove-item-request/" + id,
+                        url: name+"/shipment/remove-item-request/" + id,
                         type: 'DELETE',
                         data: {
                             "id": id,
@@ -646,13 +647,14 @@
                     var shipment_id = $("#get_shipment_id").text();
                     var status = 'Waiting Approval';
                     var update_remark = 'Waiting Approval from distributor. If approved please make payment.';
+                    var name = '{{ env('APP_URL') }}';
 
                     console.log(parseInt(shipment_id))
                     console.log(status)
 
                     $.ajax({
                         type:'PATCH',
-                        url:"http://127.0.0.1:8000/shipment/shipment-request/" + parseInt(shipment_id),
+                        url:name+"/shipment/shipment-request/" + parseInt(shipment_id),
                         data:{
                             id:parseInt(shipment_id),
                             status:status,
