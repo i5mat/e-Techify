@@ -601,6 +601,7 @@
                 var product_id = $("#SelectProduct").val();
                 var product_qty = $("#SelectQuantity").val();
                 var product_remark = 'Please process my request.';
+                var name = '{{ env('APP_URL') }}';
 
                 console.log(user_id)
                 console.log(parseInt(product_id))
@@ -609,7 +610,7 @@
 
                 $.ajax({
                     type:'POST',
-                    url:"http://127.0.0.1:8000/shipment/new-shipment-request/" + parseInt(product_id),
+                    url: name+"/shipment/new-shipment-request/" + parseInt(product_id),
                     data:{
                         user_id:user_id,
                         prod_id:parseInt(product_id),
