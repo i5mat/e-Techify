@@ -201,10 +201,11 @@
 
                 var id = $(this).data("id");
                 var token = $("meta[name='csrf-token']").attr("content");
+                var name = '{{ env('APP_URL') }}';
 
                 $.ajax({
                     type: 'PATCH',
-                    url: process.env.APP_URL+"/user/updateAddressStatus/" + id,
+                    url: name+"/user/updateAddressStatus/" + id,
                     data: {
                         "id": id,
                         "_token": token,
