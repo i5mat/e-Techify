@@ -351,6 +351,7 @@
                                             }
                                         })
                                     } else
+                                        console.log(data)
                                         alert('EXISTING.')
 
                                 }
