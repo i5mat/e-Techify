@@ -347,7 +347,7 @@
                                         }).then((result) => {
                                             /* Read more about isConfirmed, isDenied below */
                                             if (result.isConfirmed) {
-                                                window.location.replace(name+"/order/purchase/success/thank-you");
+                                                window.location.replace(name+"/order/purchase/success-thank-you");
                                             }
                                         })
                                     } else
