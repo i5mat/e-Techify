@@ -323,13 +323,13 @@
                         didOpen: function () {
                             Swal.showLoading()
                             $.ajax({
-                                type: 'POST',
+                                type: 'GET',
                                 url: name+"/order/purchase/success/" + order_Id,
                                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                                 data: $("#form_cart").serialize() + '&pay_method=' + pay_method + '&pay_total=' + pay_total,
                                 success: function (data) {
+                                    console.log(data)
                                     if (data['success']) {
-                                        console.log(data)
 
                                         var msg = 'Dear, ' + recipient[0].name.toUpperCase() + '. Thank you for shopping with us at e-Techify! Your order ID is ' + myA[0].order_id + " and it will be sent to you in 3-7 working days.";
                                         var phone = recipient[0].phone_no;
@@ -351,7 +351,6 @@
                                             }
                                         })
                                     } else
-                                        console.log(data)
                                         alert('EXISTING.')
 
                                 }
