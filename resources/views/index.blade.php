@@ -394,7 +394,7 @@
                                                             class="fa fa-location-arrow"></i> <small
                                                             class="mx-1"> {{ $ji->job_location }}</small></div>
                                                     <div class="d-flex justify-content-between mt-3">
-                                                        <span>RM {{ $ji->job_salary }}</span>
+                                                        <span>RM <b>{{ $ji->job_salary }}</b> /hour</span>
 
                                                         @if($ji->status == 'Occupied')
                                                             @can('is-reseller-distributor')
