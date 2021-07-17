@@ -204,7 +204,7 @@
 
                 $.ajax({
                     type: 'PATCH',
-                    url: "http://127.0.0.1:8000/user/updateAddressStatus/" + id,
+                    url: process.env.APP_URL+"/user/updateAddressStatus/" + id,
                     data: {
                         "id": id,
                         "_token": token,
