@@ -169,6 +169,7 @@
             var firstSelection = $( "#filterProductBrand :selected" ).val();
             var secondSelection = $( "#filterProductPrice :selected" ).val();
             var thirdSelection = $( "#filterProductCat :selected" ).val();
+            var name = '{{ env('APP_URL') }}';
 
             if ($("#filterProductBrand :selected").text() === 'Please select...' && $("#filterProductPrice :selected").text() === 'Please select...' && $( "#filterProductCat :selected" ).text() === 'Please select...') {
                 Swal.fire(
@@ -178,18 +179,18 @@
                 )
             } else {
                 if (firstSelection !== 'Please select...')
-                    window.location.href = "http://127.0.0.1:8000/product/items?product_brand=" + firstSelection;
+                    window.location.href = name+"/product/items?product_brand=" + firstSelection;
                 else if (secondSelection !== 'Please select...')
-                    window.location.href = "http://127.0.0.1:8000/product/items?product_price=" + secondSelection;
+                    window.location.href = name+"/product/items?product_price=" + secondSelection;
                 else if (thirdSelection !== 'Please select...')
-                    window.location.href = "http://127.0.0.1:8000/product/items?product_category=" + thirdSelection;
+                    window.location.href = name+"/product/items?product_category=" + thirdSelection;
                 else if (firstSelection !== 'Please select...' && secondSelection !== 'Please select...' && thirdSelection !== 'Please select...')
-                    window.location.href = "http://127.0.0.1:8000/product/items?product_price=" + secondSelection + "&product_brand=" + firstSelection + "&product_category=" + thirdSelection;
+                    window.location.href = name+"/product/items?product_price=" + secondSelection + "&product_brand=" + firstSelection + "&product_category=" + thirdSelection;
             }
         });
 
         $( "#btn_reset_filter" ).click(function() {
-            window.location.href = "http://127.0.0.1:8000/product/items";
+            window.location.href = name+"/product/items";
         });
     </script>
 @endsection
