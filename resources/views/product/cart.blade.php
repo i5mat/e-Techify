@@ -323,7 +323,7 @@
                         didOpen: function () {
                             Swal.showLoading()
                             $.ajax({
-                                type: 'POST',
+                                type: 'GET',
                                 url: name+"/order/purchase/success/" + order_Id,
                                 contentType: "application/x-www-form-urlencoded; charset=UTF-8",
                                 data: $("#form_cart").serialize() + '&pay_method=' + pay_method + '&pay_total=' + pay_total,
