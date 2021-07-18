@@ -131,6 +131,9 @@ class ShipmentController extends Controller
             return view('shipment.index', compact('fetchProduct', 'getProductBrand', 'retrieveVal',
                 'getItems', 'getInfo', 'approved', 'shipped', 'waitingApproval', 'requested'));
         }
+
+        return view('shipment.index', compact('fetchProduct', 'getProductBrand', 'retrieveVal',
+            'getItems', 'getInfo', 'approved', 'shipped', 'waitingApproval', 'requested', 'getDistributor', 'validateShipment'));
     }
 
     public function removeItem($id, Request $request)
