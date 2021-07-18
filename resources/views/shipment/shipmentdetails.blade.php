@@ -188,13 +188,14 @@
                 var tracking_no = $("#inputTracking").val();
                 var status = 'Approved';
                 var update_remark = 'Approved, waiting for payment. Please upload receipt of payment below.';
+                var name = '{{ env('APP_URL') }}';
 
                 console.log(parseInt(shipment_id))
                 console.log(status, update_remark, tracking_no)
 
                 $.ajax({
                     type:'PATCH',
-                    url:"http://127.0.0.1:8000/shipment/shipment-request-approval-distributor/" + parseInt(shipment_id),
+                    url:name+"/shipment/shipment-request-approval-distributor/" + parseInt(shipment_id),
                     data:{
                         id:parseInt(shipment_id),
                         status:status,

@@ -1280,10 +1280,11 @@
                 var remark = $("#rma_resolution").val();
                 var tracking = $("#rma_tracking_no").val();
                 var rma_id = $("#rma_no").val();
+                var name = '{{ env('APP_URL') }}';
 
                 $.ajax({
                     type: 'PATCH',
-                    url: "http://127.0.0.1:8000/rma/rma-update/" + rma_id,
+                    url: name+"/rma/rma-update/" + rma_id,
                     data: {
                         rma_status: status,
                         receive: receive_at,
@@ -1307,10 +1308,11 @@
 
             var job_id = $("#job_id_apply").val();
             var job_u_id = $("#job_user_id_apply").val();
+            var name = '{{ env('APP_URL') }}';
 
             $.ajax({
                 type: 'PATCH',
-                url: "http://127.0.0.1:8000/job/update/" + job_id,
+                url: name+"/job/update/" + job_id,
                 data: {
                     usr_id: job_u_id,
                 },
@@ -1333,12 +1335,13 @@
             var job_rate = $("#job_rate").val();
             var job_scope = $("#job_names").val();
             var job_type = $("#job_type_update").val();
+            var name = '{{ env('APP_URL') }}';
 
             //alert(job_scope)
 
             $.ajax({
                 type: 'PATCH',
-                url: "http://127.0.0.1:8000/job/update-job-info/" + job_id,
+                url: name+"/job/update-job-info/" + job_id,
                 data: {
                     location: job_loc,
                     rate: job_rate,
@@ -1361,12 +1364,13 @@
 
             var job_id = $("#job_id_status_modal").val();
             var stats = $("#floatingUpdateStatus").val();
+            var name = '{{ env('APP_URL') }}';
 
             console.log(job_id, stats)
 
             $.ajax({
                 type: 'PATCH',
-                url: "http://127.0.0.1:8000/job/update-job-status/" + job_id,
+                url: name+"/job/update-job-status/" + job_id,
                 data: {
                     status: stats,
                 },
