@@ -133,7 +133,8 @@ class ShipmentController extends Controller
         }
 
         return view('shipment.index', compact('fetchProduct', 'getProductBrand', 'retrieveVal',
-            'getItems', 'getInfo', 'approved', 'shipped', 'waitingApproval', 'requested', 'getDistributor', 'validateShipment'));
+            'getInfo', 'getDistributor', 'validateShipment'));
+
     }
 
     public function removeItem($id, Request $request)
@@ -253,7 +254,7 @@ class ShipmentController extends Controller
 
         $findID->save();
 
-        return response(view('shipment.index', array('success'=>'Shipment Approved')));
+        return response(view('shipment.index', array('success'=>'success')));
     }
 
     public function shipmentApprovalDistributor($id, Request $request)
