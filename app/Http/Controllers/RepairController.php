@@ -93,7 +93,7 @@ class RepairController extends Controller
 
         //dd($userAddress);
 
-        return view('rma.rma-sheet', compact('recipientInfo', 'rmaInfo', 'distriAddress', 'userAddress'));
+        return view('RMA.rma-sheet', compact('recipientInfo', 'rmaInfo', 'distriAddress', 'userAddress'));
     }
 
     public function updateRMA($id, Request $request)
