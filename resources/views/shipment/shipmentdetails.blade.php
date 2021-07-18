@@ -204,7 +204,7 @@
                     },
                     success:function(data){
                         if ( data['success'] )
-                            window.location.href = "http://127.0.0.1:8000/shipment/new-shipment";
+                            window.location.href = name+"/shipment/new-shipment";
                         else
                             alert('EXISTING.')
 
