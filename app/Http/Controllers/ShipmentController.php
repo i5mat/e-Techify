@@ -254,7 +254,7 @@ class ShipmentController extends Controller
 
         $findID->save();
 
-        return response(view('shipment.index', array('success'=>'success')));
+        return response()->json(['success'=>'Shipment Approved']);
     }
 
     public function shipmentApprovalDistributor($id, Request $request)
