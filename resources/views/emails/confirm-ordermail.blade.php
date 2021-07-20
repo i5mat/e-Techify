@@ -3,7 +3,7 @@
 
 This is your order summary, hope that your items arrive safely.
 
-@component('mail::button', ['url' => url('http://127.0.0.1:8000/order/receipt/'.$recipientInfo->order_id)])
+@component('mail::button', ['url' => url(env('APP_URL').'/order/receipt/'.$recipientInfo->order_id)])
     View Order Receipt
 @endcomponent
 
