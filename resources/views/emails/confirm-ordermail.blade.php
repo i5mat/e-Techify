@@ -12,7 +12,7 @@ This is your order summary, hope that your items arrive safely.
 |:----:| :----: | :----: | :----: |
 |<img width=200/>|<img width=800/>|<img width=200/>|<img width=200/>|
 @foreach($orderInfo as $item)
-| <img src="http://127.0.0.1:8000/storage/product/{{ $item->product_image_path }}" style="width: 100px; height: 100px" alt="animated" /> | {{ $item->product_name }} | {{ $item->product_price }} | x{{ $item->product_order_quantity }} |
+| <img src="{{ \Storage::disk('s3')->url('product/'.$item->product_image_path) }}" style="width: 100px; height: 100px" alt="animated" /> | {{ $item->product_name }} | {{ $item->product_price }} | x{{ $item->product_order_quantity }} |
 @endforeach
 <p style="text-align: center">
     Payment made by : {{ $recipientInfo->payment_method }}
