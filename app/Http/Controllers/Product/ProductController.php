@@ -13,6 +13,7 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -223,7 +224,8 @@ class ProductController extends Controller
             ]);
 
             // Save the file locally in the storage/public/ folder under a new folder named /product
-            $request->file('prod_image')->store('product', 'public');
+            $file_name = $request->file('prod_image')->store('product', 's3');
+            Storage::disk('s3')->setVisibility($file_name, 'public');
 
             // Store the record, using the new file hashname which will be it's new filename identity.
             if (Gate::allows('is-distributor')) {
@@ -263,7 +265,8 @@ class ProductController extends Controller
                         "user_id" => $request->get('insert_brand_dist'),
                         "product_name" => $request->get('prod_name'),
                         "product_sn" => $request->get('prod_sn'),
-                        "product_image_path" => $request->file('prod_image')->hashName(),
+                        //"product_image_path" => $request->file('prod_image')->hashName(),
+                        "product_image_path" => basename($file_name),
                         "product_category" => $request->get('prod_category'),
                         "product_brand" => $request->get('new_prod_brand'),
                         "product_warranty_duration" => $request->get('prod_warranty'),
@@ -272,6 +275,8 @@ class ProductController extends Controller
                         "product_link" => $request->get('prod_link'),
                         "product_stock_count" => $request->get('prod_stock')
                     ]);
+
+                    //dd($product);
                 }
                 else {
                     $product = new Product([

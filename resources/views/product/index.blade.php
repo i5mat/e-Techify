@@ -119,7 +119,7 @@
             @foreach($products as $p)
                 <div class="card-group col-md-4" style="padding-bottom: 10px">
                     <div class="card">
-                        <img class="card-img-top" src="/storage/product/{{ $p->product_image_path }}" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
+                        <img class="card-img-top" src="{{ \Storage::disk('s3')->url('product/'.$p->product_image_path) }}" style="width:300px; height:300px; display: block; margin-left: auto; margin-right: auto" alt="Card image cap">
                         <div class="card-body">
                             <h6>{{ $p->product_category }}</h6>
                             <h5 class="card-title">{{ $p->product_name }}</h5>
