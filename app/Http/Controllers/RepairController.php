@@ -8,6 +8,7 @@ use App\Models\Repair;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class RepairController extends Controller
 {
@@ -39,7 +40,8 @@ class RepairController extends Controller
             ]);
 
             // Save the file locally in the storage/public/ folder under a new folder named /product
-            $request->file('proof_of_purchase_file')->store('rma', 'public');
+            $file_name = $request->file('proof_of_purchase_file')->store('rma', 's3');
+            Storage::disk('s3')->setVisibility($file_name, 'public');
 
             // Store the record, using the new file hashname which will be it's new filename identity.
             $rma_req = new Repair([
@@ -48,8 +50,8 @@ class RepairController extends Controller
                 "user_id" => Auth::id(),
                 "sn_no" => $request->get('product_sn_confirm'),
                 "date_of_purchase" => $request->get('date-purchased'),
-                //"date_of_purchase" => '2021-05-04',
-                "file_path" => $request->file('proof_of_purchase_file')->hashName(),
+                //"file_path" => $request->file('proof_of_purchase_file')->hashName(),
+                "file_path" => basename($file_name),
                 "reason" => $request->get('reason_field'),
                 "status" => 'Pending Receive'
             ]);

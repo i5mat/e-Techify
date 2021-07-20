@@ -236,7 +236,7 @@
             <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
                 <div class="row">
                     <div class="col">
-                        <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                        <a href="{{ \Storage::disk('s3')->url('rma/'.$rma->file_path) }}" target="_blank">
                             <button class="btn btn-sm btn-warning mb-1" style="background-color:transparent; border-color: transparent;"><i class="fa fa-file-invoice fa-2x"></i>
 
                             </button>
