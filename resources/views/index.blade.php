@@ -1414,7 +1414,7 @@
             document.getElementById("rma_resolution").innerText = rma_resolution;
             document.getElementById("rma_receive_at").value = rma_receive;
             document.getElementById("floatingSelectStatus").value = rma_status;
-            document.getElementById("myProdImg").src = "/storage/product/" + prod_pic;
+            document.getElementById("myProdImg").src = "{{ \Storage::disk('s3')->url('product/') }}" + prod_pic;
         });
 
         $('#jobModal').on('show.bs.modal', function (event) {

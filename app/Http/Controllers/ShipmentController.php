@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 
 class ShipmentController extends Controller
 {
@@ -243,8 +244,11 @@ class ShipmentController extends Controller
             ]);
 
             // Save the file locally in the storage/public/ folder under a new folder named /product
-            $request->file('proof_of_payment_file')->store('shipments', 'public');
-            $findID->proof_of_payment = $request->file('proof_of_payment_file')->hashName();
+            $file_name = $request->file('proof_of_payment_file')->store('shipments', 's3');
+            Storage::disk('s3')->setVisibility($file_name, 'public');
+
+            //$findID->proof_of_payment = $request->file('proof_of_payment_file')->hashName();
+            $findID->proof_of_payment = basename($file_name);
             $findID->status = 'Shipped';
             $findID->remark = 'Waiting Shipment from distributor. Tracking number will be updated.';
         } elseif ($findID->status == 'Requested') {
