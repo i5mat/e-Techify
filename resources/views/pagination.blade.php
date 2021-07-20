@@ -58,7 +58,7 @@
                            class="btn btn-sm btn-primary" style="background-color:transparent; border-color: transparent;"><i class="fa fa-file-pdf fa-2x" style="color: red"></i></a>
                     </div>
                     <div class="col">
-                        <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                        <a href="{{ \Storage::disk('s3')->url('rma/'.$rma->file_path) }}" target="_blank">
                             <button class="btn btn-sm btn-info" style="background-color:transparent; border-color: transparent;"><i class="fa fa-file-invoice fa-2x"></i></button>
                         </a>
                     </div>
@@ -149,7 +149,7 @@
                            class="btn btn-sm btn-primary" style="background-color:transparent; border-color: transparent;"><i class="fa fa-file-pdf fa-2x" style="color: red"></i></a>
                     </div>
                     <div class="col">
-                        <a href="/storage/rma/{{ $rma->file_path }}" target="_blank">
+                        <a href="{{ \Storage::disk('s3')->url('rma/'.$rma->file_path) }}" target="_blank">
                             <button class="btn btn-sm btn-info" style="background-color:transparent; border-color: transparent;"><i class="fa fa-receipt fa-2x"></i></button>
                         </a>
                     </div>
