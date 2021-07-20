@@ -72,7 +72,7 @@
                             </button>
                         </div>
                         <div class="col">
-                            <a href="/storage/shipments/{{ $resellerInfo->proof_of_payment }}" target="_blank">
+                            <a href="{{ \Storage::disk('s3')->url('shipments/'.$resellerInfo->proof_of_payment) }}" target="_blank">
                                 <button class="btn btn-warning mt-2" style="width: 100%"><i class="fa fa-download"></i> Download Proof of Payment</button>
                             </a>
                         </div>
