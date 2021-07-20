@@ -105,7 +105,7 @@
         @foreach($orderInfo as $i)
         <tr>
             <td>
-                <img src="/storage/product/{{ $i->product_image_path }}" style="width:120px; height:120px;">
+                <img src="{{ \Storage::disk('s3')->url('product/'.$i->product_image_path) }}" style="width:120px; height:120px;">
                 <h5 class="mb-1">{{ $i->product_name }}</h5>
                 {{ $i->serial_number }} <br/>
                 {{ $i->product_warranty_duration }} years local distributor warranty.

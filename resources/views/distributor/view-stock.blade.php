@@ -31,7 +31,7 @@
                     <tbody>
                     @foreach($products as $prod)
                     <tr>
-                        <td><img src="/storage/product/{{ $prod->product_image_path }}" width="60" height="60"></td>
+                        <td><img src="{{ \Storage::disk('s3')->url('product/'.$prod->product_image_path) }}" width="60" height="60"></td>
                         <th scope="row">{{ $prod->product_sn }}</th>
                         <td>{{ $prod->product_name }}</td>
                         <td>{{ $prod->product_brand }}</td>

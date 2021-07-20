@@ -78,7 +78,7 @@
                     <tr>
                         <th scope="row">{{ $loop->iteration }}</th>
                         <td>
-                            <img src="/storage/product/{{ $i->product_image_path }}" style="width:120px; height:120px;">
+                            <img src="{{ \Storage::disk('s3')->url('product/'.$i->product_image_path) }}" style="width:120px; height:120px;">
                         </td>
                         <td>{{ $i->product_name }} <p class="lead">[x{{ $i->product_order_quantity }}]</p></td>
                         <td>

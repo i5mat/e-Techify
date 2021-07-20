@@ -1,7 +1,7 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Requested Shipment {{ $resellerInfo->id }} <i class="fa fa-fire"></i></h1>
+    <h1 class="display-2 text-center">Requested Shipment <i class="fa fa-fire"></i></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
@@ -34,7 +34,7 @@
                     @foreach($getItems as $getShipment)
                         <tr>
                             <td>
-                                <img src="/storage/product/{{ $getShipment->product_image_path }}"
+                                <img src="{{ \Storage::disk('s3')->url('product/'.$getShipment->product_image_path) }}"
                                      style="width:120px; height:120px;">
                             </td>
                             <td>{{ $getShipment->product_name }}</td>
@@ -115,7 +115,7 @@
                             <tr>
                                 <th scope="row">{{ $loop->iteration }}</th>
                                 <td>
-                                    <img src="/storage/product/{{ $getShipment->product_image_path }}"
+                                    <img src="{{ \Storage::disk('s3')->url('product/'.$getShipment->product_image_path) }}"
                                          style="width:120px; height:120px;">
                                 </td>
                                 <td>{{ $getShipment->product_name }}</td>

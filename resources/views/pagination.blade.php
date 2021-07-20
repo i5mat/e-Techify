@@ -4,7 +4,7 @@
             <div class="col-12 col-md-4">
                 <div class="p-3 d-flex align-items-center">
                     <div class="mr-3">
-                        <img src="/storage/product/{{ $rma->product_image_path }}"
+                        <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
                              width="100" height="100"/>
                     </div>
 
@@ -95,7 +95,7 @@
             <div class="col-12 col-md-4">
                 <div class="p-3 d-flex align-items-center">
                     <div class="mr-3">
-                        <img src="/storage/product/{{ $rma->product_image_path }}"
+                        <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
                              width="100" height="100"/>
                     </div>
 
@@ -186,7 +186,7 @@
             <div class="col-12 col-md-4">
                 <div class="p-3 d-flex align-items-center">
                     <div class="mr-3">
-                        <img src="/storage/product/{{ $rma->product_image_path }}"
+                        <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
                              width="100" height="100"/>
                     </div>
 

@@ -39,7 +39,7 @@
                                     @foreach($getItems as $getShipment)
                                         <tr>
                                             <td>
-                                                <img src="/storage/product/{{ $getShipment->product_image_path }}"
+                                                <img src="{{ \Storage::disk('s3')->url('product/'.$getShipment->product_image_path) }}"
                                                      style="width:120px; height:120px;">
                                             </td>
                                             <td>{{ $getShipment->product_name }}</td>
@@ -697,7 +697,7 @@
                 var value = $("#SelectProduct option:selected");
                 var value2 = $("#SelectProductID option:selected");
 
-                document.getElementById("product_pic").src = "/storage/product/" + value2.val();
+                document.getElementById("product_pic").src = "{{ \Storage::disk('s3')->url('product/') }}" + value2.val();
             });
         }
         @endcan

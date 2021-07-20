@@ -427,7 +427,7 @@
 
             document.getElementById('p_name').innerHTML = value.text().bold();
             document.getElementById('products_id_dist').innerHTML = value2.text();
-            document.getElementById("p_picture").src = "/storage/product/" + value2.val();
+            document.getElementById("p_picture").src = "{{ \Storage::disk('s3')->url('product/') }}" + value2.val();
 
             $('#floatingSelectProduct').change(function(){
                 $("#floatingSelectProductID option").eq($(this).find(':selected').index()).prop('selected',true);
@@ -438,7 +438,7 @@
 
                 document.getElementById('p_name').innerHTML = value.text().bold();
                 document.getElementById('products_id_dist').innerHTML = value2.text();
-                document.getElementById("p_picture").src = "/storage/product/" + value2.val();
+                document.getElementById("p_picture").src = "{{ \Storage::disk('s3')->url('product/') }}" + value2.val();
             });
         }
     </script>
