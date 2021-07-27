@@ -253,7 +253,8 @@
                 //modal.find('.modal-body #event_levels').val(event_level);
                 //document.cookie = 'name='.concat(event_type);
 
-                document.getElementById("myForm").action = "http://127.0.0.1:8000/product/items/" + prod_id;
+                var name = '{{ env('APP_URL') }}';
+                document.getElementById("myForm").action = name+"/product/items/" + prod_id;
                 document.getElementById("myImg").src = "{{ \Storage::disk('s3')->url('product/') }}" + prod_pic;
             });
         </script>
