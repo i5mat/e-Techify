@@ -30,7 +30,6 @@ Route::prefix('user')->middleware(['auth', 'verified'])->name('user.')->group(fu
     Route::post('addUserAddress', [App\Http\Controllers\User\Profile::class, 'addAddress'])->name('userinsertaddress');
     Route::delete('delAddress/{id}', [App\Http\Controllers\User\Profile::class, 'destroyAddress'])->name('userdel_address');
     Route::patch('updateAddressStatus/{id}', [App\Http\Controllers\User\Profile::class, 'userAddressUpdate'])->name('update.status');
-    Route::get('covid', [App\Http\Controllers\User\Profile::class, 'covidIndex'])->name('covid.index');
     Route::get('userdash/pagination', [App\Http\Controllers\User\Profile::class, 'fetch_data']);
 });
 
@@ -116,4 +115,8 @@ Route::prefix('shipment')->middleware(['auth', 'verified'])->name('shipment.')->
     Route::get('shipment-details/{id}', [App\Http\Controllers\ShipmentController::class, 'shipmentDetailsIndex'])->name('details');
     Route::delete('remove-item-request/{id}', [App\Http\Controllers\ShipmentController::class, 'removeItem'])->name('remove.item');
     Route::get('shipment-sheet/{id}', [App\Http\Controllers\ShipmentController::class, 'shipmentSheet'])->name('sheet');
+});
+
+Route::prefix('covid')->name('covid.')->group(function () {
+    Route::get('vaccine_stats', [App\Http\Controllers\User\Profile::class, 'covidIndex'])->name('index');
 });

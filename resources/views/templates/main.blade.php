@@ -192,7 +192,7 @@
                             </li>
                         @endcan
                         <li class="nav-item">
-                            <a class="nav-link font-monospace" href="{{ route('user.covid.index') }}">nCov-19</a>
+                            <a class="nav-link font-monospace" href="{{ route('covid.index') }}">nCov-19</a>
                         </li>
                     </ul>
                 </div>

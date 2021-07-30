@@ -2,11 +2,11 @@
 
 @section('content')
 
-    <h1 class="display-2 text-center"><i class="fa fa-medkit"></i></h1>
+    <h1 class="display-2 text-center mt-2"><i class="fa fa-medkit"></i></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>Covid-19 Vaccination Statistic</p>
+            <p>Malaysia Vaccination Statistic</p>
         </blockquote>
         <figcaption class="blockquote-footer">
             Prepared by <cite title="Source Title">Wan Ismat</cite>
@@ -56,7 +56,7 @@
                 credits: false,
 
                 title: {
-                    text: 'STATISTIK PROGRAM IMUNISASI COVID-19 KEBANGSAAN 😷'
+                    text: 'STATISTIK PROGRAM IMUNISASI COVID-19 KEBANGSAAN'
                 },
 
                 subtitle: {
