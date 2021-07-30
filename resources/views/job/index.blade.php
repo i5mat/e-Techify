@@ -61,7 +61,7 @@
     </div>
     @endcan
 
-    <div class="card mt-3">
+    <div class="card shadow mt-3">
         @if($getJob->count() <= 0)
             <div class="card-body">
                 <img src="/image/no-application.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
@@ -71,10 +71,10 @@
             </div>
         @else
             <div class="card-body">
-                <table class="table">
+                <table class="display" id="job-applicant-table" style="width:100%">
                     <thead>
                     <tr>
-                        <th scope="col"></th>
+                        <th scope="col">#</th>
                         <th scope="col">Applicant</th>
                         <th scope="col">Job Name</th>
                         <th scope="col">Email</th>
@@ -116,6 +116,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        $('#job-applicant-table').DataTable();
         @can('is-reseller-distributor')
         $("#btn_submit_job").click(function() {
             if ($("#job_name").val() === '' || $("#job_salary").val() === '' || $("#job_loc").val() === '' || $("#job_type :selected").text() === 'Please select...') {
