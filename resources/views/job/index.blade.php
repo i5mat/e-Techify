@@ -78,7 +78,7 @@
                         <th scope="col">Applicant</th>
                         <th scope="col">Job Name</th>
                         <th scope="col">Email</th>
-                        <th scope="col">Status</th>
+                        <th scope="col" style="text-align: center">Status</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -90,7 +90,7 @@
                             <td>{{ $job->name }}</td>
                             <td>{{ $job->job_name }}</td>
                             <td>{{ $job->email }}</td>
-                            <td>
+                            <td style="text-align: center">
                                 @can('is-distributor')
                                     @if(!isset($job->email_sent))
                                         <button class="btn btn-success rounded-pill" id="accept_applicant_btn{{ $loop->iteration }}" data-id="{{ $job->id }}">Accept</button>
@@ -116,7 +116,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $('#job-applicant-table').DataTable();
+        $('#job-applicant-table').DataTable({
+            columnDefs: [
+                { orderable: false, targets: -1 }
+            ]
+        });
+
         @can('is-reseller-distributor')
         $("#btn_submit_job").click(function() {
             if ($("#job_name").val() === '' || $("#job_salary").val() === '' || $("#job_loc").val() === '' || $("#job_type :selected").text() === 'Please select...') {
