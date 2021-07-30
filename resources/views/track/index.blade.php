@@ -218,7 +218,7 @@
                                     <p class="tracking-status text-tight">Cancelled</p>
                                 </div>
                             @endif
-                            <div class="tracking-list">
+                            <div class="tracking-list" id="tracking_list">
                                 @foreach($trackingStatus as $track_stats)
                                     <div class="tracking-item">
                                         @if($track_stats->current_status == 'Confirmed Order')
@@ -229,19 +229,19 @@
                                             <div class="tracking-content">{{ $track_stats->current_status }}<span>Order is confirmed</span></div>
                                         @elseif ($track_stats->current_status == 'Processing Order')
                                             <div class="tracking-icon status-intransit">
-                                                <i data-feather="minus" style="margin-bottom: 5px"></i>
+                                                <i class="fa fa-minus" style="margin-bottom: 5px"></i>
                                             </div>
                                             <div class="tracking-date">{{ date('d M, Y', strtotime($track_stats->created_at)) }}<span>{{ date('H:i A', strtotime($track_stats->created_at)) }}</span></div>
                                             <div class="tracking-content">{{ $track_stats->current_status }}<span>Order is being processed</span></div>
                                         @elseif ($track_stats->current_status == 'Quality Check')
                                             <div class="tracking-icon status-exception">
-                                                <i data-feather="check-circle" style="margin-bottom: 5px"></i>
+                                                <i class="fa fa-check-circle" style="margin-bottom: 5px"></i>
                                             </div>
                                             <div class="tracking-date">{{ date('d M, Y', strtotime($track_stats->created_at)) }}<span>{{ date('H:i A', strtotime($track_stats->created_at)) }}</span></div>
                                             <div class="tracking-content">{{ $track_stats->current_status }}<span>Product is being inspected</span></div>
                                         @elseif ($track_stats->current_status == 'Product Dispatched')
                                             <div class="tracking-icon status-outfordelivery">
-                                                <i data-feather="truck" style="margin-bottom: 5px"></i>
+                                                <i class="fa fa-truck" style="margin-bottom: 5px"></i>
                                             </div>
                                             <div class="tracking-date">{{ date('d M, Y', strtotime($track_stats->created_at)) }}<span>{{ date('H:i A', strtotime($track_stats->created_at)) }}</span></div>
                                             <div class="tracking-content">{{ $track_stats->current_status }}<span>Your order is getting ready to be dispatched out to the couriers</span></div>
@@ -268,7 +268,7 @@
                     @can('is-reseller')
                     <dl class="row">
                         <dt class="col-sm-3">Tracking Status</dt>
-                        <dd class="col-sm-9">
+                        <dd class="col-sm-9" id="tracking_status_input">
                             <input readonly type="text" class="form-control" id="update_tracking" name="update_tracking" placeholder="Insert Current Status">
                             @if($track_stats->current_status == 'Confirmed Order')
                                 <button type="button" name="processing_order_btn" id="processing_order_btn" class="btn btn-outline-warning" style="margin-top: 5px">Processing Order</button>
@@ -387,8 +387,52 @@
                     url:"{{ route('track.insert.trackparcel', $recipientInfo->order_id) }}",
                     data:{update_tracking:tracking, courier:courier_tracking},
                     success:function(data){
-                        if ( data['success'] )
-                            location.reload();
+                        if ( data['success'] ) {
+                            if (data.latest_stats == 'Processing Order') {
+                                document.getElementById("tracking_list").innerHTML += '<div class="tracking-item">'+
+                                    '<div class="tracking-icon status-intransit"><i class="fa fa-minus" style="margin-bottom: 5px"></i></div>'+
+                                    '<div class="tracking-date">{{ date('d M, Y', strtotime(now())) }}<span>{{ date('H:i A', strtotime(now())) }}</span></div>'+
+                                    '<div class="tracking-content">Processing Order<span>Order is being processed</span></div>';
+
+                                $("#update_tracking").val("Quality Check");
+                                $("#processing_order_btn").text("Quality Check");
+
+                                $("#processing_order_btn").attr('name', "qc_btn");
+                                $("#processing_order_btn").attr('id', "qc_btn");
+                            }
+                            else if (data.latest_stats == 'Quality Check') {
+                                document.getElementById("tracking_list").innerHTML += '<div class="tracking-item">'+
+                                    '<div class="tracking-icon status-exception"><i class="fa fa-check-circle" style="margin-bottom: 5px"></i></div>'+
+                                    '<div class="tracking-date">{{ date('d M, Y', strtotime(now())) }}<span>{{ date('H:i A', strtotime(now())) }}</span></div>'+
+                                    '<div class="tracking-content">Quality Check<span>Product is being inspected</span></div>';
+
+                                $("#update_tracking").val("Product Dispatched");
+                                $("#qc_btn").text("Product Dispatched");
+
+                                $("#qc_btn").attr('name', "dispatched_btn");
+                                $("#qc_btn").attr('id', "dispatched_btn");
+                            }
+                            else if (data.latest_stats == 'Product Dispatched') {
+                                document.getElementById("tracking_list").innerHTML += '<div class="tracking-item">'+
+                                    '<div class="tracking-icon status-outfordelivery"><i class="fa fa-truck" style="margin-bottom: 5px"></i></div>'+
+                                    '<div class="tracking-date">{{ date('d M, Y', strtotime(now())) }}<span>{{ date('H:i A', strtotime(now())) }}</span></div>'+
+                                    '<div class="tracking-content">Product Dispatched<span>Your order is getting ready to be dispatched out to the couriers</span></div>';
+
+                                document.getElementById("tracking_status_input").innerHTML +=
+                                    '<input type="text" class="form-control mt-1" id="courier_track_no" name="courier_track_no" placeholder="Insert Tracking No.">';
+
+                                $("#update_tracking").val("Product Delivered");
+                                $("#dispatched_btn").text("Product Delivered");
+
+                                $("#dispatched_btn").attr('name', "delivered_btn");
+                                $("#dispatched_btn").attr('id', "delivered_btn");
+                                $("#delivered_btn").attr("hidden", "true");
+                            }
+                            else if (data.latest_stats == 'Product Delivered') {
+                                location.reload();
+                            }
+                        }
+                            console.log(data.latest_stats)
 
                     }
                 });
