@@ -41,7 +41,6 @@
                         <div class="form-floating">
                             <select class="form-select" id="floatingSelect2" aria-label="Floating label select example"
                                     style="height: 60px; margin-top: 10px">
-                                <option>-</option>
                                 @foreach($userinfo as $ui)
                                     <option value="{{ $ui->name }} (+60) {{ $ui->phone_no }}"
                                             selected>{{ $ui->name }}</option>
@@ -51,7 +50,6 @@
                         <div class="form-floating">
                             <select class="form-select" id="floatingSelect3" aria-label="Floating label select example"
                                     style="height: 60px; margin-top: 10px">
-                                <option>-</option>
                                 @foreach($userinfo as $ui)
                                     <option value="{{ $ui->id }}" selected>{{ $ui->id }}</option>
                                 @endforeach
@@ -170,6 +168,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/3.2.1/jquery.serializejson.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
     <script>
 
         CalculateItemsValue();
@@ -208,19 +207,28 @@
             $('#floatingSelect2').attr('hidden', true);
             $('#floatingSelect3').attr('hidden', true);
 
-            // Disable dropdown for address.
-            $('#floatingSelect2').attr('disabled', true);
-            $('#floatingSelect3').attr('disabled', true);
-
             $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected', true);
             $("#floatingSelect3 option").eq($(this).find(':selected').index()).prop('selected', true);
             var value = $("#floatingSelect option:selected");
             var value2 = $("#floatingSelect2 option:selected");
             var value3 = $("#floatingSelect3 option:selected");
 
+            // Start of CryptoJS
+            var encrypted = CryptoJS.AES.encrypt(value3.val(), "Secret Passphrase");
+            var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase");
+            console.log('Encrypt -> ' + encrypted.toString())
+            console.log('Decrypt -> ' + decrypted.toString(CryptoJS.enc.Utf8))
+            console.log($("#floatingSelect3 option:selected").val())
+
+            // Encrypt address ID
+            $("#floatingSelect3 option:selected").val(encrypted.toString());
+
             document.getElementById('address').innerHTML = value.text();
             document.getElementById('user_name').innerHTML = value2.val().bold();
-            document.getElementById('get_add_id').value = value3.val();
+
+            // Decrypt address ID
+            document.getElementById('get_add_id').value = decrypted.toString(CryptoJS.enc.Utf8);
+            // End of CryptoJS
 
             $('#floatingSelect').change(function () {
                 $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected', true);
