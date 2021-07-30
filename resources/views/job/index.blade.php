@@ -15,9 +15,6 @@
 
     @can('is-reseller-distributor')
     <div class="card">
-        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h6 class="m-0" style="font-weight: bold">Form</h6>
-        </div>
         <div class="card-body border-3 border-bottom border-warning">
             <form method="POST" action="{{ route('job.request.new') }}" id="form_job">
                 @csrf
