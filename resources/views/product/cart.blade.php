@@ -204,8 +204,13 @@
 
         function myFunction() {
 
+            // Hidden dropdown for address.
             $('#floatingSelect2').attr('hidden', true);
             $('#floatingSelect3').attr('hidden', true);
+
+            // Disable dropdown for address.
+            $('#floatingSelect2').attr('disabled', true);
+            $('#floatingSelect3').attr('disabled', true);
 
             $("#floatingSelect2 option").eq($(this).find(':selected').index()).prop('selected', true);
             $("#floatingSelect3 option").eq($(this).find(':selected').index()).prop('selected', true);
