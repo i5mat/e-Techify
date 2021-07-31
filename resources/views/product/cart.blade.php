@@ -216,9 +216,9 @@
             // Start of CryptoJS
             var encrypted = CryptoJS.AES.encrypt(value3.val(), "Secret Passphrase");
             var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase");
-            console.log('Encrypt -> ' + encrypted.toString())
-            console.log('Decrypt -> ' + decrypted.toString(CryptoJS.enc.Utf8))
-            console.log($("#floatingSelect3 option:selected").val())
+            // console.log('Encrypt -> ' + encrypted.toString())
+            // console.log('Decrypt -> ' + decrypted.toString(CryptoJS.enc.Utf8))
+            // console.log($("#floatingSelect3 option:selected").val())
 
             // Encrypt address ID
             $("#floatingSelect3 option:selected").val(encrypted.toString());
