@@ -1426,11 +1426,15 @@
             document.getElementById("rma_status").innerText = rma_status;
             document.getElementById("rma_reason").innerText = rma_reason;
             document.getElementById("rma_request_at").innerText = rma_request_at;
-            if (document.getElementById("rma_tracking_no").value === '' || document.getElementById("rma_resolution").value === '') {
+            if (document.getElementById("rma_tracking_no").value === '') {
                 document.getElementById("rma_tracking_no").innerText = '—';
-                document.getElementById("rma_resolution").innerText = '—';
             } else {
                 document.getElementById("rma_tracking_no").innerText = rma_tracking_no;
+            }
+
+            if (document.getElementById("rma_resolution").value === '') {
+                document.getElementById("rma_resolution").innerText = '—';
+            } else {
                 document.getElementById("rma_resolution").innerText = rma_resolution;
             }
             @can('is-reseller-distributor')
