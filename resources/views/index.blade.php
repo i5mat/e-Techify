@@ -1283,7 +1283,7 @@
         $("#btn_update_rma").click(function (e) {
             e.preventDefault();
 
-            if ($("#rma_tracking_no").val() === '' || $("#rma_resolution").val() === '') {
+            if ($("#rma_tracking_no").val() === '' && $("#rma_resolution").val() === '') {
                 Swal.fire(
                     'Input NULL',
                     'Please input all fields with relevant information',
