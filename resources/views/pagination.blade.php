@@ -69,7 +69,7 @@
                             data-myprodpic="{{ $rma->product_image_path }}"
                             data-myrmastatus="{{ $rma->status }}"
                             data-myrmareason="{{ $rma->reason }}"
-                            data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
+                            data-myrmareqat="{{ date('jS F Y H:i A', strtotime($rma->created_at)) }}"
                             data-mytrack="{{ $rma->tracking_no }}"
                             data-myresolution="{{ $rma->resolve_solution }}"
                             data-myreceive="{{ $rma->receive_at }}"
@@ -160,7 +160,7 @@
                             data-myprodpic="{{ $rma->product_image_path }}"
                             data-myrmastatus="{{ $rma->status }}"
                             data-myrmareason="{{ $rma->reason }}"
-                            data-myrmareqat="{{ date('d-M-Y H:i A', strtotime($rma->created_at)) }}"
+                            data-myrmareqat="{{ date('jS F Y H:i A', strtotime($rma->created_at)) }}"
                             data-mytrack="{{ $rma->tracking_no }}"
                             data-myresolution="{{ $rma->resolve_solution }}"
                             data-myreceive="{{ $rma->receive_at }}"
@@ -246,6 +246,24 @@
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
                            class="btn btn-sm btn-primary" style="background-color:transparent; border-color: transparent;"><i style="color: red" class="fa fa-file-pdf fa-2x"></i>
 
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a
+                            href="#"
+                            data-myrmaid="{{ $rma->id }}"
+                            data-myprodpic="{{ $rma->product_image_path }}"
+                            data-myrmastatus="{{ $rma->status }}"
+                            data-myrmareason="{{ $rma->reason }}"
+                            data-myrmareqat="{{ date('jS F Y H:i A', strtotime($rma->created_at)) }}"
+                            data-mytrack="{{ $rma->tracking_no }}"
+                            data-myresolution="{{ $rma->resolve_solution }}"
+                            data-myreceive="{{ $rma->receive_at }}"
+                            data-bs-toggle="modal"
+                            data-bs-target="#staticRMA">
+                            <button class="btn btn-sm btn-warning" style="background-color:transparent; border-color: transparent;"><i
+                                    class="fa fa-wrench fa-2x"></i>
+                            </button>
                         </a>
                     </div>
                 </div>

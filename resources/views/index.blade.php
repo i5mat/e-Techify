@@ -673,6 +673,7 @@
                                             <dd class="col-sm-9">
                                                 <h5 id="rma_reason"></h5>
                                             </dd>
+                                            @can('is-reseller-distributor')
                                             <dt class="col-sm-3">Update Status</dt>
                                             <dd class="col-sm-9">
                                                 <div class="form-floating">
@@ -696,29 +697,44 @@
                                                     <label for="date">Date Of Arrival</label>
                                                 </div>
                                             </dd>
+                                            @endcan
                                             <dt class="col-sm-3">Requested RMA At</dt>
                                             <dd class="col-sm-9">
-                                                <h5 id="rma_request_at"></h5>
+                                                <h6 id="rma_request_at"></h6>
                                             </dd>
                                             <dt class="col-sm-3">Tracking No.</dt>
-                                            <dd class="col-sm-9">
-                                                <input id="rma_tracking_no" class="form-control">
-                                            </dd>
+                                            @can('is-user')
+                                                <dd class="col-sm-9">
+                                                    <h6 id="rma_tracking_no"></h6>
+                                                </dd>
+                                            @else
+                                                <dd class="col-sm-9">
+                                                    <input id="rma_tracking_no" class="form-control">
+                                                </dd>
+                                            @endcan
                                             <dt class="col-sm-3">Remark</dt>
-                                            <dd class="col-sm-9">
-                                                <textarea class="form-control" id="rma_resolution" rows="3"></textarea>
-                                            </dd>
+                                            @can('is-user')
+                                                <dd class="col-sm-9">
+                                                    <h6 id="rma_resolution"></h6>
+                                                </dd>
+                                            @else
+                                                <dd class="col-sm-9">
+                                                    <textarea class="form-control" id="rma_resolution" rows="3"></textarea>
+                                                </dd>
+                                            @endcan
                                         </dl>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        @can('is-reseller-distributor')
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="button" class="btn btn-primary" style="width: 89%" id="btn_update_rma">
                                 Update
                             </button>
                         </div>
+                        @endcan
                     </div>
                 </form>
             </div>
@@ -1410,10 +1426,17 @@
             document.getElementById("rma_status").innerText = rma_status;
             document.getElementById("rma_reason").innerText = rma_reason;
             document.getElementById("rma_request_at").innerText = rma_request_at;
-            document.getElementById("rma_tracking_no").innerText = rma_tracking_no;
-            document.getElementById("rma_resolution").innerText = rma_resolution;
+            if (document.getElementById("rma_tracking_no").value === '' || document.getElementById("rma_resolution").value === '') {
+                document.getElementById("rma_tracking_no").innerText = '—';
+                document.getElementById("rma_resolution").innerText = '—';
+            } else {
+                document.getElementById("rma_tracking_no").innerText = rma_tracking_no;
+                document.getElementById("rma_resolution").innerText = rma_resolution;
+            }
+            @can('is-reseller-distributor')
             document.getElementById("rma_receive_at").value = rma_receive;
             document.getElementById("floatingSelectStatus").value = rma_status;
+            @endcan
             document.getElementById("myProdImg").src = "{{ \Storage::disk('s3')->url('product/') }}" + prod_pic;
         });
 
