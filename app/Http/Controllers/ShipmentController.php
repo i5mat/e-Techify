@@ -256,6 +256,7 @@ class ShipmentController extends Controller
             $findID->remark = $request->get('remark');
         }
 
+        $findID->created_at = now();
         $findID->save();
 
         return response()->json(['success'=>'Shipment Approved']);

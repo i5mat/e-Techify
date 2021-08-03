@@ -340,6 +340,7 @@ class OrderController extends Controller
                 ->update(['product_order_quantity' => $result]);
         }
 
+        $findOrderID->created_at = now();
         $findOrderID->order_status = 'To Ship';
 
         $insertData->save();
@@ -635,6 +636,8 @@ class OrderController extends Controller
         $img->insert($barcode, 'top-left', 550, 350);
         $img->insert($qrcode, 'top-left', 1960, 2900);
         $img->save(public_path('awb/'.$tracking.'-awb.jpg'));
+
+        //$request->session()->flash('success', 'Airway bil created, please check in AWB folder.');
 
         return response($img)->header('Content-type','image/png');
     }

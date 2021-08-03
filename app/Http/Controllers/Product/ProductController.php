@@ -33,9 +33,12 @@ class ProductController extends Controller
             ->thenReturn()
             ->paginate(6);
 
-        $getProducts = Product::select('product_brand')->distinct()->get();
+        if(!$products->isEmpty()) {
+            $getProducts = Product::select('product_brand')->distinct()->get();
 
-        return view('product.index', compact('products', 'getProducts'));
+            return view('product.index', compact('products', 'getProducts'));
+        } else
+            dd('result not found');
     }
 
     // Must have if did not do the Route::resource. This is compulsory for Route::get.
