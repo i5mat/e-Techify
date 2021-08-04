@@ -259,6 +259,7 @@
                             data-mytrack="{{ $rma->tracking_no }}"
                             data-myresolution="{{ $rma->resolve_solution }}"
                             data-myreceive="{{ $rma->receive_at }}"
+                            data-myrmaaddress="{{ $rma->address }}"
                             data-bs-toggle="modal"
                             data-bs-target="#staticRMA">
                             <button class="btn btn-sm btn-warning" style="background-color:transparent; border-color: transparent;"><i

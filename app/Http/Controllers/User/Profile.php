@@ -48,9 +48,10 @@ class Profile extends Controller
                 return view('pagination', compact('rmaInfoDistri'))->render();
             } elseif (Gate::allows('is-user')) {
                 $rmaInfo = Repair::join('products', 'products.id', '=', 'repairs.product_id')
+                    ->join('addresses', 'repairs.addresses_id', '=', 'addresses.id')
                     ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
                         'repairs.status', 'repairs.id', 'repairs.file_path', 'repairs.reason', 'repairs.created_at', 'repairs.tracking_no',
-                        'repairs.resolve_solution')
+                        'repairs.resolve_solution', 'addresses.address')
                     ->where([
                         'repairs.user_id' => Auth::id(),
                     ])
@@ -63,9 +64,10 @@ class Profile extends Controller
     public function userDash()
     {
         $rmaInfo = Repair::join('products', 'products.id', '=', 'repairs.product_id')
+            ->join('addresses', 'repairs.addresses_id', '=', 'addresses.id')
             ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
                 'repairs.status', 'repairs.id', 'repairs.file_path', 'repairs.reason', 'repairs.created_at', 'repairs.tracking_no',
-                'repairs.resolve_solution')
+                'repairs.resolve_solution', 'addresses.address')
             ->where([
                 'repairs.user_id' => Auth::id(),
             ])

@@ -150,7 +150,7 @@
         <div class="card-body">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 col-lg-12">
+                    <div class="col-md-9 col-lg-9">
                         <div id="tracking-pre"></div>
                         <div id="tracking">
                             @if($trackingStatusHeader == true)
@@ -200,6 +200,29 @@
                                 @endforeach
                             </div>
                         </div>
+                    </div>
+                    <div class="col">
+                        <dl class="row">
+                            <dt class="col-sm-5">Name</dt>
+                            <dd class="col-sm-9">
+                                {{ $findParcelOwner->name }}
+                            </dd>
+
+                            <dt class="col-sm-5">Order ID</dt>
+                            <dd class="col-sm-9">
+                                {{ $findParcelOwner->order_id }}
+                            </dd>
+
+                            <dt class="col-sm-5">Tracking No.</dt>
+                            <dd class="col-sm-9">
+                                {{ $findParcelOwner->tracking_no }}
+                            </dd>
+
+                            <dt class="col-sm-5">Created At</dt>
+                            <dd class="col-sm-9">
+                                {{ date('jS F Y h:i A', strtotime($findParcelOwner->created_at)) }}
+                            </dd>
+                        </dl>
                     </div>
                 </div>
                 <a href="{{ route('track.new.parcel') }}">

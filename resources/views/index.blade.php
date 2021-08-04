@@ -717,6 +717,10 @@
                                                 <dd class="col-sm-9">
                                                     <h6 id="rma_resolution"></h6>
                                                 </dd>
+                                                <dt class="col-sm-3">Address</dt>
+                                                <dd class="col-sm-9">
+                                                    <h6 id="rma_usr_address">LOL</h6>
+                                                </dd>
                                             @else
                                                 <dd class="col-sm-9">
                                                     <textarea class="form-control" id="rma_resolution" rows="3"></textarea>
@@ -1410,6 +1414,7 @@
             var rma_tracking_no = button.data('mytrack') // Extract info from data-* attributes
             var rma_resolution = button.data('myresolution') // Extract info from data-* attributes
             var rma_receive = button.data('myreceive') // Extract info from data-* attributes
+            var rma_usr_address = button.data('myrmaaddress') // Extract info from data-* attributes
 
             var modal = $(this)
             modal.find('.modal-body #rma_no').val(rma_id);
@@ -1419,8 +1424,8 @@
             modal.find('.modal-body #rma_tracking_no').val(rma_tracking_no);
             modal.find('.modal-body #rma_resolution').val(rma_resolution);
             modal.find('.modal-body #rma_receive_at').val(rma_receive);
-
             modal.find('.modal-body #floatingSelectStatus').val(rma_status);
+            modal.find('.modal-body #rma_usr_address').val(rma_usr_address);
 
             document.getElementById("rma_no").innerText = "#" + rma_id;
             document.getElementById("rma_status").innerText = rma_status;
@@ -1440,6 +1445,9 @@
             @can('is-reseller-distributor')
             document.getElementById("rma_receive_at").value = rma_receive;
             document.getElementById("floatingSelectStatus").value = rma_status;
+            @endcan
+            @can('is-user')
+            document.getElementById("rma_usr_address").innerText = rma_usr_address;
             @endcan
             document.getElementById("myProdImg").src = "{{ \Storage::disk('s3')->url('product/') }}" + prod_pic;
         });

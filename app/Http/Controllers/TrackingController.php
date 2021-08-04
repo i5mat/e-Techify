@@ -100,7 +100,13 @@ class TrackingController extends Controller
                 ['tracking_no', 'LIKE', '%' . $request->get('search-track-num') . '%'],
             ])->get();
 
-            return view('track.tracking-parcel-result', compact('trackingStatus', 'tracking_no', 'trackingStatusHeader'));
+            $findParcelOwner = Tracking::select('users.name', 'trackings.order_id', 'trackings.tracking_no', 'orders.created_at')
+                ->join('orders', 'trackings.order_id', '=', 'orders.id')
+                ->join('users', 'users.id', '=', 'orders.user_id')
+                ->where('trackings.tracking_no', $tracking_no)
+                ->first();
+
+            return view('track.tracking-parcel-result', compact('trackingStatus', 'tracking_no', 'trackingStatusHeader', 'findParcelOwner'));
         }else {
             return view('track.tracking-parcel')->with('errorMsg', 'Tracking is not exist in the system.');
         }
