@@ -3,7 +3,7 @@
 @section('content')
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
 
-    <h1 class="display-2 text-center">Insert Address <img src="/image/locations.png"/></h1>
+    <h1 class="display-2 text-center">Address <img src="/image/locations.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
@@ -79,63 +79,72 @@
     </div>
 
     <div class="card text-center" style="margin-top: 10px">
-        <div class="card-body">
-            <table class="table" style="margin-top: 20px">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Created On</th>
-                    <th scope="col">Action</th>
-                    <th scope="col">Default</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($userinfo as $i)
+        @if($userinfo->count() <= 0)
+            <div class="card-body">
+                <img src="/image/address-ui.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
+                <h1 class="text-center display-6">
+                    No existing address in the system.
+                </h1>
+            </div>
+        @else
+            <div class="card-body">
+                <table class="table" style="margin-top: 20px">
+                    <thead>
                     <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <td>
-                            <b>{{ $i->name }}</b>
-                        </td>
-                        <td>
-                            (+60) {{ $i->phone_no }}
-                        </td>
-                        <td>
-                            {{ $i->address }}
-                        </td>
-                        <td>
-                            {{ date('Y-m-d H:i:s A', strtotime($i->created_at)) }}
-                        </td>
-                        <td>
-                            <button @if($i->default_status == 1) disabled @endif type="button" class="btn btn-info" style="background-color: transparent; border: none"
-                                    onclick="event.preventDefault();
-                                        document.getElementById('delete-address-{{ $i->id }}').submit()">
-                                <img src="/image/close.png">
-                            </button>
-
-                            <form id="delete-address-{{ $i->id }}" action="{{ route('user.userdel_address', $i->id) }}" method="POST" style="display: none">
-                                @csrf
-                                @method("DELETE")
-                            </form>
-                        </td>
-                        <td>
-                            @if($i->default_status == 1)
-                                <button type="button" class="btn btn-warning" id="btn_default{{ $loop->iteration }}" data-id="{{ $i->id }}">
-                                    Update
-                                </button>
-                            @elseif ($countActive == 0)
-                                <button type="button" class="btn btn-primary" id="btn_default{{ $loop->iteration }}" data-id="{{ $i->id }}">
-                                    Default
-                                </button>
-                            @endif
-                        </td>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Created On</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">Default</th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                    @foreach($userinfo as $i)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>
+                                <b>{{ $i->name }}</b>
+                            </td>
+                            <td>
+                                (+60) {{ $i->phone_no }}
+                            </td>
+                            <td>
+                                {{ $i->address }}
+                            </td>
+                            <td>
+                                {{ date('Y-m-d H:i:s A', strtotime($i->created_at)) }}
+                            </td>
+                            <td>
+                                <button @if($i->default_status == 1) disabled @endif type="button" class="btn btn-info" style="background-color: transparent; border: none"
+                                        onclick="event.preventDefault();
+                                                document.getElementById('delete-address-{{ $i->id }}').submit()">
+                                    <img src="/image/close.png">
+                                </button>
+
+                                <form id="delete-address-{{ $i->id }}" action="{{ route('user.userdel_address', $i->id) }}" method="POST" style="display: none">
+                                    @csrf
+                                    @method("DELETE")
+                                </form>
+                            </td>
+                            <td>
+                                @if($i->default_status == 1)
+                                    <button type="button" class="btn btn-warning" id="btn_default{{ $loop->iteration }}" data-id="{{ $i->id }}">
+                                        Update
+                                    </button>
+                                @elseif ($countActive == 0)
+                                    <button type="button" class="btn btn-primary" id="btn_default{{ $loop->iteration }}" data-id="{{ $i->id }}">
+                                        Default
+                                    </button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
     </div>
 
 

@@ -490,9 +490,6 @@
         </div>
         @else
             <div class="card">
-                <div class="card-header" style="font-weight: bold">
-                    Request
-                </div>
                 <div class="card-body border-3 border-bottom border-warning">
                     <img src="/image/no-shipment.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
                     <h1 class="display-6 text-center">Your shipment request is empty.</h1>

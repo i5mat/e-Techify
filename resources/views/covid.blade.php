@@ -47,6 +47,27 @@
                 ['my-te', parseInt(data_ncov.data[13].vakdosecomplete)]
             ];
 
+            var name = [
+                data_ncov.data[10].nme,
+                data_ncov.data[11].nme,
+                data_ncov.data[15].nme,
+                data_ncov.data[9].nme,
+                data_ncov.data[2].nme,
+                data_ncov.data[12].nme,
+                data_ncov.data[6].nme,
+                data_ncov.data[14].nme,
+                data_ncov.data[16].nme,
+                data_ncov.data[8].nme,
+                data_ncov.data[1].nme,
+                data_ncov.data[7].nme,
+                data_ncov.data[3].nme,
+                data_ncov.data[4].nme,
+                data_ncov.data[5].nme,
+                data_ncov.data[13].nme
+            ];
+
+            console.log(data_ncov.vakdoseupdated)
+
             // Create the chart
             Highcharts.mapChart('container', {
                 chart: {
@@ -56,11 +77,11 @@
                 credits: false,
 
                 title: {
-                    text: 'STATISTIK PROGRAM IMUNISASI COVID-19 KEBANGSAAN'
+                    text: 'STATISTIK PROGRAM IMUNISASI COVID-19 KEBANGSAAN (PICK)'
                 },
 
                 subtitle: {
-                    text: 'Sumber https://www.vaksincovid.gov.my/'
+                    text: 'Last updated: ' + data_ncov.vakdoseupdated
                 },
 
                 mapNavigation: {
@@ -76,7 +97,7 @@
 
                 series: [{
                     data: data,
-                    name: 'Random data',
+                    name: 'State',
                     states: {
                         hover: {
                             color: '#BADA55'

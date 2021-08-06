@@ -14,53 +14,54 @@
         </figcaption>
     </figure>
 
-    <div class="container">
-        <div class="card mx-auto" style="padding: 10px 10px; width: 50%;">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col">
-                        <form method="POST" action="{{ route('user-profile-information.update') }}" id="edit_profile_form">
-                            @csrf
-                            @method("PUT")
-                            <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
-                                <input name="name" type="text" class="form-control rounded-pill @error('name') is-invalid @enderror"
-                                       id="name" aria-describedby="name" value="{{ auth()->user()->name }}">
-                                @error('name')
-                                <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                                @enderror
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col g-0">
+                <img class="h-100 w-100" src="/image/profile-ui.png">
+            </div>
+            <div class="col mt-5">
+                <div class="card mx-auto" style="padding: 20px 30px;">
+                    <form method="POST" action="{{ route('user-profile-information.update') }}" id="edit_profile_form">
+                        @csrf
+                        @method("PUT")
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input name="name" type="text" class="form-control rounded-pill @error('name') is-invalid @enderror"
+                                   id="name" aria-describedby="name" value="{{ auth()->user()->name }}">
+                            @error('name')
+                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <input name="email" type="email"
+                                   class="form-control rounded-pill @error('email') is-invalid @enderror" id="email"
+                                   aria-describedby="email" value="{{ auth()->user()->email }}">
+                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
                             </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email address</label>
-                                <input name="email" type="email"
-                                       class="form-control rounded-pill @error('email') is-invalid @enderror" id="email"
-                                       aria-describedby="email" value="{{ auth()->user()->email }}">
-                                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
+                            @error('email')
+                            <span class="invalid-feedback" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        @can('is-user-distributor')
+                            <div class="row">
+                                <div class="col">
+                                    <button style="width: 100%" type="button" class="btn btn-primary" id="btn_edit_profile">Submit</button>
                                 </div>
-                                @error('email')
-                                <span class="invalid-feedback" role="alert">{{ $message }}</span>
-                                @enderror
+                                <div class="col">
+                                    <a href="{{ route('user.useraddress') }}">
+                                        <button style="width: 100%" type="button" class="btn btn-primary">Add New Address +</button>
+                                    </a>
+                                </div>
                             </div>
-                            @can('is-user-distributor')
-                                <div class="row">
-                                    <div class="col">
-                                        <button style="width: 100%" type="button" class="btn btn-primary" id="btn_edit_profile">Submit</button>
-                                    </div>
-                                    <div class="col">
-                                        <a href="{{ route('user.useraddress') }}">
-                                            <button style="width: 100%" type="button" class="btn btn-primary">Add New Address +</button>
-                                        </a>
-                                    </div>
+                        @else
+                            <div class="row">
+                                <div class="col">
+                                    <button style="width: 100%" type="button" class="btn btn-primary" id="btn_edit_profile">Submit</button>
                                 </div>
-                            @else
-                                <div class="row">
-                                    <div class="col">
-                                        <button style="width: 100%" type="button" class="btn btn-primary" id="btn_edit_profile">Submit</button>
-                                    </div>
-                                </div>
-                            @endcan
-                        </form>
-                    </div>
+                            </div>
+                        @endcan
+                    </form>
                 </div>
             </div>
         </div>
