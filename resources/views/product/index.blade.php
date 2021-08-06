@@ -8,7 +8,7 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h1 class="display-2 text-center">Shop <i class="fa fa-laptop"></i></h1>
+                    <h1 class="display-2 text-center">Shop <i class="fa fa-store"></i></h1>
                     <figure class="text-center">
                         <blockquote class="blockquote">
                             <p>Your shopping catalogue.</p>

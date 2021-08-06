@@ -2,7 +2,7 @@
 
 @section('content')
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
-    <h1 class="display-2 text-center">Job <i class="fa fa-briefcase"></i></h1>
+    <h1 class="display-2 text-center">Job <i class="fa fa-rocket"></i></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">

@@ -84,7 +84,7 @@
                                     <div class="h5 mb-0" style="font-weight: bold" id="total_cust_spend">{{ $getCustTotalSpend }}</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fa fa-dollar fa-2x"></i>
+                                    <i class="fa fa-dollar-sign fa-2x"></i>
                                 </div>
                             </div>
                         </div>
@@ -258,7 +258,7 @@
                                     <div class="h5 mb-0" style="font-weight: bold">{{ $getRMATotal }}</div>
                                 </div>
                                 <div class="col-auto">
-                                    <i class="fa fa-hammer fa-2x"></i>
+                                    <i class="fa fa-wrench fa-2x"></i>
                                 </div>
                             </div>
                         </div>
@@ -749,9 +749,6 @@
         <div class="row mt-3">
             <div class="col-xl-12 col-lg-11">
                 <div class="card shadow mb-4">
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0" style="font-weight: bold">My Map</h6>
-                    </div>
                     <div class="card-body border-3 border-bottom border-warning">
                         <div class="row">
                             <div class="col-8">
@@ -782,8 +779,28 @@
     <script src="//www.tracking.my/track-button.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
     <script type="application/javascript">
         feather.replace();
+
+        tippy('#tooltip_rma', {
+            content: 'RMA Info',
+        });
+
+        @can('is-distributor')
+            tippy('#tooltip_invoice', {
+                content: 'Customer Invoice',
+            });
+        @else
+        tippy('#tooltip_invoice', {
+            content: 'Invoice',
+        });
+        @endcan
+
+        tippy('#tooltip_jobsheet', {
+            content: 'RMA Job sheet',
+        });
 
         $('.owl-carousel').owlCarousel({
             margin:10,

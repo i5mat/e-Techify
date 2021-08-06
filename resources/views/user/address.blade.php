@@ -27,7 +27,7 @@
         <label for="user_unit" class="error"></label>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="user_unit" name="user_unit" placeholder="test">
-            <label for="floatingTextarea2">Apartment, unit, suite, or floor #</label>
+            <label for="floatingTextarea2" id="user_unit_label">Apartment, unit, suite, or floor #</label>
         </div>
 
         <label for="user_address" class="error"></label>
@@ -181,13 +181,16 @@
             });
 
             $('#user_unit').hide();
+            $('#user_unit_label').hide();
             $('#user_postcode').attr('readonly', true);
             $("#flexCheckChecked").change(function() {
                 if($(this).prop('checked')) {
                     $('#user_unit').show();
+                    $('#user_unit_label').show();
                     $('#user_postcode').attr('readonly', false);
                 } else {
                     $('#user_unit').hide();
+                    $('#user_unit_label').hide();
                     $('#user_postcode').attr('readonly', true);
                 }
             });
