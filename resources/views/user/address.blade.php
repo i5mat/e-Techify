@@ -39,7 +39,7 @@
         <div class="row g-2 mb-3">
             <div class="col-md">
                 <div class="form-floating">
-                    <input type="text" class="form-control" id="user_phone" name="user_phone" placeholder="test">
+                    <input type="number" class="form-control" id="user_phone" name="user_phone" placeholder="test">
                     <label for="user_phone">Phone No.</label>
                 </div>
                 <label for="user_phone" class="error"></label>
@@ -160,7 +160,7 @@
                     user_phone: {
                         required: true,
                         number: true,
-                        min: 11
+                        maxlength: 11
                     },
                     user_postcode: {
                         required: true,
