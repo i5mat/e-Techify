@@ -347,8 +347,8 @@
 
             if ($("#insert_product_sn").val() === '') {
                 Swal.fire(
-                    'Input NULL',
-                    'Please input all fields with relevant information',
+                    'Null Value',
+                    'Please input all fields with relevant information.',
                     'error'
                 )
             } else {

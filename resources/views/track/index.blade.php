@@ -372,8 +372,8 @@
 
             if ($("#update_tracking").val() === '' || $("#courier_track_no").val() === '') {
                 Swal.fire(
-                    'Input NULL',
-                    'Please input all fields with relevant information',
+                    'Null Value',
+                    'Please input tracking number.',
                     'error'
                 )
             } else {

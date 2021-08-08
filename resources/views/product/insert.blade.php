@@ -45,6 +45,7 @@
 
         <div class="row g-2 mb-3">
             @can('is-reseller')
+            <label for="insert_brand_dist" class="error"></label>
             <div class="col">
                 <div class="form-floating">
                     <select class="form-select" id="insert_brand_dist" name="insert_brand_dist">
@@ -133,7 +134,7 @@
             <div class="col-md">
                 <div class="form-floating">
                     <div class="form-floating">
-                        <input type="number" class="form-control" id="prod_stock" name="prod_stock" placeholder="test">
+                        <input type="number" class="form-control" id="prod_stock" name="prod_stock" placeholder="test" min="1" oninput="validity.valid||(value='');">
                         <label for="prod_price">Product Stock</label>
                     </div>
                 </div>
@@ -188,6 +189,9 @@
                         required: true
                     },
                     prod_stock: {
+                        required: true
+                    },
+                    insert_brand_dist: {
                         required: true
                     }
                 },

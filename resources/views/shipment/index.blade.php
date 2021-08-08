@@ -589,7 +589,7 @@
             if ($("#brand_dist :selected").text() === 'Name' || $("#product_brand :selected").text() === 'Brand' || $("#SelectProduct :selected").text() === 'Products') {
                 Swal.fire(
                     'Null Value',
-                    'Please select input brand and product',
+                    'Please input all fields with relevant information.',
                     'error'
                 )
             } else {

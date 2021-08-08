@@ -74,8 +74,8 @@
         $("#track_parcel_btn").click(function() {
             if ($("#search-track-num").val() === '') {
                 Swal.fire(
-                    'Input NULL',
-                    'Please input tracking field',
+                    'Null Value',
+                    'Please input tracking number inside the search bar.',
                     'error'
                 )
             } else

@@ -29,7 +29,7 @@
                     <div class="col-md">
                         <div class="form-floating">
                             <div class="form-floating mb-3">
-                                <input type="number" class="form-control" id="job_salary" name="job_salary" placeholder="test" min="1">
+                                <input type="number" class="form-control" id="job_salary" name="job_salary" placeholder="test" min="1" oninput="validity.valid||(value='');">
                                 <label for="job_salary">Job Salary</label>
                             </div>
                         </div>
@@ -123,8 +123,8 @@
         $("#btn_submit_job").click(function() {
             if ($("#job_name").val() === '' || $("#job_salary").val() === '' || $("#job_loc").val() === '' || $("#job_type :selected").text() === 'Please select...') {
                 Swal.fire(
-                    'Input NULL',
-                    'Please input all fields with relevant information',
+                    'Null Value',
+                    'Please input all fields with relevant information.',
                     'error'
                 )
             } else

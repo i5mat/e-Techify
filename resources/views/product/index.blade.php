@@ -173,8 +173,8 @@
 
             if ($("#filterProductBrand :selected").text() === 'Please select...' && $("#filterProductPrice :selected").text() === 'Please select...' && $( "#filterProductCat :selected" ).text() === 'Please select...') {
                 Swal.fire(
-                    'Input NULL',
-                    'Please input brand and price',
+                    'Please select something!',
+                    'Please input brand or category or price.',
                     'error'
                 )
             } else {
