@@ -134,6 +134,7 @@
 
         var myA = @json($getJob);
         console.log(myA);
+        var name = '{{ env('APP_URL') }}';
 
         for (z = 1; z <= myA.length; z++) {
             $("#accept_applicant_btn"+z).click(function () {
@@ -147,7 +148,7 @@
                         Swal.showLoading()
                         $.ajax(
                             {
-                                url: "http://127.0.0.1:8000/job/job-approved/" + id,
+                                url: name+"/job/job-approved/" + id,
                                 type: 'POST',
                                 data: {
                                     "id": id,
@@ -172,7 +173,7 @@
                         Swal.showLoading()
                         $.ajax(
                             {
-                                url: "http://127.0.0.1:8000/job/job-declined/" + id,
+                                url: name+"/job/job-declined/" + id,
                                 type: 'POST',
                                 data: {
                                     "id": id,

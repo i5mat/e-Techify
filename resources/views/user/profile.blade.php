@@ -36,7 +36,7 @@
                             <label for="email" class="form-label">Email address</label>
                             <input name="email" type="email"
                                    class="form-control rounded-pill @error('email') is-invalid @enderror" id="email"
-                                   aria-describedby="email" value="{{ auth()->user()->email }}">
+                                   aria-describedby="email" value="{{ auth()->user()->email }}" required>
                             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
                             </div>
                             @error('email')
@@ -69,6 +69,14 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        $("#edit_profile_form").validate({
+            rules: {
+                email : {
+                    required: true
+                }
+            }
+        });
+
         $("#btn_edit_profile").click(function() {
             if ($("#name").val() === '{{ auth()->user()->name }}' && $("#email").val() === '{{ auth()->user()->email }}') {
                 Swal.fire(
