@@ -16,7 +16,7 @@
         <div class="col-xl-12 col-lg-11">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0" style="font-weight: bold">List of Distributors</h6>
+                    <h6 class="m-0">List of Distributors</h6>
                 </div>
                 <div class="card-body border-3 border-bottom border-warning">
                     <div class="row g-1">

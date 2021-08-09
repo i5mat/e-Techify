@@ -37,6 +37,10 @@
         {{-- Polyfill --}}
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
+        {{-- Tippy.JS --}}
+        <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="https://unpkg.com/tippy.js@6"></script>
+
         <style>
             #graph {
                 height: 400px;

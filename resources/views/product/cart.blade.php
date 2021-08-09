@@ -98,7 +98,12 @@
                                     <img src="{{ \Storage::disk('s3')->url('product/'.$i->product_image_path) }}"
                                          style="width:120px; height:120px;">
                                 </td>
-                                <td>{{ $i->product_name }}</td>
+                                <td>
+                                    {{ $i->product_name }}<br>
+                                    <span class="badge bg-primary" style="color: white">Stock: {{ $i->product_stock_count }}</span>
+                                    <span class="badge bg-dark" style="color: white">{{ $i->product_brand }}</span>
+                                    <span class="badge bg-danger" style="color: white">{{ $i->product_category }}</span>
+                                </td>
                                 <td><b>RM</b> <span>{{ $i->product_price }}</span></td>
                                 <td>
                                     <input type='number' name="{{ $i->product_id }}[]" min="1" max="{{ $i->product_stock_count }}"
@@ -268,7 +273,7 @@
                 if ($('#qnt_'+i).val() > parseInt(x)) {
                     Swal.fire({
                         title: 'Error!',
-                        text: 'Stock is around '+ parseInt(x)+ ' only',
+                        text: 'Stock is around '+ parseInt(x)+ ' only.',
                         icon: 'error',
                         confirmButtonText: 'Okay',
                     }).then((result) => {

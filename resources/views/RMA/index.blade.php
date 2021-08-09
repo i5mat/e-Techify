@@ -54,7 +54,7 @@
             <dd class="col-sm-9">
                 <label for="date-purchased" class="error"></label>
                 <div class="form-floating mb-3">
-                    <input type="date" class="form-control" id="date-purchased" name="date-purchased">
+                    <input type="date" class="form-control" id="date-purchased" name="date-purchased" required>
                     <label for="date-purchased">Date Of Purchase</label>
                 </div>
             </dd>
@@ -149,7 +149,7 @@
                 },
                 reason_field: {
                     required: true
-                }
+                },
             },
             messages : {
                 proof_of_purchase_file: {
@@ -170,8 +170,8 @@
         $("#btn_submit_rma").click(function() {
             if ($("#prod_brand :selected").text() === 'Name' || $("#prod_name :selected").text() === 'Products') {
                 Swal.fire(
-                    'Input Null',
-                    'Please input all fields',
+                    'Null Value',
+                    'Please input all fields with relevant information.',
                     'error'
                 )
             } else

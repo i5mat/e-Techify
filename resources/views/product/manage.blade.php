@@ -89,7 +89,7 @@
 
         <!-- [START] Table to manage product [START] -->
         <div class="card text-center">
-            <div class="card-body" id="table_data_product">
+            <div class="card-body border-3 border-bottom border-warning" id="table_data_product">
                 @if($products->count() <= 0)
                     <img src="/image/no-product.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
                     <h1 class="display-6">All products inserted by you will be displayed here.</h1>

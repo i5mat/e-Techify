@@ -39,7 +39,7 @@
         <div class="row g-2 mb-3">
             <div class="col-md">
                 <div class="form-floating">
-                    <input type="number" class="form-control" id="user_phone" name="user_phone" placeholder="test">
+                    <input type="number" class="form-control" id="user_phone" name="user_phone" placeholder="test" min="1" oninput="validity.valid||(value='');">
                     <label for="user_phone">Phone No.</label>
                 </div>
                 <label for="user_phone" class="error"></label>
@@ -59,12 +59,14 @@
                     <input type="text" class="form-control" name="longitude" id="longitude" readonly>
                     <label for="autocomplete">Long</label>
                 </div>
+                <label for="longitude" class="error"></label>
             </div>
             <div class="col-md">
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control" name="latitude" id="latitude" readonly>
                     <label for="autocomplete">Lat</label>
                 </div>
+                <label for="latitude" class="error"></label>
             </div>
         </div>
 
@@ -165,10 +167,16 @@
                     user_postcode: {
                         required: true,
                         number: true,
-                        maxlength: 5
+                        maxlength: 6
                     },
                     user_address: {
                         required: true,
+                    },
+                    longitude: {
+                        required: true
+                    },
+                    latitude: {
+                        required: true
                     }
                 },
                 messages : {

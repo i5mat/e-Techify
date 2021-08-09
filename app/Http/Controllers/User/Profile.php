@@ -32,7 +32,7 @@ class Profile extends Controller
                 $rmaInfoReseller = Repair::join('products', 'products.id', '=', 'repairs.product_id')
                     ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
                         'repairs.status', 'repairs.id', 'repairs.file_path', 'repairs.reason', 'repairs.created_at', 'repairs.tracking_no',
-                        'repairs.resolve_solution', 'repairs.receive_at')
+                        'repairs.resolve_solution', 'repairs.receive_at', 'repairs.date_of_purchase')
                     ->paginate(3);
 
                 return view('pagination', compact('rmaInfoReseller'))->render();
@@ -40,7 +40,7 @@ class Profile extends Controller
                 $rmaInfoDistri = Repair::join('products', 'products.id', '=', 'repairs.product_id')
                     ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
                         'repairs.status', 'repairs.id', 'repairs.file_path', 'repairs.reason', 'repairs.created_at', 'repairs.tracking_no',
-                        'repairs.resolve_solution', 'repairs.receive_at')
+                        'repairs.resolve_solution', 'repairs.receive_at', 'repairs.date_of_purchase')
                     ->where([
                         'products.user_id' => Auth::id(),
                     ])
@@ -51,7 +51,7 @@ class Profile extends Controller
                     ->join('addresses', 'repairs.addresses_id', '=', 'addresses.id')
                     ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
                         'repairs.status', 'repairs.id', 'repairs.file_path', 'repairs.reason', 'repairs.created_at', 'repairs.tracking_no',
-                        'repairs.resolve_solution', 'addresses.address')
+                        'repairs.resolve_solution', 'addresses.address', 'repairs.date_of_purchase')
                     ->where([
                         'repairs.user_id' => Auth::id(),
                     ])
@@ -67,7 +67,7 @@ class Profile extends Controller
             ->join('addresses', 'repairs.addresses_id', '=', 'addresses.id')
             ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
                 'repairs.status', 'repairs.id', 'repairs.file_path', 'repairs.reason', 'repairs.created_at', 'repairs.tracking_no',
-                'repairs.resolve_solution', 'addresses.address')
+                'repairs.resolve_solution', 'addresses.address', 'repairs.date_of_purchase')
             ->where([
                 'repairs.user_id' => Auth::id(),
             ])
@@ -76,7 +76,7 @@ class Profile extends Controller
         $rmaInfoDistri = Repair::join('products', 'products.id', '=', 'repairs.product_id')
             ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
                 'repairs.status', 'repairs.id', 'repairs.file_path', 'repairs.reason', 'repairs.created_at', 'repairs.tracking_no',
-            'repairs.resolve_solution', 'repairs.receive_at')
+            'repairs.resolve_solution', 'repairs.receive_at', 'repairs.date_of_purchase')
             ->where([
                 'products.user_id' => Auth::id(),
             ])
@@ -85,7 +85,7 @@ class Profile extends Controller
         $rmaInfoReseller = Repair::join('products', 'products.id', '=', 'repairs.product_id')
             ->select('products.product_image_path', 'products.product_name', 'products.product_sn', 'repairs.sn_no',
                 'repairs.status', 'repairs.id', 'repairs.file_path', 'repairs.reason', 'repairs.created_at', 'repairs.tracking_no',
-                'repairs.resolve_solution', 'repairs.receive_at')
+                'repairs.resolve_solution', 'repairs.receive_at', 'repairs.date_of_purchase')
             ->paginate(3);
 
         if (Gate::allows('is-user-reseller')) {

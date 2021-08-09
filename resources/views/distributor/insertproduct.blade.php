@@ -133,7 +133,7 @@
         <div class="col-xl-6 col-lg-7">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0" style="font-weight: bold">Product SN</h6>
+                    <h6 class="m-0">Insert Product Serial Number</h6>
                 </div>
                 <div class="card-body border-3 border-bottom border-warning">
                     @if($fetchProduct->count() == 0)
@@ -217,7 +217,7 @@
         <div class="col-xl-6 col-lg-5">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0" style="font-weight: bold">Statistic</h6>
+                    <h6 class="m-0">Statistic</h6>
                 </div>
                 <div class="card-body pt-4 pb-2 border-3 border-bottom border-warning">
                     <div id="graph" style="height: 628px"></div>

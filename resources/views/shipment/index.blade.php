@@ -15,7 +15,6 @@
     </figure>
 
     @can('is-reseller')
-
         <div class="row mb-2">
             <div class="col">
                     @if($getItems->count() > 0)
@@ -69,8 +68,8 @@
                         </div>
                     @else
                         <div class="card">
-                            <div class="card-header" style="font-weight: bold">
-                                Cart
+                            <div class="card-header">
+                                Shipment Cart
                             </div>
                             <div class="card-body border-3 border-bottom border-warning">
                                 <img src="/image/no-item.png" style="width: 400px; height: 400px; display: block; margin-left: auto; margin-right: auto">
@@ -81,9 +80,6 @@
             </div>
             <div class="col-6 col-sm-4 mb-2">
                 <div class="card">
-                    <div class="card-header" style="font-weight: bold">
-                        Request
-                    </div>
                     <div class="card-body border-3 border-bottom border-warning">
                         <div class="col text-center">
                             <img id="product_pic" width="300" height="300" />
@@ -148,8 +144,12 @@
         </div>
 
         <div class="card">
-            <div class="card-header" style="font-weight: bold">
-                Status
+            <div class="card-header">
+                Shipment Status
+                <span class="badge bg-primary" style="color: white">Shipped</span>
+                <span class="badge bg-danger" style="color: white">Waiting Approval</span>
+                <span class="badge bg-success" style="color: white">Approved</span>
+                <span class="badge bg-dark" style="color: white">Requested</span>
             </div>
             <div class="card-body border-3 border-bottom border-warning">
                 <div class="accordion" id="accordionExample">
@@ -323,7 +323,14 @@
         @if($getItems->count() > 0)
 
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
+                Shipment Status
+                <span class="badge bg-primary" style="color: white">Shipped</span>
+                <span class="badge bg-danger" style="color: white">Waiting Approval</span>
+                <span class="badge bg-success" style="color: white">Approved</span>
+                <span class="badge bg-dark" style="color: white">Requested</span>
+            </div>
+            <div class="card-body border-3 border-bottom border-warning">
                 <div class="accordion" id="accordionExample">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="headingOne">

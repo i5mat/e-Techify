@@ -152,7 +152,7 @@
                 <div class="col-xl-8 col-lg-7">
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">Earnings Overview</h6>
+                            <h6 class="m-0">Earnings Overview</h6>
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
                             @if($getDataDistributor->count() <= 0)
@@ -170,7 +170,7 @@
                 <div class="col-xl-4 col-lg-5">
                     <div class="card shadow">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">Revenue Sources</h6>
+                            <h6 class="m-0">Revenue Sources</h6>
                         </div>
                         <div class="card-body pt-4 pb-2 border-3 border-bottom border-warning">
                             @if($getPieChartData->count() > 0)
@@ -190,7 +190,7 @@
                 <div class="col-xl-12 col-lg-11">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">Customer RMA Requests</h6>
+                            <h6 class="m-0">Customer RMA Requests</h6>
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
                             @if($rmaInfoDistri->count() == 0)
@@ -270,7 +270,7 @@
                 <div class="col-xl-12 col-lg-11">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">Customer RMA Requests</h6>
+                            <h6 class="m-0">Customer RMA Requests</h6>
 
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
@@ -294,7 +294,7 @@
                 <div class="col-xl-7 col-lg-7">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">Brand Cumulative</h6>
+                            <h6 class="m-0">Brand Cumulative</h6>
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
                             <div id="container"></div>
@@ -304,7 +304,7 @@
                 <div class="col-xl-5 col-lg-7">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">Earnings Monthly</h6>
+                            <h6 class="m-0">Earnings Monthly</h6>
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
                             <div id="earnings"></div>
@@ -321,7 +321,7 @@
                 <div class="col">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">Quarter Earnings</h6>
+                            <h6 class="m-0">Quarter Earnings</h6>
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
                             <div id="quarter_chart"></div>
@@ -342,7 +342,7 @@
                 <div class="col-xl-12 col-lg-11">
                     <div class="card shadow mb-4">
                         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0" style="font-weight: bold">My RMA Requests</h6>
+                            <h6 class="m-0">My RMA Requests</h6>
                         </div>
                         <div class="card-body border-3 border-bottom border-warning">
                             @if($rmaInfo->count() == 0)
@@ -367,7 +367,7 @@
             <div class="col-xl-12 col-lg-11">
                 <div class="card shadow">
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                        <h6 class="m-0" style="font-weight: bold">Job Offers</h6>
+                        <h6 class="m-0">Job Offers</h6>
                     </div>
                     <div class="card-body border-3 border-bottom border-warning">
                         @if($jobInfo->count() <= 0)
@@ -651,6 +651,38 @@
                             <h5 class="modal-title" id="staticBackdropLabel">Update My-RMA</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
+                        <div class="steps d-flex flex-wrap flex-sm-nowrap justify-content-between padding-top-2x padding-bottom-1x mt-3">
+                            <div class="step" id="pending_receive_step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i data-feather="clipboard" class="feather-32" style="margin-bottom: 15px"></i></div>
+                                </div>
+                                <h4 class="step-title">Pending Receive</h4>
+                            </div>
+                            <div class="step" id="received_step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i data-feather="chevrons-right" class="feather-32" style="margin-bottom: 15px"></i></div>
+                                </div>
+                                <h4 class="step-title">Received</h4>
+                            </div>
+                            <div class="step" id="pending_checking_step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i data-feather="check-circle" class="feather-32" style="margin-bottom: 15px"></i></div>
+                                </div>
+                                <h4 class="step-title">Pending Checking</h4>
+                            </div>
+                            <div class="step" id="repair_step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i data-feather="truck" class="feather-32" style="margin-bottom: 15px"></i></div>
+                                </div>
+                                <h4 class="step-title">Repair / Replacement 1-1</h4>
+                            </div>
+                            <div class="step" id="shipped_step">
+                                <div class="step-icon-wrap">
+                                    <div class="step-icon"><i data-feather="check" class="feather-32" style="margin-bottom: 15px"></i></div>
+                                </div>
+                                <h4 class="step-title">Shipped</h4>
+                            </div>
+                        </div>
                         <div class="modal-body">
                             <div class="container">
                                 <div class="row text-center">
@@ -681,8 +713,8 @@
                                                             aria-label="Floating label select example"
                                                             style="height: 60px">
                                                         <option value="Pending Receive">Pending Receive</option>
-                                                        <option value="Pending Checking">Pending Checking</option>
                                                         <option value="Received">Received</option>
+                                                        <option value="Pending Checking">Pending Checking</option>
                                                         <option value="Repair">Repair</option>
                                                         <option value="Replacement 1-1">Replacement 1-1</option>
                                                         <option value="Shipped">Shipped</option>
@@ -779,8 +811,6 @@
     <script src="//www.tracking.my/track-button.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <script src="https://unpkg.com/tippy.js@6"></script>
     <script type="application/javascript">
         feather.replace();
 
@@ -1306,8 +1336,8 @@
 
             if ($("#rma_tracking_no").val() === '' && $("#rma_resolution").val() === '') {
                 Swal.fire(
-                    'Input NULL',
-                    'Please input all fields with relevant information',
+                    'Null Value',
+                    'Please input all fields with relevant information for Tracking No. and Remark.',
                     'error'
                 )
             } else {
@@ -1446,6 +1476,47 @@
 
             document.getElementById("rma_no").innerText = "#" + rma_id;
             document.getElementById("rma_status").innerText = rma_status;
+
+            if (document.getElementById("rma_status").value === 'Pending Receive') {
+                $("#pending_receive_step").attr('class', 'step completed');
+                $("#received_step").attr('class', 'step');
+                $("#pending_checking_step").attr('class', 'step');
+                $("#repair_step").attr('class', 'step');
+                $("#shipped_step").attr('class', 'step');
+            }
+
+            if (document.getElementById("rma_status").value === 'Received') {
+                $("#pending_receive_step").attr('class', 'step completed');
+                $("#received_step").attr('class', 'step completed');
+                $("#pending_checking_step").attr('class', 'step');
+                $("#repair_step").attr('class', 'step');
+                $("#shipped_step").attr('class', 'step');
+            }
+
+            if (document.getElementById("rma_status").value === 'Pending Checking') {
+                $("#pending_receive_step").attr('class', 'step completed');
+                $("#received_step").attr('class', 'step completed');
+                $("#pending_checking_step").attr('class', 'step completed');
+                $("#repair_step").attr('class', 'step');
+                $("#shipped_step").attr('class', 'step');
+            }
+
+            if (document.getElementById("rma_status").value === 'Repair' || document.getElementById("rma_status").value === 'Replacement 1-1') {
+                $("#pending_receive_step").attr('class', 'step completed');
+                $("#received_step").attr('class', 'step completed');
+                $("#pending_checking_step").attr('class', 'step completed');
+                $("#repair_step").attr('class', 'step completed');
+                $("#shipped_step").attr('class', 'step');
+            }
+
+            if (document.getElementById("rma_status").value === 'Shipped') {
+                $("#pending_receive_step").attr('class', 'step completed');
+                $("#received_step").attr('class', 'step completed');
+                $("#pending_checking_step").attr('class', 'step completed');
+                $("#repair_step").attr('class', 'step completed');
+                $("#shipped_step").attr('class', 'step completed');
+            }
+
             document.getElementById("rma_reason").innerText = rma_reason;
             document.getElementById("rma_request_at").innerText = rma_request_at;
             if (document.getElementById("rma_tracking_no").value === '') {

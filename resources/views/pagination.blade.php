@@ -1,57 +1,138 @@
 @can('is-reseller')
+    <table class="table text-center">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Tracking No.</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date of Purchase</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
     @foreach($rmaInfoReseller as $rma)
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <div class="p-3 d-flex align-items-center">
-                    <div class="mr-3">
-                        <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
-                             width="100" height="100"/>
+            <tbody>
+            <tr>
+                <td>
+                    <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
+                         width="100" height="100"/>
+                </td>
+                <td>
+                    <h5>{{ $rma->product_name }}</h5>
+                    <div class="text-muted monospace">
+                        {{ $rma->product_sn }}
                     </div>
-
-                    <div class="mx-3">
-                        <h5>{{ $rma->product_name }}</h5>
-                        <div class="text-muted monospace">
-                            {{ $rma->product_sn }}
+                </td>
+                <td>
+                    @if($rma->tracking_no != null)
+                        <a class="btn btn-outline-dark" style="font-size: 15px"
+                           onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                    @else
+                        Not Available
+                    @endif
+                </td>
+                <td>
+                    <span
+                        @if($rma->status == 'Shipped')
+                        class="badge rounded-pill bg-success" style="color: white"
+                        @elseif($rma->status == 'Pending Receive')
+                        class="badge rounded-pill bg-warning" style="color: white"
+                        @else
+                        class="badge rounded-pill bg-primary" style="color: white"
+                    @endif
+                >{{ $rma->status }}</span>
+                </td>
+                <td>
+                    {{ date('jS F Y', strtotime($rma->date_of_purchase)) }}
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col">
+                            <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
+                               class="btn btn-sm btn-primary" style="background-color:transparent; border-color: transparent;" id="tooltip_jobsheet"><i class="fa fa-file-pdf fa-2x" style="color: red"></i></a>
+                        </div>
+                        <div class="col">
+                            <a href="{{ \Storage::disk('s3')->url('rma/'.$rma->file_path) }}" target="_blank">
+                                <button class="btn btn-sm btn-info" style="background-color:transparent; border-color: transparent;" id="tooltip_invoice"><i class="fa fa-file-invoice fa-2x"></i></button>
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a
+                                href="#"
+                                data-myrmaid="{{ $rma->id }}"
+                                data-myprodpic="{{ $rma->product_image_path }}"
+                                data-myrmastatus="{{ $rma->status }}"
+                                data-myrmareason="{{ $rma->reason }}"
+                                data-myrmareqat="{{ date('jS F Y H:i A', strtotime($rma->created_at)) }}"
+                                data-mytrack="{{ $rma->tracking_no }}"
+                                data-myresolution="{{ $rma->resolve_solution }}"
+                                data-myreceive="{{ $rma->receive_at }}"
+                                data-bs-toggle="modal"
+                                data-bs-target="#staticRMA">
+                                @can('is-reseller-distributor')
+                                    <button class="btn btn-sm btn-warning" style="background-color:transparent; border-color: transparent;" id="tooltip_rma"><i
+                                            class="fa fa-wrench fa-2x"></i>
+                                    </button>
+                                @endcan
+                            </a>
                         </div>
                     </div>
+                </td>
+            </tr>
+            </tbody>
+    @endforeach
+    </table>
+    {{ $rmaInfoReseller->links() }}
+@endcan
+
+@can('is-distributor')
+    <table class="table text-center">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Tracking No.</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date of Purchase</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+    @foreach($rmaInfoDistri as $rma)
+        <tbody>
+        <tr>
+            <td>
+                <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
+                     width="100" height="100"/>
+            </td>
+            <td>
+                <h5>{{ $rma->product_name }}</h5>
+                <div class="text-muted monospace">
+                    {{ $rma->product_sn }}
                 </div>
-            </div>
-            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fw-bold mb-2">
-                        Serial Number
-                    </div>
-                    <div class="font-monospace">
-                        {{ $rma->sn_no }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fw-bold mb-2">
-                        Status
-                    </div>
-                    <div class="font-monospace">
-                        {{ $rma->status }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fw-bold mb-2">
-                        Tracking No.
-                    </div>
-                    <div class="font-monospace">
-                        @if($rma->tracking_no != null)
-                            <a class="btn btn-outline-dark" style="font-size: 15px"
-                               onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
-                        @else
-                            Not Available
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+            </td>
+            <td>
+                @if($rma->tracking_no != null)
+                    <a class="btn btn-outline-dark" style="font-size: 15px"
+                       onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                @else
+                    Not Available
+                @endif
+            </td>
+            <td>
+                <span
+                    @if($rma->status == 'Shipped')
+                        class="badge rounded-pill bg-success" style="color: white"
+                    @elseif($rma->status == 'Pending Receive')
+                        class="badge rounded-pill bg-warning" style="color: white"
+                    @else
+                        class="badge rounded-pill bg-primary" style="color: white"
+                    @endif
+                >{{ $rma->status }}</span>
+            </td>
+            <td>
+                {{ date('jS F Y', strtotime($rma->date_of_purchase)) }}
+            </td>
+            <td>
                 <div class="row">
                     <div class="col">
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
@@ -83,66 +164,62 @@
                         </a>
                     </div>
                 </div>
-            </div>
-        </div>
+            </td>
+        </tr>
+        </tbody>
     @endforeach
-    {{ $rmaInfoReseller->links() }}
+    </table>
+    {{ $rmaInfoDistri->links() }}
 @endcan
 
-@can('is-distributor')
-    @foreach($rmaInfoDistri as $rma)
-        <div class="row">
-            <div class="col-12 col-md-4">
-                <div class="p-3 d-flex align-items-center">
-                    <div class="mr-3">
-                        <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
-                             width="100" height="100"/>
-                    </div>
-
-                    <div class="mx-3">
-                        <h5>{{ $rma->product_name }}</h5>
-                        <div class="text-muted monospace">
-                            {{ $rma->product_sn }}
-                        </div>
-                    </div>
+@can('is-user')
+    <table class="table text-center">
+        <thead>
+        <tr>
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Tracking No.</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date of Purchase</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+    @foreach($rmaInfo as $rma)
+        <tbody>
+        <tr>
+            <td>
+                <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
+                     width="100" height="100"/>
+            </td>
+            <td>
+                <h5>{{ $rma->product_name }}</h5>
+                <div class="text-muted monospace">
+                    {{ $rma->product_sn }}
                 </div>
-            </div>
-            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fw-bold mb-2">
-                        Serial Number
-                    </div>
-                    <div class="font-monospace">
-                        {{ $rma->sn_no }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fw-bold mb-2">
-                        Status
-                    </div>
-                    <div class="font-monospace">
-                        {{ $rma->status }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fw-bold mb-2">
-                        Tracking No.
-                    </div>
-                    <div class="font-monospace">
-                        @if($rma->tracking_no != null)
-                            <a class="btn btn-outline-dark" style="font-size: 15px"
-                               onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
-                        @else
-                            Not Available
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
+            </td>
+            <td>
+                @if($rma->tracking_no != null)
+                    <a class="btn btn-outline-dark" style="font-size: 15px"
+                       onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
+                @else
+                    Not Available
+                @endif
+            </td>
+            <td>
+                <span
+                    @if($rma->status == 'Shipped')
+                    class="badge rounded-pill bg-success" style="color: white"
+                    @elseif($rma->status == 'Pending Receive')
+                    class="badge rounded-pill bg-warning" style="color: white"
+                    @else
+                    class="badge rounded-pill bg-primary" style="color: white"
+                    @endif
+                >{{ $rma->status }}</span>
+            </td>
+            <td>
+                {{ date('jS F Y', strtotime($rma->date_of_purchase)) }}
+            </td>
+            <td>
                 <div class="row">
                     <div class="col">
                         <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
@@ -150,102 +227,7 @@
                     </div>
                     <div class="col">
                         <a href="{{ \Storage::disk('s3')->url('rma/'.$rma->file_path) }}" target="_blank">
-                            <button class="btn btn-sm btn-info" style="background-color:transparent; border-color: transparent;" id="tooltip_invoice"><i class="fa fa-receipt fa-2x"></i></button>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a
-                            href="#"
-                            data-myrmaid="{{ $rma->id }}"
-                            data-myprodpic="{{ $rma->product_image_path }}"
-                            data-myrmastatus="{{ $rma->status }}"
-                            data-myrmareason="{{ $rma->reason }}"
-                            data-myrmareqat="{{ date('jS F Y H:i A', strtotime($rma->created_at)) }}"
-                            data-mytrack="{{ $rma->tracking_no }}"
-                            data-myresolution="{{ $rma->resolve_solution }}"
-                            data-myreceive="{{ $rma->receive_at }}"
-                            data-bs-toggle="modal"
-                            data-bs-target="#staticRMA">
-                            @can('is-reseller-distributor')
-                                <button class="btn btn-sm btn-warning" style="background-color:transparent; border-color: transparent;" id="tooltip_rma"><i
-                                        class="fa fa-wrench fa-2x"></i>
-                                </button>
-                            @endcan
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endforeach
-    {{ $rmaInfoDistri->links() }}
-@endcan
-
-@can('is-user')
-    @foreach($rmaInfo as $rma)
-        <div class="row" id="rma-row">
-            <div class="col-12 col-md-4">
-                <div class="p-3 d-flex align-items-center">
-                    <div class="mr-3">
-                        <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
-                             width="100" height="100"/>
-                    </div>
-
-                    <div class="mx-3">
-                        <h5>{{ $rma->product_name }}</h5>
-                        <div class="text-muted monospace">
-                            {{ $rma->product_sn }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fw-bold mb-2">
-                        Serial Number
-                    </div>
-                    <div class="font-monospace">
-                        {{ $rma->sn_no }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fw-bold mb-2">
-                        Status
-                    </div>
-                    <div class="font-monospace">
-                        {{ $rma->status }}
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fw-bold mb-2">
-                        Tracking No.
-                    </div>
-                    <div class="font-monospace">
-                        @if($rma->tracking_no != null)
-                            <a class="btn btn-outline-dark" style="font-size: 15px"
-                               onclick="linkTrack(this.innerText)">{{ $rma->tracking_no }}</a>
-                        @else
-                            Not Available
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-2 d-flex align-items-center justify-content-center">
-                <div class="row">
-                    <div class="col">
-                        <a href="{{ \Storage::disk('s3')->url('rma/'.$rma->file_path) }}" target="_blank">
-                            <button class="btn btn-sm btn-warning mb-1" style="background-color:transparent; border-color: transparent;" id="tooltip_invoice"><i class="fa fa-file-invoice fa-2x"></i>
-
-                            </button>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a target="_blank" href="{{ route('rma.job-sheet', $rma->id) }}"
-                           class="btn btn-sm btn-primary" style="background-color:transparent; border-color: transparent;" id="tooltip_jobsheet"><i style="color: red" class="fa fa-file-pdf fa-2x"></i>
-
+                            <button class="btn btn-sm btn-info" style="background-color:transparent; border-color: transparent;" id="tooltip_invoice"><i class="fa fa-file-invoice fa-2x"></i></button>
                         </a>
                     </div>
                     <div class="col">
@@ -268,8 +250,30 @@
                         </a>
                     </div>
                 </div>
-            </div>
-        </div>
+            </td>
+        </tr>
+        </tbody>
     @endforeach
+    </table>
     {{ $rmaInfo->links() }}
 @endcan
+
+<script>
+    tippy('#tooltip_rma', {
+        content: 'RMA Info',
+    });
+
+    @can('is-distributor')
+    tippy('#tooltip_invoice', {
+        content: 'Customer Invoice',
+    });
+    @else
+    tippy('#tooltip_invoice', {
+        content: 'Invoice',
+    });
+    @endcan
+
+    tippy('#tooltip_jobsheet', {
+        content: 'RMA Job sheet',
+    });
+</script>
