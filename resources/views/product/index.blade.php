@@ -184,8 +184,12 @@
                     window.location.href = name+"/product/items?product_price=" + secondSelection;
                 else if (thirdSelection !== 'Please select...')
                     window.location.href = name+"/product/items?product_category=" + thirdSelection;
-                else if (firstSelection !== 'Please select...' && secondSelection !== 'Please select...' && thirdSelection !== 'Please select...')
+
+                if (firstSelection !== 'Please select...' && secondSelection !== 'Please select...' && thirdSelection !== 'Please select...')
                     window.location.href = name+"/product/items?product_price=" + secondSelection + "&product_brand=" + firstSelection + "&product_category=" + thirdSelection;
+
+                if (firstSelection !== 'Please select...' && thirdSelection !== 'Please select...')
+                    window.location.href = name+"/product/items?product_brand=" + firstSelection + "&product_category=" + thirdSelection;
             }
         });
 

@@ -1,14 +1,14 @@
 @extends('templates.main')
 
 @section('content')
-    <h1 class="display-2 text-center">Your Order Details <img src="/image/order-list.png"/></h1>
+    <h1 class="display-2 text-center">Order Details <img src="/image/order-list.png"/></h1>
 
     <figure class="text-center">
         <blockquote class="blockquote">
-            <p>A well-known quote, contained in a blockquote element.</p>
+            <p>View an order in detail.</p>
         </blockquote>
         <figcaption class="blockquote-footer">
-            Someone famous in <cite title="Source Title">Source Title</cite>
+            Prepared by Wan Ismat
         </figcaption>
     </figure>
 
@@ -140,7 +140,7 @@
             </table>
             <div class="text-center">
                 <p class="lead">
-                    Order total : {{ $recipientInfo->payment_method }} <p class="small">+ Included Shipping</p>
+                    Payment Method : {{ $recipientInfo->payment_method }} <p class="small">+ Included Shipping</p>
                 </p>
                 <h1 class="display-5">
                     RM {{ number_format($recipientInfo->payment_total / 1) }}.00

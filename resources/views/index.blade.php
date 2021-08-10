@@ -660,7 +660,7 @@
                             </div>
                             <div class="step" id="received_step">
                                 <div class="step-icon-wrap">
-                                    <div class="step-icon"><i data-feather="chevrons-right" class="feather-32" style="margin-bottom: 15px"></i></div>
+                                    <div class="step-icon"><i data-feather="arrow-down-circle" class="feather-32" style="margin-bottom: 15px"></i></div>
                                 </div>
                                 <h4 class="step-title">Received</h4>
                             </div>
@@ -672,13 +672,13 @@
                             </div>
                             <div class="step" id="repair_step">
                                 <div class="step-icon-wrap">
-                                    <div class="step-icon"><i data-feather="truck" class="feather-32" style="margin-bottom: 15px"></i></div>
+                                    <div class="step-icon"><i class="fa fa-wrench" style="margin-bottom: 20px"></i></div>
                                 </div>
                                 <h4 class="step-title">Repair / Replacement 1-1</h4>
                             </div>
                             <div class="step" id="shipped_step">
                                 <div class="step-icon-wrap">
-                                    <div class="step-icon"><i data-feather="check" class="feather-32" style="margin-bottom: 15px"></i></div>
+                                    <div class="step-icon"><i data-feather="truck" class="feather-32" style="margin-bottom: 15px"></i></div>
                                 </div>
                                 <h4 class="step-title">Shipped</h4>
                             </div>
