@@ -85,7 +85,6 @@
     </head>
     <body>
 
-    {{--Test--}}
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand display-6" href="#"><img src="/image/online-sale.png">&nbsp; e-Techify</a>
