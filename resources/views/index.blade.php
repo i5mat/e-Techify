@@ -787,6 +787,36 @@
                 </div>
             </div>
 
+            <div class="col-md-12 mt-3 mb-3">
+                <div class="owl-carousel owl-theme" id="rig_carousel">
+                    <div class="item">
+                        <img src="https://bit.ly/2VCkOUO">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3CwUFaR">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3fQww5r">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3CwU20Z">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3m2Slmr">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3lQ9oHV">
+                    </div>
+
+                    <div class="item">
+                        <img src="https://bit.ly/3jEwXAP">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3s4w3Bu">
+                    </div>
+                </div>
+            </div>
+
             <div class="row align-items-md-stretch">
                 <div class="col-md-12">
                     <h1 class="display-6">Why Choose Us?</h1>
@@ -828,37 +858,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12 mt-3 mb-3">
-                <div class="owl-carousel owl-theme" id="rig_carousel">
-                    <div class="item">
-                        <img src="https://bit.ly/2VCkOUO">
-                    </div>
-                    <div class="item">
-                        <img src="https://bit.ly/3CwUFaR">
-                    </div>
-                    <div class="item">
-                        <img src="https://bit.ly/3fQww5r">
-                    </div>
-                    <div class="item">
-                        <img src="https://bit.ly/3CwU20Z">
-                    </div>
-                    <div class="item">
-                        <img src="https://bit.ly/3m2Slmr">
-                    </div>
-                    <div class="item">
-                        <img src="https://bit.ly/3lQ9oHV">
-                    </div>
-
-                    <div class="item">
-                        <img src="https://bit.ly/3jEwXAP">
-                    </div>
-                    <div class="item">
-                        <img src="https://bit.ly/3s4w3Bu">
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-12 mt-3">
+            <div class="col-md-12 mt-5">
                 <h1 class="display-6">Our Location</h1>
             </div>
             <div class="row mt-3">

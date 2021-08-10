@@ -59,7 +59,7 @@ class RepairController extends Controller
         }else
             dd('DURIAN TUNGGAL, WE GOT A PROBLEM.');
 
-
+        $request->session()->flash('success', 'New RMA request, requested ✔');
         return redirect(route('rma.new.request'));
     }
 
