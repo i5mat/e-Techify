@@ -778,26 +778,110 @@
     @endcan
 
     @guest
-        <div class="row mt-3">
-            <div class="col-xl-12 col-lg-11">
-                <div class="card shadow mb-4">
-                    <div class="card-body border-3 border-bottom border-warning">
-                        <div class="row">
-                            <div class="col-8">
-                                <div id="map" class="map"></div>
-                            </div>
-                            <div class="col">
-                                <h1 class="display-6">Xmiryna Technology [SA0546866-M]</h1>
-                                No. 79 Jalan Taman Melati 1,<br>
-                                Taman Melati, Setapak,<br>
-                                53100, Kuala Lumpur<br>
-                                xmiryna.tech@outlook.com <br>
-                                <b>+(60) 17-217 8319</b> / <strong>xmiryna.com.my</strong>
-                                <div class="col mt-lg-5 text-center">
-                                    <i data-feather="message-circle"></i>
-                                    <i data-feather="truck" class="ms-5"></i>
-                                    <i data-feather="phone" class="ms-5"></i>
-                                    <i data-feather="at-sign" class="ms-5"></i>
+
+        <div class="container py-4">
+            <div class="p-5 mb-4 bg-light rounded-3" style="background-image: url('image/header-xt.jpg')">
+                <div class="container-fluid py-5">
+                    <h1 class="display-5 fw-bold">Welcome to Xmiryna Technology!</h1>
+                    <p class="col-md-8 fs-4">You can play if you can picture it. We offer the most advanced processes, from quality assurance through delivery to your door.</p>
+                </div>
+            </div>
+
+            <div class="row align-items-md-stretch">
+                <div class="col-md-12">
+                    <h1 class="display-6">Why Choose Us?</h1>
+                </div>
+                <div class="col-md-4">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Latest Build</h2>
+                        <p>To build your perfect rig, we use the most up-to-date gear and technologies. You may rest confident that it will be installed by one of our skilled professionals.</p>
+                        <i class="fa fa-quidditch fa-2x"></i>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Light Installment Plan</h2>
+                        <p>You can pay over time - up to 3 months - so you can have your ideal gear without breaking the bank.</p>
+                        <i class="fa fa-credit-card fa-2x"></i>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Gentle Handling</h2>
+                        <p>All rigs built by us will be handled with care from start to finish, all the way to the courier hands.</p>
+                        <i class="fa fa-truck fa-2x"></i>
+                    </div>
+                </div>
+                <div class="col-md-8 mt-3">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Local Distributor Warranty</h2>
+                        <p>All of our builds come with a three-year warranty, which includes every single item we install on your rig. It's less of a hassle, and you won't have to worry about anything.</p>
+                        <i class="fa fa-city fa-2x"></i>
+                    </div>
+                </div>
+                <div class="col-md-4 mt-3">
+                    <div class="h-100 p-5 text-white bg-dark rounded-3">
+                        <h2>Excellent After-Sale Service</h2>
+                        <p>We won't ask too much questions, just them in!</p>
+                        <i class="fa fa-wrench fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-3 mb-3">
+                <div class="owl-carousel owl-theme" id="rig_carousel">
+                    <div class="item">
+                        <img src="https://bit.ly/2VCkOUO">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3CwUFaR">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3fQww5r">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3CwU20Z">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3m2Slmr">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3lQ9oHV">
+                    </div>
+
+                    <div class="item">
+                        <img src="https://bit.ly/3jEwXAP">
+                    </div>
+                    <div class="item">
+                        <img src="https://bit.ly/3s4w3Bu">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 mt-3">
+                <h1 class="display-6">Our Location</h1>
+            </div>
+            <div class="row mt-3">
+                <div class="col-xl-12 col-lg-11">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div id="map" class="map"></div>
+                                </div>
+                                <div class="col">
+                                    <h1 class="display-6">Xmiryna Technology [SA0546866-M]</h1>
+                                    No. 79 Jalan Taman Melati 1,<br>
+                                    Taman Melati, Setapak,<br>
+                                    53100, Kuala Lumpur<br>
+                                    xmiryna.tech@outlook.com <br>
+                                    <b>+(60) 17-217 8319</b> / <strong>xmiryna.com.my</strong>
+                                    <div class="col mt-lg-5 text-center">
+                                        <i data-feather="message-circle"></i>
+                                        <i data-feather="truck" class="ms-5"></i>
+                                        <i data-feather="phone" class="ms-5"></i>
+                                        <i data-feather="at-sign" class="ms-5"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -813,6 +897,24 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="application/javascript">
         feather.replace();
+
+        @guest
+            $('#rig_carousel').owlCarousel({
+                loop:true,
+                margin:10,
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        items:3
+                    },
+                    1000:{
+                        items:5
+                    }
+                }
+            })
+        @endguest
 
         tippy('#tooltip_rma', {
             content: 'RMA Info',

@@ -87,7 +87,7 @@
 
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="#"><img src="/image/online-sale.png"> e-Techify</a>
+                <a class="navbar-brand display-6" href="#"><img src="/image/online-sale.png">&nbsp; e-Techify</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -95,7 +95,7 @@
                         @if (Route::has('login'))
                             <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                                 @auth
-                                    @can('is-user')<a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><span class="badge bg-danger font-monospace" style="color: white">Cart</span><i class="fa fa-shopping-cart fa-2x"></i></a>@endcan
+                                    @can('is-user')<a href="{{ route('product.manageCart') }}" style="padding-right: 10px;"><i class="fa fa-shopping-cart fa-2x"></i></a>@endcan
                                     <a href="{{ url('/user/profile') }}" style="padding-right: 10px;"><i class="fa fa-user fa-2x"></i></a>
                                     <a href="{{ url('logout') }}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();"><i class="fa fa-chevron-circle-right fa-2x"></i></a>
@@ -210,7 +210,46 @@
         </main>
 
         <div class="footer">
-            <p style="padding-top: 30px; padding-bottom: 30px;"><img src="/image/online-sale.png"></p>
+            @guest
+                <div class="container py-4">
+                    <div class="row align-items-md-stretch">
+                        <div class="col-md-4 mt-3 mb-3">
+                            <h1 class="display-6">Xmiryna Technology [SA0546866-M]</h1>
+                            No. 79 Jalan Taman Melati 1,<br>
+                            Taman Melati, Setapak,<br>
+                            53100, Kuala Lumpur<br>
+                            xmiryna.tech@outlook.com <br>
+                            <b>+(60) 17-217 8319</b> / <strong>xmiryna.com.my</strong>
+                        </div>
+                        <div class="col-md-4 mt-3 mb-3">
+                            <h1 class="display-6">Secure Payment</h1>
+                            <i class="fab fa-cc-visa fa-3x"></i>
+                            <i class="fab fa-cc-mastercard fa-3x mx-2"></i>
+                            <i class="fab fa-cc-paypal fa-3x"></i><br>
+                            <p class="mt-2">
+                                Make payments here with secure, without worry.
+                            </p>
+                        </div>
+                        <div class="col-md-4 mt-3 mb-3">
+                            <h1 class="display-6">Service Available</h1>
+                            <p>
+                                <i class="fa fa-arrow-right"></i> Custom PC Build
+                            </p>
+                            <p>
+                                <i class="fa fa-arrow-right"></i> PC Parts
+                            </p>
+                            <p>
+                                <i class="fa fa-arrow-right"></i> Laptops
+                            </p>
+                            <p>
+                                <i class="fa fa-arrow-right"></i> Cleaning Service
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <p style="padding-top: 30px; padding-bottom: 30px;"><img src="/image/online-sale.png"></p>
+            @endguest
         </div>
 
         <script>

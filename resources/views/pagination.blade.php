@@ -10,8 +10,9 @@
             <th scope="col"></th>
         </tr>
         </thead>
+        <tbody>
     @foreach($rmaInfoReseller as $rma)
-            <tbody>
+
             <tr>
                 <td>
                     <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
@@ -79,8 +80,9 @@
                     </div>
                 </td>
             </tr>
-            </tbody>
+
     @endforeach
+        </tbody>
     </table>
     {{ $rmaInfoReseller->links() }}
 @endcan
@@ -97,8 +99,9 @@
             <th scope="col"></th>
         </tr>
         </thead>
-    @foreach($rmaInfoDistri as $rma)
         <tbody>
+    @foreach($rmaInfoDistri as $rma)
+
         <tr>
             <td>
                 <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
@@ -166,8 +169,9 @@
                 </div>
             </td>
         </tr>
-        </tbody>
+
     @endforeach
+        </tbody>
     </table>
     {{ $rmaInfoDistri->links() }}
 @endcan
@@ -184,8 +188,9 @@
             <th scope="col"></th>
         </tr>
         </thead>
-    @foreach($rmaInfo as $rma)
         <tbody>
+    @foreach($rmaInfo as $rma)
+
         <tr>
             <td>
                 <img src="{{ \Storage::disk('s3')->url('product/'.$rma->product_image_path) }}"
@@ -252,8 +257,9 @@
                 </div>
             </td>
         </tr>
-        </tbody>
+
     @endforeach
+        </tbody>
     </table>
     {{ $rmaInfo->links() }}
 @endcan
