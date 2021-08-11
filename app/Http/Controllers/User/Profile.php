@@ -109,7 +109,10 @@ class Profile extends Controller
             ->count();
 
         $getRMATotal = Repair::count();
-        $getConfirmOrder = ConfirmOrder::sum('payment_total');
+        $getConfirmOrder = ConfirmOrder::join('orders', 'orders.id', '=', 'confirm_orders.order_id')
+            ->where('orders.deleted_at', null)
+            ->whereYear('confirm_orders.created_at', date('Y'))
+            ->sum('payment_total');
         $getConfirmOrderMonthly = ConfirmOrder::selectRaw("sum(confirm_orders.payment_total) as sale_per_month")
             ->whereRaw("MONTH(created_at) = MONTH(curdate())")->first();
 
@@ -130,7 +133,7 @@ class Profile extends Controller
                                 FROM order_details
                                 INNER JOIN products ON products.id = order_details.product_id
                                 INNER JOIN orders ON orders.id = order_details.order_id
-                                WHERE YEAR(NOW()) AND orders.order_status != "Cancelled" AND orders.order_status != "To Pay"
+                                WHERE YEAR(NOW()) AND orders.deleted_at IS NULL AND orders.order_status != "To Pay"
                                 GROUP by products.product_brand ) A'))
             ->groupBy('A.product_brand')
             ->get();
@@ -153,7 +156,7 @@ class Profile extends Controller
                                 FROM order_details
                                 INNER JOIN products ON products.id = order_details.product_id
                                 INNER JOIN orders ON orders.id = order_details.order_id
-                                WHERE YEAR(NOW()) AND products.user_id = '$x' AND orders.order_status != 'Cancelled' AND orders.order_status != 'To Pay'
+                                WHERE YEAR(NOW()) AND products.user_id = '$x' AND orders.deleted_at IS NULL AND orders.order_status != 'To Pay'
                                 GROUP by products.product_brand ) A"))
             ->groupBy('A.product_brand')
             ->get();
@@ -173,7 +176,8 @@ class Profile extends Controller
                                     SUM(if(MONTH(confirm_orders.created_at) = 11, confirm_orders.payment_total,0)) as Nov,
                                     SUM(if(MONTH(confirm_orders.created_at) = 12, confirm_orders.payment_total,0)) as `Dec`
                                 FROM confirm_orders
-                                WHERE YEAR(NOW())) A"))
+                                INNER JOIN orders ON orders.id = confirm_orders.order_id
+                                WHERE YEAR(NOW()) AND orders.deleted_at IS NULL) A"))
             ->get();
 
         $getPieChartData = OrderDetail::select(DB::raw('products.product_brand, SUM(order_details.product_order_quantity) AS tot_qty'))
@@ -191,11 +195,14 @@ class Profile extends Controller
             ->count();
 
         $getCustTotalSpend = ConfirmOrder::join('orders', 'orders.id', '=', 'confirm_orders.order_id')
-            ->where('orders.user_id', $x)
+            ->where([
+                'orders.user_id' => $x,
+                'orders.deleted_at' => null
+                ])
             ->sum('confirm_orders.payment_total');
 
         $getCustTotalOrder = Order::where('user_id', $x)
-            ->where('order_status', '!=', 'Cancelled')
+            ->where('deleted_at', null)
             ->count();
 
         $findMonth = OrderDetail::selectRaw('DISTINCT MONTHNAME(created_at) AS monthName')->get();
