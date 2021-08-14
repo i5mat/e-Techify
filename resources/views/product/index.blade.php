@@ -128,7 +128,7 @@
                             {{-- <h5 class="text-decoration-line-through" style="color: red">RM {{ $p->new_product_price }}</h5> --}}
                             <h2>RM {{ $p->product_price }}
                                 <button
-                                    @if($p->product_stock_count == 0)
+                                    @if($p->product_stock_count == 0 || \App\Models\Address::where('user_id', Auth::id())->count() <= 0)
                                     disabled
                                     @endif
                                     type="button"
