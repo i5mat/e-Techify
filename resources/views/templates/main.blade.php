@@ -35,7 +35,7 @@
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 
         {{-- Polyfill --}}
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+        {{--<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>--}}
 
         {{-- Tippy.JS --}}
         <script src="https://unpkg.com/@popperjs/core@2"></script>
