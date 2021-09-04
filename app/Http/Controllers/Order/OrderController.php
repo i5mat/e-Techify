@@ -400,7 +400,10 @@ class OrderController extends Controller
                 ->increment('product_stock_count', (int)$lol->product_order_quantity);
         }
 
+        // Hard Delete.
         //Order::where('id', '=', $findID->id)->update(['order_status' => 'Cancelled']);
+
+        // Soft Delete.
         Order::find($id)->delete();
 
         return redirect()->back()->with('danger', 'Order has been cancelled');
