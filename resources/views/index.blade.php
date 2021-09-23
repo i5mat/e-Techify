@@ -790,29 +790,22 @@
             <div class="col-md-12 mt-3 mb-3">
                 <div class="owl-carousel owl-theme" id="rig_carousel">
                     <div class="item">
-                        <img src="https://bit.ly/2VCkOUO">
+                        <img src="/image/XT-logo.png">
                     </div>
                     <div class="item">
-                        <img src="https://bit.ly/3CwUFaR">
+                        <img src="/image/XT-logo.png">
                     </div>
                     <div class="item">
-                        <img src="https://bit.ly/3fQww5r">
+                        <img src="/image/XT-logo.png">
                     </div>
                     <div class="item">
-                        <img src="https://bit.ly/3CwU20Z">
+                        <img src="/image/XT-logo.png">
                     </div>
                     <div class="item">
-                        <img src="https://bit.ly/3m2Slmr">
+                        <img src="/image/XT-logo.png">
                     </div>
                     <div class="item">
-                        <img src="https://bit.ly/3lQ9oHV">
-                    </div>
-
-                    <div class="item">
-                        <img src="https://bit.ly/3jEwXAP">
-                    </div>
-                    <div class="item">
-                        <img src="https://bit.ly/3s4w3Bu">
+                        <img src="/image/XT-logo.png">
                     </div>
                 </div>
             </div>
